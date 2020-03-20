@@ -17,7 +17,6 @@ export const NavigationBar = () => (
     <Navbar expand="lg">
       <Navbar.Brand href="/">Hummus</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-      
     </Navbar>
   </Styles>
 )
