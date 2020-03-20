@@ -5,9 +5,9 @@ const Styles = styled.div`
   .navbar { background-color: #1e88e5; }
 
   .navbar-brand {
-    font-size: 2.4em;
+    font-size: 3.0em;
     color: #bbdefb;
-    
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     &:hover { color: #bbdefb; }
   }
 
@@ -17,7 +17,7 @@ export const NavigationBar = () => (
     <Navbar expand="lg">
       <Navbar.Brand href="/">Hummus</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-
+      
     </Navbar>
   </Styles>
 )
