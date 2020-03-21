@@ -14,7 +14,7 @@ const Styles = styled.div`
 `;
 export const NavigationBar = () => (
   <Styles>
-    <Navbar expand="lg">
+    <Navbar dir='ltr' expand="lg">
       <Navbar.Brand href="/">Hummus</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav"/>
     </Navbar>
