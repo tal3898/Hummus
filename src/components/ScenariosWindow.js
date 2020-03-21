@@ -6,12 +6,12 @@ const Styles = styled.div`
     font-size: 3.0em;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     background-color: #1e88e5;
-    border-radius: inherit;
-  }
+    box-shadow: 1px 5px 5px #666666;
+}
 
   .main-comp {
       width: 400px;
-      height: 700px;
+      height: 400px;
       background-color: red;
       border-radius: 20px;
       border-color: black;
