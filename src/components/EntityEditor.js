@@ -30,6 +30,7 @@ class EntityEditor extends React.Component {
                 this.state.objectFieldsOpen[key] = false;
             }
         }
+
     }
 
     render() {
@@ -64,7 +65,7 @@ class EntityEditor extends React.Component {
                     </Col>
                 </Row>
                 )
-        } else {
+        } else if(!Array.isArray(json[key])) {
             items.push(
                 <div style={{fontSize: 20, marginLeft: indent}} >
                     <Button size="sm" color="primary"  onClick={() => toggle(key) } style={{ marginBottom: '1rem' }}> 
@@ -77,6 +78,27 @@ class EntityEditor extends React.Component {
                     </Collapse>
                 </div>
             )
+        } else {
+            items.push(
+                <div style={{fontSize: 20, marginLeft: indent}} >
+                        <Button size="sm" color="primary"  onClick={() => toggle(key) } style={{ marginBottom: '1rem' }}> 
+                        {this.state.objectFieldsOpen[key] ? '-' : '+'} 
+                        </Button>
+                        <Form.Label>{key}</Form.Label>
+                </div>
+            )
+
+            for (let step = 0; step < json[key].length; step++) {
+                const currJson = '{"' + step + '.":' + JSON.stringify(json[key][step]) + "}"
+                items.push(
+                    <div style={{fontSize: 20, marginLeft: indent}} >
+
+                        <Collapse isOpen={this.state.objectFieldsOpen[key]}>                
+                            <EntityEditor level={level+1} jsondata={ currJson  }></EntityEditor>
+                        </Collapse>
+                    </div>
+                )
+            }
         }
       }
 

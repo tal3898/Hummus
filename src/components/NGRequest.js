@@ -14,7 +14,7 @@ export const NGRequest = () => (
     <div  className='main-comp'>
 
     <Form>
-    <EntityEditor level='0' jsondata='{"Ids":{"code":"123456789","name":"tal"},"Data":{"Location":{"Street":"tzahala","Number":"30","City":"Tel Aviv","IsBuilding":false},"Info":"bla bla"},"Planing":{"Goal":"learn piano","Way":"play piano","Time":"2020-07-13T00:00:00Z"}}'></EntityEditor>
+    <EntityEditor level='0' jsondata='{"Ids":{"code":"123456789","name":"tal"}, "Plans": [{"Goal": "a"}, {"Goal": "b"}]}'></EntityEditor>
 
         <Row>
             <Col>
