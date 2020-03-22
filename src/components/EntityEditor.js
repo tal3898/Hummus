@@ -67,7 +67,9 @@ class EntityEditor extends React.Component {
         } else {
             items.push(
                 <div style={{fontSize: 20, marginLeft: indent}} >
-                    <Button color="primary" onClick={() => toggle(key) } style={{ marginBottom: '1rem' }}>+</Button>
+                    <Button size="sm" color="primary"  onClick={() => toggle(key) } style={{ marginBottom: '1rem' }}> 
+                    {this.state.objectFieldsOpen[key] ? '-' : '+'} 
+                    </Button>
                     <Form.Label>{key}</Form.Label>
 
                     <Collapse isOpen={this.state.objectFieldsOpen[key]}>                
