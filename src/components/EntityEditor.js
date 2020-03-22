@@ -19,8 +19,16 @@ class EntityEditor extends React.Component {
 
     constructor(props) {
         super(props)
+
         this.state = {
-            isOpen: false
+            json : JSON.parse(this.props.jsondata),
+            objectFieldsOpen: {}
+        }
+
+        for (var key in this.state.json){ 
+            if (typeof this.state.json[key] == 'object') {
+                this.state.objectFieldsOpen[key] = false;
+            }
         }
     }
 
@@ -31,13 +39,20 @@ class EntityEditor extends React.Component {
      
      const indent = 50 * level
 
+     
+
      const items = []
 
      
      
+    const toggle = (key) => {
+        this.state.objectFieldsOpen[key] = !this.state.objectFieldsOpen[key];
+        this.setState(this.state)
+    }
+    
+    
 
-
-      for (var key in json){ 
+      for (let key in json){ 
         if (typeof json[key] != 'object') {
             items.push(        
                 <Row style={{fontSize: 20 , marginLeft: indent}}>
@@ -52,10 +67,10 @@ class EntityEditor extends React.Component {
         } else {
             items.push(
                 <div style={{fontSize: 20, marginLeft: indent}} >
-                    <Button color="primary" onClick={() => this.setState({isOpen: !this.state.isOpen}) } style={{ marginBottom: '1rem' }}>+</Button>
+                    <Button color="primary" onClick={() => toggle(key) } style={{ marginBottom: '1rem' }}>+</Button>
                     <Form.Label>{key}</Form.Label>
 
-                    <Collapse isOpen={this.state.isOpen}>                
+                    <Collapse isOpen={this.state.objectFieldsOpen[key]}>                
                         <EntityEditor level={level+1} jsondata={JSON.stringify(json[key])}></EntityEditor>
                     </Collapse>
                 </div>
