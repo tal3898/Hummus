@@ -14,8 +14,8 @@ const Styles = styled.div`
 
 class EntityEditor extends React.Component {
     render() {
-      const json= {"a": "1", "b": "2"}
-
+      const json= JSON.parse(this.props.jsondata);
+      console.log(json)
       const items = []
 
       for (var key in json){ 

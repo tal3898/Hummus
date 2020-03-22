@@ -14,6 +14,8 @@ export const NGRequest = () => (
     <div  className='main-comp'>
 
     <Form>
+    <EntityEditor jsondata='{"c":5, "d":6, "e":7}'></EntityEditor>
+
         <Row>
             <Col>
               <Form.Label >שם תרחיש</Form.Label>
@@ -57,7 +59,6 @@ export const NGRequest = () => (
             </Col>
         </Row>
 
-        <EntityEditor></EntityEditor>
 
     </Form>
 
