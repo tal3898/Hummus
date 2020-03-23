@@ -5,7 +5,7 @@ import { JSONEditor } from 'react-json-editor-viewer';
 import EntityEditor from './EntityEditor';
 import Popup from "reactjs-popup";
 import ReactJson from 'react-json-view'
-
+import JsonPopup from './JsonPopup'
 
 const Styles = styled.div`
 
@@ -62,38 +62,12 @@ class NGRequest extends React.Component {
         console.log(JSON.stringify(this.child.current.getTotalJson()));
     }
 
-    copyToClipboard(str) {
-        const el = document.createElement('textarea');
-        el.value = str;
-        el.setAttribute('readonly', '');
-        el.style.position = 'absolute';
-        el.style.left = '-9999px';
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-      };
-
     render() {
         return (
             <Styles>
                 <div className='main-comp'>
 
-                    <Popup
-                        trigger={<button className="button"> Open Modal </button>}
-                        modal
-                        closeOnDocumentClick
-                    >
-                        <div className='json-popup'>
-                            <Button onClick={()=> this.copyToClipboard("hellllooo")} className='copy-json-btn' variant="outline-secondary">העתק</Button>
-                            <br /><br />
-
-                            <div className="json-display">
-                                <ReactJson src={{ "Ids": { "name": "a" }, "werwerIds": { "name": "a" } ,"asdIds": { "name": "a" } ,"Idasdasds": { "name": "a" }, "Idcs": { "name": "a" } ,"aIds": { "name": "a" }, "Planing": [{ "Goal": "learn piano", "Way": "play piano", "Time": "2020-07-13T00:00:00Z" }] }} theme="monokai" enableClipboard={false} />
-                            </div>
-
-                        </div>
-                    </Popup>
+                    <JsonPopup/>
 
                     <Form>
                         <div dir='rtl' className='metadata'>
