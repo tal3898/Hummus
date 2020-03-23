@@ -31,10 +31,23 @@ const Styles = styled.div`
 `;
 
 class NGRequest extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.child = React.createRef();
+
+        
+        
+    }
+    alertParent() {
+        this.child.current.alertChild()
+    }
+
     render() {
         return (
             <Styles>
                 <div className='main-comp'>
+                <EntityEditor ref={this.child} level='0' jsondata='{"Ids":{"code":"123456789","name":"tal"},"Data":{"Location":{"Street":"tzahala","Number":"30","City":"Tel Aviv","IsBuilding":false},"Info":"bla bla"},"Planing":[{"Goal":"learn piano","Way":"play piano","Time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
 
                     <Form>
                         <div dir='rtl' className='metadata'>
@@ -46,7 +59,7 @@ class NGRequest extends React.Component {
                                     <Form.Control type="text" />
                                 </Col>
                                 <Col lg='6'>
-                                    <Button variant="outline-info"> {'{ ... }'} </Button>
+                                    <Button variant="outline-info" onClick={() => this.alertParent()}> {'{ ... }'} </Button>
                                 </Col>
                             </Row>
 
@@ -99,7 +112,7 @@ class NGRequest extends React.Component {
 
                         <Row dir='rtl'>
                             <Col className='entity-editor-window' lg='10'>
-                                <EntityEditor level='0' jsondata='{"Ids":{"code":"123456789","name":"tal"},"Data":{"Location":{"Street":"tzahala","Number":"30","City":"Tel Aviv","IsBuilding":false},"Info":"bla bla"},"Planing":[{"Goal":"learn piano","Way":"play piano","Time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
+                                
                             </Col>
                         </Row>
 

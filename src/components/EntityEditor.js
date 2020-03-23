@@ -72,6 +72,10 @@ class EntityEditor extends React.Component {
         )
     }
 
+    alertChild() {
+        alert('bbbb')
+    }
+
     getArrayFieldJSX(key) {
         const items = []
 
