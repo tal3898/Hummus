@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Nav, Navbar, Form, FormControl, Col, Row } from 'react-bootstrap';
+import { Nav, Button, Form, FormControl, Col, Row } from 'react-bootstrap';
 import { JSONEditor } from 'react-json-editor-viewer';
 import EntityEditor from './EntityEditor';
 
@@ -41,6 +41,9 @@ export const NGRequest = () => (
                         </Col>
                         <Col lg='3'>
                             <Form.Control type="text" />
+                        </Col>
+                        <Col lg='6'>
+                            <Button variant="outline-info"> {'{ ... }'} </Button>
                         </Col>
                     </Row>
 
