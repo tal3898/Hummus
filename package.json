@@ -13,6 +13,7 @@
     "react-json-editor-viewer": "^1.0.7",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.4.0",
+    "reactjs-popup": "^1.5.0",
     "reactstrap": "^8.4.1",
     "styled-components": "^4.3.2"
   },

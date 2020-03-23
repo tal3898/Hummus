@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Nav, Button, Form, FormControl, Col, Row } from 'react-bootstrap';
 import { JSONEditor } from 'react-json-editor-viewer';
 import EntityEditor from './EntityEditor';
+import Popup from "reactjs-popup";
 
 const Styles = styled.div`
 
@@ -36,8 +37,8 @@ class NGRequest extends React.Component {
         super(props)
         this.child = React.createRef();
 
-        
-        
+
+
     }
     alertParent() {
         console.log(this.child.current.getTotalJson());
@@ -58,10 +59,21 @@ class NGRequest extends React.Component {
                                     <Form.Control type="text" />
                                 </Col>
                                 <Col lg='6'>
-                                    <Button variant="outline-info" onClick={() => this.alertParent()}> 
-                                        
-                                        <i class="fas fa-code fa-2x"></i>
-                                    </Button>
+
+                                    {/* creating the button '</>', which shows the json */}
+                                    <Popup
+                                        position="bottom center"
+                                        on="hover"
+                                        trigger={
+                                        <Button variant="outline-info" onClick={() => this.alertParent()}>
+                                            <i class="fas fa-code fa-2x"></i>
+                                        </Button>}
+                                    >
+                                        <center>
+                                        Display Total Json
+                                        </center>
+                                    </Popup>
+
                                 </Col>
                             </Row>
 
