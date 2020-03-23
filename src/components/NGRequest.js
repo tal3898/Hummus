@@ -29,80 +29,87 @@ const Styles = styled.div`
 
 
 `;
-export const NGRequest = () => (
-    <Styles>
-        <div className='main-comp'>
 
-            <Form>
-                <div dir='rtl' className='metadata'>
-                    <Row className='field'>
-                        <Col lg='1'>
-                            <Form.Label >שם תרחיש</Form.Label>
-                        </Col>
-                        <Col lg='3'>
-                            <Form.Control type="text" />
-                        </Col>
-                        <Col lg='6'>
-                            <Button variant="outline-info"> {'{ ... }'} </Button>
-                        </Col>
-                    </Row>
+class NGRequest extends React.Component {
+    render() {
+        return (
+            <Styles>
+                <div className='main-comp'>
 
-                    <Row className='field'>
-                        <Col lg='1'>
-                            <Form.Label >תיאור תרחיש</Form.Label>
-                        </Col>
-                        <Col lg='5'>
-                            <Form.Control as="textarea" rows="3" />
-                        </Col>
-                    </Row>
+                    <Form>
+                        <div dir='rtl' className='metadata'>
+                            <Row className='field'>
+                                <Col lg='1'>
+                                    <Form.Label >שם תרחיש</Form.Label>
+                                </Col>
+                                <Col lg='3'>
+                                    <Form.Control type="text" />
+                                </Col>
+                                <Col lg='6'>
+                                    <Button variant="outline-info"> {'{ ... }'} </Button>
+                                </Col>
+                            </Row>
 
-                    <Row className='field'>
-                        <Col lg='1' >
-                            <Form.Label >ישות</Form.Label>
-                        </Col>
-                        <Col lg='4'>
-                            <Form.Control as="select" value="Choose...">
-                                <option>abcd</option>
-                                <option>efgh</option>
-                            </Form.Control>
-                        </Col>
+                            <Row className='field'>
+                                <Col lg='1'>
+                                    <Form.Label >תיאור תרחיש</Form.Label>
+                                </Col>
+                                <Col lg='5'>
+                                    <Form.Control as="textarea" rows="3" />
+                                </Col>
+                            </Row>
 
-                        <Col lg='1' >
-                            <Form.Label >מערכת</Form.Label>
-                        </Col>
-                        <Col lg='4'>
-                            <Form.Control as="select" value="Choose...">
-                                <option>טל בן יוסף</option>
-                                <option>ינון בן דוד</option>
-                            </Form.Control>
-                        </Col>
+                            <Row className='field'>
+                                <Col lg='1' >
+                                    <Form.Label >ישות</Form.Label>
+                                </Col>
+                                <Col lg='4'>
+                                    <Form.Control as="select" value="Choose...">
+                                        <option>abcd</option>
+                                        <option>efgh</option>
+                                    </Form.Control>
+                                </Col>
 
-                    </Row>
+                                <Col lg='1' >
+                                    <Form.Label >מערכת</Form.Label>
+                                </Col>
+                                <Col lg='4'>
+                                    <Form.Control as="select" value="Choose...">
+                                        <option>טל בן יוסף</option>
+                                        <option>ינון בן דוד</option>
+                                    </Form.Control>
+                                </Col>
 
-                    <Row className='field'>
-                        <Col lg='1'>
-                            <Form.Label >תקן</Form.Label>
-                        </Col>
-                        <Col lg='3'>
-                            <Form.Control as="select" value="Choose...">
-                                <option>2</option>
-                                <option>2.1</option>
-                                <option>X</option>
-                            </Form.Control>
-                        </Col>
-                    </Row>
+                            </Row>
+
+                            <Row className='field'>
+                                <Col lg='1'>
+                                    <Form.Label >תקן</Form.Label>
+                                </Col>
+                                <Col lg='3'>
+                                    <Form.Control as="select" value="Choose...">
+                                        <option>2</option>
+                                        <option>2.1</option>
+                                        <option>X</option>
+                                    </Form.Control>
+                                </Col>
+                            </Row>
+                        </div>
+
+
+                        <Row dir='rtl'>
+                            <Col className='entity-editor-window' lg='10'>
+                                <EntityEditor level='0' jsondata='{"Ids":{"code":"123456789","name":"tal"},"Data":{"Location":{"Street":"tzahala","Number":"30","City":"Tel Aviv","IsBuilding":false},"Info":"bla bla"},"Planing":[{"Goal":"learn piano","Way":"play piano","Time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
+                            </Col>
+                        </Row>
+
+
+                    </Form>
+
                 </div>
+            </Styles>
+        )
+    }
+}
 
-                
-                    <Row dir='rtl'> 
-                        <Col className='entity-editor-window' lg='10'>
-                            <EntityEditor level='0' jsondata='{"Ids":{"code":"123456789","name":"tal"},"Data":{"Location":{"Street":"tzahala","Number":"30","City":"Tel Aviv","IsBuilding":false},"Info":"bla bla"},"Planing":[{"Goal":"learn piano","Way":"play piano","Time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
-                        </Col>
-                    </Row>
-                
-
-            </Form>
-
-        </div>
-    </Styles>
-)
+export default NGRequest;
