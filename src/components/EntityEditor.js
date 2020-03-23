@@ -5,7 +5,11 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
 
 const Styles = styled.div`
-
+    .field {
+        padding: 5px;
+        height: 40px; 
+        &:hover { background: #bbdefb; }
+    }
 `;
 
 class EntityEditor extends React.Component {
@@ -39,7 +43,7 @@ class EntityEditor extends React.Component {
 
     getSingleFieldJSX(key) {
         return (
-            <Row style={{ fontSize: 20, marginLeft: this.state.indent }}>
+            <Row className="field" style={{ fontSize: 20, marginLeft: this.state.indent }}>
                 <Col xs lg="1">
                     <Form.Label >{key}</Form.Label>
                 </Col>
@@ -53,10 +57,13 @@ class EntityEditor extends React.Component {
     getObjectFieldJSX(key) {
         return (
             <div style={{ fontSize: 20, marginLeft: this.state.indent }} >
-                <Button size="sm" color="primary" onClick={() => this.toggle(key)} style={{ marginBottom: '1rem' }}>
-                    {this.state.objectFieldsOpen[key] ? '-' : '+'}
-                </Button>
-                <Form.Label>{key}</Form.Label>
+                <div className='field'>
+                    
+                    <Button size="sm" color="primary" onClick={() => this.toggle(key)} style={{ marginBottom: '1rem' }}>
+                        {this.state.objectFieldsOpen[key] ? '-' : '+'}
+                    </Button>
+                    <Form.Label>{key}</Form.Label>
+                </div>
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor level={this.state.level + 1} jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
@@ -70,7 +77,7 @@ class EntityEditor extends React.Component {
 
         // create the array field itself, with toggle button
         items.push(
-            <div style={{ fontSize: 20, marginLeft: this.state.indent }} >
+            <div className='field' style={{ fontSize: 20, marginLeft: this.state.indent }} >
                 <Button size="sm" color="primary" onClick={() => this.toggle(key)} style={{ marginBottom: '1rem' }}>
                     {this.state.objectFieldsOpen[key] ? '-' : '+'}
                 </Button>
@@ -114,7 +121,7 @@ class EntityEditor extends React.Component {
 
 
         return (
-            <Styles>
+            <Styles dir='ltr'>
                 {items}
             </Styles>
         );

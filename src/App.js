@@ -18,7 +18,7 @@ function App() {
           <Col>
             <NGRequest></NGRequest>
           </Col>
-          <Col>
+          <Col lg='3'>
             <ScenariosWindow></ScenariosWindow>
           </Col>
         </Row>

@@ -1,67 +1,105 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Nav, Navbar, Form, FormControl, Col, Row } from 'react-bootstrap';
-import {JSONEditor} from 'react-json-editor-viewer';
+import { JSONEditor } from 'react-json-editor-viewer';
 import EntityEditor from './EntityEditor';
 
 const Styles = styled.div`
 
+.main-comp {
+    padding-right: 50px;
+}
+
+.entity-editor-window {
+    height: 400px;
+    overflow-y: scroll;
+    margin-top: 10px;
+    padding: 10px;
+    background: #f5f5f5;
+    margin-top: 50px;   
+}
+
+.metadata {
+    margin-top:20px;
+}
+
+.field {
+    margin-bottom: 20px;
+}
 
 
 `;
 export const NGRequest = () => (
-  <Styles>
-    <div  className='main-comp'>
+    <Styles>
+        <div className='main-comp'>
 
-    <Form>
-    <EntityEditor level='0' jsondata='{"Ids":{"code":"123456789","name":"tal"},"Data":{"Location":{"Street":"tzahala","Number":"30","City":"Tel Aviv","IsBuilding":false},"Info":"bla bla"},"Planing":[{"Goal":"learn piano","Way":"play piano","Time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
+            <Form>
+                <div dir='rtl' className='metadata'>
+                    <Row className='field'>
+                        <Col lg='1'>
+                            <Form.Label >שם תרחיש</Form.Label>
+                        </Col>
+                        <Col lg='3'>
+                            <Form.Control type="text" />
+                        </Col>
+                    </Row>
 
-        <Row>
-            <Col>
-              <Form.Label >שם תרחיש</Form.Label>
-            </Col>
-            <Col>
-             <Form.Control type="text"/>
-            </Col>
-        </Row>
+                    <Row className='field'>
+                        <Col lg='1'>
+                            <Form.Label >תיאור תרחיש</Form.Label>
+                        </Col>
+                        <Col lg='5'>
+                            <Form.Control as="textarea" rows="3" />
+                        </Col>
+                    </Row>
 
-        <Row>
-            <Col>
-                <Form.Label >תיאור תרחיש</Form.Label>
-            </Col>
-            <Col>
-                <Form.Control as="textarea" rows="3" />
-            </Col>
-        </Row>
+                    <Row className='field'>
+                        <Col lg='1' >
+                            <Form.Label >ישות</Form.Label>
+                        </Col>
+                        <Col lg='4'>
+                            <Form.Control as="select" value="Choose...">
+                                <option>abcd</option>
+                                <option>efgh</option>
+                            </Form.Control>
+                        </Col>
 
-        <Row>
-            <Col>
-                <Form.Label >ישות</Form.Label>
-            </Col>
-            <Col>
-                <Form.Control as="select" value="Choose...">
-                    <option>abcd</option>
-                    <option>efgh</option>
-                </Form.Control>
-            </Col>
-        </Row>
+                        <Col lg='1' >
+                            <Form.Label >מערכת</Form.Label>
+                        </Col>
+                        <Col lg='4'>
+                            <Form.Control as="select" value="Choose...">
+                                <option>טל בן יוסף</option>
+                                <option>ינון בן דוד</option>
+                            </Form.Control>
+                        </Col>
 
-        <Row>
-            <Col>
-                <Form.Label >תקן</Form.Label>
-            </Col>
-            <Col>
-                <Form.Control as="select" value="Choose...">
-                    <option>2</option>
-                    <option>2.1</option>
-                    <option>X</option>
-                </Form.Control>
-            </Col>
-        </Row>
+                    </Row>
 
+                    <Row className='field'>
+                        <Col lg='1'>
+                            <Form.Label >תקן</Form.Label>
+                        </Col>
+                        <Col lg='3'>
+                            <Form.Control as="select" value="Choose...">
+                                <option>2</option>
+                                <option>2.1</option>
+                                <option>X</option>
+                            </Form.Control>
+                        </Col>
+                    </Row>
+                </div>
 
-    </Form>
+                
+                    <Row dir='rtl'> 
+                        <Col className='entity-editor-window' lg='10'>
+                            <EntityEditor level='0' jsondata='{"Ids":{"code":"123456789","name":"tal"},"Data":{"Location":{"Street":"tzahala","Number":"30","City":"Tel Aviv","IsBuilding":false},"Info":"bla bla"},"Planing":[{"Goal":"learn piano","Way":"play piano","Time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
+                        </Col>
+                    </Row>
+                
 
-    </div>
-  </Styles>
+            </Form>
+
+        </div>
+    </Styles>
 )
