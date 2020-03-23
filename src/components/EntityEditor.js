@@ -38,14 +38,14 @@ class EntityEditor extends React.Component {
 
     
     initChildrenEntityEditors() {
-        this.children = [];
-        this.childRefCount = 0;
+        this.children = {};
+        
         
         for (var key in this.state.json) {
             if (typeof this.state.json[key] == 'object') {
                 var child = React.createRef();
                 
-                this.children.push(child);
+                this.children[key] = child;
             }
         }
     }
@@ -53,7 +53,7 @@ class EntityEditor extends React.Component {
     initCollapsableFields() {
         for (var key in this.state.json) {
             if (typeof this.state.json[key] == 'object') {
-                this.state.objectFieldsOpen[key] = true;
+                this.state.objectFieldsOpen[key] = false;
             }
         }
     }
@@ -104,20 +104,20 @@ class EntityEditor extends React.Component {
                 </div>
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor name={key} ref={this.children[this.childRefCount++]} level={this.state.level + 1} jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
+                    <EntityEditor name={key} ref={this.children[key]} level={this.state.level + 1} jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
                 </Collapse>
             </div>
         )
     }
 
     getTotalJson() {
-        for (var index in this.children) {
-            var child = this.children[index];
+        console.log('count is ' + this.childRefCount)
+        for (var key in this.children) {
+            var child = this.children[key];
 
-            var fieldName = child.current.props.name;
             var fieldValue = child.current.getTotalJson();
 
-            this.state.resultJson[fieldName] = fieldValue;
+            this.state.resultJson[key] = fieldValue;
 
         }
 
@@ -143,7 +143,7 @@ class EntityEditor extends React.Component {
             const currJson = '{"' + step + '.":' + JSON.stringify(this.state.json[key][step]) + "}"
             items.push(
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor name={key} ref={this.children[this.childRefCount++]} ref={this.children} level={this.state.level + 1} jsondata={currJson}></EntityEditor>
+                    <EntityEditor name={key} ref={this.children[key]} ref={this.children} level={this.state.level + 1} jsondata={currJson}></EntityEditor>
                 </Collapse>
             )
         }
