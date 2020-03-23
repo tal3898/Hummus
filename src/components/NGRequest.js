@@ -114,7 +114,7 @@ class NGRequest extends React.Component {
 
                         <Row dir='rtl'>
                             <Col className='entity-editor-window' lg='10'>
-                            <EntityEditor ref={this.child} level='0' jsondata='{"Ids": {"name": "a"}, "Planing":[{"Goal":"learn piano","Way":"play piano","Time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
+                                <EntityEditor ref={this.child} level='0' jsondata='{"Ids": {"name": "a"}, "Planing":[{"Goal":"learn piano","Way":"play piano","Time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
                             </Col>
                         </Row>
 
