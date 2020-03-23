@@ -58,7 +58,12 @@ class JsonPopup extends React.Component {
                         <br /><br />
 
                         <div className="json-display">
-                            <ReactJson src={{ "Ids": { "name": "a" }, "werwerIds": { "name": "a" }, "asdIds": { "name": "a" }, "Idasdasds": { "name": "a" }, "Idcs": { "name": "a" }, "aIds": { "name": "a" }, "Planing": [{ "Goal": "learn piano", "Way": "play piano", "Time": "2020-07-13T00:00:00Z" }] }} theme="monokai" enableClipboard={false} />
+                            <ReactJson
+                             src={{ "Ids": { "name": "abcdefghijklmnop" }, "werwerIds": { "name": "a" }, "asdIds": { "name": "a" }, "Idasdasds": { "name": "a" }, "Idcs": { "name": "a" }, "aIds": { "name": "a" }, "Planing": [{ "Goal": "learn piano", "Way": "play piano", "Time": "2020-07-13T00:00:00Z" }] }} 
+                             theme="monokai" 
+                             enableClipboard={false}
+                             collapseStringsAfterLength={10}
+                             displayDataTypes={false} />
                         </div>
 
                     </div>
