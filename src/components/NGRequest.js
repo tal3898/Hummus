@@ -60,7 +60,10 @@ class NGRequest extends React.Component {
                                     <Form.Control type="text" />
                                 </Col>
                                 <Col lg='6'>
-                                    <Button variant="outline-info" onClick={() => this.alertParent()}> {'{ ... }'} </Button>
+                                    <Button variant="outline-info" onClick={() => this.alertParent()}> 
+                                        
+                                        <i class="fas fa-code fa-2x"></i>
+                                    </Button>
                                 </Col>
                             </Row>
 
