@@ -151,7 +151,6 @@ class EntityEditor extends React.Component {
     getTotalJson() {
         console.log('count is ' + this.childRefCount)
         for (var key in this.children) {
-            var child = this.children[key];
 
             if (Array.isArray(this.children[key])) {
 
@@ -160,12 +159,19 @@ class EntityEditor extends React.Component {
                     var currChild = this.children[key][index];
                     var currJson = currChild.current.getTotalJson();
 
-                    jsonItems.push(currJson);
+                    // The currJson is now looks like this : {"1.": {...} }
+                    // We need to push the array only the inner json, without the key "1.0"
+
+                
+                    var finalJson = Object.values(currJson)[0]
+
+                    jsonItems.push(finalJson);
                 }
 
                 this.state.resultJson[key] = jsonItems;
                 
             } else {
+                var child = this.children[key];
                 var fieldValue = child.current.getTotalJson();
                 this.state.resultJson[key] = fieldValue;
             }
