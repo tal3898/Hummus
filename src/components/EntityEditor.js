@@ -17,8 +17,12 @@ class EntityEditor extends React.Component {
     constructor(props) {
         super(props)
 
+        
+
         this.state = {
             json: JSON.parse(this.props.jsondata),
+            resultJson: {},
+
             level: parseInt(this.props.level),
             indent: 50 * parseInt(this.props.level),
             objectFieldsOpen: {} // for each field in the current json scope, set true/false, if the field is collapsed or not.
@@ -26,19 +30,53 @@ class EntityEditor extends React.Component {
 
         this.initCollapsableFields();
 
+        this.initResultJson();
+
+        this.initChildrenEntityEditors();
+
+    }
+
+    
+    initChildrenEntityEditors() {
+        this.children = [];
+        this.childRefCount = 0;
+        
+        for (var key in this.state.json) {
+            if (typeof this.state.json[key] == 'object') {
+                var child = React.createRef();
+                
+                this.children.push(child);
+            }
+        }
     }
 
     initCollapsableFields() {
         for (var key in this.state.json) {
             if (typeof this.state.json[key] == 'object') {
-                this.state.objectFieldsOpen[key] = false;
+                this.state.objectFieldsOpen[key] = true;
             }
+        }
+    }
+
+    initResultJson() {
+        for (var key in this.state.json) {
+            this.state.resultJson[key] = null;
         }
     }
 
     toggle(key) {
         this.state.objectFieldsOpen[key] = !this.state.objectFieldsOpen[key];
         this.setState(this.state)
+    }
+
+    handleChange(event) {
+        let fieldName = event.target.name;
+        let fleldVal = event.target.value;
+        
+        this.state.resultJson[fieldName] = fleldVal;
+
+        console.log('change : ' + fieldName + '->' + fleldVal)
+        console.log('result json is ' + JSON.stringify(this.state.resultJson))
     }
 
     getSingleFieldJSX(key) {
@@ -48,7 +86,7 @@ class EntityEditor extends React.Component {
                     <Form.Label >{key}</Form.Label>
                 </Col>
                 <Col xs lg="2">
-                    <Form.Control size="sm" type="text" width="20px" />
+                    <Form.Control onChange={this.handleChange.bind(this)} name={key} size="sm" type="text" width="20px" />
                 </Col>
             </Row>
         );
@@ -66,14 +104,24 @@ class EntityEditor extends React.Component {
                 </div>
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor level={this.state.level + 1} jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
+                    <EntityEditor name={key} ref={this.children[this.childRefCount++]} level={this.state.level + 1} jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
                 </Collapse>
             </div>
         )
     }
 
-    alertChild() {
-        alert('bbbb')
+    getTotalJson() {
+        for (var index in this.children) {
+            var child = this.children[index];
+
+            var fieldName = child.current.props.name;
+            var fieldValue = child.current.getTotalJson();
+
+            this.state.resultJson[fieldName] = fieldValue;
+
+        }
+
+        return this.state.resultJson;
     }
 
     getArrayFieldJSX(key) {
@@ -95,7 +143,7 @@ class EntityEditor extends React.Component {
             const currJson = '{"' + step + '.":' + JSON.stringify(this.state.json[key][step]) + "}"
             items.push(
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor level={this.state.level + 1} jsondata={currJson}></EntityEditor>
+                    <EntityEditor name={key} ref={this.children[this.childRefCount++]} ref={this.children} level={this.state.level + 1} jsondata={currJson}></EntityEditor>
                 </Collapse>
             )
         }

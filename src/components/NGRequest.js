@@ -40,14 +40,14 @@ class NGRequest extends React.Component {
         
     }
     alertParent() {
-        this.child.current.alertChild()
+        console.log(this.child.current.getTotalJson())
     }
 
     render() {
         return (
             <Styles>
                 <div className='main-comp'>
-                <EntityEditor ref={this.child} level='0' jsondata='{"Ids":{"code":"123456789","name":"tal"},"Data":{"Location":{"Street":"tzahala","Number":"30","City":"Tel Aviv","IsBuilding":false},"Info":"bla bla"},"Planing":[{"Goal":"learn piano","Way":"play piano","Time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
+                <EntityEditor ref={this.child} level='0' jsondata='{"name": "", "Ids":{"code":"123456789","name":"tal"},"Data":{"Location":{"Street":"tzahala","Number":"30","City":"Tel Aviv","IsBuilding":false},"Info":"bla bla"},"Planing":{"Goal":"learn piano","Way":"play piano","Time":"2020-07-13T00:00:00Z"}}'></EntityEditor>
 
                     <Form>
                         <div dir='rtl' className='metadata'>
