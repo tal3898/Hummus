@@ -14,10 +14,10 @@ const Styles = styled.div`
 
 class EntityEditor extends React.Component {
 
+    //#region init
+
     constructor(props) {
         super(props)
-
-        
 
         this.state = {
             json: JSON.parse(this.props.jsondata),
@@ -75,81 +75,29 @@ class EntityEditor extends React.Component {
         }
     }
 
-    toggle(key) {
+    //#endregion
+
+    collapseEntityEditor(key) {
         this.state.objectFieldsOpen[key] = !this.state.objectFieldsOpen[key];
         this.setState(this.state)
     }
 
-    handleChange(event) {
+    handleInputChange(event) {
         let fieldName = event.target.name;
         let fleldVal = event.target.value;
         
         this.state.resultJson[fieldName] = fleldVal;
-
-        console.log('change : ' + fieldName + '->' + fleldVal)
-        console.log('result json is ' + JSON.stringify(this.state.resultJson))
     }
 
-    getSingleFieldJSX(key) {
-        return (
-            <Row className="field" style={{ fontSize: 20, marginLeft: this.state.indent }}>
-                <Col xs lg="1">
-                    <Form.Label >{key}</Form.Label>
-                </Col>
-                <Col xs lg="2">
-                    <Form.Control onChange={this.handleChange.bind(this)} name={key} size="sm" type="text" width="20px" />
-                </Col>
-            </Row>
-        );
-    }
-
-    getObjectFieldJSX(key) {
-        return (
-            <div style={{ fontSize: 20, marginLeft: this.state.indent }} >
-                <div className='field'>
-                    
-                    <Button size="sm" color="primary" onClick={() => this.toggle(key)} style={{ marginBottom: '1rem' }}>
-                        {this.state.objectFieldsOpen[key] ? '-' : '+'}
-                    </Button>
-                    <Form.Label>{key}</Form.Label>
-                </div>
-
-                <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor name={key} ref={this.children[key]} level={this.state.level + 1} jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
-                </Collapse>
-            </div>
-        )
-    }
-
-    getArrayFieldJSX(key) {
-        const items = []
-
-        // create the array field itself, with toggle button
-        items.push(
-            <div className='field' style={{ fontSize: 20, marginLeft: this.state.indent }} >
-                <Button size="sm" color="primary" onClick={() => this.toggle(key)} style={{ marginBottom: '1rem' }}>
-                    {this.state.objectFieldsOpen[key] ? '-' : '+'}
-                </Button>
-                <Form.Label>{key}</Form.Label>
-            </div>
-        )
-
-        // For each element in the array -> create a new json which looks like this { "1.": {...}}, and create element with
-        // this json
-        for (let step = 0; step < this.state.json[key].length; step++) {
-            const currJson = '{"' + step + '.":' + JSON.stringify(this.state.json[key][step]) + "}"
-            items.push(
-                <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor name={key} ref={this.children[key][step]} level={this.state.level + 1} jsondata={currJson}></EntityEditor>
-                </Collapse>
-            )
-        }
-
-        return items
-    }
-
+    /*
+        The method gets the total json of the entity editor (recursivly).
+        It gets the data of the current json fields, 
+        and if the field is object: 
+            recursivly call the get json of this entity
+        and if the field is array of objects:
+            recursivly call the get json of this entity, and remove the '1.'/'2.' etc. key
+    */
     getTotalJson() {
-        console.log('count is ' + this.childRefCount)
         for (var key in this.children) {
 
             if (Array.isArray(this.children[key])) {
@@ -160,9 +108,7 @@ class EntityEditor extends React.Component {
                     var currJson = currChild.current.getTotalJson();
 
                     // The currJson is now looks like this : {"1.": {...} }
-                    // We need to push the array only the inner json, without the key "1.0"
-
-                
+                    // We need to push the array only the inner json, without the key "1.0"                
                     var finalJson = Object.values(currJson)[0]
 
                     jsonItems.push(finalJson);
@@ -175,13 +121,68 @@ class EntityEditor extends React.Component {
                 var fieldValue = child.current.getTotalJson();
                 this.state.resultJson[key] = fieldValue;
             }
-            
-
-            
-
         }
 
         return this.state.resultJson;
+    }
+
+    //#region rendering json fields
+    getSingleFieldJSX(key) {
+        return (
+            <Row className="field" style={{ fontSize: 20, marginLeft: this.state.indent }}>
+                <Col xs lg="1">
+                    <Form.Label >{key}</Form.Label>
+                </Col>
+                <Col xs lg="2">
+                    <Form.Control onChange={this.handleInputChange.bind(this)} name={key} size="sm" type="text" width="20px" />
+                </Col>
+            </Row>
+        );
+    }
+
+    getObjectFieldJSX(key) {
+        return (
+            <div style={{ fontSize: 20, marginLeft: this.state.indent }} >
+                <div className='field'>
+                    
+                    <Button size="sm" color="primary" onClick={() => this.collapseEntityEditor(key)} style={{ marginBottom: '1rem' }}>
+                        {this.state.objectFieldsOpen[key] ? '-' : '+'}
+                    </Button>
+                    <Form.Label>{key}</Form.Label>
+                </div>
+
+                <Collapse isOpen={this.state.objectFieldsOpen[key]}>
+                    <EntityEditor ref={this.children[key]} level={this.state.level + 1} jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
+                </Collapse>
+            </div>
+        )
+    }
+
+    getArrayFieldJSX(key) {
+        const items = []
+
+        // create the array field itself, with collapseEntityEditor button
+        items.push(
+            <div className='field' style={{ fontSize: 20, marginLeft: this.state.indent }} >
+                <Button size="sm" color="primary" onClick={() => this.collapseEntityEditor(key)} style={{ marginBottom: '1rem' }}>
+                    {this.state.objectFieldsOpen[key] ? '-' : '+'}
+                </Button>
+                <Form.Label>{key}</Form.Label>
+            </div>
+        )
+
+        // For each element in the array -> create a new json which looks like this { "1.": {...}}, and create element with
+        // this json
+        for (let step = 0; step < this.state.json[key].length; step++) {
+            const currJson = '{"' + step + '.":' + JSON.stringify(this.state.json[key][step]) + "}"
+            items.push(
+                <Collapse isOpen={this.state.objectFieldsOpen[key]}>
+                    <EntityEditor ref={this.children[key][step]} level={this.state.level + 1} jsondata={currJson}></EntityEditor>
+                </Collapse>
+            )
+        }
+
+        return items
     }
 
     render() {
@@ -211,6 +212,7 @@ class EntityEditor extends React.Component {
             </Styles>
         );
     }
+    //#endregion    
 }
 
 export default EntityEditor;
