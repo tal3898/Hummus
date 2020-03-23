@@ -43,9 +43,20 @@ class EntityEditor extends React.Component {
         
         for (var key in this.state.json) {
             if (typeof this.state.json[key] == 'object') {
-                var child = React.createRef();
+
+                if (Array.isArray(this.state.json[key])) {
+                    this.children[key] = []
+
+                    for (var index in this.state.json[key]) {
+                        var child = React.createRef();
+                        this.children[key].push(child);           
+                    }
+
+                } else {
+                    var child = React.createRef();
+                    this.children[key] = child;
+                }
                 
-                this.children[key] = child;
             }
         }
     }
@@ -110,20 +121,6 @@ class EntityEditor extends React.Component {
         )
     }
 
-    getTotalJson() {
-        console.log('count is ' + this.childRefCount)
-        for (var key in this.children) {
-            var child = this.children[key];
-
-            var fieldValue = child.current.getTotalJson();
-
-            this.state.resultJson[key] = fieldValue;
-
-        }
-
-        return this.state.resultJson;
-    }
-
     getArrayFieldJSX(key) {
         const items = []
 
@@ -143,12 +140,42 @@ class EntityEditor extends React.Component {
             const currJson = '{"' + step + '.":' + JSON.stringify(this.state.json[key][step]) + "}"
             items.push(
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor name={key} ref={this.children[key]} ref={this.children} level={this.state.level + 1} jsondata={currJson}></EntityEditor>
+                    <EntityEditor name={key} ref={this.children[key][step]} level={this.state.level + 1} jsondata={currJson}></EntityEditor>
                 </Collapse>
             )
         }
 
         return items
+    }
+
+    getTotalJson() {
+        console.log('count is ' + this.childRefCount)
+        for (var key in this.children) {
+            var child = this.children[key];
+
+            if (Array.isArray(this.children[key])) {
+
+                var jsonItems = [];
+                for (var index in this.children[key]) {
+                    var currChild = this.children[key][index];
+                    var currJson = currChild.current.getTotalJson();
+
+                    jsonItems.push(currJson);
+                }
+
+                this.state.resultJson[key] = jsonItems;
+                
+            } else {
+                var fieldValue = child.current.getTotalJson();
+                this.state.resultJson[key] = fieldValue;
+            }
+            
+
+            
+
+        }
+
+        return this.state.resultJson;
     }
 
     render() {
