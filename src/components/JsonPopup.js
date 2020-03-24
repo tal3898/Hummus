@@ -66,23 +66,23 @@ class JsonPopup extends React.Component {
         return (
             <Styles>
 
-<Popup
+                <Popup
                     open={this.state.isOpen}
-                    onClose={()=>this.close()}
+                    onClose={() => this.close()}
                     modal
                     closeOnDocumentClick
                 >
                     <div className='json-popup'>
-                        <Button onClick={() => this.copyToClipboard("hellllooo")} className='copy-json-btn' variant="outline-secondary">העתק</Button>
+                        <Button onClick={() => this.copyToClipboard()} className='copy-json-btn' variant="outline-secondary">העתק</Button>
                         <br /><br />
 
                         <div className="json-display">
                             <ReactJson
-                             src={this.state.json} 
-                             theme="monokai" 
-                             enableClipboard={false}
-                             collapseStringsAfterLength={10}
-                             displayDataTypes={false} />
+                                src={this.state.json}
+                                theme="monokai"
+                                enableClipboard={false}
+                                collapseStringsAfterLength={10}
+                                displayDataTypes={false} />
                         </div>
 
                     </div>

@@ -29,23 +29,6 @@ const Styles = styled.div`
 .field {
     margin-bottom: 20px;
 }
-
-.json-popup {
-    max-height: 500px;
-    overflow-y: scroll;
-}
-
-.copy-json-btn {
-    float:right;
-    margin-right: 10px;
-    margin-top: 10px;
-}
-
-.json-display {
-    margin: 10px;
-}
-
-
 `;
 
 class NGRequest extends React.Component {
