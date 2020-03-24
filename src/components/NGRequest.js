@@ -44,8 +44,10 @@ class NGRequest extends React.Component {
             json: {
                 "v": 2
             },
-            isOpenPopup: false
+            isOpenPopup: false,
+            versionValue: ""
         }
+
         
 
     }
@@ -57,6 +59,20 @@ class NGRequest extends React.Component {
         console.log(this.child.current.getTotalJson());
         console.log(JSON.stringify(this.child.current.getTotalJson()));
     }
+
+    sendJsonToNG() {
+        var entityJson = this.child.current.getTotalJson();
+        var sendingJson = {
+            "SendingTime": "1998-03-08T00:00:00.000Z",
+            "Lesson": this.lessonNode.value,
+            "Version": this.versionNode.value,
+            "Entities": [entityJson]
+        }
+        
+        console.log(JSON.stringify(sendingJson));
+    }
+
+
     close() {
         this.state.isOpenPopup = false;
         this.setState(this.state);
@@ -76,7 +92,7 @@ class NGRequest extends React.Component {
                                     <Form.Label >שם תרחיש</Form.Label>
                                 </Col>
                                 <Col lg='3'>
-                                    <Form.Control type="text" />
+                                    <Form.Control ref={(ref) => this.scenarioNameNode=ref} type="text" />
                                 </Col>
                                 <Col lg='6'>
 
@@ -101,7 +117,7 @@ class NGRequest extends React.Component {
                                         position="bottom center"
                                         on="hover"
                                         trigger={
-                                            <Button className="action-btn" variant="outline-info" onClick={() => this.openPopup()}>
+                                            <Button className="action-btn" variant="outline-info" onClick={() => this.sendJsonToNG()}>
                                                 <i class="far fa-paper-plane fa-2x fa-flip-horizontal"></i>
                                             </Button>}
                                     >
@@ -118,7 +134,7 @@ class NGRequest extends React.Component {
                                     <Form.Label >תיאור תרחיש</Form.Label>
                                 </Col>
                                 <Col lg='5'>
-                                    <Form.Control as="textarea" rows="3" />
+                                    <Form.Control ref={(ref) => this.scenarioDescriptionNode=ref} as="textarea" rows="3" />
                                 </Col>
                             </Row>
 
@@ -127,7 +143,7 @@ class NGRequest extends React.Component {
                                     <Form.Label >ישות</Form.Label>
                                 </Col>
                                 <Col lg='4'>
-                                    <Form.Control as="select" value="Choose...">
+                                    <Form.Control ref={(ref) => this.entityNode=ref} as="select" value="Choose...">
                                         <option>abcd</option>
                                         <option>efgh</option>
                                     </Form.Control>
@@ -137,7 +153,7 @@ class NGRequest extends React.Component {
                                     <Form.Label >מערכת</Form.Label>
                                 </Col>
                                 <Col lg='4'>
-                                    <Form.Control as="select" value="Choose...">
+                                    <Form.Control ref={(ref) => this.systemNode=ref} as="select" value="Choose...">
                                         <option>טל בן יוסף</option>
                                         <option>ינון בן דוד</option>
                                     </Form.Control>
@@ -149,11 +165,23 @@ class NGRequest extends React.Component {
                                 <Col lg='1'>
                                     <Form.Label >תקן</Form.Label>
                                 </Col>
-                                <Col lg='3'>
-                                    <Form.Control as="select" value="Choose...">
+                                <Col lg='4'>
+                                    <Form.Control ref={(ref) => this.versionNode=ref} as="select" value="Choose...">
                                         <option>2</option>
                                         <option>2.1</option>
                                         <option>X</option>
+                                    </Form.Control>
+                                </Col>
+                                <Col lg='1'>
+                                    <Form.Label >שיעור</Form.Label>
+                                </Col>
+                                <Col lg='4'>
+                                    <Form.Control ref={(ref) => this.lessonNode=ref} as="select" value="Choose...">
+                                        <option>0</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
                                     </Form.Control>
                                 </Col>
                             </Row>
