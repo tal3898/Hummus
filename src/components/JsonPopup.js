@@ -36,7 +36,8 @@ class JsonPopup extends React.Component {
         }
     }
 
-    copyToClipboard(str) {
+    copyToClipboard() {
+        var str = JSON.stringify(this.state.json)
         const el = document.createElement('textarea');
         el.value = str;
         el.setAttribute('readonly', '');
