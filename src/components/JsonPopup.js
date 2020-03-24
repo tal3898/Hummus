@@ -53,6 +53,7 @@ class JsonPopup extends React.Component {
         document.body.removeChild(el);
 
         toast.success("Copied to clipboard", {
+            autoClose:2000,
             position: toast.POSITION.BOTTOM_RIGHT,
             pauseOnFocusLoss: false
           });
