@@ -32,6 +32,7 @@ class JsonPopup extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            isOpen: false,
             json: JSON.parse(props.json)
         }
     }
@@ -54,11 +55,24 @@ class JsonPopup extends React.Component {
         this.setState(this.state);
     }
 
+    click() {
+        this.state.isOpen = true;
+        this.setState(this.state);
+        console.log('is open ' + this.state.isOpen)
+    }
+
+    close() {
+        this.state.isOpen = false;
+        this.setState(this.state);
+    }
+
     render() {
         return (
             <Styles>
+                <button className="button" onClick={()=> this.click()}> Open Modal </button>
                 <Popup
-                    trigger={<button className="button"> Open Modal </button>}
+                    open={this.state.isOpen}
+                    onClose={()=>this.close()}
                     modal
                     closeOnDocumentClick
                 >

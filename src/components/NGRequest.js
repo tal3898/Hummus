@@ -56,16 +56,22 @@ class NGRequest extends React.Component {
         this.state = {
             json: {
                 "v": 2
-            }
+            },
+            isOpen: false
         }
         
 
     }
-    alertParent() {
+    openPopup() {
         this.state.json = this.child.current.getTotalJson();
+        this.state.isOpen = true;
         this.setState(this.state);
         console.log(this.child.current.getTotalJson());
         console.log(JSON.stringify(this.child.current.getTotalJson()));
+    }
+    close() {
+        this.state.isOpen = false;
+        this.setState(this.state);
     }
 
     render() {
@@ -73,7 +79,27 @@ class NGRequest extends React.Component {
             <Styles>
                 <div className='main-comp'>
 
-                    <JsonPopup json={JSON.stringify(this.state.json)}/>
+                <Popup
+                    open={this.state.isOpen}
+                    onClose={()=>this.close()}
+                    modal
+                    closeOnDocumentClick
+                >
+                    <div className='json-popup'>
+                        <Button onClick={() => this.copyToClipboard("hellllooo")} className='copy-json-btn' variant="outline-secondary">העתק</Button>
+                        <br /><br />
+
+                        <div className="json-display">
+                            <ReactJson
+                             src={this.state.json} 
+                             theme="monokai" 
+                             enableClipboard={false}
+                             collapseStringsAfterLength={10}
+                             displayDataTypes={false} />
+                        </div>
+
+                    </div>
+                </Popup>
 
                     <Form>
                         <div dir='rtl' className='metadata'>
@@ -91,7 +117,7 @@ class NGRequest extends React.Component {
                                         position="bottom center"
                                         on="hover"
                                         trigger={
-                                            <Button variant="outline-info" onClick={() => this.alertParent()}>
+                                            <Button variant="outline-info" onClick={() => this.openPopup()}>
                                                 <i class="fas fa-code fa-2x"></i>
                                             </Button>}
                                     >
