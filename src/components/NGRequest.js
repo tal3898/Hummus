@@ -65,6 +65,11 @@ class NGRequest extends React.Component {
             "ב": "100",
             "ג": "200"
         }
+        this.actionMap = {
+            "יצירה": "POST",
+            "עדכון": "PUT",
+            "מחיקה": "DELETE"
+        }
 
 
     }
@@ -94,8 +99,10 @@ class NGRequest extends React.Component {
             moviesA: ["I Love You Man", "Role Models"]
         });
 
+        var requestMethod = this.actionMap[this.actionNode.value]
+        
         const requestOptions = {
-            method: 'POST',
+            method: requestMethod,
             headers: { 'Content-Type': 'application/json' },
             body: bodyJ
         };
@@ -204,7 +211,7 @@ class NGRequest extends React.Component {
                                     <Form.Label >סוג בקשה</Form.Label>
                                 </Col>
                                 <Col lg='2'>
-                                    <Form.Control ref={(ref) => this.systemNode = ref} as="select">
+                                    <Form.Control ref={(ref) => this.actionNode = ref} as="select">
                                         <option>יצירה</option>
                                         <option>עדכון</option>
                                         <option>מחיקה</option>
