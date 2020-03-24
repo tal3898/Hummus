@@ -29,6 +29,10 @@ const Styles = styled.div`
 .field {
     margin-bottom: 20px;
 }
+
+.action-btn {
+    margin-right: 5px;
+}
 `;
 
 class NGRequest extends React.Component {
@@ -78,15 +82,31 @@ class NGRequest extends React.Component {
 
                                     {/* creating the button '</>', which shows the json */}
                                     <Popup
+                                        
                                         position="bottom center"
                                         on="hover"
                                         trigger={
-                                            <Button variant="outline-info" onClick={() => this.openPopup()}>
+                                            <Button className="action-btn" variant="outline-info" onClick={() => this.openPopup()}>
                                                 <i class="fas fa-code fa-2x"></i>
                                             </Button>}
                                     >
                                         <center>
-                                            Display Total Json
+                                            display total json
+                                        </center>
+                                    </Popup>
+
+                                    {/* creating the sending button, which sends the json to NG */}
+                                    <Popup
+                                        className="action-btn"
+                                        position="bottom center"
+                                        on="hover"
+                                        trigger={
+                                            <Button className="action-btn" variant="outline-info" onClick={() => this.openPopup()}>
+                                                <i class="far fa-paper-plane fa-2x fa-flip-horizontal"></i>
+                                            </Button>}
+                                    >
+                                        <center>
+                                            send to NG
                                         </center>
                                     </Popup>
 
