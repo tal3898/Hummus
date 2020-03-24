@@ -57,20 +57,21 @@ class NGRequest extends React.Component {
             json: {
                 "v": 2
             },
-            isOpen: false
+            isOpenPopup: false
         }
         
 
     }
+
     openPopup() {
         this.state.json = this.child.current.getTotalJson();
-        this.state.isOpen = true;
+        this.state.isOpenPopup = true;
         this.setState(this.state);
         console.log(this.child.current.getTotalJson());
         console.log(JSON.stringify(this.child.current.getTotalJson()));
     }
     close() {
-        this.state.isOpen = false;
+        this.state.isOpenPopup = false;
         this.setState(this.state);
     }
 
@@ -78,28 +79,8 @@ class NGRequest extends React.Component {
         return (
             <Styles>
                 <div className='main-comp'>
-
-                <Popup
-                    open={this.state.isOpen}
-                    onClose={()=>this.close()}
-                    modal
-                    closeOnDocumentClick
-                >
-                    <div className='json-popup'>
-                        <Button onClick={() => this.copyToClipboard("hellllooo")} className='copy-json-btn' variant="outline-secondary">העתק</Button>
-                        <br /><br />
-
-                        <div className="json-display">
-                            <ReactJson
-                             src={this.state.json} 
-                             theme="monokai" 
-                             enableClipboard={false}
-                             collapseStringsAfterLength={10}
-                             displayDataTypes={false} />
-                        </div>
-
-                    </div>
-                </Popup>
+                
+                    <JsonPopup json={JSON.stringify(this.state.json)} isOpen={this.state.isOpenPopup} />
 
                     <Form>
                         <div dir='rtl' className='metadata'>

@@ -31,6 +31,7 @@ class JsonPopup extends React.Component {
 
     constructor(props) {
         super(props)
+        console.log('rec + ' + props.json)
         this.state = {
             isOpen: false,
             json: JSON.parse(props.json)
@@ -52,13 +53,8 @@ class JsonPopup extends React.Component {
 
     UNSAFE_componentWillReceiveProps(newProps) {
         this.state.json = JSON.parse(newProps.json);
+        this.state.isOpen = JSON.parse(newProps.isOpen);
         this.setState(this.state);
-    }
-
-    click() {
-        this.state.isOpen = true;
-        this.setState(this.state);
-        console.log('is open ' + this.state.isOpen)
     }
 
     close() {
@@ -69,8 +65,8 @@ class JsonPopup extends React.Component {
     render() {
         return (
             <Styles>
-                <button className="button" onClick={()=> this.click()}> Open Modal </button>
-                <Popup
+
+<Popup
                     open={this.state.isOpen}
                     onClose={()=>this.close()}
                     modal
@@ -91,6 +87,7 @@ class JsonPopup extends React.Component {
 
                     </div>
                 </Popup>
+
             </Styles>
         )
     }
