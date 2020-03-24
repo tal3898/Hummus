@@ -51,7 +51,7 @@ class NGRequest extends React.Component {
             versionValue: ""
         }
 
-        
+
 
     }
 
@@ -84,16 +84,24 @@ class NGRequest extends React.Component {
             body: bodyJ
         };
 
+        const toastProperties = {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            pauseOnFocusLoss: false
+        };
+
+        toast.warn("Sending", toastProperties);
 
         fetch('https://reqres.in/api/users', requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log("res: " + JSON.stringify(data));
+                toast.success("Sent successfully", toastProperties);
+                console.log("NG response: " + JSON.stringify(data));
             }).catch(error => {
-                console.log("er " + error)
+                toast.error("Error sending write request", toastProperties);
+                console.error("NG error: ", error)
             });
-        
-            
+
+
         console.log(JSON.stringify(sendingJson));
     }
 
@@ -107,8 +115,8 @@ class NGRequest extends React.Component {
         return (
             <Styles>
                 <div className='main-comp'>
-                
-                    <ToastContainer/>
+
+                    <ToastContainer />
                     <JsonPopup json={JSON.stringify(this.state.json)} isOpen={this.state.isOpenPopup} />
 
                     <Form>
@@ -118,13 +126,13 @@ class NGRequest extends React.Component {
                                     <Form.Label >שם תרחיש</Form.Label>
                                 </Col>
                                 <Col lg='3'>
-                                    <Form.Control ref={(ref) => this.scenarioNameNode=ref} type="text" />
+                                    <Form.Control ref={(ref) => this.scenarioNameNode = ref} type="text" />
                                 </Col>
                                 <Col lg='6'>
 
                                     {/* creating the button '</>', which shows the json */}
                                     <Popup
-                                        
+
                                         position="bottom center"
                                         on="hover"
                                         trigger={
@@ -160,7 +168,7 @@ class NGRequest extends React.Component {
                                     <Form.Label >תיאור תרחיש</Form.Label>
                                 </Col>
                                 <Col lg='5'>
-                                    <Form.Control ref={(ref) => this.scenarioDescriptionNode=ref} as="textarea" rows="3" />
+                                    <Form.Control ref={(ref) => this.scenarioDescriptionNode = ref} as="textarea" rows="3" />
                                 </Col>
                             </Row>
 
@@ -169,7 +177,7 @@ class NGRequest extends React.Component {
                                     <Form.Label >ישות</Form.Label>
                                 </Col>
                                 <Col lg='4'>
-                                    <Form.Control ref={(ref) => this.entityNode=ref} as="select" value="Choose...">
+                                    <Form.Control ref={(ref) => this.entityNode = ref} as="select" value="Choose...">
                                         <option>abcd</option>
                                         <option>efgh</option>
                                     </Form.Control>
@@ -179,7 +187,7 @@ class NGRequest extends React.Component {
                                     <Form.Label >מערכת</Form.Label>
                                 </Col>
                                 <Col lg='4'>
-                                    <Form.Control ref={(ref) => this.systemNode=ref} as="select" value="Choose...">
+                                    <Form.Control ref={(ref) => this.systemNode = ref} as="select" value="Choose...">
                                         <option>טל בן יוסף</option>
                                         <option>ינון בן דוד</option>
                                     </Form.Control>
@@ -192,7 +200,7 @@ class NGRequest extends React.Component {
                                     <Form.Label >תקן</Form.Label>
                                 </Col>
                                 <Col lg='4'>
-                                    <Form.Control ref={(ref) => this.versionNode=ref} as="select" value="Choose...">
+                                    <Form.Control ref={(ref) => this.versionNode = ref} as="select" value="Choose...">
                                         <option>2</option>
                                         <option>2.1</option>
                                         <option>X</option>
@@ -202,7 +210,7 @@ class NGRequest extends React.Component {
                                     <Form.Label >שיעור</Form.Label>
                                 </Col>
                                 <Col lg='4'>
-                                    <Form.Control ref={(ref) => this.lessonNode=ref} as="select" value="Choose...">
+                                    <Form.Control ref={(ref) => this.lessonNode = ref} as="select" value="Choose...">
                                         <option>0</option>
                                         <option>1</option>
                                         <option>2</option>
