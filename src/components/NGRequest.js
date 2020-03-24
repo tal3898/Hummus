@@ -100,7 +100,7 @@ class NGRequest extends React.Component {
         });
 
         var requestMethod = this.actionMap[this.actionNode.value]
-        
+
         const requestOptions = {
             method: requestMethod,
             headers: { 'Content-Type': 'application/json' },
@@ -257,7 +257,9 @@ class NGRequest extends React.Component {
 
                         <Row dir='rtl'>
                             <Col className='entity-editor-window' lg='10'>
-                                <EntityEditor ref={this.child} level='0' jsondata='{"Ids": {"name": "a"}, "Planing":[{"Goal":"learn piano","Way":"play piano","Time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
+                                <EntityEditor ref={this.child}
+                                    level='0'
+                                    jsondata='{"Ids": {"name|string": "a", "code|number": "123"}, "Planing":[{"Goal|string":"learn piano","Way|string":"play piano","Time|time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
                             </Col>
                         </Row>
 

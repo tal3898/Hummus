@@ -28,6 +28,13 @@ class EntityEditor extends React.Component {
             objectFieldsOpen: {} // for each field in the current json scope, set true/false, if the field is collapsed or not.
         }
 
+        this.inputTypesMap = {
+            "string": "text",
+            "number": "number",
+            "time": "text",
+            "enum": "text"
+        }
+
         this.initCollapsableFields();
 
         this.initResultJson();
@@ -128,14 +135,24 @@ class EntityEditor extends React.Component {
 
     //#region rendering json fields
     getSingleFieldJSX(key) {
+        var keyName = key.split('|')[0];
+        var keyType = key.split('|')[1];
+        var insertNow = () => {
+            '[NOW]'
+        };
         return (
             <Row className="field" style={{ fontSize: 20, marginLeft: this.state.indent }}>
                 <Col xs lg="1">
-                    <Form.Label >{key}</Form.Label>
+                    <Form.Label >{keyName}</Form.Label>
                 </Col>
                 <Col xs lg="2">
-                    <Form.Control onChange={this.handleInputChange.bind(this)} name={key} size="sm" type="text" width="20px" />
+                    <Form.Control onChange={this.handleInputChange.bind(this)} name={key} size="sm" type={this.inputTypesMap[keyType]} width="20px" />
                 </Col>
+                {keyType=="time" &&
+                    <Button size="sm" variant="outline-info" onClick={() => insertNow()}>
+                        time
+                    </Button>
+                }
             </Row>
         );
     }
