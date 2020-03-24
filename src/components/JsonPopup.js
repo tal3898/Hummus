@@ -6,6 +6,8 @@ import EntityEditor from './EntityEditor';
 import Popup from "reactjs-popup";
 import ReactJson from 'react-json-view'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Styles = styled.div`
 
@@ -49,6 +51,10 @@ class JsonPopup extends React.Component {
         el.select();
         document.execCommand('copy');
         document.body.removeChild(el);
+
+        toast.success("Success Notification !", {
+            position: toast.POSITION.BOTTOM_RIGHT
+          });
     };
 
     UNSAFE_componentWillReceiveProps(newProps) {
@@ -88,6 +94,7 @@ class JsonPopup extends React.Component {
                     </div>
                 </Popup>
 
+                <ToastContainer/>
             </Styles>
         )
     }
