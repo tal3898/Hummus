@@ -7,6 +7,9 @@ import Popup from "reactjs-popup";
 import ReactJson from 'react-json-view'
 import JsonPopup from './JsonPopup'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Styles = styled.div`
 
 .main-comp {
@@ -68,7 +71,29 @@ class NGRequest extends React.Component {
             "Version": this.versionNode.value,
             "Entities": [entityJson]
         }
+
+
+        var bodyJ = JSON.stringify({
+            nameA: "paul rudd",
+            moviesA: ["I Love You Man", "Role Models"]
+        });
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: bodyJ
+        };
+
+
+        fetch('https://reqres.in/api/users', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log("res: " + JSON.stringify(data));
+            }).catch(error => {
+                console.log("er " + error)
+            });
         
+            
         console.log(JSON.stringify(sendingJson));
     }
 
@@ -83,6 +108,7 @@ class NGRequest extends React.Component {
             <Styles>
                 <div className='main-comp'>
                 
+                    <ToastContainer/>
                     <JsonPopup json={JSON.stringify(this.state.json)} isOpen={this.state.isOpenPopup} />
 
                     <Form>
