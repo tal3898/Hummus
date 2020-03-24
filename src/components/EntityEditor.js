@@ -71,7 +71,7 @@ class EntityEditor extends React.Component {
 
     initResultJson() {
         for (var key in this.state.json) {
-            this.state.resultJson[key] = null;
+            this.state.resultJson[key] = '';
         }
     }
 
