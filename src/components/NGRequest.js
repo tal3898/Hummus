@@ -176,7 +176,7 @@ class NGRequest extends React.Component {
                                 <Col lg='1' >
                                     <Form.Label >ישות</Form.Label>
                                 </Col>
-                                <Col lg='4'>
+                                <Col lg='2'>
                                     <Form.Control ref={(ref) => this.entityNode = ref} as="select" value="Choose...">
                                         <option>abcd</option>
                                         <option>efgh</option>
@@ -184,9 +184,20 @@ class NGRequest extends React.Component {
                                 </Col>
 
                                 <Col lg='1' >
+                                    <Form.Label >סוג בקשה</Form.Label>
+                                </Col>
+                                <Col lg='2'>
+                                    <Form.Control ref={(ref) => this.systemNode = ref} as="select" value="Choose...">
+                                        <option>יצירה</option>
+                                        <option>עדכון</option>
+                                        <option>מחיקה</option>
+                                    </Form.Control>
+                                </Col>
+
+                                <Col lg='1' >
                                     <Form.Label >מערכת</Form.Label>
                                 </Col>
-                                <Col lg='4'>
+                                <Col lg='2'>
                                     <Form.Control ref={(ref) => this.systemNode = ref} as="select" value="Choose...">
                                         <option>טל בן יוסף</option>
                                         <option>ינון בן דוד</option>
@@ -199,7 +210,7 @@ class NGRequest extends React.Component {
                                 <Col lg='1'>
                                     <Form.Label >תקן</Form.Label>
                                 </Col>
-                                <Col lg='4'>
+                                <Col lg='2'>
                                     <Form.Control ref={(ref) => this.versionNode = ref} as="select" value="Choose...">
                                         <option>2</option>
                                         <option>2.1</option>
@@ -209,7 +220,7 @@ class NGRequest extends React.Component {
                                 <Col lg='1'>
                                     <Form.Label >שיעור</Form.Label>
                                 </Col>
-                                <Col lg='4'>
+                                <Col lg='2'>
                                     <Form.Control ref={(ref) => this.lessonNode = ref} as="select" value="Choose...">
                                         <option>0</option>
                                         <option>1</option>
