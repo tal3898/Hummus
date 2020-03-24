@@ -51,6 +51,20 @@ class NGRequest extends React.Component {
             versionValue: ""
         }
 
+        this.entityMap = {
+            "אנגלית": "English",
+            "חשבון": "Math",
+            "כמיה": "Chemistry"
+        }
+        this.systemMap = {
+            "טל": "Tal",
+            "ינון": "Inon"
+        }
+        this.realityMap = {
+            "א": "0",
+            "ב": "100",
+            "ג": "200"
+        }
 
 
     }
@@ -66,10 +80,11 @@ class NGRequest extends React.Component {
     sendJsonToNG() {
         var entityJson = this.child.current.getTotalJson();
         var sendingJson = {
+            "Entity": this.entityMap[this.entityNode.value],
             "SendingTime": "1998-03-08T00:00:00.000Z",
-            "Lesson": this.lessonNode.value,
+            "Reality": this.realityMap[this.realityNode.value],
             "Version": this.versionNode.value,
-            "System": this.systemNode .value,
+            "System": this.systemMap[this.systemNode.value],
             "Entities": [entityJson]
         }
 
@@ -179,9 +194,9 @@ class NGRequest extends React.Component {
                                 </Col>
                                 <Col lg='2'>
                                     <Form.Control ref={(ref) => this.entityNode = ref} as="select">
-                                        <option>English</option>
-                                        <option>Math</option>
-                                        <option>Chemistry</option>
+                                        <option>אנגלית</option>
+                                        <option>חשבון</option>
+                                        <option>כמיה</option>
                                     </Form.Control>
                                 </Col>
 
@@ -201,8 +216,8 @@ class NGRequest extends React.Component {
                                 </Col>
                                 <Col lg='2'>
                                     <Form.Control ref={(ref) => this.systemNode = ref} as="select">
-                                        <option>Tal</option>
-                                        <option>Inon</option>
+                                        <option>טל</option>
+                                        <option>ינון</option>
                                     </Form.Control>
                                 </Col>
 
@@ -223,12 +238,10 @@ class NGRequest extends React.Component {
                                     <Form.Label >שיעור</Form.Label>
                                 </Col>
                                 <Col lg='2'>
-                                    <Form.Control ref={(ref) => this.lessonNode = ref} as="select" >
-                                        <option>0</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
+                                    <Form.Control ref={(ref) => this.realityNode = ref} as="select" >
+                                        <option>א</option>
+                                        <option>ב</option>
+                                        <option>ג</option>
                                     </Form.Control>
                                 </Col>
                             </Row>
