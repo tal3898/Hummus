@@ -31,6 +31,9 @@ class JsonPopup extends React.Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            json: JSON.parse(props.json)
+        }
     }
 
     copyToClipboard(str) {
@@ -44,6 +47,11 @@ class JsonPopup extends React.Component {
         document.execCommand('copy');
         document.body.removeChild(el);
     };
+
+    UNSAFE_componentWillReceiveProps(newProps) {
+        this.state.json = JSON.parse(newProps.json);
+        this.setState(this.state);
+    }
 
     render() {
         return (
@@ -59,7 +67,7 @@ class JsonPopup extends React.Component {
 
                         <div className="json-display">
                             <ReactJson
-                             src={{ "Ids": { "name": "abcdefghijklmnop" }, "werwerIds": { "name": "a" }, "asdIds": { "name": "a" }, "Idasdasds": { "name": "a" }, "Idcs": { "name": "a" }, "aIds": { "name": "a" }, "Planing": [{ "Goal": "learn piano", "Way": "play piano", "Time": "2020-07-13T00:00:00Z" }] }} 
+                             src={this.state.json} 
                              theme="monokai" 
                              enableClipboard={false}
                              collapseStringsAfterLength={10}

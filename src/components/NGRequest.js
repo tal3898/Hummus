@@ -53,11 +53,17 @@ class NGRequest extends React.Component {
     constructor(props) {
         super(props)
         this.child = React.createRef();
-
-
+        this.state = {
+            json: {
+                "v": 2
+            }
+        }
+        
 
     }
     alertParent() {
+        this.state.json = this.child.current.getTotalJson();
+        this.setState(this.state);
         console.log(this.child.current.getTotalJson());
         console.log(JSON.stringify(this.child.current.getTotalJson()));
     }
@@ -67,7 +73,7 @@ class NGRequest extends React.Component {
             <Styles>
                 <div className='main-comp'>
 
-                    <JsonPopup/>
+                    <JsonPopup json={JSON.stringify(this.state.json)}/>
 
                     <Form>
                         <div dir='rtl' className='metadata'>
