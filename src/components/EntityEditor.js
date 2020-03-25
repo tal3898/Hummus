@@ -27,19 +27,24 @@ class EntityEditor extends React.Component {
     constructor(props) {
         super(props)
 
+        this.inputTypesMap = {
+            "string": "text",
+            "number": "number",
+            "time": "text",
+            "enum": "text"
+        }
+
+        this.init();
+     
+    }
+    
+    init(props) {
         this.state = {
             json: JSON.parse(this.props.jsondata),
 
             level: parseInt(this.props.level),
             indent: 20 * parseInt(this.props.level),
             objectFieldsOpen: {} // for each field in the current json scope, set true/false, if the field is collapsed or not.
-        }
-
-        this.inputTypesMap = {
-            "string": "text",
-            "number": "number",
-            "time": "text",
-            "enum": "text"
         }
 
         this.initCollapsableFields();
@@ -49,6 +54,10 @@ class EntityEditor extends React.Component {
         this.fieldsInput = {};
     }
 
+    UNSAFE_componentWillReceiveProps(newProps) {
+        this.init(newProps)        
+        this.setState(this.state);
+    }
 
     initChildrenEntityEditors() {
         this.children = {};
