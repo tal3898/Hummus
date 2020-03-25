@@ -31,7 +31,7 @@ class EntityEditor extends React.Component {
             json: JSON.parse(this.props.jsondata),
 
             level: parseInt(this.props.level),
-            indent: 30 * parseInt(this.props.level),
+            indent: 20 * parseInt(this.props.level),
             objectFieldsOpen: {} // for each field in the current json scope, set true/false, if the field is collapsed or not.
         }
 
