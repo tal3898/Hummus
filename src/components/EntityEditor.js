@@ -133,16 +133,7 @@ class EntityEditor extends React.Component {
         var finalValue = fieldValue;
 
         if (fieldValue == '[NOW]') {
-            var a = new Date()
-            var dateAsString = a.getFullYear() + "-" +
-                ("0" + (a.getMonth() + 1)).slice(-2) + "-" +
-                ("0" + (a.getDate() + 1)).slice(-2) +
-                "T" +
-                ("0" + a.getHours()).slice(-2) + ":" +
-                ("0" + a.getMinutes()).slice(-2) + ":" +
-                ("0" + a.getSeconds()).slice(-2) +
-                "Z"
-            finalValue = dateAsString;
+            finalValue = new Date().toISOString();;
         } else if (fieldValue == '[GEN]') {
             var randomString = "";
             for (let step = 0; step < 5; step++) {
