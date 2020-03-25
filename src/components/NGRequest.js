@@ -47,8 +47,7 @@ class NGRequest extends React.Component {
             json: {
                 "v": 2
             },
-            isOpenPopup: false,
-            versionValue: ""
+            isOpenPopup: false
         }
 
         this.entityMap = {
