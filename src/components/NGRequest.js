@@ -107,7 +107,7 @@ class NGRequest extends React.Component {
         };
 
         const toastProperties = {
-            autoClose:2000,
+            autoClose: 2000,
             position: toast.POSITION.BOTTOM_RIGHT,
             pauseOnFocusLoss: false
         };
@@ -209,6 +209,8 @@ class NGRequest extends React.Component {
                                 </Col>
                             </Row>
 
+                            <hr style={{ width: '80%' }} />
+                            
                             <Row className='field'>
                                 <Col lg='1' >
                                     <Form.Label >ישות</Form.Label>
