@@ -167,7 +167,7 @@ class NGRequest extends React.Component {
                                             שמור תרחיש
                                         </center>
                                     </Popup>
-                                    
+
                                     {/* creating the button '</>', which shows the json */}
                                     <Popup
 
@@ -273,7 +273,7 @@ class NGRequest extends React.Component {
                             <Col className='entity-editor-window' lg='10'>
                                 <EntityEditor ref={this.child}
                                     level='0'
-                                    jsondata='{"Ids": {"name|string": "a", "code|number": "123"}, "Planing":[{"Goal|string":"learn piano","Way|string":"play piano","Time|time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
+                                    jsondata='{"Ids": {"name|string": "a", "code|number": "123"}, "Data": {"Location": {"street|string": "", "number|number": ""}, "info|string": ""},"Planing":[{"Goal|string":"learn piano","Way|string":"play piano","Time|time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
                             </Col>
                         </Row>
 

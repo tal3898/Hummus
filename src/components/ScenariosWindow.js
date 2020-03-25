@@ -35,21 +35,36 @@ const Styles = styled.div`
 `;
 export const ScenariosWindow = () => (
   <Styles>
-    <div dir='rtl' className='main-comp'>
-        <div className='headline'>
-            <p>תרחישים</p>
+
+    <div  className="w3-container">
+
+      <div className="w3-card-4" style={{ width: 400 }}>
+        <header dir="rtl" class="w3-container w3-blue">
+          <h1>תרחישים</h1>
+        </header>
+
+
+        <div className="w3-container">
+
+          <div dir="rtl" className='scenarios-list'>
+            <div className='item'>
+            <i class="far fa-folder-open"></i>
+            
+              a
+            </div>
+            <div className='item'>
+            <i class="far fa-folder-open"></i>
+              a
+            </div>
+            <div className='item'>
+            <i class="fas fa-file-invoice"></i>
+              a
+            </div>
+          </div>
+
         </div>
-        <div className='scenarios-list'>
-            <div className='item'>
-                a
-            </div>
-            <div className='item'>
-                a
-            </div>
-            <div className='item'>
-                a
-            </div>
-        </div>
+
+      </div>
     </div>
   </Styles>
 )

@@ -31,7 +31,7 @@ export const NavigationBar = () => (
         <img className="logo" src={Logo} />
       </Col>
       <Col >
-        <span className="headline">Hummus</span>
+        <span className="headline">HummusNG</span>
       </Col>
 
     </Row>
