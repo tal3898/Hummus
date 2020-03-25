@@ -89,7 +89,7 @@ class JsonPopup extends React.Component {
                                 src={this.state.json}
                                 theme="monokai"
                                 enableClipboard={false}
-                                collapseStringsAfterLength={10}
+                                collapseStringsAfterLength={50}
                                 displayDataTypes={false} />
                         </div>
 

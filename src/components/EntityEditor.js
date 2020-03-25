@@ -128,11 +128,24 @@ class EntityEditor extends React.Component {
         // loop on regular fields
         for (var key in this.fieldsInput) {
             var fieldName = key.split('|')[0];
-            var fieldValue = this.fieldsInput[key].value;
+            var fieldValue = this.getFieldFinalValue(key);
             resultJson[fieldName] = fieldValue;
         }
 
         return resultJson;
+    }
+
+    getFieldFinalValue(key) {
+        var fieldValue = this.fieldsInput[key].value;
+        var finalValue = fieldValue;
+        
+        if (fieldValue == '[NOW]') {
+            var a = new Date()
+            var dateAsString = a.getFullYear() + "-" + ("0" + (a.getMonth() + 1 ) ).slice(-2) + "-" + ("0" + (a.getDate() + 1 ) ).slice(-2) + "T" + ("0" + a.getHours() ).slice(-2) + ":" + ("0" + a.getMinutes() ).slice(-2) + ":" + ("0" + a.getSeconds() ).slice(-2) + "Z"
+            finalValue = dateAsString;
+        } 
+
+        return finalValue;
     }
 
     insertTimeNowToField(key) {
