@@ -4,7 +4,7 @@
 		"code|number": "0"
 	},
 	"Duration|number": "60",
-	"LessonTime|time": "[NOW]",
+	"Time|time": "[NOW]",
 	"Teacher": {
 		"name|String": "rochale",
 		"type|enum|[666,555]": ""

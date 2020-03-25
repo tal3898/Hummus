@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import english_2 from '../jsonFormats/english_2.json'
 import math_2 from '../jsonFormats/math_2.json'
+import chemistry_2 from '../jsonFormats/chemistry_2.json'
 
 const Styles = styled.div`
 
@@ -75,9 +76,9 @@ class NGRequest extends React.Component {
         this.jsonMap = {
             "אנגלית": JSON.stringify(english_2),
             "חשבון": JSON.stringify(math_2),
-            "כמיה": JSON.stringify(math_2)
+            "כמיה": JSON.stringify(chemistry_2)
         }
-        this.state.json = JSON.stringify(english_2);
+        this.state.jsonToEdit = JSON.stringify(english_2);
     }
 
     openPopup() {
@@ -136,8 +137,9 @@ class NGRequest extends React.Component {
     }
 
     loadJson(event) {
-        this.state.json = this.jsonMap[event.target.value];
-        this.setState(this.state);
+        console.log("change to " + this.jsonMap[event.target.value]);
+        
+        this.setState({jsonToEdit: this.jsonMap[event.target.value]});
     }
 
     close() {
@@ -233,7 +235,7 @@ class NGRequest extends React.Component {
                                     <Form.Label >ישות</Form.Label>
                                 </Col>
                                 <Col lg='2'>
-                                    <Form.Control onClick={(event) => this.loadJson(event) } ref={(ref) => this.entityNode = ref} as="select">
+                                    <Form.Control onChange={(event) => this.loadJson(event) } ref={(ref) => this.entityNode = ref} as="select">
                                         <option>אנגלית</option>
                                         <option>חשבון</option>
                                         <option>כמיה</option>
@@ -291,7 +293,7 @@ class NGRequest extends React.Component {
                             <Col className='entity-editor-window' lg='10'>
                                 <EntityEditor ref={this.child}
                                     level='0'
-                                    jsondata={this.state.json}></EntityEditor>
+                                    jsondata={this.state.jsonToEdit}></EntityEditor>
 
                             </Col>
                         </Row>
