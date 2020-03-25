@@ -175,22 +175,44 @@ class EntityEditor extends React.Component {
         var keyName = key.split('|')[0];
         var keyType = key.split('|')[1];
 
+        var enumValuesItem = []
+        if (keyType == "enum") {
+            var optionalValues = JSON.parse(key.split('|')[2]);
+            for (var index in optionalValues) {
+                enumValuesItem.push(
+                    <option>{optionalValues[index]}</option>
+                );
+            }
+
+        }
+
         return (
 
             <Row className="field mb-1" style={{ fontSize: 20, marginLeft: this.state.indent }}>
-                    <Col xs lg="1">
-                        <Form.Label >{keyName}</Form.Label>
-                    </Col>
-                    <Col className="mt-1" xs lg="2">
-                        <Form.Control ref={(ref) => this.fieldsInput[key] = ref} name={key} defaultValue={this.inputTypesDefaultValuesMap[keyType]} size="sm" type={this.inputTypesMap[keyType]} width="20px" />
-                    </Col>
-                    {keyType == "time" &&
-                        <i class="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(key)} ></i>
+                <Col xs lg="1">
+                    <Form.Label >{keyName}</Form.Label>
+                </Col>
+                <Col className="mt-1" xs lg="2">
+
+                    {enumValuesItem.length > 0 &&
+                        <Form.Control as="select" ref={(ref) => this.fieldsInput[key] = ref} name={key} defaultValue={this.inputTypesDefaultValuesMap[keyType]} size="sm" type={this.inputTypesMap[keyType]} width="20px">
+                            {enumValuesItem}
+                        </Form.Control>
                     }
 
-                    {keyType == "string" &&
-                        <i class="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
+                    {enumValuesItem.length == 0 &&
+                        <Form.Control ref={(ref) => this.fieldsInput[key] = ref} name={key} defaultValue={this.inputTypesDefaultValuesMap[keyType]} size="sm" type={this.inputTypesMap[keyType]} width="20px"/>
+
                     }
+
+                </Col>
+                {keyType == "time" &&
+                    <i class="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(key)} ></i>
+                }
+
+                {keyType == "string" &&
+                    <i class="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
+                }
             </Row>
 
         );

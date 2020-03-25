@@ -270,12 +270,16 @@ class NGRequest extends React.Component {
                             </Row>
                         </div>
 
-
+                        {/* TODO: 
+                            1) enum value
+                            2) get total json, will return int fields for in fields
+                            3) default value for each field, instead of [GEN] for every field
+                        */}
                         <Row dir='rtl'>
                             <Col className='entity-editor-window' lg='10'>
                                 <EntityEditor ref={this.child}
                                     level='0'
-                                    jsondata='{"Ids": {"name|string": "a", "code|number": "123"}, "Data": {"Location": {"street|string": "", "number|number": ""}, "info|string": ""},"Planing":[{"Goal|string":"learn piano","Way|string":"play piano","Time|time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
+                                    jsondata='{"name|string": "", "age|number":"", "type|enum|[2050,3050,4050]": ""}'></EntityEditor>
                             </Col>
                         </Row>
 
