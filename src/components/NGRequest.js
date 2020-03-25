@@ -153,6 +153,21 @@ class NGRequest extends React.Component {
                                 </Col>
                                 <Col lg='6'>
 
+                                    {/* creating the sending button, which sends the json to NG */}
+                                    <Popup
+                                        className="action-btn"
+                                        position="bottom center"
+                                        on="hover"
+                                        trigger={
+                                            <Button className="action-btn" variant="outline-info" onClick={() => this.sendJsonToNG()}>
+                                                <i class="far fa-save fa-2x fa-flip-horizontal"></i>
+                                            </Button>}
+                                    >
+                                        <center>
+                                            שמור תרחיש
+                                        </center>
+                                    </Popup>
+                                    
                                     {/* creating the button '</>', which shows the json */}
                                     <Popup
 
@@ -164,7 +179,7 @@ class NGRequest extends React.Component {
                                             </Button>}
                                     >
                                         <center>
-                                            display total json
+                                            הצג ג'יסון
                                         </center>
                                     </Popup>
 
@@ -174,15 +189,14 @@ class NGRequest extends React.Component {
                                         position="bottom center"
                                         on="hover"
                                         trigger={
-                                            <Button className="action-btn" variant="outline-info" onClick={() => this.sendJsonToNG()}>
+                                            <Button className="action-btn" variant="info" onClick={() => this.sendJsonToNG()}>
                                                 <i class="far fa-paper-plane fa-2x fa-flip-horizontal"></i>
                                             </Button>}
                                     >
                                         <center>
-                                            send to NG
+                                            שלח בקשת כתיבה
                                         </center>
                                     </Popup>
-
                                 </Col>
                             </Row>
 
