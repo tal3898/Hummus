@@ -38,6 +38,13 @@ class EntityEditor extends React.Component {
             "enum": "text"
         }
 
+        this.inputTypesDefaultValuesMap = {
+            "string": "[GEN]",
+            "number": "0",
+            "time": "[NOW]",
+            "enum": "text"
+        }
+
         this.initCollapsableFields();
 
         this.initChildrenEntityEditors();
@@ -170,7 +177,7 @@ class EntityEditor extends React.Component {
                     <Form.Label >{keyName}</Form.Label>
                 </Col>
                 <Col xs lg="2">
-                    <Form.Control ref={(ref) => this.fieldsInput[key] = ref} name={key} size="sm" type={this.inputTypesMap[keyType]} width="20px" />
+                    <Form.Control ref={(ref) => this.fieldsInput[key] = ref} name={key} defaultValue={this.inputTypesDefaultValuesMap[keyType]} size="sm" type={this.inputTypesMap[keyType]} width="20px" />
                 </Col>
                 {keyType == "time" &&
                     <i class="far fa-clock field-action" onClick={() => this.insertTimeNowToField(key)} ></i>
