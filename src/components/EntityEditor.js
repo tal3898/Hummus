@@ -146,7 +146,7 @@ class EntityEditor extends React.Component {
         } else if (fieldValue == '[GEN]') {
             var randomString = "";
             for (let step = 0; step < 5; step++) {
-                var randomLetter = "abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random()*1000) % 26];
+                var randomLetter = "abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random() * 1000) % 26];
                 randomString += randomLetter
             }
 
@@ -178,15 +178,11 @@ class EntityEditor extends React.Component {
                     <Form.Control ref={(ref) => this.fieldsInput[key] = ref} name={key} size="sm" type={this.inputTypesMap[keyType]} width="20px" />
                 </Col>
                 {keyType == "time" &&
-                    <Button size="sm" variant="outline-info" onClick={() => this.insertTimeNowToField(key)}>
-                        time
-                    </Button>
+                    <i class="far fa-clock" onClick={() => this.insertTimeNowToField(key)} ></i>
                 }
 
                 {keyType == "string" &&
-                    <Button size="sm" variant="outline-info" onClick={() => this.insertGenerateWordToField(key)}>
-                        gen
-                    </Button>
+                    <i class="fas fa-dice" onClick={() => this.insertGenerateWordToField(key)} ></i>
                 }
 
             </Row>
