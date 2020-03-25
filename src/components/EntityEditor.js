@@ -7,7 +7,7 @@ import { Collapse, Button, CardBody, Card } from 'reactstrap';
 const Styles = styled.div`
     .field {
         padding: 5px;
-        height: 40px; 
+        height: 50px; 
         &:hover { background: #bbdefb; }
     }
 
@@ -27,7 +27,7 @@ class EntityEditor extends React.Component {
             json: JSON.parse(this.props.jsondata),
 
             level: parseInt(this.props.level),
-            indent: 50 * parseInt(this.props.level),
+            indent: 30 * parseInt(this.props.level),
             objectFieldsOpen: {} // for each field in the current json scope, set true/false, if the field is collapsed or not.
         }
 
@@ -196,10 +196,14 @@ class EntityEditor extends React.Component {
             <div style={{ fontSize: 20, marginLeft: this.state.indent }} >
                 <div className='field'>
 
-                    <Button size="sm" color="primary" onClick={() => this.collapseEntityEditor(key)} style={{ marginBottom: '1rem' }}>
-                        {this.state.objectFieldsOpen[key] ? '-' : '+'}
-                    </Button>
+                    <div onClick={() => this.collapseEntityEditor(key)} style={{}}>
+                    {this.state.objectFieldsOpen[key] ?
+                        <i class="fas fa-angle-down" style={{ width:15 }}></i> :
+                        <i class="fas fa-angle-right" style={{ width:15 }}></i>
+                    }
                     <Form.Label>{key}</Form.Label>
+                    </div>
+
                 </div>
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
@@ -215,10 +219,13 @@ class EntityEditor extends React.Component {
         // create the array field itself, with collapseEntityEditor button
         items.push(
             <div className='field' style={{ fontSize: 20, marginLeft: this.state.indent }} >
-                <Button size="sm" color="primary" onClick={() => this.collapseEntityEditor(key)} style={{ marginBottom: '1rem' }}>
-                    {this.state.objectFieldsOpen[key] ? '-' : '+'}
-                </Button>
-                <Form.Label>{key}</Form.Label>
+                <div onClick={() => this.collapseEntityEditor(key)} style={{}}>
+                {this.state.objectFieldsOpen[key] ?
+                        <i class="fas fa-angle-down" style={{ width:15 }}></i> :
+                        <i class="fas fa-angle-right" style={{ width:15 }}></i>
+                    }       
+                    <Form.Label>{key}</Form.Label>
+                </div>
             </div>
         )
 
