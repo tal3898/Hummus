@@ -85,7 +85,7 @@ class NGRequest extends React.Component {
         var entityJson = this.child.current.getTotalJson();
         var sendingJson = {
             "Entity": this.entityMap[this.entityNode.value],
-            "SendingTime": "1998-03-08T00:00:00.000Z",
+            "SendingTime": new Date().toISOString(),
             "Reality": this.realityMap[this.realityNode.value],
             "Version": this.versionNode.value,
             "System": this.systemMap[this.systemNode.value],
