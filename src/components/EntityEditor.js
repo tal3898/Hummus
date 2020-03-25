@@ -135,6 +135,7 @@ class EntityEditor extends React.Component {
 
         // loop on regular fields
         for (var key in this.fieldsInput) {
+            console.log("this. key " + key)
             var fieldName = key.split('|')[0];
             var fieldValue = this.getFieldFinalValue(key);
             resultJson[fieldName] = fieldValue;
@@ -146,6 +147,7 @@ class EntityEditor extends React.Component {
     getFieldFinalValue(key) {
         var fieldValue = this.fieldsInput[key].value;
         var finalValue = fieldValue;
+        var fieldType = key.split('|')[1];
 
         if (fieldValue == '[NOW]') {
             finalValue = new Date().toISOString();;
@@ -157,6 +159,8 @@ class EntityEditor extends React.Component {
             }
 
             finalValue = randomString
+        } else if (fieldType == "number" || fieldType == "enum") {
+            finalValue = parseInt(fieldValue);
         }
 
         return finalValue;

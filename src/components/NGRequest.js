@@ -271,7 +271,6 @@ class NGRequest extends React.Component {
                         </div>
 
                         {/* TODO: 
-                            1) enum value
                             2) get total json, will return int fields for in fields
                             3) default value for each field, instead of [GEN] for every field
                         */}
