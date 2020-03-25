@@ -21,7 +21,6 @@ class EntityEditor extends React.Component {
 
         this.state = {
             json: JSON.parse(this.props.jsondata),
-            resultJson: {},
 
             level: parseInt(this.props.level),
             indent: 50 * parseInt(this.props.level),
@@ -36,8 +35,6 @@ class EntityEditor extends React.Component {
         }
 
         this.initCollapsableFields();
-
-        this.initResultJson();
 
         this.initChildrenEntityEditors();
 
@@ -77,12 +74,6 @@ class EntityEditor extends React.Component {
         }
     }
 
-    initResultJson() {
-        for (var key in this.state.json) {
-            this.state.resultJson[key] = '';
-        }
-    }
-
     //#endregion
 
     collapseEntityEditor(key) {
@@ -106,7 +97,7 @@ class EntityEditor extends React.Component {
             recursivly call the get json of this entity, and remove the '1.'/'2.' etc. key
     */
     getTotalJson() {
-        this.state.resultJson = {}
+        var resultJson = {}
 
         // loop on objects or arrays children
         for (var key in this.children) {
@@ -125,12 +116,12 @@ class EntityEditor extends React.Component {
                     jsonItems.push(finalJson);
                 }
 
-                this.state.resultJson[key] = jsonItems;
+                resultJson[key] = jsonItems;
                 
             } else {
                 var child = this.children[key];
                 var fieldValue = child.current.getTotalJson();
-                this.state.resultJson[key] = fieldValue;
+                resultJson[key] = fieldValue;
             }
         }
 
@@ -138,10 +129,10 @@ class EntityEditor extends React.Component {
         for (var key in this.fieldsInput) {
             var fieldName = key.split('|')[0];
             var fieldValue = this.fieldsInput[key].value;
-            this.state.resultJson[fieldName] = fieldValue;
+            resultJson[fieldName] = fieldValue;
         }
 
-        return this.state.resultJson;
+        return resultJson;
     }
 
     insertTimeNowToField(key) {
