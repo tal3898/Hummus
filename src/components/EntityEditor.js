@@ -41,11 +41,11 @@ class EntityEditor extends React.Component {
         this.fieldsInput = {};
     }
 
-    
+
     initChildrenEntityEditors() {
         this.children = {};
-        
-        
+
+
         for (var key in this.state.json) {
             if (typeof this.state.json[key] == 'object') {
 
@@ -54,14 +54,14 @@ class EntityEditor extends React.Component {
 
                     for (var index in this.state.json[key]) {
                         var child = React.createRef();
-                        this.children[key].push(child);           
+                        this.children[key].push(child);
                     }
 
                 } else {
                     var child = React.createRef();
                     this.children[key] = child;
                 }
-                
+
             }
         }
     }
@@ -110,7 +110,7 @@ class EntityEditor extends React.Component {
                 }
 
                 resultJson[key] = jsonItems;
-                
+
             } else {
                 var child = this.children[key];
                 var fieldValue = child.current.getTotalJson();
@@ -131,18 +131,37 @@ class EntityEditor extends React.Component {
     getFieldFinalValue(key) {
         var fieldValue = this.fieldsInput[key].value;
         var finalValue = fieldValue;
-        
+
         if (fieldValue == '[NOW]') {
             var a = new Date()
-            var dateAsString = a.getFullYear() + "-" + ("0" + (a.getMonth() + 1 ) ).slice(-2) + "-" + ("0" + (a.getDate() + 1 ) ).slice(-2) + "T" + ("0" + a.getHours() ).slice(-2) + ":" + ("0" + a.getMinutes() ).slice(-2) + ":" + ("0" + a.getSeconds() ).slice(-2) + "Z"
+            var dateAsString = a.getFullYear() + "-" +
+                ("0" + (a.getMonth() + 1)).slice(-2) + "-" +
+                ("0" + (a.getDate() + 1)).slice(-2) +
+                "T" +
+                ("0" + a.getHours()).slice(-2) + ":" +
+                ("0" + a.getMinutes()).slice(-2) + ":" +
+                ("0" + a.getSeconds()).slice(-2) +
+                "Z"
             finalValue = dateAsString;
-        } 
+        } else if (fieldValue == '[GEN]') {
+            var randomString = "";
+            for (let step = 0; step < 5; step++) {
+                var randomLetter = "abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random()*1000) % 26];
+                randomString += randomLetter
+            }
+
+            finalValue = randomString
+        }
 
         return finalValue;
     }
 
     insertTimeNowToField(key) {
-        this.fieldsInput[key].value = '[NOW]'        
+        this.fieldsInput[key].value = '[NOW]'
+    }
+
+    insertGenerateWordToField(key) {
+        this.fieldsInput[key].value = '[GEN]'
     }
 
     //#region rendering json fields
@@ -156,13 +175,20 @@ class EntityEditor extends React.Component {
                     <Form.Label >{keyName}</Form.Label>
                 </Col>
                 <Col xs lg="2">
-                    <Form.Control ref={(ref)=> this.fieldsInput[key]=ref} name={key} size="sm" type={this.inputTypesMap[keyType]} width="20px" />
+                    <Form.Control ref={(ref) => this.fieldsInput[key] = ref} name={key} size="sm" type={this.inputTypesMap[keyType]} width="20px" />
                 </Col>
-                {keyType=="time" &&
+                {keyType == "time" &&
                     <Button size="sm" variant="outline-info" onClick={() => this.insertTimeNowToField(key)}>
                         time
                     </Button>
                 }
+
+                {keyType == "string" &&
+                    <Button size="sm" variant="outline-info" onClick={() => this.insertGenerateWordToField(key)}>
+                        gen
+                    </Button>
+                }
+
             </Row>
         );
     }
@@ -171,7 +197,7 @@ class EntityEditor extends React.Component {
         return (
             <div style={{ fontSize: 20, marginLeft: this.state.indent }} >
                 <div className='field'>
-                    
+
                     <Button size="sm" color="primary" onClick={() => this.collapseEntityEditor(key)} style={{ marginBottom: '1rem' }}>
                         {this.state.objectFieldsOpen[key] ? '-' : '+'}
                     </Button>
