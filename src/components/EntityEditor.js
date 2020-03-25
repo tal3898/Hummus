@@ -81,13 +81,6 @@ class EntityEditor extends React.Component {
         this.setState(this.state)
     }
 
-    handleInputChange(event) {
-        let fieldName = event.target.name;
-        let fleldVal = event.target.value;
-        
-        this.state.resultJson[fieldName] = fleldVal;
-    }
-
     /*
         The method gets the total json of the entity editor (recursivly).
         It gets the data of the current json fields, 
@@ -163,7 +156,7 @@ class EntityEditor extends React.Component {
                     <Form.Label >{keyName}</Form.Label>
                 </Col>
                 <Col xs lg="2">
-                    <Form.Control ref={(ref)=> this.fieldsInput[key]=ref} onChange={this.handleInputChange.bind(this)} name={key} size="sm" type={this.inputTypesMap[keyType]} width="20px" />
+                    <Form.Control ref={(ref)=> this.fieldsInput[key]=ref} name={key} size="sm" type={this.inputTypesMap[keyType]} width="20px" />
                 </Col>
                 {keyType=="time" &&
                     <Button size="sm" variant="outline-info" onClick={() => this.insertTimeNowToField(key)}>
