@@ -142,6 +142,12 @@ class NGRequest extends React.Component {
                     <ToastContainer />
                     <JsonPopup json={JSON.stringify(this.state.json)} isOpen={this.state.isOpenPopup} />
 
+
+                        {/* TODO: 
+                            1) put out the json of entity to a file
+                            2) changing the entity, will change the json in form, and change the typs of version 
+                            3) changing the version, will change the json
+                        */}
                     <Form>
                         <div dir='rtl' className='metadata'>
                             <Row className='field'>
@@ -270,9 +276,6 @@ class NGRequest extends React.Component {
                             </Row>
                         </div>
 
-                        {/* TODO: 
-                            3) default value for each field, instead of [GEN] for every field
-                        */}
                         <Row dir='rtl'>
                             <Col className='entity-editor-window' lg='10'>
                                 <EntityEditor ref={this.child}
