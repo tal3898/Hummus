@@ -7,7 +7,7 @@ import Logo from './logo.png'
 const Styles = styled.div`
   .navbar { 
     background-color: #1e88e5; 
-    height: 90px;
+    height: 100px;
   }
 
   .headline {
