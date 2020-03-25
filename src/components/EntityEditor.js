@@ -34,16 +34,16 @@ class EntityEditor extends React.Component {
             "enum": "text"
         }
 
-        this.init();
+        this.init(props);
      
     }
     
     init(props) {
         this.state = {
-            json: JSON.parse(this.props.jsondata),
+            json: JSON.parse(props.jsondata),
 
-            level: parseInt(this.props.level),
-            indent: 20 * parseInt(this.props.level),
+            level: parseInt(props.level),
+            indent: 20 * parseInt(props.level),
             objectFieldsOpen: {} // for each field in the current json scope, set true/false, if the field is collapsed or not.
         }
 
