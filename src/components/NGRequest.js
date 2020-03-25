@@ -278,7 +278,7 @@ class NGRequest extends React.Component {
                             <Col className='entity-editor-window' lg='10'>
                                 <EntityEditor ref={this.child}
                                     level='0'
-                                    jsondata='{"name|string": "", "age|number":"", "type|enum|[2050,3050,4050]": ""}'></EntityEditor>
+                                    jsondata='{"Ids": {"name|string": "a", "code|number": "123"}, "Data": {"Location": {"Street|string": "", "number|number": ""}, "Info|string": "" }, "Planing":[{"Goal|string1":"learn piano","Way|string":"play piano","Time|time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
                             </Col>
                         </Row>
 
