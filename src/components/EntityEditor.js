@@ -10,6 +10,10 @@ const Styles = styled.div`
         height: 40px; 
         &:hover { background: #bbdefb; }
     }
+
+    .field-action {
+        padding: 5px;
+    }
 `;
 
 class EntityEditor extends React.Component {
@@ -169,11 +173,11 @@ class EntityEditor extends React.Component {
                     <Form.Control ref={(ref) => this.fieldsInput[key] = ref} name={key} size="sm" type={this.inputTypesMap[keyType]} width="20px" />
                 </Col>
                 {keyType == "time" &&
-                    <i class="far fa-clock" onClick={() => this.insertTimeNowToField(key)} ></i>
+                    <i class="far fa-clock field-action" onClick={() => this.insertTimeNowToField(key)} ></i>
                 }
 
                 {keyType == "string" &&
-                    <i class="fas fa-dice" onClick={() => this.insertGenerateWordToField(key)} ></i>
+                    <i class="fas fa-dice field-action" onClick={() => this.insertGenerateWordToField(key)} ></i>
                 }
 
             </Row>
