@@ -135,7 +135,6 @@ class EntityEditor extends React.Component {
 
         // loop on regular fields
         for (var key in this.fieldsInput) {
-            console.log("this. key " + key)
             var fieldName = key.split('|')[0];
             var fieldValue = this.getFieldFinalValue(key);
             resultJson[fieldName] = fieldValue;
