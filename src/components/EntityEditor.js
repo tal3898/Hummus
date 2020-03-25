@@ -6,8 +6,12 @@ import { Collapse, Button, CardBody, Card } from 'reactstrap';
 
 const Styles = styled.div`
     .field {
-        padding: 5px;
-        height: 50px; 
+        height: 40px; 
+        margin-top : 5px;
+        &:hover { background: #bbdefb; }
+    }
+
+    .color-hover {
         &:hover { background: #bbdefb; }
     }
 
@@ -172,36 +176,37 @@ class EntityEditor extends React.Component {
         var keyType = key.split('|')[1];
 
         return (
-            <Row className="field" style={{ fontSize: 20, marginLeft: this.state.indent }}>
-                <Col xs lg="1">
-                    <Form.Label >{keyName}</Form.Label>
-                </Col>
-                <Col xs lg="2">
-                    <Form.Control ref={(ref) => this.fieldsInput[key] = ref} name={key} defaultValue={this.inputTypesDefaultValuesMap[keyType]} size="sm" type={this.inputTypesMap[keyType]} width="20px" />
-                </Col>
-                {keyType == "time" &&
-                    <i class="far fa-clock field-action" onClick={() => this.insertTimeNowToField(key)} ></i>
-                }
 
-                {keyType == "string" &&
-                    <i class="fas fa-dice field-action" onClick={() => this.insertGenerateWordToField(key)} ></i>
-                }
+            <Row className="field mb-1" style={{ fontSize: 20, marginLeft: this.state.indent }}>
+                    <Col xs lg="1">
+                        <Form.Label >{keyName}</Form.Label>
+                    </Col>
+                    <Col className="mt-1" xs lg="2">
+                        <Form.Control ref={(ref) => this.fieldsInput[key] = ref} name={key} defaultValue={this.inputTypesDefaultValuesMap[keyType]} size="sm" type={this.inputTypesMap[keyType]} width="20px" />
+                    </Col>
+                    {keyType == "time" &&
+                        <i class="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(key)} ></i>
+                    }
 
+                    {keyType == "string" &&
+                        <i class="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
+                    }
             </Row>
+
         );
     }
 
     getObjectFieldJSX(key) {
         return (
             <div style={{ fontSize: 20, marginLeft: this.state.indent }} >
-                <div className='field'>
+                <div className='field mb-1'>
 
                     <div onClick={() => this.collapseEntityEditor(key)} style={{}}>
-                    {this.state.objectFieldsOpen[key] ?
-                        <i class="fas fa-angle-down" style={{ width:15 }}></i> :
-                        <i class="fas fa-angle-right" style={{ width:15 }}></i>
-                    }
-                    <Form.Label>{key}</Form.Label>
+                        {this.state.objectFieldsOpen[key] ?
+                            <i class="fas fa-angle-down" style={{ width: 18 }}></i> :
+                            <i class="fas fa-angle-right" style={{ width: 18 }}></i>
+                        }
+                        <Form.Label>{key}</Form.Label>
                     </div>
 
                 </div>
@@ -218,12 +223,12 @@ class EntityEditor extends React.Component {
 
         // create the array field itself, with collapseEntityEditor button
         items.push(
-            <div className='field' style={{ fontSize: 20, marginLeft: this.state.indent }} >
+            <div className='field mb-1' style={{ fontSize: 20, marginLeft: this.state.indent }} >
                 <div onClick={() => this.collapseEntityEditor(key)} style={{}}>
-                {this.state.objectFieldsOpen[key] ?
-                        <i class="fas fa-angle-down" style={{ width:15 }}></i> :
-                        <i class="fas fa-angle-right" style={{ width:15 }}></i>
-                    }       
+                    {this.state.objectFieldsOpen[key] ?
+                        <i class="fas fa-angle-down" style={{ width: 18 }}></i> :
+                        <i class="fas fa-angle-right" style={{ width: 18 }}></i>
+                    }
                     <Form.Label>{key}</Form.Label>
                 </div>
             </div>
