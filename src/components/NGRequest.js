@@ -6,9 +6,10 @@ import EntityEditor from './EntityEditor';
 import Popup from "reactjs-popup";
 import ReactJson from 'react-json-view'
 import JsonPopup from './JsonPopup'
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import english_2 from '../jsonFormats/english_2.json'
 
 const Styles = styled.div`
 
@@ -69,8 +70,6 @@ class NGRequest extends React.Component {
             "עדכון": "PUT",
             "מחיקה": "DELETE"
         }
-
-
     }
 
     openPopup() {
@@ -280,7 +279,7 @@ class NGRequest extends React.Component {
                             <Col className='entity-editor-window' lg='10'>
                                 <EntityEditor ref={this.child}
                                     level='0'
-                                    jsondata='{"Ids": {"name|string": "[GEN]", "code|number": "0"}, "Data": {"Location": {"Street|string": "Agadati", "number|number": "30"}, "Info|string": "[GEN]" }, "Planing":[{"Goal|string":"learn piano","Way|string":"play piano","Time|time":"[NOW]"}] }'></EntityEditor>
+                                    jsondata={JSON.stringify(english_2)}></EntityEditor>
 
                             </Col>
                         </Row>

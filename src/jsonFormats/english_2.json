@@ -1,0 +1,18 @@
+{
+	"Ids": {
+		"name|string": "[GEN]",
+		"code|number": "0"
+	},
+	"Data": {
+		"Location": {
+			"Street|string": "Agadati",
+			"number|number": "30"
+		},
+		"Info|string": "[GEN]"
+	},
+	"Planing": [{
+		"Goal|string": "learn piano",
+		"Way|string": "play piano",
+		"Time|time": "[NOW]"
+	}]
+}
