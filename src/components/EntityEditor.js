@@ -42,13 +42,6 @@ class EntityEditor extends React.Component {
             "enum": "text"
         }
 
-        this.inputTypesDefaultValuesMap = {
-            "string": "[GEN]",
-            "number": "0",
-            "time": "[NOW]",
-            "enum": "text"
-        }
-
         this.initCollapsableFields();
 
         this.initChildrenEntityEditors();
@@ -177,6 +170,8 @@ class EntityEditor extends React.Component {
     getSingleFieldJSX(key) {
         var keyName = key.split('|')[0];
         var keyType = key.split('|')[1];
+        var defaultValue = this.state.json[key]
+        
 
         var enumValuesItem = []
         if (keyType == "enum") {
@@ -196,15 +191,29 @@ class EntityEditor extends React.Component {
                     <Form.Label >{keyName}</Form.Label>
                 </Col>
                 <Col className="mt-1" xs lg="2">
-
+                   
+                    {/* If current field is enum, create select input */}
                     {enumValuesItem.length > 0 &&
-                        <Form.Control as="select" ref={(ref) => this.fieldsInput[key] = ref} name={key} defaultValue={this.inputTypesDefaultValuesMap[keyType]} size="sm" type={this.inputTypesMap[keyType]} width="20px">
+                        <Form.Control 
+                            as="select" 
+                            ref={(ref) => this.fieldsInput[key] = ref} name={key} 
+                            size="sm" 
+                            type={this.inputTypesMap[keyType]} 
+                            width="20px">
+
                             {enumValuesItem}
                         </Form.Control>
                     }
 
+                    {/* Else, If current field is int/string, create regular input */}
                     {enumValuesItem.length == 0 &&
-                        <Form.Control ref={(ref) => this.fieldsInput[key] = ref} name={key} defaultValue={this.inputTypesDefaultValuesMap[keyType]} size="sm" type={this.inputTypesMap[keyType]} width="20px"/>
+                        <Form.Control 
+                            ref={(ref) => this.fieldsInput[key] = ref} 
+                            name={key} 
+                            defaultValue={defaultValue} 
+                            size="sm" 
+                            type={this.inputTypesMap[keyType]} 
+                            width="20px"/>
 
                     }
 

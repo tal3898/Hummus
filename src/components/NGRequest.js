@@ -271,14 +271,14 @@ class NGRequest extends React.Component {
                         </div>
 
                         {/* TODO: 
-                            2) get total json, will return int fields for in fields
                             3) default value for each field, instead of [GEN] for every field
                         */}
                         <Row dir='rtl'>
                             <Col className='entity-editor-window' lg='10'>
                                 <EntityEditor ref={this.child}
                                     level='0'
-                                    jsondata='{"Ids": {"name|string": "a", "code|number": "123"}, "Data": {"Location": {"Street|string": "", "number|number": ""}, "Info|string": "" }, "Planing":[{"Goal|string1":"learn piano","Way|string":"play piano","Time|time":"2020-07-13T00:00:00Z"}]}'></EntityEditor>
+                                    jsondata='{"Ids": {"name|string": "[GEN]", "code|number": "0"}, "Data": {"Location": {"Street|string": "Agadati", "number|number": "30"}, "Info|string": "[GEN]" }, "Planing":[{"Goal|string":"learn piano","Way|string":"play piano","Time|time":"[NOW]"}] }'></EntityEditor>
+
                             </Col>
                         </Row>
 
