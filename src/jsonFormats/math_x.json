@@ -1,0 +1,12 @@
+{
+	"X_Ids": {
+		"X_name|string": "[GEN]",
+		"X_code|number": "0"
+	},
+	"X_Duration|number": "60",
+	"X_Time|time": "[NOW]",
+	"X_Teacher": {
+		"X_name|String": "rochale",
+		"X_type|enum|[666,555]": ""
+	} 	
+}

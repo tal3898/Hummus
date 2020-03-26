@@ -1,0 +1,18 @@
+{
+	"X_Ids": {
+		"X_name|string": "[GEN]",
+		"X_code|number": "0"
+	},
+	"X_Data": {
+		"X_Location": {
+			"X_Street|string": "Agadati",
+			"X_number|number": "30"
+		},
+		"X_Info|string": "[GEN]"
+	},
+	"X_Planing": [{
+		"X_Goal|string": "learn piano",
+		"X_Way|string": "play piano",
+		"X_Time|time": "[NOW]"
+	}]
+}

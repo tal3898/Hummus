@@ -13,6 +13,10 @@ import english_2 from '../jsonFormats/english_2.json'
 import math_2 from '../jsonFormats/math_2.json'
 import chemistry_2 from '../jsonFormats/chemistry_2.json'
 
+import english_x from '../jsonFormats/english_x.json'
+import math_x from '../jsonFormats/math_x.json'
+import chemistry_x from '../jsonFormats/chemistry_x.json'
+
 const Styles = styled.div`
 
 .main-comp {
@@ -73,11 +77,22 @@ class NGRequest extends React.Component {
             "מחיקה": "DELETE"
         }
 
+
         this.jsonMap = {
-            "אנגלית": JSON.stringify(english_2),
-            "חשבון": JSON.stringify(math_2),
-            "כמיה": JSON.stringify(chemistry_2)
+            "אנגלית": {
+                "2": JSON.stringify(english_2),
+                "X" : JSON.stringify(english_x)
+            },
+            "חשבון": {
+                "2": JSON.stringify(math_2),
+                "X": JSON.stringify(math_x)
+            }, 
+            "כמיה": {
+                "2": JSON.stringify(chemistry_2),
+                "X": JSON.stringify(chemistry_x),
+            }
         }
+
         this.state.jsonToEdit = JSON.stringify(english_2);
     }
 
@@ -134,8 +149,10 @@ class NGRequest extends React.Component {
         console.log(JSON.stringify(sendingJson));
     }
 
-    loadJson(event) {        
-        this.setState({jsonToEdit: this.jsonMap[event.target.value]});
+    loadJson() {        
+        var chosenEntity = this.entityNode.value;
+        var chosenVersion = this.versionNode.value;
+        this.setState({jsonToEdit: this.jsonMap[chosenEntity][chosenVersion]});
     }
 
     close() {
@@ -235,7 +252,7 @@ class NGRequest extends React.Component {
                                     <Form.Label >ישות</Form.Label>
                                 </Col>
                                 <Col lg='2'>
-                                    <Form.Control onChange={(event) => this.loadJson(event) } ref={(ref) => this.entityNode = ref} as="select">
+                                    <Form.Control onChange={(event) => this.loadJson() } ref={(ref) => this.entityNode = ref} as="select">
                                         <option>אנגלית</option>
                                         <option>חשבון</option>
                                         <option>כמיה</option>
@@ -270,9 +287,8 @@ class NGRequest extends React.Component {
                                     <Form.Label >תקן</Form.Label>
                                 </Col>
                                 <Col lg='2'>
-                                    <Form.Control ref={(ref) => this.versionNode = ref} as="select">
+                                    <Form.Control onChange={(event) => this.loadJson() } ref={(ref) => this.versionNode = ref} as="select">
                                         <option>2</option>
-                                        <option>2.1</option>
                                         <option>X</option>
                                     </Form.Control>
                                 </Col>
