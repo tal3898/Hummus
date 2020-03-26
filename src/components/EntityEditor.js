@@ -52,9 +52,9 @@ class EntityEditor extends React.Component {
         }
 
         this.init(props);
-     
+
     }
-    
+
     init(props) {
         this.state = {
             json: JSON.parse(props.jsondata),
@@ -72,7 +72,7 @@ class EntityEditor extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
-        this.init(newProps)        
+        this.init(newProps)
         this.setState(this.state);
     }
 
@@ -154,11 +154,11 @@ class EntityEditor extends React.Component {
 
         // loop on regular fields
         for (var key in this.fieldsInput) {
-            if (this.fieldsInput[key] != null){ // This is a PLASTER
+            if (this.fieldsInput[key] != null) { // This is a PLASTER
                 var fieldName = key.split('|')[0];
                 var fieldValue = this.getFieldFinalValue(key);
                 resultJson[fieldName] = fieldValue;
-            }            
+            }
         }
 
         return resultJson;
@@ -208,7 +208,7 @@ class EntityEditor extends React.Component {
         var keyName = key.split('|')[0];
         var keyType = key.split('|')[1];
         var defaultValue = this.state.json[key]
-        
+
 
         var enumValuesItem = []
         if (keyType == "enum") {
@@ -221,7 +221,7 @@ class EntityEditor extends React.Component {
 
         }
 
-        console.log("adding to this.fieldsInput the key " + key );
+        console.log("adding to this.fieldsInput the key " + key);
 
         return (
 
@@ -230,14 +230,14 @@ class EntityEditor extends React.Component {
                     <Form.Label >{keyName}</Form.Label>
                 </Col>
                 <Col className="mt-1" xs lg="2">
-                   
+
                     {/* If current field is enum, create select input */}
                     {enumValuesItem.length > 0 &&
-                        <Form.Control 
-                            as="select" 
-                            ref={(ref) => this.fieldsInput[key] = ref} name={key} 
-                            size="sm" 
-                            type={this.inputTypesMap[keyType]} 
+                        <Form.Control
+                            as="select"
+                            ref={(ref) => this.fieldsInput[key] = ref} name={key}
+                            size="sm"
+                            type={this.inputTypesMap[keyType]}
                             width="20px">
 
                             {enumValuesItem}
@@ -246,13 +246,13 @@ class EntityEditor extends React.Component {
 
                     {/* Else, If current field is int/string, create regular input */}
                     {enumValuesItem.length == 0 &&
-                        <Form.Control 
-                            ref={(ref) => this.fieldsInput[key] = ref} 
-                            name={key} 
-                            defaultValue={defaultValue} 
-                            size="sm" 
-                            type={this.inputTypesMap[keyType]} 
-                            width="20px"/>
+                        <Form.Control
+                            ref={(ref) => this.fieldsInput[key] = ref}
+                            name={key}
+                            defaultValue={defaultValue}
+                            size="sm"
+                            type={this.inputTypesMap[keyType]}
+                            width="20px" />
 
                     }
 
@@ -266,7 +266,7 @@ class EntityEditor extends React.Component {
                 }
 
                 <i class=" far fa-trash-alt field-action mt-1" onDoubleClick={() => this.removeField(key)}></i>
-                
+
             </Row>
 
         );
@@ -275,17 +275,26 @@ class EntityEditor extends React.Component {
     getObjectFieldJSX(key) {
         return (
             <div style={{ fontSize: 20, marginLeft: this.state.indent }} >
-                <div className='field mb-1'>
+                <Row className="field" onClick={() => this.collapseEntityEditor(key)} >
 
-                    <div onClick={() => this.collapseEntityEditor(key)} style={{}}>
+
+                    <div style={{marginLeft: 10}}>
                         {this.state.objectFieldsOpen[key] ?
                             <i class="fas fa-angle-down" style={{ width: 18 }}></i> :
                             <i class="fas fa-angle-right" style={{ width: 18 }}></i>
                         }
+                    </div>
+                    
+                    <div style={{marginLeft: 10}}>
                         <Form.Label>{key}</Form.Label>
                     </div>
 
-                </div>
+                    <div style={{marginLeft: 10}} >
+                        <i class=" far fa-trash-alt field-action mt-1" onDoubleClick={() => this.removeField(key)}></i>
+                    </div>
+
+
+                </Row>
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor ref={this.children[key]} level={this.state.level + 1} jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>

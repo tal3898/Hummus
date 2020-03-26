@@ -31,7 +31,7 @@ export const NavigationBar = () => (
         <img className="logo" src={Logo} />
       </Col>
       <Col >
-        <span className="headline">HummusNG</span>
+        <a href="/" style={{textDecoration:'none'}}><span className="headline">HummusNG</span></a>
       </Col>
 
     </Row>
