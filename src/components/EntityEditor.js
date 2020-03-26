@@ -243,6 +243,8 @@ class EntityEditor extends React.Component {
                 {keyType == "string" &&
                     <i class="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
                 }
+
+                <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
             </Row>
 
         );
