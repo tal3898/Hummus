@@ -23,6 +23,18 @@ const Styles = styled.div`
     .field:hover .field-action {
         display: block;
     }
+
+    .fa-trash-alt:hover {
+        color: #d32f2f;
+    }
+    
+    .fa-dice:hover {
+        color: #388e3c;
+    }
+
+    .fa-clock:hover {
+        color: #2196f3;
+    }
 `;
 
 class EntityEditor extends React.Component {
@@ -245,6 +257,7 @@ class EntityEditor extends React.Component {
                 }
 
                 <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
+                
             </Row>
 
         );
