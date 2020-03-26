@@ -194,6 +194,15 @@ class EntityEditor extends React.Component {
         this.fieldsInput[key].value = '[GEN]'
     }
 
+    removeField(key) {
+        if (this.state.json.hasOwnProperty(key)) {
+            delete this.state.json[key];
+            this.setState(this.state);
+        } else {
+            console.log("does not have")
+        }
+    }
+
     //#region rendering json fields
     getSingleFieldJSX(key) {
         var keyName = key.split('|')[0];
@@ -256,7 +265,7 @@ class EntityEditor extends React.Component {
                     <i class="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
                 }
 
-                <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
+                <i class=" far fa-trash-alt field-action mt-1" onDoubleClick={() => this.removeField(key)}></i>
                 
             </Row>
 
