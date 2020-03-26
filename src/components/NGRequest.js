@@ -85,8 +85,6 @@ class NGRequest extends React.Component {
         this.state.json = this.child.current.getTotalJson();
         this.state.isOpenPopup = true;
         this.setState(this.state);
-        console.log(this.child.current.getTotalJson());
-        console.log(JSON.stringify(this.child.current.getTotalJson()));
     }
 
     sendJsonToNG() {
@@ -136,9 +134,7 @@ class NGRequest extends React.Component {
         console.log(JSON.stringify(sendingJson));
     }
 
-    loadJson(event) {
-        console.log("change to " + this.jsonMap[event.target.value]);
-        
+    loadJson(event) {        
         this.setState({jsonToEdit: this.jsonMap[event.target.value]});
     }
 

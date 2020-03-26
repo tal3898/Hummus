@@ -137,9 +137,11 @@ class EntityEditor extends React.Component {
 
         // loop on regular fields
         for (var key in this.fieldsInput) {
-            var fieldName = key.split('|')[0];
-            var fieldValue = this.getFieldFinalValue(key);
-            resultJson[fieldName] = fieldValue;
+            if (this.fieldsInput[key] != null){ // This is a PLASTER
+                var fieldName = key.split('|')[0];
+                var fieldValue = this.getFieldFinalValue(key);
+                resultJson[fieldName] = fieldValue;
+            }            
         }
 
         return resultJson;
@@ -192,6 +194,8 @@ class EntityEditor extends React.Component {
             }
 
         }
+
+        console.log("adding to this.fieldsInput the key " + key );
 
         return (
 
