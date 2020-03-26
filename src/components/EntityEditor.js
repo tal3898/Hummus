@@ -266,7 +266,7 @@ class EntityEditor extends React.Component {
                     <i class="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
                 }
 
-                <i class=" far fa-trash-alt field-action mt-1" onDoubleClick={() => this.removeField(key)}></i>
+                <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
 
             </Row>
 
@@ -291,7 +291,7 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div style={{ marginLeft: 10 }} >
-                        <i class=" far fa-trash-alt field-action mt-1" onDoubleClick={() => this.removeField(key)}></i>
+                        <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
                     </div>
 
 
@@ -322,7 +322,7 @@ class EntityEditor extends React.Component {
                         <Form.Label>{key}</Form.Label>
                     </div>
                     <div style={{ marginLeft: 10 }}>
-                        <i class=" far fa-trash-alt field-action mt-1" onDoubleClick={() => this.removeField(key)}></i>
+                        <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
                     </div>
                 </Row>
             </div>
