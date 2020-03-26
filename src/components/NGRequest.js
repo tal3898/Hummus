@@ -153,13 +153,17 @@ class NGRequest extends React.Component {
                 <div className='main-comp'>
 
                     <ToastContainer />
-                    <JsonPopup json={JSON.stringify(this.state.json)} isOpen={this.state.isOpenPopup} />
+                    <JsonPopup json={JSON.stringify(this.state.json)} onClose={() => this.close()} isOpen={this.state.isOpenPopup} />
 
 
                         {/* TODO: 
                             1) put out the json of entity to a file
                             2) changing the entity, will change the json in form, and change the typs of version 
                             3) changing the version, will change the json
+
+                            4) remove fields
+                            5) add to json array, another object
+                            6) handle field which is array of int
                         */}
                     <Form>
                         <div dir='rtl' className='metadata'>

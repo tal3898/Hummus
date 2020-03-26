@@ -38,6 +38,8 @@ class JsonPopup extends React.Component {
             isOpen: false,
             json: JSON.parse(props.json)
         }
+
+        this.onCloseCallback = props.onClose;
     }
 
     copyToClipboard() {
@@ -66,6 +68,7 @@ class JsonPopup extends React.Component {
     }
 
     close() {
+        this.onCloseCallback();
         this.state.isOpen = false;
         this.setState(this.state);
     }
