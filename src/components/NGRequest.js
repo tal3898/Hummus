@@ -170,13 +170,12 @@ class NGRequest extends React.Component {
 
 
                         {/* TODO: 
-                            1) put out the json of entity to a file
-                            2) changing the entity, will change the json in form, and change the typs of version 
-                            3) changing the version, will change the json
 
                             4) remove fields
                             5) add to json array, another object
                             6) handle field which is array of int
+                            7) if name of field is too long, the input is over it, fix it
+                            8) for each field, show if it required, or not, and if array ( 1, 0, 0.., 1.. )
                         */}
                     <Form>
                         <div dir='rtl' className='metadata'>

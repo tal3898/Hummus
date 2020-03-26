@@ -17,6 +17,11 @@ const Styles = styled.div`
 
     .field-action {
         padding: 5px;
+        display: none;
+    }
+
+    .field:hover .field-action {
+        display: block;
     }
 `;
 
