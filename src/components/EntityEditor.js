@@ -278,18 +278,18 @@ class EntityEditor extends React.Component {
                 <Row className="field" onClick={() => this.collapseEntityEditor(key)} >
 
 
-                    <div style={{marginLeft: 10}}>
+                    <div style={{ marginLeft: 10 }}>
                         {this.state.objectFieldsOpen[key] ?
                             <i class="fas fa-angle-down" style={{ width: 18 }}></i> :
                             <i class="fas fa-angle-right" style={{ width: 18 }}></i>
                         }
                     </div>
-                    
-                    <div style={{marginLeft: 10}}>
+
+                    <div style={{ marginLeft: 10 }}>
                         <Form.Label>{key}</Form.Label>
                     </div>
 
-                    <div style={{marginLeft: 10}} >
+                    <div style={{ marginLeft: 10 }} >
                         <i class=" far fa-trash-alt field-action mt-1" onDoubleClick={() => this.removeField(key)}></i>
                     </div>
 
@@ -308,14 +308,22 @@ class EntityEditor extends React.Component {
 
         // create the array field itself, with collapseEntityEditor button
         items.push(
-            <div className='field mb-1' style={{ fontSize: 20, marginLeft: this.state.indent }} >
-                <div onClick={() => this.collapseEntityEditor(key)} style={{}}>
-                    {this.state.objectFieldsOpen[key] ?
-                        <i class="fas fa-angle-down" style={{ width: 18 }}></i> :
-                        <i class="fas fa-angle-right" style={{ width: 18 }}></i>
-                    }
-                    <Form.Label>{key}</Form.Label>
-                </div>
+
+            <div style={{ fontSize: 20, marginLeft: this.state.indent }} >
+                <Row className='field mb-1' onClick={() => this.collapseEntityEditor(key)} >
+                    <div style={{ marginLeft: 10 }}>
+                        {this.state.objectFieldsOpen[key] ?
+                            <i class="fas fa-angle-down" style={{ width: 18 }}></i> :
+                            <i class="fas fa-angle-right" style={{ width: 18 }}></i>
+                        }
+                    </div>
+                    <div style={{ marginLeft: 10 }}>
+                        <Form.Label>{key}</Form.Label>
+                    </div>
+                    <div style={{ marginLeft: 10 }}>
+                        <i class=" far fa-trash-alt field-action mt-1" onDoubleClick={() => this.removeField(key)}></i>
+                    </div>
+                </Row>
             </div>
         )
 
