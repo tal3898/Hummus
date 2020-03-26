@@ -197,6 +197,7 @@ class EntityEditor extends React.Component {
     removeField(key) {
         if (this.state.json.hasOwnProperty(key)) {
             delete this.state.json[key];
+            delete this.children[key];
             this.setState(this.state);
         } else {
             console.log("does not have")
