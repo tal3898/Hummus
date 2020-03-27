@@ -209,8 +209,10 @@ class EntityEditor extends React.Component {
             };
 
             console.log(typeof this.onInnerFieldChangedCallback)
-            this.onInnerFieldChangedCallback(event);
-
+            if (this.onInnerFieldChangedCallback) {
+                this.onInnerFieldChangedCallback(event);
+            }
+            
         } else {
             console.log("does not have")
         }
