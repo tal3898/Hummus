@@ -77,6 +77,10 @@ class EntityEditor extends React.Component {
 
         this.initChildrenEntityEditors();
 
+
+        // This json contains json templates for each array field in 
+        // the current json, so when adding another json to the array, it will
+        // take from the tamplate
         this.arrayFieldsObjectTemplate = {};
 
         for (var key in this.state.json) {
@@ -84,7 +88,7 @@ class EntityEditor extends React.Component {
 
                 if (Array.isArray(this.state.json[key])) {
                     this.arrayFieldsObjectTemplate[key] = this.state.json[key][0];
-                } 
+                }
 
             }
         }
@@ -232,7 +236,7 @@ class EntityEditor extends React.Component {
 
     addField(key) {
         this.state.json[key].push(this.arrayFieldsObjectTemplate[key]);
-        this.children[key].push( React.createRef() );
+        this.children[key].push(React.createRef());
         this.setState(this.state);
 
         var event = {
@@ -246,39 +250,47 @@ class EntityEditor extends React.Component {
         }
     }
 
+    /**
+     * The method handle a change in inner json.
+     * 
+     * The EntityEditor has parameter this.state.json . This parameter is passed as string, and converted to json.
+     * so if a child of the child of my json, is changed, it saved only in the original changed json. the father father 
+     * json, etc, this json, will not have this change. so we need to update the change in the current json and all fathers
+     * json.
+     * @param {*} event 
+     */
     innerFieldChanged(event) {
-        // if the father is array field
-        
+
         var newEventType = 'change';
         var newEventNewJson = this.state.json;
 
+        // If the father is array  (meaning the current json is an element in the array)
         if (event.father.includes('/')) {
             var fieldName = event.father.split('/')[0];
             var elementIndex = event.father.split('/')[1];
             if (event.type == 'delete') {
                 this.state.json[fieldName].splice(elementIndex, 1);
                 this.children[fieldName].splice(elementIndex, 1);
+
+                // After deleting the field from the current json, the state for the upper
+                // json, is change, because the *current* json is changed, and not deleted.
                 newEventType = 'change';
             } else if (event.type == 'add' || event.type == 'change') {
+
+                // If the json changed, we need to remove the old element, and add the new element, in the same index
                 this.state.json[fieldName].splice(elementIndex, 1);
                 this.state.json[fieldName].splice(elementIndex, 0, event.newJson);
-                
             }
-            
-        } else {
-            
-            if (Object.keys(this.state.json).length == 1 ) {
 
-                var str = Object.keys(this.state.json)[0]; 
-                var patt1 = /[\d]*[.]/g;
-                var result = str.match(patt1);
-            
-                if (str == result) {
-                    newEventNewJson =  event.newJson;
-                }
-                
+        } else {
+
+            // If the current json is an element is array, we need to remove the key "1.", and add to the
+            // father array, the actual json, without my addition key. 
+            // so the actual json is saved in event.newJson.
+            if (this.isCurrentJsonIsAnElementInArray()) {
+                newEventNewJson = event.newJson;
             }
-            
+
             this.state.json[event.father] = event.newJson;
         }
 
@@ -292,6 +304,32 @@ class EntityEditor extends React.Component {
             this.onInnerFieldChangedCallback(newEvent)
         }
 
+    }
+
+    /*
+    The method checks if the current json object, is an element inside an array.
+    If it is the json will look like this:
+
+    {
+        "1.": {
+            ...
+        }
+    }
+
+    with only one key, and with this template "<number>."
+
+    */
+    isCurrentJsonIsAnElementInArray() {
+        if (Object.keys(this.state.json).length == 1) {
+
+            var str = Object.keys(this.state.json)[0];
+            var patt1 = /[\d]*[.]/g;
+            var result = str.match(patt1);
+
+            return str == result;
+        }
+
+        return false;
     }
 
     //#region rendering json fields
