@@ -102,10 +102,6 @@ class NGRequest extends React.Component {
         this.setState(this.state);
     }
 
-    updateTest(event) {
-        this.state.jsonToEdit=JSON.stringify(event.newJson);
-    }
-
     sendJsonToNG() {
         var entityJson = this.child.current.getTotalJson();
         var sendingJson = {
@@ -315,7 +311,7 @@ class NGRequest extends React.Component {
                                     ref={this.child}
                                     level='0'
                                     jsondata={this.state.jsonToEdit}
-                                    onInnerFieldChanged={(event)=> this.updateTest(event)} ></EntityEditor>
+                                    onInnerFieldChanged={(event)=> this.state.jsonToEdit=JSON.stringify(event.newJson)} ></EntityEditor>
 
                             </Col>
                         </Row>
