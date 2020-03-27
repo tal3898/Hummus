@@ -58,17 +58,20 @@ class EntityEditor extends React.Component {
     init(props) {
         this.state = {
             json: JSON.parse(props.jsondata),
-
+            name: props.name,
             level: parseInt(props.level),
             indent: 20 * parseInt(props.level),
             objectFieldsOpen: {} // for each field in the current json scope, set true/false, if the field is collapsed or not.
         }
 
+        this.fieldsInput = {};
+
+        this.onInnerFieldChangedCallback = props.onInnerFieldChanged;
+
         this.initCollapsableFields();
 
         this.initChildrenEntityEditors();
 
-        this.fieldsInput = {};
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
@@ -199,8 +202,35 @@ class EntityEditor extends React.Component {
             delete this.state.json[key];
             delete this.children[key];
             this.setState(this.state);
+            
+            var event = {
+                path: '/' + this.state.name + '/' + key,
+                type: 'delete'
+            };
+            
+            console.log(typeof this.onInnerFieldChangedCallback)
+            this.onInnerFieldChangedCallback(event);
+
         } else {
             console.log("does not have")
+        }
+    }
+
+    innerFieldChanged(event) {
+        if (event.type == 'delete') {
+            var path = event.path;
+            console.log('the json before ' + JSON.stringify(this.state.json));
+            delete path.split('/').slice(1, path.split('/').length - 1 ).reduce( (o,n) => o[n], this.state.json)[path.split('/')[path.split('/').length - 1]];
+            console.log('the json after ' + JSON.stringify(this.state.json));
+
+            var newEvent = {
+                path: '/' +  this.state.name + path,
+                type: 'delete'
+            };
+
+            if (this.onInnerFieldChangedCallback) {
+                this.onInnerFieldChangedCallback(newEvent)
+            }
         }
     }
 
@@ -298,7 +328,12 @@ class EntityEditor extends React.Component {
                 </Row>
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor ref={this.children[key]} level={this.state.level + 1} jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
+                    <EntityEditor 
+                        onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
+                        name={key} 
+                        ref={this.children[key]} 
+                        level={this.state.level + 1} 
+                        jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
                 </Collapse>
             </div>
         )
@@ -334,7 +369,7 @@ class EntityEditor extends React.Component {
             const currJson = '{"' + step + '.":' + JSON.stringify(this.state.json[key][step]) + "}"
             items.push(
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor ref={this.children[key][step]} level={this.state.level + 1} jsondata={currJson}></EntityEditor>
+                    <EntityEditor name={key} ref={this.children[key][step]} level={this.state.level + 1} jsondata={currJson}></EntityEditor>
                 </Collapse>
             )
         }
