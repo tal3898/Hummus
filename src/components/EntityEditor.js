@@ -220,6 +220,7 @@ class EntityEditor extends React.Component {
         this.setState(this.state);
 
         var event = {
+            type: 'delete',
             newJson: this.state.json,
             father: this.state.name
         };
@@ -235,6 +236,7 @@ class EntityEditor extends React.Component {
         this.setState(this.state);
 
         var event = {
+            type: 'add',
             newJson: this.state.json,
             father: this.state.name
         };
@@ -246,17 +248,43 @@ class EntityEditor extends React.Component {
 
     innerFieldChanged(event) {
         // if the father is array field
+        
+        var newEventType = 'change';
+        var newEventNewJson = this.state.json;
+
         if (event.father.includes('/')) {
             var fieldName = event.father.split('/')[0];
             var elementIndex = event.father.split('/')[1];
-            this.state.json[fieldName].splice(elementIndex, 1);
-            this.children[fieldName].splice(elementIndex, 1);
+            if (event.type == 'delete') {
+                this.state.json[fieldName].splice(elementIndex, 1);
+                this.children[fieldName].splice(elementIndex, 1);
+                newEventType = 'change';
+            } else if (event.type == 'add' || event.type == 'change') {
+                this.state.json[fieldName].splice(elementIndex, 1);
+                this.state.json[fieldName].splice(elementIndex, 0, event.newJson);
+                
+            }
+            
         } else {
+            
+            if (Object.keys(this.state.json).length == 1 ) {
+
+                var str = Object.keys(this.state.json)[0]; 
+                var patt1 = /[\d]*[.]/g;
+                var result = str.match(patt1);
+            
+                if (str == result) {
+                    newEventNewJson =  event.newJson;
+                }
+                
+            }
+            
             this.state.json[event.father] = event.newJson;
         }
 
         var newEvent = {
-            newJson: this.state.json,
+            type: newEventType,
+            newJson: newEventNewJson,
             father: this.state.name
         };
 
