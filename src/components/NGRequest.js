@@ -100,6 +100,10 @@ class NGRequest extends React.Component {
         this.setState(this.state);
     }
 
+    expendAll() {
+        this.child.current.expendAll();
+    }
+
     sendJsonToNG() {
         var entityJson = this.child.current.getTotalJson();
         var sendingJson = {
@@ -177,7 +181,6 @@ class NGRequest extends React.Component {
 
                         {/* TODO: 
                             6) handle field which is array of int
-                            8) for each field, show if it required, or not, and if array ( 1, 0, 0.., 1.. )
                             9) add button to expend all (fields), and collapse all
                             10) add info button (i) which on hover, it will show popup with hebrew info about the field 
                             11) fixed the bug that removing a field, copies the data to the under field
@@ -308,6 +311,16 @@ class NGRequest extends React.Component {
                                 </Col>
                             </Row>
                         </div>
+
+                        <Row dir='rtl'>
+                            <Col lg='10'>
+
+                            <Button variant="outline-info" onClick={() => this.expendAll()}>
+                                                expend all
+                                            </Button>
+
+                            </Col>
+                        </Row>
 
                         <Row dir='rtl'>
                             <Col className='entity-editor-window' lg='10'>

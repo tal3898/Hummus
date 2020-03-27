@@ -143,8 +143,31 @@ class EntityEditor extends React.Component {
             }
         }
     }
-
+    
     //#endregion
+
+    expendAll() {
+        for (var key in this.state.objectFieldsOpen) {
+            this.state.objectFieldsOpen[key] = true;
+        }
+        this.setState(this.state);
+
+        for (var key in this.children) {
+            var fieldName = key.split('|')[0];
+
+            if (Array.isArray(this.children[key])) {
+                for (var index in this.children[key]) {
+                    var currChild = this.children[key][index];
+                    currChild.current.expendAll();
+                }
+
+
+            } else {
+                var child = this.children[key];
+                child.current.expendAll();
+            }
+        }        
+    }
 
     collapseEntityEditor(key) {
         this.state.objectFieldsOpen[key] = !this.state.objectFieldsOpen[key];
