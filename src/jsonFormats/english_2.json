@@ -12,11 +12,23 @@
 	},
 	"Planing": [{
 		"Goal|string": "learn piano",
-		"Way|string": "play piano",
+		"Way": [{
+			"start|string": "a",
+			"end|string": "b"
+		},{
+			"start|string": "a",
+			"end|string": "b"
+		}],
 		"Time|time": "[NOW]"
 	},{
-		"Goal|string": "learn react",
-		"Way|string": "play react",
+		"Goal|string": "learn piano",
+		"Way": [{
+			"start|string": "a",
+			"end|string": "b"
+		},{
+			"start|string": "a",
+			"end|string": "b"
+		}],
 		"Time|time": "[NOW]"
 	}],
 	"General|string": "blaaaa"

@@ -25,6 +25,10 @@ const Styles = styled.div`
     }
 
 
+    .fa-trash-alt {
+        margin-left:40px;
+    }
+
     .fa-trash-alt:hover {
         color: #d32f2f;
     }
@@ -77,7 +81,10 @@ class EntityEditor extends React.Component {
 
         this.initChildrenEntityEditors();
 
+        this.initArrayFieldsObjectTemplate();
+    }
 
+    initArrayFieldsObjectTemplate() {
         // This json contains json templates for each array field in 
         // the current json, so when adding another json to the array, it will
         // take from the tamplate
@@ -87,12 +94,11 @@ class EntityEditor extends React.Component {
             if (typeof this.state.json[key] == 'object') {
 
                 if (Array.isArray(this.state.json[key])) {
-                    this.arrayFieldsObjectTemplate[key] = this.state.json[key][0];
+                    this.arrayFieldsObjectTemplate[key] = JSON.parse( JSON.stringify( this.state.json[key][0] ) );
                 }
 
             }
         }
-
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
