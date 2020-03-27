@@ -164,6 +164,7 @@ class EntityEditor extends React.Component {
 
         // loop on objects or arrays children
         for (var key in this.children) {
+            var fieldName = key.split('|')[0];
 
             if (Array.isArray(this.children[key])) {
 
@@ -179,12 +180,12 @@ class EntityEditor extends React.Component {
                     jsonItems.push(finalJson);
                 }
 
-                resultJson[key] = jsonItems;
+                resultJson[fieldName] = jsonItems;
 
             } else {
                 var child = this.children[key];
                 var fieldValue = child.current.getTotalJson();
-                resultJson[key] = fieldValue;
+                resultJson[fieldName] = fieldValue;
             }
         }
 
