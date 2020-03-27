@@ -177,7 +177,6 @@ class NGRequest extends React.Component {
 
                         {/* TODO: 
                             6) handle field which is array of int
-                            7) if name of field is too long, the input is over it, fix it
                             8) for each field, show if it required, or not, and if array ( 1, 0, 0.., 1.. )
                             9) add button to expend all (fields), and collapse all
                             10) add info button (i) which on hover, it will show popup with hebrew info about the field 

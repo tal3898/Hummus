@@ -233,6 +233,7 @@ class EntityEditor extends React.Component {
     removeField(key) {
         delete this.state.json[key];
         delete this.children[key];
+        delete this.fieldsInput[key];
         this.setState(this.state);
 
         var event = {
