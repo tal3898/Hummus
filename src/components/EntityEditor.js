@@ -202,12 +202,12 @@ class EntityEditor extends React.Component {
             delete this.state.json[key];
             delete this.children[key];
             this.setState(this.state);
-            
+
             var event = {
-                path: '/' + this.state.name + '/' + key,
-                type: 'delete'
+                newJson: this.state.json,
+                father: this.state.name
             };
-            
+
             console.log(typeof this.onInnerFieldChangedCallback)
             this.onInnerFieldChangedCallback(event);
 
@@ -217,21 +217,19 @@ class EntityEditor extends React.Component {
     }
 
     innerFieldChanged(event) {
-        if (event.type == 'delete') {
-            var path = event.path;
-            console.log('the json before ' + JSON.stringify(this.state.json));
-            delete path.split('/').slice(1, path.split('/').length - 1 ).reduce( (o,n) => o[n], this.state.json)[path.split('/')[path.split('/').length - 1]];
-            console.log('the json after ' + JSON.stringify(this.state.json));
+        console.log('the json before ' + JSON.stringify(this.state.json));
+        this.state.json[event.father] = event.newJson;
+        console.log('the json after ' + JSON.stringify(this.state.json));
 
-            var newEvent = {
-                path: '/' +  this.state.name + path,
-                type: 'delete'
-            };
+        var newEvent = {
+            newJson: this.state.json,
+            father: this.state.name
+        };
 
-            if (this.onInnerFieldChangedCallback) {
-                this.onInnerFieldChangedCallback(newEvent)
-            }
+        if (this.onInnerFieldChangedCallback) {
+            this.onInnerFieldChangedCallback(newEvent)
         }
+
     }
 
     //#region rendering json fields
@@ -328,11 +326,11 @@ class EntityEditor extends React.Component {
                 </Row>
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor 
+                    <EntityEditor
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
-                        name={key} 
-                        ref={this.children[key]} 
-                        level={this.state.level + 1} 
+                        name={key}
+                        ref={this.children[key]}
+                        level={this.state.level + 1}
                         jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
                 </Collapse>
             </div>
