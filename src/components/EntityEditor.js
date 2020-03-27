@@ -6,7 +6,8 @@ import { Collapse, Button, CardBody, Card } from 'reactstrap';
 
 const Styles = styled.div`
     .field {
-        height: 40px; 
+        font-size: 18px;
+        height: 36px; 
         margin-top : 5px;
         &:hover { background: #bbdefb; }
     }
@@ -16,7 +17,7 @@ const Styles = styled.div`
     }
 
     .field-action {
-        padding: 5px;
+        padding: 3px;
         display: none;
     }
 
@@ -363,7 +364,7 @@ class EntityEditor extends React.Component {
 
         return (
 
-            <Row className="field mb-1" style={{ fontSize: 20, marginLeft: this.state.indent }}>
+            <Row className="field mb-1" style={{ marginLeft: this.state.indent }}>
                 <Col xs lg="1">
                     <Form.Label >{keyName}</Form.Label>
                 </Col>
@@ -413,7 +414,7 @@ class EntityEditor extends React.Component {
     getObjectFieldJSX(key) {
         return (
             <div>
-                <Row className="field mb-1" style={{ fontSize: 20, marginLeft: this.state.indent }}>
+                <Row className="field mb-1" style={{marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)}>
 
 
                     <div style={{ marginLeft: 10 }}>
@@ -454,7 +455,7 @@ class EntityEditor extends React.Component {
         items.push(
 
             <div  >
-                <Row className='field mb-1' style={{ fontSize: 20, marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
+                <Row className='field mb-1' style={{ marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
                     <div style={{ marginLeft: 10 }}>
                         {this.state.objectFieldsOpen[key] ?
                             <i class="fas fa-angle-down" style={{ width: 18 }}></i> :
