@@ -24,6 +24,7 @@ const Styles = styled.div`
         display: block;
     }
 
+
     .fa-trash-alt:hover {
         color: #d32f2f;
     }
@@ -34,6 +35,10 @@ const Styles = styled.div`
 
     .fa-clock:hover {
         color: #2196f3;
+    }
+
+    .fa-plus:hover {
+        color: #66bb6a;
     }
 `;
 
@@ -71,6 +76,18 @@ class EntityEditor extends React.Component {
         this.initCollapsableFields();
 
         this.initChildrenEntityEditors();
+
+        this.arrayFieldsObjectTemplate = {};
+
+        for (var key in this.state.json) {
+            if (typeof this.state.json[key] == 'object') {
+
+                if (Array.isArray(this.state.json[key])) {
+                    this.arrayFieldsObjectTemplate[key] = this.state.json[key][0];
+                } 
+
+            }
+        }
 
     }
 
@@ -198,23 +215,32 @@ class EntityEditor extends React.Component {
     }
 
     removeField(key) {
-        if (this.state.json.hasOwnProperty(key)) {
-            delete this.state.json[key];
-            delete this.children[key];
-            this.setState(this.state);
+        delete this.state.json[key];
+        delete this.children[key];
+        this.setState(this.state);
 
-            var event = {
-                newJson: this.state.json,
-                father: this.state.name
-            };
+        var event = {
+            newJson: this.state.json,
+            father: this.state.name
+        };
 
-            console.log(typeof this.onInnerFieldChangedCallback)
-            if (this.onInnerFieldChangedCallback) {
-                this.onInnerFieldChangedCallback(event);
-            }
+        if (this.onInnerFieldChangedCallback) {
+            this.onInnerFieldChangedCallback(event);
+        }
+    }
 
-        } else {
-            console.log("does not have")
+    addField(key) {
+        this.state.json[key].push(this.arrayFieldsObjectTemplate[key]);
+        this.children[key].push( React.createRef() );
+        this.setState(this.state);
+
+        var event = {
+            newJson: this.state.json,
+            father: this.state.name
+        };
+
+        if (this.onInnerFieldChangedCallback) {
+            this.onInnerFieldChangedCallback(event);
         }
     }
 
@@ -223,8 +249,8 @@ class EntityEditor extends React.Component {
         if (event.father.includes('/')) {
             var fieldName = event.father.split('/')[0];
             var elementIndex = event.father.split('/')[1];
-            this.state.json[fieldName].splice(elementIndex,1);
-            this.children[fieldName].splice(elementIndex,1);
+            this.state.json[fieldName].splice(elementIndex, 1);
+            this.children[fieldName].splice(elementIndex, 1);
         } else {
             this.state.json[event.father] = event.newJson;
         }
@@ -361,6 +387,9 @@ class EntityEditor extends React.Component {
                     </div>
                     <div style={{ marginLeft: 10 }}>
                         <Form.Label>{key}</Form.Label>
+                    </div>
+                    <div style={{ marginLeft: 10 }}>
+                        <i class=" fas fa-plus field-action mt-1" onClick={() => this.addField(key)}></i>
                     </div>
                     <div style={{ marginLeft: 10 }}>
                         <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>

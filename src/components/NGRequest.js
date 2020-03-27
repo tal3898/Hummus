@@ -172,7 +172,6 @@ class NGRequest extends React.Component {
 
                         {/* TODO: 
 
-                            4) remove fields
                             5) add to json array, another object
                             6) handle field which is array of int
                             7) if name of field is too long, the input is over it, fix it
