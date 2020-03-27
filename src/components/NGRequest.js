@@ -51,9 +51,7 @@ class NGRequest extends React.Component {
         super(props)
         this.child = React.createRef();
         this.state = {
-            json: {
-                "v": 2
-            },
+            json: {},
             isOpenPopup: false
         }
 
@@ -179,11 +177,10 @@ class NGRequest extends React.Component {
 
 
                         {/* TODO: 
-
-                            5) add to json array, another object
                             6) handle field which is array of int
                             7) if name of field is too long, the input is over it, fix it
                             8) for each field, show if it required, or not, and if array ( 1, 0, 0.., 1.. )
+                            9) add button to expend all (fields), and collapse all
                         */}
                     <Form>
                         <div dir='rtl' className='metadata'>
