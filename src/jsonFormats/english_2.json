@@ -14,6 +14,10 @@
 		"Goal|string": "learn piano",
 		"Way|string": "play piano",
 		"Time|time": "[NOW]"
+	},{
+		"Goal|string": "learn react",
+		"Way|string": "play react",
+		"Time|time": "[NOW]"
 	}],
 	"General|string": "blaaaa"
 }

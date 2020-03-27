@@ -219,7 +219,15 @@ class EntityEditor extends React.Component {
     }
 
     innerFieldChanged(event) {
-        this.state.json[event.father] = event.newJson;
+        // if the father is array field
+        if (event.father.includes('/')) {
+            var fieldName = event.father.split('/')[0];
+            var elementIndex = event.father.split('/')[1];
+            this.state.json[fieldName].splice(elementIndex,1);
+            this.children[fieldName].splice(elementIndex,1);
+        } else {
+            this.state.json[event.father] = event.newJson;
+        }
 
         var newEvent = {
             newJson: this.state.json,
@@ -367,7 +375,12 @@ class EntityEditor extends React.Component {
             const currJson = '{"' + step + '.":' + JSON.stringify(this.state.json[key][step]) + "}"
             items.push(
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor name={key} ref={this.children[key][step]} level={this.state.level + 1} jsondata={currJson}></EntityEditor>
+                    <EntityEditor
+                        name={key + '/' + step}
+                        onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
+                        ref={this.children[key][step]}
+                        level={this.state.level + 1}
+                        jsondata={currJson}></EntityEditor>
                 </Collapse>
             )
         }
