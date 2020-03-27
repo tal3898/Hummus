@@ -67,12 +67,13 @@ class EntityEditor extends React.Component {
     init(props) {
         this.state = {
             json: JSON.parse(props.jsondata),
+            fullJson: JSON.parse(props.fullJson),
             name: props.name,
             level: parseInt(props.level),
             indent: 20 * parseInt(props.level),
             objectFieldsOpen: {} // for each field in the current json scope, set true/false, if the field is collapsed or not.
         }
-
+        
         this.fieldsInput = {};
 
         this.onInnerFieldChangedCallback = props.onInnerFieldChanged;
@@ -90,11 +91,11 @@ class EntityEditor extends React.Component {
         // take from the tamplate
         this.arrayFieldsObjectTemplate = {};
 
-        for (var key in this.state.json) {
-            if (typeof this.state.json[key] == 'object') {
+        for (var key in this.state.fullJson) {
+            if (typeof this.state.fullJson[key] == 'object') {
 
-                if (Array.isArray(this.state.json[key])) {
-                    this.arrayFieldsObjectTemplate[key] = JSON.parse( JSON.stringify( this.state.json[key][0] ) );
+                if (Array.isArray(this.state.fullJson[key])) {
+                    this.arrayFieldsObjectTemplate[key] = JSON.parse( JSON.stringify( this.state.fullJson[key][0] ) );
                 }
 
             }
@@ -241,7 +242,7 @@ class EntityEditor extends React.Component {
     }
 
     addField(key) {
-        this.state.json[key].push(this.arrayFieldsObjectTemplate[key]);
+        this.state.json[key].push(JSON.parse(JSON.stringify(this.arrayFieldsObjectTemplate[key])));
         this.children[key].push(React.createRef());
         this.setState(this.state);
 
@@ -437,6 +438,7 @@ class EntityEditor extends React.Component {
                         name={key}
                         ref={this.children[key]}
                         level={this.state.level + 1}
+                        fullJson={JSON.stringify(this.state.fullJson[key])}
                         jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
                 </Collapse>
             </div>
@@ -474,6 +476,7 @@ class EntityEditor extends React.Component {
         // this json
         for (let step = 0; step < this.state.json[key].length; step++) {
             const currJson = '{"' + step + '.":' + JSON.stringify(this.state.json[key][step]) + "}"
+            const currFullJson = '{"' + step + '.":' + JSON.stringify(this.state.fullJson[key][0]) + "}"
             items.push(
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor
@@ -481,6 +484,7 @@ class EntityEditor extends React.Component {
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
                         ref={this.children[key][step]}
                         level={this.state.level + 1}
+                        fullJson={ currFullJson }
                         jsondata={currJson}></EntityEditor>
                 </Collapse>
             )

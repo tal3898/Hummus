@@ -94,6 +94,7 @@ class NGRequest extends React.Component {
         }
 
         this.state.jsonToEdit = JSON.stringify(english_2);
+        this.state.fullJsonToEdit = JSON.stringify(english_2);
     }
 
     openPopup() {
@@ -149,10 +150,17 @@ class NGRequest extends React.Component {
         console.log(JSON.stringify(sendingJson));
     }
 
-    loadJson() {        
+    getChosenJson() {
         var chosenEntity = this.entityNode.value;
         var chosenVersion = this.versionNode.value;
-        this.setState({jsonToEdit: this.jsonMap[chosenEntity][chosenVersion]});
+        
+        return this.jsonMap[chosenEntity][chosenVersion];
+    }
+
+    loadJson() {      
+        var chosenJson = this.getChosenJson();
+        
+        this.setState({jsonToEdit: chosenJson, fullJsonToEdit: chosenJson});
     }
 
     close() {
@@ -309,6 +317,7 @@ class NGRequest extends React.Component {
                                 <EntityEditor 
                                     ref={this.child}
                                     level='0'
+                                    fullJson={this.state.fullJsonToEdit}
                                     jsondata={this.state.jsonToEdit}
                                     onInnerFieldChanged={(event)=> this.state.jsonToEdit=JSON.stringify(event.newJson)} ></EntityEditor>
 
