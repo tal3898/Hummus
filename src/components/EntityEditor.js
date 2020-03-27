@@ -233,7 +233,6 @@ class EntityEditor extends React.Component {
     removeField(key) {
         delete this.state.json[key];
         delete this.children[key];
-        delete this.fieldsInput[key];
         this.setState(this.state);
 
         var event = {
@@ -262,7 +261,6 @@ class EntityEditor extends React.Component {
         if (this.onInnerFieldChangedCallback) {
             this.onInnerFieldChangedCallback(newEvent);
         }
-
     }
 
     /**
@@ -351,12 +349,13 @@ class EntityEditor extends React.Component {
     getSingleFieldJSX(key) {
         var keyName = key.split('|')[0];
         var keyType = key.split('|')[1];
+        var keyRequiredValue = key.split('|')[2];
         var defaultValue = this.state.json[key]
 
 
         var enumValuesItem = []
         if (keyType == "enum") {
-            var optionalValues = JSON.parse(key.split('|')[2]);
+            var optionalValues = JSON.parse(key.split('|')[3]);
             for (var index in optionalValues) {
                 enumValuesItem.push(
                     <option>{optionalValues[index]}</option>
@@ -370,8 +369,12 @@ class EntityEditor extends React.Component {
         return (
 
             <Row className="field mb-1" style={{ marginLeft: this.state.indent }}>
-                <div class="field-component" style={{ marginRight: 10 }}>
+                <div class="field-component">
                     <Form.Label >{keyName}</Form.Label>
+                </div>
+
+                <div class="field-component">
+                    <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
                 </div>
 
                 <div class="field-component" style={{ marginTop: 3 }}>
@@ -422,6 +425,9 @@ class EntityEditor extends React.Component {
     }
 
     getObjectFieldJSX(key) {
+        var keyName = key.split('|')[0];
+        var keyRequiredValue = key.split('|')[1];
+
         return (
             <div>
                 <Row className="field mb-1" style={{ marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)}>
@@ -435,7 +441,11 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div class="field-component">
-                        <Form.Label>{key}</Form.Label>
+                        <Form.Label>{keyName}</Form.Label>
+                    </div>
+
+                    <div class="field-component">
+                        <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
                     </div>
 
                     <div class="field-component">
@@ -459,6 +469,9 @@ class EntityEditor extends React.Component {
     }
 
     getArrayFieldJSX(key) {
+        var keyName = key.split('|')[0];
+        var keyRequiredValue = key.split('|')[1];
+
         const items = []
 
         // create the array field itself, with collapseEntityEditor button
@@ -466,19 +479,26 @@ class EntityEditor extends React.Component {
 
             <div  >
                 <Row className='field mb-1' style={{ marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
-                    <div  class="field-component">
+                    <div class="field-component">
                         {this.state.objectFieldsOpen[key] ?
                             <i class="fas fa-angle-down" style={{ width: 18 }}></i> :
                             <i class="fas fa-angle-right" style={{ width: 18 }}></i>
                         }
                     </div>
-                    <div  class="field-component">
-                        <Form.Label>{key}</Form.Label>
+
+                    <div class="field-component">
+                        <Form.Label>{keyName}</Form.Label>
                     </div>
-                    <div  class="field-component">
+
+                    <div class="field-component">
+                        <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
+                    </div>
+
+                    <div class="field-component">
                         <i class=" fas fa-plus field-action mt-1" onClick={(event) => this.addField(key, event)}></i>
                     </div>
-                    <div  class="field-component">
+
+                    <div class="field-component">
                         <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
                     </div>
                 </Row>

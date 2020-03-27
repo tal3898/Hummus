@@ -180,6 +180,7 @@ class NGRequest extends React.Component {
                             8) for each field, show if it required, or not, and if array ( 1, 0, 0.., 1.. )
                             9) add button to expend all (fields), and collapse all
                             10) add info button (i) which on hover, it will show popup with hebrew info about the field 
+                            11) fixed the bug that removing a field, copies the data to the under field
                         */}
                     <Form>
                         <div dir='rtl' className='metadata'>

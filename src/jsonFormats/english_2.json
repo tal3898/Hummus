@@ -1,35 +1,22 @@
 {
-	"Ids": {
-		"name|string": "[GEN]",
-		"code|number": "0"
+	"Ids|[1]": {
+		"name|string|[0]": "[GEN]",
+		"code|number|[1]": "0"
 	},
-	"Data": {
-		"Location": {
-			"Street|string": "Agadati",
-			"number|number": "30"
+	"Data|[0]": {
+		"Location|[1]": {
+			"Street|string|[1]": "Agadati",
+			"number|number|[1]": "30"
 		},
-		"Info|string": "[GEN]"
+		"Info|string|[0]": "[GEN]",
+		"type|enum|[1]|[20,30,40,50]": ""
 	},
-	"Planing": [{
-		"Goal|string": "learn piano",
-		"Way": [{
-			"start|string": "a",
-			"end|string": "b"
-		},{
-			"start|string": "a",
-			"end|string": "b"
-		}],
-		"Time|time": "[NOW]"
+	"Planing|[0..1]": [{
+		"Goal|string|[1]": "learn piano",
+		"Time|time|[1]": "[NOW]"
 	},{
-		"Goal|string": "learn piano",
-		"Way": [{
-			"start|string": "a",
-			"end|string": "b"
-		},{
-			"start|string": "a",
-			"end|string": "b"
-		}],
-		"Time|time": "[NOW]"
-	}],
-	"General|string": "blaaaa"
+		"Goal|string|[1]": "learn piano",
+		"Time|time|[1]": "[NOW]"
+	}]
+
 }
