@@ -241,20 +241,22 @@ class EntityEditor extends React.Component {
         }
     }
 
-    addField(key) {
+    addField(key, event) {
+        console.log('event is ' + event)
         this.state.json[key].push(JSON.parse(JSON.stringify(this.arrayFieldsObjectTemplate[key])));
         this.children[key].push(React.createRef());
         this.setState(this.state);
 
-        var event = {
+        var newEvent = {
             type: 'add',
             newJson: this.state.json,
             father: this.state.name
         };
 
         if (this.onInnerFieldChangedCallback) {
-            this.onInnerFieldChangedCallback(event);
+            this.onInnerFieldChangedCallback(newEvent);
         }
+
     }
 
     /**
@@ -463,7 +465,7 @@ class EntityEditor extends React.Component {
                         <Form.Label>{key}</Form.Label>
                     </div>
                     <div style={{ marginLeft: 10 }}>
-                        <i class=" fas fa-plus field-action mt-1" onClick={() => this.addField(key)}></i>
+                        <i class=" fas fa-plus field-action mt-1" onClick={(event) => this.addField(key,event)}></i>
                     </div>
                     <div style={{ marginLeft: 10 }}>
                         <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
