@@ -12,6 +12,10 @@ const Styles = styled.div`
         &:hover { background: #bbdefb; }
     }
 
+    .field-component {
+        margin-right: 6px;
+    }
+
     .color-hover {
         &:hover { background: #bbdefb; }
     }
@@ -74,7 +78,7 @@ class EntityEditor extends React.Component {
             indent: 30 * parseInt(props.level),
             objectFieldsOpen: {} // for each field in the current json scope, set true/false, if the field is collapsed or not.
         }
-        
+
         this.fieldsInput = {};
 
         this.onInnerFieldChangedCallback = props.onInnerFieldChanged;
@@ -96,7 +100,7 @@ class EntityEditor extends React.Component {
             if (typeof this.state.fullJson[key] == 'object') {
 
                 if (Array.isArray(this.state.fullJson[key])) {
-                    this.arrayFieldsObjectTemplate[key] = JSON.parse( JSON.stringify( this.state.fullJson[key][0] ) );
+                    this.arrayFieldsObjectTemplate[key] = JSON.parse(JSON.stringify(this.state.fullJson[key][0]));
                 }
 
             }
@@ -365,10 +369,11 @@ class EntityEditor extends React.Component {
         return (
 
             <Row className="field mb-1" style={{ marginLeft: this.state.indent }}>
-                <Col xs lg="1">
+                <div class="field-component" style={{ marginRight: 10 }}>
                     <Form.Label >{keyName}</Form.Label>
-                </Col>
-                <Col className="mt-1" xs lg="2">
+                </div>
+
+                <div class="field-component" style={{ marginTop: 3 }}>
 
                     {/* If current field is enum, create select input */}
                     {enumValuesItem.length > 0 &&
@@ -394,17 +399,21 @@ class EntityEditor extends React.Component {
                             width="20px" />
 
                     }
+                </div>
 
-                </Col>
-                {keyType == "time" &&
-                    <i class="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(key)} ></i>
-                }
+                <div class="field-component" >
+                    {keyType == "time" &&
+                        <i class="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(key)} ></i>
+                    }
 
-                {keyType == "string" &&
-                    <i class="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
-                }
+                    {keyType == "string" &&
+                        <i class="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
+                    }
+                </div>
 
-                <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
+                <div class="field-component">
+                    <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
+                </div>
 
             </Row>
 
@@ -414,21 +423,21 @@ class EntityEditor extends React.Component {
     getObjectFieldJSX(key) {
         return (
             <div>
-                <Row className="field mb-1" style={{marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)}>
+                <Row className="field mb-1" style={{ marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)}>
 
 
-                    <div style={{ marginLeft: 10 }}>
+                    <div class="field-component">
                         {this.state.objectFieldsOpen[key] ?
                             <i class="fas fa-angle-down" style={{ width: 18 }}></i> :
                             <i class="fas fa-angle-right" style={{ width: 18 }}></i>
                         }
                     </div>
 
-                    <div style={{ marginLeft: 10 }}>
+                    <div class="field-component">
                         <Form.Label>{key}</Form.Label>
                     </div>
 
-                    <div style={{ marginLeft: 10 }} >
+                    <div class="field-component">
                         <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
                     </div>
 
@@ -456,19 +465,19 @@ class EntityEditor extends React.Component {
 
             <div  >
                 <Row className='field mb-1' style={{ marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
-                    <div style={{ marginLeft: 10 }}>
+                    <div  class="field-component">
                         {this.state.objectFieldsOpen[key] ?
                             <i class="fas fa-angle-down" style={{ width: 18 }}></i> :
                             <i class="fas fa-angle-right" style={{ width: 18 }}></i>
                         }
                     </div>
-                    <div style={{ marginLeft: 10 }}>
+                    <div  class="field-component">
                         <Form.Label>{key}</Form.Label>
                     </div>
-                    <div style={{ marginLeft: 10 }}>
-                        <i class=" fas fa-plus field-action mt-1" onClick={(event) => this.addField(key,event)}></i>
+                    <div  class="field-component">
+                        <i class=" fas fa-plus field-action mt-1" onClick={(event) => this.addField(key, event)}></i>
                     </div>
-                    <div style={{ marginLeft: 10 }}>
+                    <div  class="field-component">
                         <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
                     </div>
                 </Row>
@@ -487,7 +496,7 @@ class EntityEditor extends React.Component {
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
                         ref={this.children[key][step]}
                         level={this.state.level + 1}
-                        fullJson={ currFullJson }
+                        fullJson={currFullJson}
                         jsondata={currJson}></EntityEditor>
                 </Collapse>
             )
