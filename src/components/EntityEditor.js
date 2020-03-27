@@ -410,8 +410,8 @@ class EntityEditor extends React.Component {
 
     getObjectFieldJSX(key) {
         return (
-            <div style={{ fontSize: 20, marginLeft: this.state.indent }} >
-                <Row className="field" onClick={() => this.collapseEntityEditor(key)} >
+            <div>
+                <Row className="field mb-1" style={{ fontSize: 20, marginLeft: this.state.indent }}>
 
 
                     <div style={{ marginLeft: 10 }}>
@@ -451,8 +451,8 @@ class EntityEditor extends React.Component {
         // create the array field itself, with collapseEntityEditor button
         items.push(
 
-            <div style={{ fontSize: 20, marginLeft: this.state.indent }} >
-                <Row className='field mb-1' onClick={() => this.collapseEntityEditor(key)} >
+            <div  >
+                <Row className='field mb-1' style={{ fontSize: 20, marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
                     <div style={{ marginLeft: 10 }}>
                         {this.state.objectFieldsOpen[key] ?
                             <i class="fas fa-angle-down" style={{ width: 18 }}></i> :
