@@ -212,16 +212,14 @@ class EntityEditor extends React.Component {
             if (this.onInnerFieldChangedCallback) {
                 this.onInnerFieldChangedCallback(event);
             }
-            
+
         } else {
             console.log("does not have")
         }
     }
 
     innerFieldChanged(event) {
-        console.log('the json before ' + JSON.stringify(this.state.json));
         this.state.json[event.father] = event.newJson;
-        console.log('the json after ' + JSON.stringify(this.state.json));
 
         var newEvent = {
             newJson: this.state.json,
