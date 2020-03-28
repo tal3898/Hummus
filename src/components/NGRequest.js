@@ -183,7 +183,6 @@ class NGRequest extends React.Component {
                             6) handle field which is array of int
                             9) add button to expend all (fields), and collapse all
                             10) add info button (i) which on hover, it will show popup with hebrew info about the field 
-                            11) fixed the bug that removing a field, copies the data to the under field
                         */}
                     <Form>
                         <div dir='rtl' className='metadata'>

@@ -286,6 +286,8 @@ class EntityEditor extends React.Component {
         if (this.onInnerFieldChangedCallback) {
             this.onInnerFieldChangedCallback(newEvent);
         }
+
+        event.stopPropagation();
     }
 
     /**
@@ -453,7 +455,7 @@ class EntityEditor extends React.Component {
 
         return (
             <div>
-                <Row className="field mb-1" style={{ marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)}>
+                <Row key={key} className="field mb-1" style={{ marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)}>
 
 
                     <div class="field-component">

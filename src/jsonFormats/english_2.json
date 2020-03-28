@@ -5,6 +5,11 @@
 	},
 	"Data|[0]": {
 		"Location|[1]": {
+			"a": {
+				"b": {
+					"c|string|[1]": "stam"
+				}
+			},
 			"Street|string|[1]": "Agadati",
 			"number|number|[1]": "30"
 		},
