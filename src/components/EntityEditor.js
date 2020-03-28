@@ -75,6 +75,7 @@ class EntityEditor extends React.Component {
         this.inputTypesMap = {
             "string": "text",
             "number": "number",
+            "float": "number",
             "time": "text",
             "enum": "text"
         }
@@ -233,6 +234,8 @@ class EntityEditor extends React.Component {
             finalValue = randomString
         } else if (fieldType == "number" || fieldType == "enum") {
             finalValue = parseInt(fieldValue);
+        } else if (fieldType == "float") {
+            finalValue = parseFloat(fieldValue);
         }
 
         return finalValue;
