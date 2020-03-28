@@ -257,6 +257,7 @@ class EntityEditor extends React.Component {
     removeField(key) {
         delete this.state.json[key];
         delete this.children[key];
+        delete this.fieldsInput[key];
         this.setState(this.state);
 
         var event = {
@@ -388,11 +389,9 @@ class EntityEditor extends React.Component {
 
         }
 
-        console.log("adding to this.fieldsInput the key " + key);
-
         return (
 
-            <Row className="field mb-1" style={{ marginLeft: this.state.indent }}>
+            <Row key={key} className="field mb-1" style={{ marginLeft: this.state.indent }}>
                 <div class="field-component">
                     <Form.Label >{keyName}</Form.Label>
                 </div>
