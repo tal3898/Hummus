@@ -494,7 +494,7 @@ class EntityEditor extends React.Component {
 
                 </Row>
 
-                <Collapse isOpen={this.state.objectFieldsOpen[key]}>
+                <Collapse style={{paddingTop: 1}} isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor
                         expandAll={this.state.expandAll}
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
