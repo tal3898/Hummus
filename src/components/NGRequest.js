@@ -77,12 +77,12 @@ class NGRequest extends React.Component {
         this.jsonMap = {
             "אנגלית": {
                 "2": JSON.stringify(english_2),
-                "X" : JSON.stringify(english_x)
+                "X": JSON.stringify(english_x)
             },
             "חשבון": {
                 "2": JSON.stringify(math_2),
                 "X": JSON.stringify(math_x)
-            }, 
+            },
             "כמיה": {
                 "2": JSON.stringify(chemistry_2),
                 "X": JSON.stringify(chemistry_x),
@@ -92,13 +92,7 @@ class NGRequest extends React.Component {
         this.state.jsonToEdit = JSON.stringify(english_2);
         this.state.fullJsonToEdit = JSON.stringify(english_2);
 
-        this.entityEditorExpandValues = {
-            NEUTRAL: 'neutral',
-            EXPAND: 'expand',
-            COLLAPSE: 'collapse'
-        };
-
-        this.state.expandAllJsonValue = this.entityEditorExpandValues.NEUTRAL;
+        this.state.expandAll = false;
     }
 
     openPopup() {
@@ -108,12 +102,7 @@ class NGRequest extends React.Component {
     }
 
     expendAll() {
-        if (this.state.expandAllJsonValue == this.entityEditorExpandValues.EXPAND) {
-            this.setState({expandAllJsonValue:  this.entityEditorExpandValues.COLLAPSE})
-        } else {
-            this.setState({expandAllJsonValue:  this.entityEditorExpandValues.EXPAND})
-        }
-        
+        this.setState({ expandAll: !this.state.expandAll })
     }
 
     sendJsonToNG() {
@@ -166,14 +155,14 @@ class NGRequest extends React.Component {
     getChosenJson() {
         var chosenEntity = this.entityNode.value;
         var chosenVersion = this.versionNode.value;
-        
+
         return this.jsonMap[chosenEntity][chosenVersion];
     }
 
-    loadJson() {      
+    loadJson() {
         var chosenJson = this.getChosenJson();
-        
-        this.setState({jsonToEdit: chosenJson, fullJsonToEdit: chosenJson});
+
+        this.setState({ jsonToEdit: chosenJson, fullJsonToEdit: chosenJson });
     }
 
     close() {
@@ -191,7 +180,7 @@ class NGRequest extends React.Component {
                     <JsonPopup json={JSON.stringify(this.state.json)} onClose={() => this.close()} isOpen={this.state.isOpenPopup} />
 
 
-                        {/* TODO: 
+                    {/* TODO: 
                             6) handle field which is array of int
                             9) add button to expend all (fields), and collapse all
                             12) fix the little jumps between the fields when extend and collapse the object fields and array fields
@@ -265,13 +254,13 @@ class NGRequest extends React.Component {
                             </Row>
 
                             <hr style={{ width: '80%' }} />
-                            
+
                             <Row className='field'>
                                 <Col lg='1' >
                                     <Form.Label >ישות</Form.Label>
                                 </Col>
                                 <Col lg='2'>
-                                    <Form.Control onChange={(event) => this.loadJson() } ref={(ref) => this.entityNode = ref} as="select">
+                                    <Form.Control onChange={(event) => this.loadJson()} ref={(ref) => this.entityNode = ref} as="select">
                                         <option>אנגלית</option>
                                         <option>חשבון</option>
                                         <option>כמיה</option>
@@ -306,7 +295,7 @@ class NGRequest extends React.Component {
                                     <Form.Label >תקן</Form.Label>
                                 </Col>
                                 <Col lg='2'>
-                                    <Form.Control onChange={(event) => this.loadJson() } ref={(ref) => this.versionNode = ref} as="select">
+                                    <Form.Control onChange={(event) => this.loadJson()} ref={(ref) => this.versionNode = ref} as="select">
                                         <option>2</option>
                                         <option>X</option>
                                     </Form.Control>
@@ -327,9 +316,15 @@ class NGRequest extends React.Component {
                         <Row dir='rtl'>
                             <Col lg='10'>
 
-                            <Button variant="outline-info" onClick={() => this.expendAll()}>
-                                                {this.state.expandAllJsonValue}
-                                            </Button>
+                                <Button variant="outline-info" onClick={() => this.expendAll()}>
+                                    {
+                                    this.state.expandAll &&
+                                        'Expand all'
+                                    }
+                                    {!this.state.expandAll &&
+                                        'Collapse all'
+                                    }
+                                </Button>
 
                             </Col>
                         </Row>
@@ -337,12 +332,12 @@ class NGRequest extends React.Component {
                         <Row dir='rtl'>
                             <Col className='entity-editor-window' lg='10'>
                                 <EntityEditor
-                                    expandAllJsonValue={this.state.expandAllJsonValue} 
+                                    expandAll={this.state.expandAll}
                                     ref={this.child}
                                     level='0'
                                     fullJson={this.state.fullJsonToEdit}
                                     jsondata={this.state.jsonToEdit}
-                                    onInnerFieldChanged={(event)=> this.state.jsonToEdit=JSON.stringify(event.newJson)} ></EntityEditor>
+                                    onInnerFieldChanged={(event) => this.state.jsonToEdit = JSON.stringify(event.newJson)} ></EntityEditor>
 
                             </Col>
                         </Row>

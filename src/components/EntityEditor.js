@@ -79,7 +79,7 @@ class EntityEditor extends React.Component {
 
     init(props) {
         this.state = {
-            expandAllJsonValue: props.expandAllJsonValue,
+            expandAll: props.expandAll,
             json: JSON.parse(props.jsondata),
             fullJson: JSON.parse(props.fullJson),
             name: props.name,
@@ -92,7 +92,7 @@ class EntityEditor extends React.Component {
 
         this.onInnerFieldChangedCallback = props.onInnerFieldChanged;
 
-        this.initCollapsableFields(props.expandAllJsonValue);
+        this.initCollapsableFields(props.expandAll);
 
         this.initChildrenEntityEditors();
 
@@ -145,15 +145,10 @@ class EntityEditor extends React.Component {
         }
     }
 
-    initCollapsableFields(defaultValue) {
+    initCollapsableFields(isExpandAll) {
         for (var key in this.state.json) {
             if (typeof this.state.json[key] == 'object') {
-
-                if (defaultValue == 'expand') {
-                    this.state.objectFieldsOpen[key] = true;
-                } else {
-                    this.state.objectFieldsOpen[key] = false;
-                }
+                this.state.objectFieldsOpen[key] = isExpandAll;
             }
         }
     }
@@ -501,7 +496,7 @@ class EntityEditor extends React.Component {
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor
-                        expandAllJsonValue={this.state.expandAllJsonValue}
+                        expandAll={this.state.expandAll}
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
                         name={key}
                         ref={this.children[key]}
@@ -558,7 +553,7 @@ class EntityEditor extends React.Component {
             items.push(
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor
-                        expandAllJsonValue={this.state.expandAllJsonValue}
+                        expandAll={this.state.expandAll}
                         name={key + '/' + step}
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
                         ref={this.children[key][step]}
