@@ -182,8 +182,6 @@ class NGRequest extends React.Component {
 
                     {/* TODO: 
                             6) handle field which is array of int
-                            9) add button to expend all (fields), and collapse all
-                            12) fix the little jumps between the fields when extend and collapse the object fields and array fields
                             13) handle field which are double. 
                         */}
                     <Form>
@@ -316,21 +314,24 @@ class NGRequest extends React.Component {
                         <Row dir='rtl'>
                             <Col lg='10'>
 
-                                <Button variant="outline-info" onClick={() => this.expendAll()}>
-                                    {
-                                    this.state.expandAll &&
-                                        'Expand all'
-                                    }
-                                    {!this.state.expandAll &&
-                                        'Collapse all'
-                                    }
-                                </Button>
+
 
                             </Col>
                         </Row>
 
                         <Row dir='rtl'>
-                            <Col className='entity-editor-window' lg='10'>
+
+                            <Col lg='10' className='entity-editor-window'>
+                                <Button style={{ top: 20, right: 20, position: 'absolute' }} variant="outline-info" onClick={() => this.expendAll()}>
+                                    {
+                                        this.state.expandAll &&
+                                        <i class="fas fa-compress-alt"></i>
+                                    }
+                                    {!this.state.expandAll &&
+                                        <i class="fas fa-expand-alt"></i>
+                                    }
+                                </Button>
+
                                 <EntityEditor
                                     expandAll={this.state.expandAll}
                                     ref={this.child}
