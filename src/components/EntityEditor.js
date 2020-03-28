@@ -13,6 +13,10 @@ const Styles = styled.div`
         &:hover { background: #bbdefb; }
     }
 
+    .collapse {
+        padding-top: 0.01%;
+    }
+
     .field-component {
         margin-right: 6px;
     }
@@ -494,7 +498,7 @@ class EntityEditor extends React.Component {
 
                 </Row>
 
-                <Collapse style={{paddingTop: 1}} isOpen={this.state.objectFieldsOpen[key]}>
+                <Collapse isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor
                         expandAll={this.state.expandAll}
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
