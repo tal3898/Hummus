@@ -15,6 +15,7 @@ const Styles = styled.div`
 
     .collapse {
         padding-top: 0.01%;
+        padding-bottom:1px;
     }
 
     .field-component {
