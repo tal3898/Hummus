@@ -182,8 +182,8 @@ class NGRequest extends React.Component {
                         {/* TODO: 
                             6) handle field which is array of int
                             9) add button to expend all (fields), and collapse all
-                            10) add info button (i) which on hover, it will show popup with hebrew info about the field 
                             12) fix the little jumps between the fields when extend and collapse the object fields and array fields
+                            13) handle field which are double. 
                         */}
                     <Form>
                         <div dir='rtl' className='metadata'>
