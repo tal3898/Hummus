@@ -79,6 +79,7 @@ class EntityEditor extends React.Component {
 
     init(props) {
         this.state = {
+            expandAllJsonValue: props.expandAllJsonValue,
             json: JSON.parse(props.jsondata),
             fullJson: JSON.parse(props.fullJson),
             name: props.name,
@@ -91,7 +92,7 @@ class EntityEditor extends React.Component {
 
         this.onInnerFieldChangedCallback = props.onInnerFieldChanged;
 
-        this.initCollapsableFields();
+        this.initCollapsableFields(props.expandAllJsonValue);
 
         this.initChildrenEntityEditors();
 
@@ -144,38 +145,20 @@ class EntityEditor extends React.Component {
         }
     }
 
-    initCollapsableFields() {
+    initCollapsableFields(defaultValue) {
         for (var key in this.state.json) {
             if (typeof this.state.json[key] == 'object') {
-                this.state.objectFieldsOpen[key] = false;
+
+                if (defaultValue == 'expand') {
+                    this.state.objectFieldsOpen[key] = true;
+                } else {
+                    this.state.objectFieldsOpen[key] = false;
+                }
             }
         }
     }
 
     //#endregion
-
-    expendAll() {
-        for (var key in this.state.objectFieldsOpen) {
-            this.state.objectFieldsOpen[key] = true;
-        }
-        this.setState(this.state);
-
-        for (var key in this.children) {
-            var fieldName = key.split('|')[0];
-
-            if (Array.isArray(this.children[key])) {
-                for (var index in this.children[key]) {
-                    var currChild = this.children[key][index];
-                    currChild.current.expendAll();
-                }
-
-
-            } else {
-                var child = this.children[key];
-                child.current.expendAll();
-            }
-        }
-    }
 
     collapseEntityEditor(key) {
         this.state.objectFieldsOpen[key] = !this.state.objectFieldsOpen[key];
@@ -518,6 +501,7 @@ class EntityEditor extends React.Component {
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor
+                        expandAllJsonValue={this.state.expandAllJsonValue}
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
                         name={key}
                         ref={this.children[key]}
@@ -574,6 +558,7 @@ class EntityEditor extends React.Component {
             items.push(
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor
+                        expandAllJsonValue={this.state.expandAllJsonValue}
                         name={key + '/' + step}
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
                         ref={this.children[key][step]}

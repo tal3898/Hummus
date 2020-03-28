@@ -74,7 +74,6 @@ class NGRequest extends React.Component {
             "מחיקה": "DELETE"
         }
 
-
         this.jsonMap = {
             "אנגלית": {
                 "2": JSON.stringify(english_2),
@@ -92,6 +91,14 @@ class NGRequest extends React.Component {
 
         this.state.jsonToEdit = JSON.stringify(english_2);
         this.state.fullJsonToEdit = JSON.stringify(english_2);
+
+        this.entityEditorExpandValues = {
+            NEUTRAL: 'neutral',
+            EXPAND: 'expand',
+            COLLAPSE: 'collapse'
+        };
+
+        this.state.expandAllJsonValue = this.entityEditorExpandValues.NEUTRAL;
     }
 
     openPopup() {
@@ -101,7 +108,12 @@ class NGRequest extends React.Component {
     }
 
     expendAll() {
-        this.child.current.expendAll();
+        if (this.state.expandAllJsonValue == this.entityEditorExpandValues.EXPAND) {
+            this.setState({expandAllJsonValue:  this.entityEditorExpandValues.COLLAPSE})
+        } else {
+            this.setState({expandAllJsonValue:  this.entityEditorExpandValues.EXPAND})
+        }
+        
     }
 
     sendJsonToNG() {
@@ -316,7 +328,7 @@ class NGRequest extends React.Component {
                             <Col lg='10'>
 
                             <Button variant="outline-info" onClick={() => this.expendAll()}>
-                                                expend all
+                                                {this.state.expandAllJsonValue}
                                             </Button>
 
                             </Col>
@@ -324,7 +336,8 @@ class NGRequest extends React.Component {
 
                         <Row dir='rtl'>
                             <Col className='entity-editor-window' lg='10'>
-                                <EntityEditor 
+                                <EntityEditor
+                                    expandAllJsonValue={this.state.expandAllJsonValue} 
                                     ref={this.child}
                                     level='0'
                                     fullJson={this.state.fullJsonToEdit}
