@@ -179,10 +179,10 @@ class NGRequest extends React.Component {
                     <ToastContainer />
                     <JsonPopup json={JSON.stringify(this.state.json)} onClose={() => this.close()} isOpen={this.state.isOpenPopup} />
 
-
                     {/* TODO: 
                             6) handle field which is array of int
-                            13) handle field which are double. 
+                            14) remove unrelevant packages
+                            15) for enum fields, show the hebrew name, and the actual value
                         */}
                     <Form>
                         <div dir='rtl' className='metadata'>
@@ -264,6 +264,8 @@ class NGRequest extends React.Component {
                                         <option>כמיה</option>
                                     </Form.Control>
                                 </Col>
+
+
 
                                 <Col lg='1' >
                                     <Form.Label >סוג בקשה</Form.Label>

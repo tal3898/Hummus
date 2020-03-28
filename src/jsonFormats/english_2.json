@@ -15,7 +15,9 @@
 		},
 		"Info|string|[0]": "[GEN]",
 		"Type|enum|[1]|[20,30,40,50]": "",
-		"Angle|float|[0]||זווית של הבניין, נגיד של פיזה זה 27.3": ""
+		"Angle|float|[0]||זווית של הבניין, נגיד של פיזה זה 27.3": "",
+		"Trips|array|[0..1]||כל המקומות שהייתי בהם":  "[ { \"value\": 1, \"label\": \"Paris - 1\" },  { \"value\": 1, \"label\": \"London - 2\" },  { \"value\": 3, \"label\": \"New York - 3\" }, { \"value\": 4, \"label\": \" Tel Aviv - 4\" } ]"
+			
 	},
 	"Planing|[0..1]": [{
 		"Goal|string|[1]": "learn piano",

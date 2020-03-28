@@ -4,6 +4,8 @@ import { Form, Col, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
 import Popup from "reactjs-popup";
+import Select from 'react-select';
+
 
 const Styles = styled.div`
     .field {
@@ -400,7 +402,7 @@ class EntityEditor extends React.Component {
                 <div class="field-component" style={{ marginTop: 3 }}>
 
                     {/* If current field is enum, create select input */}
-                    {enumValuesItem.length > 0 &&
+                    {keyType == 'enum' &&
                         <Form.Control
                             as="select"
                             ref={(ref) => this.fieldsInput[key] = ref} name={key}
@@ -412,8 +414,18 @@ class EntityEditor extends React.Component {
                         </Form.Control>
                     }
 
+                    {/* If current field is enum, create select input */}
+                    {keyType == 'array' &&
+                        <Select
+                            isMulti
+                            isClearable
+                            isSearchable
+                            options={JSON.parse(defaultValue)}
+                        />
+                    }
+
                     {/* Else, If current field is int/string, create regular input */}
-                    {enumValuesItem.length == 0 &&
+                    {keyType != 'enum' && keyType != 'array' &&
                         <Form.Control
                             ref={(ref) => this.fieldsInput[key] = ref}
                             name={key}
@@ -435,9 +447,9 @@ class EntityEditor extends React.Component {
                     }
                 </div>
 
-                {this.hasInfo(key,4) &&
-                        this.createInfoPopup(key,4)}
-                        
+                {this.hasInfo(key, 4) &&
+                    this.createInfoPopup(key, 4)}
+
                 <div class="field-component">
                     <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
                 </div>
@@ -493,8 +505,8 @@ class EntityEditor extends React.Component {
                         <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
                     </div>
 
-                    {this.hasInfo(key,2) &&
-                        this.createInfoPopup(key,2)}
+                    {this.hasInfo(key, 2) &&
+                        this.createInfoPopup(key, 2)}
 
                     <div class="field-component">
                         <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
