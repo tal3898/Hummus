@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Form, Col, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import Popup from "reactjs-popup";
 
 const Styles = styled.div`
     .field {
@@ -29,6 +30,9 @@ const Styles = styled.div`
         display: block;
     }
 
+    .info-txt {
+        font-size:12px;
+    }
 
     .fa-trash-alt {
         margin-left:40px;
@@ -48,6 +52,10 @@ const Styles = styled.div`
 
     .fa-plus:hover {
         color: #66bb6a;
+    }
+
+    .fa-info-circle:hover {
+        color: #2196f3;
     }
 `;
 
@@ -143,7 +151,7 @@ class EntityEditor extends React.Component {
             }
         }
     }
-    
+
     //#endregion
 
     expendAll() {
@@ -166,7 +174,7 @@ class EntityEditor extends React.Component {
                 var child = this.children[key];
                 child.current.expendAll();
             }
-        }        
+        }
     }
 
     collapseEntityEditor(key) {
@@ -440,6 +448,9 @@ class EntityEditor extends React.Component {
                     }
                 </div>
 
+                {this.hasInfo(key,4) &&
+                        this.createInfoPopup(key,4)}
+                        
                 <div class="field-component">
                     <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
                 </div>
@@ -449,6 +460,29 @@ class EntityEditor extends React.Component {
         );
     }
 
+    //#region info button
+    createInfoPopup(key, infoIndex) {
+        return (
+            <div className="field-component">
+                <Popup
+                    position="right top"
+                    on="hover"
+                    trigger={
+                        <i class="fas fa-info-circle field-action mt-1"></i>}
+                >
+                    <center className="info-txt">
+                        {key.split('|')[infoIndex]}
+                    </center>
+                </Popup>
+            </div>
+        );
+    }
+
+    hasInfo(key, infoIndex) {
+        return key.split('|').length >= (infoIndex + 1);
+    }
+    //#endregion
+
     getObjectFieldJSX(key) {
         var keyName = key.split('|')[0];
         var keyRequiredValue = key.split('|')[1];
@@ -456,7 +490,6 @@ class EntityEditor extends React.Component {
         return (
             <div>
                 <Row key={key} className="field mb-1" style={{ marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)}>
-
 
                     <div class="field-component">
                         {this.state.objectFieldsOpen[key] ?
@@ -472,6 +505,9 @@ class EntityEditor extends React.Component {
                     <div class="field-component">
                         <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
                     </div>
+
+                    {this.hasInfo(key,2) &&
+                        this.createInfoPopup(key,2)}
 
                     <div class="field-component">
                         <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
