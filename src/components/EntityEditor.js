@@ -235,7 +235,7 @@ class EntityEditor extends React.Component {
 
             finalValue = randomString
         } else if (fieldType == "number" || fieldType == "enum") {
-            finalValue = parseInt(fieldValue);
+            finalValue = parseInt(fieldValue); // If enum, and looks like this : "50 - ABC", it will parse the only th 50 to string
         } else if (fieldType == "float") {
             finalValue = parseFloat(fieldValue);
         }
@@ -379,7 +379,7 @@ class EntityEditor extends React.Component {
 
         var enumValuesItem = []
         if (keyType == "enum") {
-            var optionalValues = JSON.parse(key.split('|')[3]);
+            var optionalValues = JSON.parse(defaultValue);
             for (var index in optionalValues) {
                 enumValuesItem.push(
                     <option>{optionalValues[index]}</option>

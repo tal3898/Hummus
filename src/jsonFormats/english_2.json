@@ -14,7 +14,7 @@
 			"number|number|[1]": "30"
 		},
 		"Info|string|[0]": "[GEN]",
-		"Type|enum|[1]|[20,30,40,50]": "",
+		"Type|enum|[1]|[]": "[\"20 - Second\", \"30 - Third\", \"40 - Forth\", \"50 - Fith\"]",
 		"Angle|float|[0]||זווית של הבניין, נגיד של פיזה זה 27.3": "",
 		"Trips|array|[0..1]||כל המקומות שהייתי בהם":  "[ { \"value\": 1, \"label\": \"Paris - 1\" },  { \"value\": 1, \"label\": \"London - 2\" },  { \"value\": 3, \"label\": \"New York - 3\" }, { \"value\": 4, \"label\": \" Tel Aviv - 4\" } ]"
 			
