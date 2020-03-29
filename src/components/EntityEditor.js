@@ -465,8 +465,8 @@ class EntityEditor extends React.Component {
 
     //#region info button
 
-    hasInfo(key) {
-        return key.split('|').length >= 3;
+    hasInfo(key, infoIndex) {
+        return key.split('|').length >= infoIndex + 1;
     }
 
     createInfoPopup(key, infoIndex) {
@@ -479,10 +479,10 @@ class EntityEditor extends React.Component {
                         <i class="fas fa-info-circle field-action mt-1"></i>}
                 >
                     <center className="info-txt">
-                        {this.hasInfo(key) &&
+                        {this.hasInfo(key, infoIndex) &&
                             key.split('|')[infoIndex]}
                     </center>
-                    {this.hasInfo(key) &&
+                    {this.hasInfo(key, infoIndex) &&
                             <hr style={{margin:2}}/>}
                     
                     <center className="info-field-path-txt">
