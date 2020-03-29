@@ -42,6 +42,10 @@ const Styles = styled.div`
         font-size:12px;
     }
 
+    .info-field-path-txt {
+        font-size:15px;
+    }
+
     .fa-trash-alt {
         margin-left:40px;
     }
@@ -88,6 +92,7 @@ class EntityEditor extends React.Component {
 
     init(props) {
         this.state = {
+            parentPath: props.parentPath,
             expandAll: props.expandAll,
             json: JSON.parse(props.jsondata),
             fullJson: JSON.parse(props.fullJson),
@@ -447,8 +452,7 @@ class EntityEditor extends React.Component {
                     }
                 </div>
 
-                {this.hasInfo(key, 3) &&
-                    this.createInfoPopup(key, 3)}
+                {this.createInfoPopup(key,3)}
 
                 <div class="field-component">
                     <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
@@ -460,6 +464,11 @@ class EntityEditor extends React.Component {
     }
 
     //#region info button
+
+    hasInfo(key) {
+        return key.split('|').length >= 3;
+    }
+
     createInfoPopup(key, infoIndex) {
         return (
             <div className="field-component">
@@ -470,16 +479,17 @@ class EntityEditor extends React.Component {
                         <i class="fas fa-info-circle field-action mt-1"></i>}
                 >
                     <center className="info-txt">
-                        {key.split('|')[infoIndex]}
+                        {this.hasInfo(key) &&
+                            key.split('|')[infoIndex]}
+                    </center>
+                    <center className="info-field-path-txt">
+                        {this.state.parentPath + '/' + key.split('|')[0]}
                     </center>
                 </Popup>
             </div>
         );
     }
 
-    hasInfo(key, infoIndex) {
-        return key.split('|').length >= (infoIndex + 1);
-    }
     //#endregion
 
     getObjectFieldJSX(key) {
@@ -505,8 +515,7 @@ class EntityEditor extends React.Component {
                         <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
                     </div>
 
-                    {this.hasInfo(key, 2) &&
-                        this.createInfoPopup(key, 2)}
+                    {this.createInfoPopup(key,2)}
 
                     <div class="field-component">
                         <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
@@ -517,6 +526,7 @@ class EntityEditor extends React.Component {
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor
+                        parentPath= {this.state.parentPath + "/" + keyName}
                         expandAll={this.state.expandAll}
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
                         name={key}
@@ -559,6 +569,8 @@ class EntityEditor extends React.Component {
                         <i class=" fas fa-plus field-action mt-1" onClick={(event) => this.addField(key, event)}></i>
                     </div>
 
+                    {this.createInfoPopup(key,3)}
+
                     <div class="field-component">
                         <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
                     </div>
@@ -574,6 +586,7 @@ class EntityEditor extends React.Component {
             items.push(
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor
+                        parentPath= {this.state.parentPath + "/" + keyName}
                         expandAll={this.state.expandAll}
                         name={key + '/' + step}
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}

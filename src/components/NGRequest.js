@@ -335,6 +335,7 @@ class NGRequest extends React.Component {
                                 </Button>
 
                                 <EntityEditor
+                                    parentPath=''
                                     expandAll={this.state.expandAll}
                                     ref={this.child}
                                     level='0'
