@@ -6,7 +6,9 @@
   "scripts": {
     "server": "node server.js",
     "client": "npm start --prefix client",
-    "start": "concurrently \"npm run server\" \"npm run client\""
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "install-client": "cd client && npm install",
+    "install": "npm run install-client"
   },
   "author": "",
   "license": "ISC",
