@@ -482,6 +482,9 @@ class EntityEditor extends React.Component {
                         {this.hasInfo(key) &&
                             key.split('|')[infoIndex]}
                     </center>
+                    {this.hasInfo(key) &&
+                            <hr style={{margin:2}}/>}
+                    
                     <center className="info-field-path-txt">
                         {this.state.parentPath + '/' + key.split('|')[0]}
                     </center>
