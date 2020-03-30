@@ -44,7 +44,7 @@ class ScenariosWindow extends React.Component {
     super(props);
 
     this.state = {
-      currPath: '/',
+      currPath: '',
       files: [],
       folders: []
     }
@@ -91,7 +91,7 @@ class ScenariosWindow extends React.Component {
   }
 
   openFolder(folderJson) {
-    var newFolderPath = this.state.currPath + "/" + folderJson.name
+    var newFolderPath = folderJson.path;
     this.setState({currPath: newFolderPath});
     this.getCurrPathContent();
   }
@@ -103,7 +103,7 @@ class ScenariosWindow extends React.Component {
           <i class="action far fa-folder-open fa-2x"></i>
         </Col>
         <Col className="col-md-2">
-          <span style={{ float: 'right' }} className="scenario-name">{folderJson.name}</span>
+          <span style={{ float: 'right' }} className="scenario-name">{folderJson.path.split('/')[folderJson.path.split('/').length-1]}</span>
         </Col>
       </Row>
     )
@@ -116,7 +116,7 @@ class ScenariosWindow extends React.Component {
           <i class="action far fa-file fa-2x"></i>
         </Col>
         <Col className="col-md-2">
-          <span style={{ float: 'right' }} className="scenario-name">{fileJson.name}</span>
+          <span style={{ float: 'right' }} className="scenario-name">{fileJson.path.split('/')[fileJson.path.split('/').length-1]}</span>
         </Col>
       </Row>
     )
