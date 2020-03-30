@@ -4,8 +4,9 @@ import { Nav, Button, Form, FormControl, Col, Row } from 'react-bootstrap';
 import { JSONEditor } from 'react-json-editor-viewer';
 import EntityEditor from './EntityEditor';
 import Popup from "reactjs-popup";
-import ReactJson from 'react-json-view'
-import JsonPopup from './JsonPopup'
+import ReactJson from 'react-json-view';
+import JsonPopup from './JsonPopup';
+import SaveScenarioPopup from './SaveScenarioPopup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -51,7 +52,8 @@ class NGRequest extends React.Component {
         this.child = React.createRef();
         this.state = {
             json: {},
-            isOpenPopup: false
+            isJsonPopupOpen: false,
+            isSavePopupOpen: false
         }
 
         this.entityMap = {
@@ -95,9 +97,14 @@ class NGRequest extends React.Component {
         this.state.expandAll = false;
     }
 
-    openPopup() {
+    openSavePopup() {
+        this.state.isSavePopupOpen = true;
+        this.setState(this.state);
+    }
+
+    openJsonPopup() {
         this.state.json = this.child.current.getTotalJson();
-        this.state.isOpenPopup = true;
+        this.state.isJsonPopupOpen = true;
         this.setState(this.state);
     }
 
@@ -166,7 +173,8 @@ class NGRequest extends React.Component {
 
     close() {
         console.log('closing popup')
-        this.state.isOpenPopup = false;
+        this.state.isJsonPopupOpen = false;
+        this.state.isSavePopupOpen = false;
         this.setState(this.state);
     }
 
@@ -179,7 +187,16 @@ class NGRequest extends React.Component {
                     </div>
 
                     <ToastContainer />
-                    <JsonPopup json={JSON.stringify(this.state.json)} onClose={() => this.close()} isOpen={this.state.isOpenPopup} />
+                    <JsonPopup
+                        json={JSON.stringify(this.state.json)}
+                        onClose={() => this.close()}
+                        isOpen={this.state.isJsonPopupOpen} />
+
+                    <SaveScenarioPopup
+                        json={JSON.stringify(this.state.json)}
+                        onClose={() => this.close()}
+                        isOpen={this.state.isSavePopupOpen} />
+
 
                     {/* TODO: 
                             6) handle field which is array of int
@@ -203,7 +220,7 @@ class NGRequest extends React.Component {
                                         position="bottom center"
                                         on="hover"
                                         trigger={
-                                            <Button className="action-btn" variant="outline-info" onClick={() => this.sendJsonToNG()}>
+                                            <Button className="action-btn" variant="outline-info" onClick={() => this.openSavePopup()}>
                                                 <i class="far fa-save fa-2x fa-flip-horizontal"></i>
                                             </Button>}
                                     >
@@ -218,7 +235,7 @@ class NGRequest extends React.Component {
                                         position="bottom center"
                                         on="hover"
                                         trigger={
-                                            <Button className="action-btn" variant="outline-info" onClick={() => this.openPopup()}>
+                                            <Button className="action-btn" variant="outline-info" onClick={() => this.openJsonPopup()}>
                                                 <i class="fas fa-code fa-2x"></i>
                                             </Button>}
                                     >
