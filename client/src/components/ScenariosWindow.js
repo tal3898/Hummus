@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Form, Col, Row } from 'react-bootstrap';
+import { Form, Col, Row, InputGroup } from 'react-bootstrap';
 
 const Styles = styled.div`
 
@@ -92,18 +92,19 @@ class ScenariosWindow extends React.Component {
 
   openFolder(folderJson) {
     var newFolderPath = folderJson.path;
-    this.setState({currPath: newFolderPath});
+    this.state.currPath = newFolderPath;
+    this.setState(this.state);
     this.getCurrPathContent();
   }
 
   createFolderRow(folderJson) {
     return (
-      <Row onClick={() => this.openFolder(folderJson) } className="field">
+      <Row onClick={() => this.openFolder(folderJson)} className="field">
         <Col lg="1" className="col-md-2">
           <i class="action far fa-folder-open fa-2x"></i>
         </Col>
         <Col className="col-md-2">
-          <span style={{ float: 'right' }} className="scenario-name">{folderJson.path.split('/')[folderJson.path.split('/').length-1]}</span>
+          <span style={{ float: 'right' }} className="scenario-name">{folderJson.path.split('/')[folderJson.path.split('/').length - 1]}</span>
         </Col>
       </Row>
     )
@@ -116,7 +117,7 @@ class ScenariosWindow extends React.Component {
           <i class="action far fa-file fa-2x"></i>
         </Col>
         <Col className="col-md-2">
-          <span style={{ float: 'right' }} className="scenario-name">{fileJson.path.split('/')[fileJson.path.split('/').length-1]}</span>
+          <span style={{ float: 'right' }} className="scenario-name">{fileJson.path.split('/')[fileJson.path.split('/').length - 1]}</span>
         </Col>
       </Row>
     )
@@ -128,15 +129,32 @@ class ScenariosWindow extends React.Component {
       <div className="all w3-card-4" style={{ width: 400 }}>
         <header dir="rtl" class="w3-container w3-blue">
           <h1 className="headline">תרחישים</h1>
+          <Form.Group dir="ltr" md="4" controlId="validationCustomUsername">
+            <InputGroup>
+              <InputGroup.Prepend>
+                <InputGroup.Text id="inputGroupPrepend">path</InputGroup.Text>
+              </InputGroup.Prepend>
+              <Form.Control
+                disabled
+                type="text"
+                value={this.state.currPath}
+                aria-describedby="inputGroupPrepend"
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please choose a username.
+            </Form.Control.Feedback>
+            </InputGroup>
+          </Form.Group>
         </header>
 
 
         <div className="w3-container">
 
           <div dir="rtl" className='scenarios-list'>
-          {this.state.folders.map((folderJson) => this.createFolderRow(folderJson))}
+            {this.state.folders.map((folderJson) => this.createFolderRow(folderJson))}
 
-          {this.state.files.map((fileJson) => this.createFileRow(fileJson))}
+            {this.state.files.map((fileJson) => this.createFileRow(fileJson))}
 
           </div>
 
