@@ -22,12 +22,11 @@ app.post('/scenario', async (req, res) => {
 
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db("HummusDB");
-	var result = await dbo.collection("scenario").find({}).toArray();
+	var result = await dbo.collection("scenario").find({path: {$regex: '^/tal/' } }, {path:1,_id:0, steps:[]}).toArray();
 	
 	console.log('restult is ' + JSON.stringify(result))
-	res.json(
-		result
-	);
+	res.json(result);
+
 	db.close();
 });
 

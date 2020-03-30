@@ -91,7 +91,8 @@ class ScenariosWindow extends React.Component {
   }
 
   openFolder(folderJson) {
-    this.setState({currPath: '/as'});
+    var newFolderPath = this.state.currPath + "/" + folderJson.name
+    this.setState({currPath: newFolderPath});
     this.getCurrPathContent();
   }
 
