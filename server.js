@@ -22,10 +22,13 @@ app.post('/scenario', async (req, res) => {
 
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db("HummusDB");
-	var result = await dbo.collection("scenario").find({path: {$regex: '^/tal/' } }, {path:1,_id:0, steps:[]}).toArray();
+	var result = await dbo.collection("scenario").find({path: {$regex: '^' + req.body.path + '/' } }, {path:1,_id:0, steps:[]}).toArray();
 	
+	// Take only the documents which are direct children of the request path
+	var currPathChildren = result.filter((document) => document.path.split('/').length == req.body.path.split('/').length + 1 );
+
 	console.log('restult is ' + JSON.stringify(result))
-	res.json(result);
+	res.json(currPathChildren);
 
 	db.close();
 });
