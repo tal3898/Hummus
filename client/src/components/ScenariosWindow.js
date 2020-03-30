@@ -15,6 +15,11 @@ const Styles = styled.div`
 
 }
 
+.back-button {
+  color: #546e7a;
+  cursor: pointer;
+}
+
 .back-button:hover {
   color: #212121;
   cursor: pointer;

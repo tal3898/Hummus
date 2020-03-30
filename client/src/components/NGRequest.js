@@ -20,6 +20,8 @@ import chemistry_x from '../jsonFormats/chemistry_x.json'
 
 const Styles = styled.div`
 
+
+
 .main-comp {
     padding-right: 50px;
 }
@@ -41,7 +43,12 @@ const Styles = styled.div`
 }
 
 .action-btn {
-    margin-right: 5px;
+    margin-right: 20px;
+    color: #607d8b;
+}
+
+.action-btn:hover {
+    color: #0091ea;
 }
 `;
 
@@ -235,9 +242,9 @@ class NGRequest extends React.Component {
                                         position="bottom center"
                                         on="hover"
                                         trigger={
-                                            <Button className="action-btn" variant="outline-info" onClick={() => this.openSavePopup()}>
-                                                <i class="far fa-save fa-2x"></i>
-                                            </Button>}
+                                            <a className="action-btn" variant="outline-info" onClick={() => this.openSavePopup()}>
+                                                <i class="far fa-save fa-3x"></i>
+                                            </a>} 
                                     >
                                         <center>
                                             שמור תרחיש
@@ -250,9 +257,9 @@ class NGRequest extends React.Component {
                                         position="bottom center"
                                         on="hover"
                                         trigger={
-                                            <Button className="action-btn" variant="outline-info" onClick={() => this.openJsonPopup()}>
-                                                <i class="fas fa-code fa-2x"></i>
-                                            </Button>}
+                                            <a className="action-btn" variant="outline-info" onClick={() => this.openJsonPopup()}>
+                                                <i class="fas fa-code fa-3x"></i>
+                                            </a>} 
                                     >
                                         <center>
                                             הצג ג'יסון
@@ -265,9 +272,9 @@ class NGRequest extends React.Component {
                                         position="bottom center"
                                         on="hover"
                                         trigger={
-                                            <Button className="action-btn" variant="info" onClick={() => this.sendJsonToNG()}>
-                                                <i class="far fa-paper-plane fa-2x fa-flip-horizontal"></i>
-                                            </Button>}
+                                            <a className="action-btn" variant="outline-info" onClick={() => this.sendJsonToNG()}>
+                                                <i class="far fa-paper-plane fa-3x fa-flip-horizontal"></i>
+                                            </a>}
                                     >
                                         <center>
                                             שלח בקשת כתיבה
