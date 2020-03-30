@@ -17,24 +17,18 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 const port = 5000;
 
-app.post('/scenario', (req, res) => {
+app.post('/scenario', async (req, res) => {
 	console.log('in post, with body ' + JSON.stringify(req.body));
 
-	MongoClient.connect(dbUrl, function(err, db) {
-		if (err) throw err;
-		var dbo = db.db("HummusDB");
-		dbo.collection("scenario").find({}).toArray(function(err, result) {
-		  if (err) throw err;
-		  console.log('restult is ' + JSON.stringify(result))
-		  res.json(
-			result
-		);
-		  db.close();
-		});
-	  });
-
-
-
+	var db = await MongoClient.connect(dbUrl);
+	var dbo = db.db("HummusDB");
+	var result = await dbo.collection("scenario").find({}).toArray();
+	
+	console.log('restult is ' + JSON.stringify(result))
+	res.json(
+		result
+	);
+	db.close();
 });
 
 app.listen(port, () => console.log('server started on port ' + port));
