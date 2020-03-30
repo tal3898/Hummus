@@ -33,7 +33,6 @@ class JsonPopup extends React.Component {
 
     constructor(props) {
         super(props)
-        console.log('rec + ' + props.json)
         this.state = {
             isOpen: false,
             json: JSON.parse(props.json)

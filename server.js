@@ -4,7 +4,7 @@ const app = express();
 
 const port = 5000;
 
-app.get('/scenario', (req,res) => {
+app.post('/scenario', (req,res) => {
 	res.json([
 		{
 			name: 'first',

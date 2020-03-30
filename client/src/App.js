@@ -3,7 +3,7 @@ import React from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { NavigationBar } from './components/NavigationBar';
-import { ScenariosWindow } from './components/ScenariosWindow';
+import ScenariosWindow from './components/ScenariosWindow';
 import NGRequest from './components/NGRequest';
 import { Col, Row } from 'react-bootstrap';
 

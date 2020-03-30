@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Form, Col, Row } from 'react-bootstrap';
 
@@ -39,56 +39,111 @@ const Styles = styled.div`
 }
 
 `;
-export const ScenariosWindow = () => (
-  <Styles>
+class ScenariosWindow extends React.Component {
+  constructor(props) {
+    super(props);
 
-    <div className="all w3-card-4" style={{ width: 400 }}>
-      <header dir="rtl" class="w3-container w3-blue">
-        <h1 className="headline">תרחישים</h1>
-      </header>
+    this.state = {
+      currPath: '/',
+      files: [],
+      folders: []
+    }
+
+    this.getCurrPathContent();
+  }
+
+  getCurrPathContent() {
+
+    console.log('seanding')
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: {
+        path: this.state.currPath
+      }
+    };
+
+    fetch('/scenario', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        var currPathContent = data;
+        var files = [];
+        var folders = [];
+
+        for (var index in currPathContent) {
+          var currContent = currPathContent[index];
+
+          if (currContent.hasOwnProperty('steps')) {
+            files.push(currContent);
+          } else {
+            folders.push(currContent);
+          }
+        }
+        this.setState({ folders: folders });
+        this.setState({ files: files });
 
 
-      <div className="w3-container">
 
-        <div dir="rtl" className='scenarios-list'>
-          <Row className="field">
-            <Col lg="1" className="col-md-2">
-              <i class="action far fa-folder-open fa-2x"></i>
-            </Col>
-            <Col className="col-md-2">
-              <span style={{ float: 'right' }} className="scenario-name">טל</span>
-            </Col>
-          </Row>
+      }).catch(error => {
+        console.error("local error: ", error)
+      });
+  }
 
-          <Row className="field">
-            <Col lg="1" className="col-md-2">
-              <i class="action far fa-folder-open fa-2x"></i>
-            </Col>
-            <Col className="col-md-2">
-              <span dir="rtl" className="scenario-name">שחר</span>
-            </Col>
-          </Row>
+  createFolderRow(folderJson) {
+    return (
+      <Row className="field">
+        <Col lg="1" className="col-md-2">
+          <i class="action far fa-folder-open fa-2x"></i>
+        </Col>
+        <Col className="col-md-2">
+          <span style={{ float: 'right' }} className="scenario-name">{folderJson.name}</span>
+        </Col>
+      </Row>
+    )
+  }
 
-          <Row className="field">
-            <Col lg="1" className="col-md-2">
-              <center>
-                <i class="action far fa-file fa-2x"></i>
-              </center>
-            </Col>
-            <Col className="col-md-2">
-              <span className="scenario-name">כתיבה רגילה</span>
-            </Col>
-          </Row>
+  createFileRow(fileJson) {
+    return (
+      <Row className="field">
+        <Col lg="1" className="col-md-2">
+          <i class="action far fa-file fa-2x"></i>
+        </Col>
+        <Col className="col-md-2">
+          <span style={{ float: 'right' }} className="scenario-name">{fileJson.name}</span>
+        </Col>
+      </Row>
+    )
+  }
+
+  render() {
+    return (<Styles>
+
+      <div className="all w3-card-4" style={{ width: 400 }}>
+        <header dir="rtl" class="w3-container w3-blue">
+          <h1 className="headline">תרחישים</h1>
+        </header>
+
+
+        <div className="w3-container">
+
+          <div dir="rtl" className='scenarios-list'>
+          {this.state.folders.map((folderJson) => this.createFolderRow(folderJson))}
+
+          {this.state.files.map((fileJson) => this.createFileRow(fileJson))}
+
+          </div>
 
         </div>
 
       </div>
 
-    </div>
 
 
 
 
+    </Styles>)
+  }
+}
 
-  </Styles>
-)
+export default ScenariosWindow;
