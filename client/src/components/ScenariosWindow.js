@@ -59,9 +59,9 @@ class ScenariosWindow extends React.Component {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: {
+      body: JSON.stringify({
         path: this.state.currPath
-      }
+      })
     };
 
     fetch('/scenario', requestOptions)
