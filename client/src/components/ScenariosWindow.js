@@ -15,6 +15,11 @@ const Styles = styled.div`
 
 }
 
+.back-button:hover {
+  color: #212121;
+  cursor: pointer;
+}
+
 .w3-card-4 {
   height:600px;
 }
@@ -90,16 +95,20 @@ class ScenariosWindow extends React.Component {
       });
   }
 
-  openFolder(folderJson) {
-    var newFolderPath = folderJson.path;
-    this.state.currPath = newFolderPath;
+  openFolder(path) {
+    this.state.currPath = path;
     this.setState(this.state);
     this.getCurrPathContent();
   }
 
+  goBack() {
+    var prevPath = this.state.currPath.substring(0,this.state.currPath.lastIndexOf('/'));
+    this.openFolder(prevPath);
+  }
+
   createFolderRow(folderJson) {
     return (
-      <Row onClick={() => this.openFolder(folderJson)} className="field">
+      <Row onClick={() => this.openFolder(folderJson.path)} className="field">
         <Col lg="1" className="col-md-2">
           <i class="action far fa-folder-open fa-2x"></i>
         </Col>
@@ -141,9 +150,12 @@ class ScenariosWindow extends React.Component {
                 aria-describedby="inputGroupPrepend"
                 required
               />
-              <Form.Control.Feedback type="invalid">
-                Please choose a username.
-            </Form.Control.Feedback>
+              <InputGroup.Prepend>
+              
+                <InputGroup.Text onClick={() => this.goBack()} className="back-button" id="inputGroupPrepend">
+                  <i class="fas fa-undo-alt"></i>
+                </InputGroup.Text>
+              </InputGroup.Prepend>
             </InputGroup>
           </Form.Group>
         </header>
