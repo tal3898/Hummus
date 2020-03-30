@@ -148,17 +148,6 @@ class NGRequest extends React.Component {
                 console.error("NG error: ", error)
             });
 
-        fetch('/', requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                toast.success("Sent successfully", toastProperties);
-                console.log("NG response: " + JSON.stringify(data));
-            }).catch(error => {
-                toast.error("Error sending write request", toastProperties);
-                console.error("NG error: ", error)
-            });
-
-
         console.log(JSON.stringify(sendingJson));
     }
 
@@ -185,6 +174,9 @@ class NGRequest extends React.Component {
         return (
             <Styles>
                 <div className='main-comp'>
+                    <div>
+                        Currently using React {React.version}
+                    </div>
 
                     <ToastContainer />
                     <JsonPopup json={JSON.stringify(this.state.json)} onClose={() => this.close()} isOpen={this.state.isOpenPopup} />
