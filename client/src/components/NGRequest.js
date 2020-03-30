@@ -209,10 +209,7 @@ class NGRequest extends React.Component {
         return (
             <Styles>
                 <div className='main-comp'>
-                    <div>
-                        Currently using React {React.version}
-                    </div>
-
+                    
                     <ToastContainer />
                     <JsonPopup
                         json={JSON.stringify(this.state.json)}
