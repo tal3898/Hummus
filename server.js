@@ -23,11 +23,12 @@ app.post('/scenario', (req, res) => {
 	MongoClient.connect(dbUrl, function(err, db) {
 		if (err) throw err;
 		var dbo = db.db("HummusDB");
-		dbo.collection("scenario").findOne({}, function(err, result) {
+		dbo.collection("scenario").find({}).toArray(function(err, result) {
 		  if (err) throw err;
-		  res.json([
+		  console.log('restult is ' + JSON.stringify(result))
+		  res.json(
 			result
-		]);
+		);
 		  db.close();
 		});
 	  });
