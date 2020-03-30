@@ -90,9 +90,14 @@ class ScenariosWindow extends React.Component {
       });
   }
 
+  openFolder(folderJson) {
+    this.setState({currPath: '/as'});
+    this.getCurrPathContent();
+  }
+
   createFolderRow(folderJson) {
     return (
-      <Row className="field">
+      <Row onClick={() => this.openFolder(folderJson) } className="field">
         <Col lg="1" className="col-md-2">
           <i class="action far fa-folder-open fa-2x"></i>
         </Col>
