@@ -26,7 +26,7 @@ const Styles = styled.div`
 }
 
 .w3-card-4 {
-  height:600px;
+  height:750px;
 }
 
   .action {
@@ -173,6 +173,11 @@ class ScenariosWindow extends React.Component {
 
             {this.state.files.map((fileJson) => this.createFileRow(fileJson))}
 
+            {this.state.files.length == 0 && this.state.folders.length == 0 &&
+              <center style={{marginTop:250, fontSize:40, color:'#b0bec5'}}>
+                Folder is empty
+              </center>
+            }
           </div>
 
         </div>
