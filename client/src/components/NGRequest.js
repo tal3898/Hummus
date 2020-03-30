@@ -221,7 +221,7 @@ class NGRequest extends React.Component {
                                         on="hover"
                                         trigger={
                                             <Button className="action-btn" variant="outline-info" onClick={() => this.openSavePopup()}>
-                                                <i class="far fa-save fa-2x fa-flip-horizontal"></i>
+                                                <i class="far fa-save fa-2x"></i>
                                             </Button>}
                                     >
                                         <center>

@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Nav, Button, Form, FormControl, Col, Row } from 'react-bootstrap';
 import { JSONEditor } from 'react-json-editor-viewer';
 import EntityEditor from './EntityEditor';
+import { Treebeard } from 'react-treebeard';
+
 import Popup from "reactjs-popup";
 import ReactJson from 'react-json-view'
 
@@ -11,23 +13,143 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Styles = styled.div`
 
-.json-popup {
+.directory-tree {
+    padding:10px;
     max-height: 500px;
     overflow-y: scroll;
 }
 
-.copy-json-btn {
-    float:right;
-    margin-right: 10px;
-    margin-top: 10px;
+.scenario-name-form {
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 
-.json-display {
-    margin: 10px;
+.fa-save {
+    margin-right:30px;
 }
 
+.fa-save:hover {
+    color: red;
+}
 
 `;
+
+const data = {
+    name: 'root',
+    toggled: true,
+    children: [
+        {
+            name: 'parent',
+            children: [
+                { name: 'child1' },
+                { name: 'child2' }
+            ]
+        },
+        {
+            name: 'parent',
+            children: [
+                {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
 
 class SaveScenarioPopup extends React.Component {
 
@@ -37,6 +159,9 @@ class SaveScenarioPopup extends React.Component {
             isOpen: false,
             json: JSON.parse(props.json)
         }
+
+        this.state = { data };
+        this.onToggle = this.onToggle.bind(this);
 
         this.onCloseCallback = props.onClose;
     }
@@ -54,10 +179,10 @@ class SaveScenarioPopup extends React.Component {
         document.body.removeChild(el);
 
         toast.success("Copied to clipboard", {
-            autoClose:2000,
+            autoClose: 2000,
             position: toast.POSITION.BOTTOM_RIGHT,
             pauseOnFocusLoss: false
-          });
+        });
     };
 
     UNSAFE_componentWillReceiveProps(newProps) {
@@ -72,6 +197,19 @@ class SaveScenarioPopup extends React.Component {
         this.setState(this.state);
     }
 
+    onToggle(node, toggled) {
+        const { cursor, data } = this.state;
+        if (cursor) {
+            this.state.cursor.active = false;
+        }
+        node.active = true;
+        if (node.children) {
+            node.toggled = toggled;
+        }
+        this.setState({ cursor: node, data: Object.assign({}, data) });
+    }
+
+
     render() {
         return (
             <Styles>
@@ -80,26 +218,32 @@ class SaveScenarioPopup extends React.Component {
                     open={this.state.isOpen}
                     onClose={() => this.close()}
                     modal
+                    active
                     closeOnDocumentClick
                 >
-                    save popup
-                    <div className='json-popup'>
-                        <Button onClick={() => this.copyToClipboard()} className='copy-json-btn' variant="outline-secondary">העתק</Button>
-                        <br /><br />
 
-                        <div className="json-display">
-                            <ReactJson
-                                src={this.state.json}
-                                theme="monokai"
-                                enableClipboard={false}
-                                collapseStringsAfterLength={50}
-                                displayDataTypes={false} />
-                        </div>
+                    <center>
+                        <Form.Label style={{fontSize:30, marginTop:10, marginBottom:1}}>בחר תקייה</Form.Label>
+                    </center>
 
+                    <div dir="rtl" className="scenario-name-form">
+                        <Row style={{marginTop:1}}>
+                            <Col lg="1">
+                                <i class="far fa-save fa-3x"></i>
+                            </Col>
+                        </Row>
+                    </div>
+
+
+                    <div className="directory-tree">
+                        <Treebeard
+                            data={data}
+                            onToggle={this.onToggle}
+                        />
                     </div>
                 </Popup>
 
-                <ToastContainer/>
+                <ToastContainer />
             </Styles>
         )
     }
