@@ -53,7 +53,8 @@ class NGRequest extends React.Component {
         this.state = {
             json: {},
             isJsonPopupOpen: false,
-            isSavePopupOpen: false
+            isSavePopupOpen: false,
+            scenarioData: {}
         }
 
         this.entityMap = {
@@ -91,14 +92,32 @@ class NGRequest extends React.Component {
             }
         }
 
-        this.state.jsonToEdit = JSON.stringify(english_2);
-        this.state.fullJsonToEdit = JSON.stringify(english_2);
+        
+        this.state.scenarioData.jsonToEdit = JSON.stringify(english_2);
+        this.state.scenarioData.entity = 'English';
+        this.state.scenarioData.system = 'Tal';
+        this.state.scenarioData.reality = '0';
+        this.state.scenarioData.action = 'POST';
+        this.state.scenarioData.version = 'X';
+
+        this.state.scenarioData.fullJsonToEdit = JSON.stringify(english_2);
 
         this.state.expandAll = false;
     }
 
     openSavePopup() {
         this.state.isSavePopupOpen = true;
+
+        this.state.scenarioData.name = this.scenarioNameNode.value;
+        this.state.scenarioData.description = this.scenarioDescriptionNode.value;
+
+        this.state.scenarioData.entity = this.entityMap[this.entityNode.value];
+        this.state.scenarioData.system = this.systemMap[this.systemNode.value];
+        this.state.scenarioData.reality = this.realityMap[this.realityNode.value];
+        this.state.scenarioData.action = this.actionMap[this.actionNode.value];
+        this.state.scenarioData.version = this.versionNode.value;
+
+
         this.setState(this.state);
     }
 
@@ -129,7 +148,7 @@ class NGRequest extends React.Component {
             moviesA: ["I Love You Man", "Role Models"]
         });
 
-        var requestMethod = this.actionMap[this.actionNode.value]
+        var requestMethod = this.actionMap[this.actionNode.value];
 
         const requestOptions = {
             method: requestMethod,
@@ -167,8 +186,9 @@ class NGRequest extends React.Component {
 
     loadJson() {
         var chosenJson = this.getChosenJson();
-
-        this.setState({ jsonToEdit: chosenJson, fullJsonToEdit: chosenJson });
+        this.state.scenarioData.jsonToEdit = chosenJson;
+        this.state.scenarioData.fullJsonToEdit = chosenJson;
+        this.setState(this.state);
     }
 
     close() {
@@ -192,17 +212,12 @@ class NGRequest extends React.Component {
                         onClose={() => this.close()}
                         isOpen={this.state.isJsonPopupOpen} />
 
+
                     <SaveScenarioPopup
-                        json={JSON.stringify(this.state.json)}
+                        scenarioData={this.state.scenarioData}
                         onClose={() => this.close()}
                         isOpen={this.state.isSavePopupOpen} />
 
-
-                    {/* TODO: 
-                            6) handle field which is array of int
-                            14) remove unrelevant packages
-                            15) for enum fields, show the hebrew name, and the actual value
-                        */}
                     <Form>
                         <div dir='rtl' className='metadata'>
                             <Row className='field'>
@@ -277,7 +292,10 @@ class NGRequest extends React.Component {
                                     <Form.Label >ישות</Form.Label>
                                 </Col>
                                 <Col lg='2'>
-                                    <Form.Control onChange={(event) => this.loadJson()} ref={(ref) => this.entityNode = ref} as="select">
+                                    <Form.Control 
+                                        onChange={(event) => this.loadJson()} 
+                                        ref={(ref) => this.entityNode = ref} 
+                                        as="select">
                                         <option>אנגלית</option>
                                         <option>חשבון</option>
                                         <option>כמיה</option>
@@ -358,9 +376,9 @@ class NGRequest extends React.Component {
                                     expandAll={this.state.expandAll}
                                     ref={this.child}
                                     level='0'
-                                    fullJson={this.state.fullJsonToEdit}
-                                    jsondata={this.state.jsonToEdit}
-                                    onInnerFieldChanged={(event) => this.state.jsonToEdit = JSON.stringify(event.newJson)} ></EntityEditor>
+                                    fullJson={this.state.scenarioData.fullJsonToEdit}
+                                    jsondata={this.state.scenarioData.jsonToEdit}
+                                    onInnerFieldChanged={(event) => this.state.scenarioData.jsonToEdit = JSON.stringify(event.newJson)} ></EntityEditor>
 
                             </Col>
                         </Row>

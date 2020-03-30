@@ -157,7 +157,7 @@ class SaveScenarioPopup extends React.Component {
         super(props)
         this.state = {
             isOpen: false,
-            json: JSON.parse(props.json)
+            scenarioData: props.scenarioData
         }
 
         this.state = { data };
@@ -166,27 +166,8 @@ class SaveScenarioPopup extends React.Component {
         this.onCloseCallback = props.onClose;
     }
 
-    copyToClipboard() {
-        var str = JSON.stringify(this.state.json)
-        const el = document.createElement('textarea');
-        el.value = str;
-        el.setAttribute('readonly', '');
-        el.style.position = 'absolute';
-        el.style.left = '-9999px';
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-
-        toast.success("Copied to clipboard", {
-            autoClose: 2000,
-            position: toast.POSITION.BOTTOM_RIGHT,
-            pauseOnFocusLoss: false
-        });
-    };
-
     UNSAFE_componentWillReceiveProps(newProps) {
-        this.state.json = JSON.parse(newProps.json);
+        this.state.scenarioData = newProps.scenarioData;
         this.state.isOpen = JSON.parse(newProps.isOpen);
         this.setState(this.state);
     }
@@ -197,6 +178,18 @@ class SaveScenarioPopup extends React.Component {
         this.setState(this.state);
     }
 
+    save() {
+        console.log('data to save ' + JSON.stringify(this.state.scenarioData))
+    }
+
+    /**
+     * When clicking on a node, this will be called. it gets the selected node, and if toggled.
+     * the function, dis-toggle the prev selected node, select the new one in state.cursor, and open
+     * the node, if has children
+     * 
+     * @param {*} node 
+     * @param {*} toggled 
+     */
     onToggle(node, toggled) {
         const { cursor, data } = this.state;
         if (cursor) {
@@ -229,7 +222,7 @@ class SaveScenarioPopup extends React.Component {
                     <div dir="rtl" className="scenario-name-form">
                         <Row style={{marginTop:1}}>
                             <Col lg="1">
-                                <i class="far fa-save fa-3x"></i>
+                                <i class="far fa-save fa-3x" onClick={() => this.save()}></i>
                             </Col>
                         </Row>
                     </div>
