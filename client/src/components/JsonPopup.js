@@ -27,6 +27,8 @@ const Styles = styled.div`
 }
 
 .fa-copy{
+    color: #607d8b;
+
     padding:10px;
     border-radius:5px;
     border-style:solid;
@@ -34,7 +36,6 @@ const Styles = styled.div`
     border-color: white;
 }
 
-}
 
 .fa-copy:hover {
     color: #0091ea;
@@ -42,7 +43,7 @@ const Styles = styled.div`
 
 .fa-copy:active {
     border-color: #0091ea;
-
+}
 `;
 
 class JsonPopup extends React.Component {

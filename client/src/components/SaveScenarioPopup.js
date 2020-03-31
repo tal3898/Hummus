@@ -27,6 +27,17 @@ const Styles = styled.div`
 
 .fa-save {
     margin-right:30px;
+    color: #607d8b;
+
+    padding:10px;
+    border-radius:5px;
+    border-style:solid;
+    border-width:0.012em;
+    border-color: white;
+}
+
+.fa-save:active {
+    border-color: #0091ea;
 }
 
 .fa-save:hover {
@@ -312,19 +323,18 @@ class SaveScenarioPopup extends React.Component {
                     closeOnDocumentClick
                 >
 
-                    <Row style={{marginLeft:5, marginTop:7, marginBottom:20}}>
+                    <Row style={{ marginLeft: 0, marginTop: 7, marginBottom: 20 }}>
                         <Col lg="5">
                             <i class="far fa-save fa-3x" onClick={() => this.save()}></i>
                         </Col>
                         <Col>
-                            <Form.Label style={{ fontSize: 30,  marginBottom: 1 }}>בחר תקייה</Form.Label>
+                            <Form.Label style={{ fontSize: 30, marginBottom: 1 }}>בחר תקייה</Form.Label>
                         </Col>
 
 
                     </Row>
 
-
-                    <div style={{height:400, backgroundColor: '#21252b'}} className="directory-tree">
+                    <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
                         <Treebeard
                             data={backupData}
                             onToggle={this.onToggle}
