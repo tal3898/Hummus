@@ -119,30 +119,45 @@ class SaveScenarioPopup extends React.Component {
     }
 
     save() {
-        var folderPath = this.findFullPath(this.state.folderHierarchy, this.state.cursor);
-        folderPath = folderPath.replace('/root', '');
-        var fileFullPath = folderPath + '/' + this.state.scenarioData.name;
-
-        var jsonToSaveInDB = {
-            path: fileFullPath,
-            steps: [this.state.scenarioData]
-        }
-
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(jsonToSaveInDB)
+        const toastProperties = {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_RIGHT,
+            pauseOnFocusLoss: false
         };
 
-        fetch('/scenario', requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                console.log("db response: " + JSON.stringify(data));
-            }).catch(error => {
-                console.error("db error: ", error)
-            });
+        var folderPath = this.findFullPath(this.state.folderHierarchy, this.state.cursor);
+        if (folderPath == false) {
+            toast.error("Please select a folder.", toastProperties);
+        } else {
+            folderPath = folderPath.replace('/root', '');
+            var fileFullPath = folderPath + '/' + this.state.scenarioData.name;
 
-        console.log('data to save into ' + JSON.stringify(this.state.scenarioData))
+            var jsonToSaveInDB = {
+                path: fileFullPath,
+                steps: [this.state.scenarioData]
+            }
+
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(jsonToSaveInDB)
+            };
+
+            fetch('/scenario', requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("db response: " + JSON.stringify(data));
+                    toast.success("Scenario saved successfully", toastProperties);
+                }).catch(error => {
+                    console.error("db error: ", error);
+                    toast.success("error occured while saving", toastProperties);
+                });
+
+            console.log('data to save into ' + JSON.stringify(this.state.scenarioData));
+
+            this.close();
+            toast.warning("saving...", toastProperties);
+        }
     }
 
     findFullPath(data, childFolder) {
@@ -187,6 +202,8 @@ class SaveScenarioPopup extends React.Component {
     render() {
         return (
             <Styles>
+                <ToastContainer />
+
 
                 <Popup
                     open={this.state.isOpen}
