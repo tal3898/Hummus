@@ -36,9 +36,18 @@ app.post('/scenario', async (req, res) => {
 	
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db("HummusDB");
-	var result = await dbo.collection("scenarioFiles").insertOne(scenarioDocument);
 	
-	console.log('insert restult is ' + JSON.stringify(result))
+	// Insert the actual scenario
+	await dbo.collection("scenarioFiles").insertOne(scenarioDocument);
+
+	// Insert the scenario to the folder hirechical
+	var pathWithDots = req.body.path.replace('/','').split('/').join('.');
+	var updateQuery = {};
+	updateQuery[pathWithDots] = { steps: []};
+
+	await dbo.collection("scenario").update({}, {'$set': updateQuery });
+	
+
 	res.json({response: 'saved in db'});
 
 	db.close();

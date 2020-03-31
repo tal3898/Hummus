@@ -39,18 +39,15 @@ const data = {
     toggled: true,
     children: [
         {
-            name: 'parent1',
+            name: 'tal',
             children: [
-                { name: 'child1' },
-                { name: 'child2' }
+                { name: 'issue_54' }
             ]
         },
         {
-            name: 'parent2',
-            children: [
-                { name: 'child1' },
-                { name: 'child2' }
-            ]
+            name: 'shahar'
+        }, {
+            name: 'inon'
         }
     ]
 };
@@ -86,7 +83,9 @@ class SaveScenarioPopup extends React.Component {
 
     save() {
         var folderPath = this.findFullPath(this.state.data, this.state.cursor);
+        folderPath = folderPath.replace('/root', '');
         var fileFullPath = folderPath + '/' + this.state.scenarioName;
+
         var jsonToSaveInDB = {
             path: fileFullPath,
             steps: [this.state.scenarioData]
