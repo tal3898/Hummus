@@ -9,6 +9,8 @@ import JsonPopup from './JsonPopup';
 import SaveScenarioPopup from './SaveScenarioPopup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ScenariosWindow from './ScenariosWindow';
+
 
 import english_2 from '../jsonFormats/english_2.json'
 import math_2 from '../jsonFormats/math_2.json'
@@ -116,6 +118,9 @@ class NGRequest extends React.Component {
     openSavePopup() {
         this.state.isSavePopupOpen = true;
 
+        console.log('aaa ' + JSON.stringify(ScenariosWindow.scenariosHierarchy));
+
+        this.state.scenariosHierarchy = ScenariosWindow.scenariosHierarchy;
         this.state.scenarioData.name = this.scenarioNameNode.value;
         this.state.scenarioData.description = this.scenarioDescriptionNode.value;
 
@@ -222,6 +227,7 @@ class NGRequest extends React.Component {
                         scenarioName={this.state.scenarioName}
                         scenarioData={this.state.scenarioData}
                         onClose={() => this.close()}
+                        scenariosHierarchy={this.state.scenariosHierarchy}
                         isOpen={this.state.isSavePopupOpen} />
 
                     <Form>

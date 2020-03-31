@@ -50,6 +50,8 @@ const Styles = styled.div`
 
 `;
 class ScenariosWindow extends React.Component {
+  static scenariosHierarchy = {};
+  
   constructor(props) {
     super(props);
 
@@ -77,8 +79,8 @@ class ScenariosWindow extends React.Component {
     fetch('/scenario')
       .then(response => response.json())
       .then(data => { 
-        this.state.scenariosHierarchy = data;
-        this.setState(this.state);    
+        ScenariosWindow.scenariosHierarchy = data;
+        delete ScenariosWindow.scenariosHierarchy._id;
         this.getCurrPathContent();
       }).catch(error => {
         console.log(' error while getting scenarios')
@@ -88,7 +90,7 @@ class ScenariosWindow extends React.Component {
 
   getCurrPathContent() {
 
-    var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], this.state.scenariosHierarchy);
+    var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], ScenariosWindow.scenariosHierarchy);
     console.log('a ' + JSON.stringify(currChildren))
 
     this.state.files = [];

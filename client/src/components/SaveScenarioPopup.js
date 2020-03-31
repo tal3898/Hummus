@@ -10,6 +10,7 @@ import ReactJson from 'react-json-view'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ScenariosWindow from './ScenariosWindow';
 
 const Styles = styled.div`
 
@@ -34,20 +35,20 @@ const Styles = styled.div`
 
 `;
 
-const data = {
+const backupData = {
     name: 'root',
     toggled: true,
     children: [
         {
-            name: 'tal',
+            name: 'a',
             children: [
-                { name: 'issue_54' }
+                { name: 'b' }
             ]
         },
         {
-            name: 'shahar'
+            name: 'c'
         }, {
-            name: 'inon'
+            name: 'd'
         }
     ]
 };
@@ -60,18 +61,55 @@ class SaveScenarioPopup extends React.Component {
         this.state = {
             scenarioName: props.scenarioName,
             isOpen: false,
-            scenarioData: props.scenarioData
+            scenarioData: props.scenarioData,
+            folderHierarchy: {}
         }
 
-        this.state = { data };
+        this.state.folderHierarchy = {
+            name: 'root',
+            toggled: true,
+            children: []
+        };
+        this.state.folderHierarchy.children = this.buildData(props.folderHierarchy)
+
         this.onToggle = this.onToggle.bind(this);
 
         this.onCloseCallback = props.onClose;
     }
 
+    buildData(json) {
+        var children = [];
+
+        for (var key in json) {
+            // if curr key, is folder, and not file
+            if (!json[key].hasOwnProperty('steps')) {
+                var keyObject = {
+                    name: key
+                };
+
+                var keyChildren = this.buildData(json[key]);
+                if (keyChildren.length > 0) {
+                    keyObject.children = keyChildren;
+                }
+
+                children.push(keyObject);
+            }
+        }
+
+        return children;
+    }
+
     UNSAFE_componentWillReceiveProps(newProps) {
         this.state.scenarioData = newProps.scenarioData;
         this.state.isOpen = JSON.parse(newProps.isOpen);
+
+        this.state.folderHierarchy = {
+            name: 'root',
+            toggled: true,
+            children: []
+        };
+        this.state.folderHierarchy.children = this.buildData(newProps.scenariosHierarchy)
+
         this.setState(this.state);
     }
 
@@ -82,7 +120,7 @@ class SaveScenarioPopup extends React.Component {
     }
 
     save() {
-        var folderPath = this.findFullPath(this.state.data, this.state.cursor);
+        var folderPath = this.findFullPath(this.state.folderHierarchy, this.state.cursor);
         folderPath = folderPath.replace('/root', '');
         var fileFullPath = folderPath + '/' + this.state.scenarioName;
 
@@ -134,7 +172,7 @@ class SaveScenarioPopup extends React.Component {
      * @param {*} toggled 
      */
     onToggle(node, toggled) {
-        const { cursor, data } = this.state;
+        const { cursor, folderHierarchy } = this.state;
         if (cursor) {
             this.state.cursor.active = false;
         }
@@ -142,8 +180,8 @@ class SaveScenarioPopup extends React.Component {
         if (node.children) {
             node.toggled = toggled;
         }
-        console.log('full path ' + this.findFullPath(data, node));
-        this.setState({ cursor: node, data: Object.assign({}, data) });
+        console.log('full path ' + this.findFullPath(folderHierarchy, node));
+        this.setState({ cursor: node, folderHierarchy: Object.assign({}, folderHierarchy) });
     }
 
 
@@ -174,7 +212,7 @@ class SaveScenarioPopup extends React.Component {
 
                     <div className="directory-tree">
                         <Treebeard
-                            data={data}
+                            data={this.state.folderHierarchy}
                             onToggle={this.onToggle}
                         />
                     </div>
