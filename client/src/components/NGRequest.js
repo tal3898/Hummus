@@ -61,7 +61,8 @@ class NGRequest extends React.Component {
             json: {},
             isJsonPopupOpen: false,
             isSavePopupOpen: false,
-            scenarioData: {}
+            scenarioData: {},
+            scenarioName: 'bbb'
         }
 
         this.entityMap = {
@@ -209,7 +210,7 @@ class NGRequest extends React.Component {
         return (
             <Styles>
                 <div className='main-comp'>
-                    
+
                     <ToastContainer />
                     <JsonPopup
                         json={JSON.stringify(this.state.json)}
@@ -218,6 +219,7 @@ class NGRequest extends React.Component {
 
 
                     <SaveScenarioPopup
+                        scenarioName={this.state.scenarioName}
                         scenarioData={this.state.scenarioData}
                         onClose={() => this.close()}
                         isOpen={this.state.isSavePopupOpen} />
@@ -229,7 +231,7 @@ class NGRequest extends React.Component {
                                     <Form.Label >שם תרחיש</Form.Label>
                                 </Col>
                                 <Col lg='3'>
-                                    <Form.Control ref={(ref) => this.scenarioNameNode = ref} type="text" />
+                                    <Form.Control onChange={(event)=> console.log('s n ' + event.value)} ref={(ref) => this.scenarioNameNode = ref} type="text" />
                                 </Col>
                                 <Col lg='6'>
 

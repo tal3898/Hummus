@@ -39,112 +39,17 @@ const data = {
     toggled: true,
     children: [
         {
-            name: 'parent',
+            name: 'parent1',
             children: [
                 { name: 'child1' },
                 { name: 'child2' }
             ]
         },
         {
-            name: 'parent',
+            name: 'parent2',
             children: [
-                {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }, {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1' },
-                        { name: 'nested child 2' }
-                    ]
-                }
+                { name: 'child1' },
+                { name: 'child2' }
             ]
         }
     ]
@@ -156,6 +61,7 @@ class SaveScenarioPopup extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            scenarioName: props.scenarioName,
             isOpen: false,
             scenarioData: props.scenarioData
         }
@@ -179,7 +85,45 @@ class SaveScenarioPopup extends React.Component {
     }
 
     save() {
-        console.log('data to save ' + JSON.stringify(this.state.scenarioData))
+        var folderPath = this.findFullPath(this.state.data, this.state.cursor);
+        var fileFullPath = folderPath + '/' + this.state.scenarioName;
+        var jsonToSaveInDB = {
+            path: fileFullPath,
+            steps: [this.state.scenarioData]
+        }
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(jsonToSaveInDB)
+        };
+
+        fetch('/scenario', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log("db response: " + JSON.stringify(data));
+            }).catch(error => {
+                console.error("db error: ", error)
+            });
+
+        console.log('data to save into ' + JSON.stringify(this.state.scenarioData))
+    }
+
+    findFullPath(data, childFolder) {
+        if (data == childFolder) {
+            return '/' + childFolder.name;
+        } else if (!data.hasOwnProperty('children')) {
+            return false;
+        } else {
+            for (var index in data.children) {
+                var childFullPath = this.findFullPath(data.children[index], childFolder);
+                if (childFullPath != false) {
+                    return '/' + data.name + childFullPath
+                }
+            }
+
+            return false;
+        }
     }
 
     /**
@@ -199,6 +143,7 @@ class SaveScenarioPopup extends React.Component {
         if (node.children) {
             node.toggled = toggled;
         }
+        console.log('full path ' + this.findFullPath(data, node));
         this.setState({ cursor: node, data: Object.assign({}, data) });
     }
 
@@ -216,11 +161,11 @@ class SaveScenarioPopup extends React.Component {
                 >
 
                     <center>
-                        <Form.Label style={{fontSize:30, marginTop:10, marginBottom:1}}>בחר תקייה</Form.Label>
+                        <Form.Label style={{ fontSize: 30, marginTop: 10, marginBottom: 1 }}>בחר תקייה</Form.Label>
                     </center>
 
                     <div dir="rtl" className="scenario-name-form">
-                        <Row style={{marginTop:1}}>
+                        <Row style={{ marginTop: 1 }}>
                             <Col lg="1">
                                 <i class="far fa-save fa-3x" onClick={() => this.save()}></i>
                             </Col>

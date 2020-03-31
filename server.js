@@ -29,4 +29,19 @@ app.get('/scenario', async (req, res) => {
 	db.close();
 });
 
+
+app.post('/scenario', async (req, res) => {
+
+	var scenarioDocument = req.body;
+	
+	var db = await MongoClient.connect(dbUrl);
+	var dbo = db.db("HummusDB");
+	var result = await dbo.collection("scenarioFiles").insertOne(scenarioDocument);
+	
+	console.log('insert restult is ' + JSON.stringify(result))
+	res.json({response: 'saved in db'});
+
+	db.close();
+});
+
 app.listen(port, () => console.log('server started on port ' + port));
