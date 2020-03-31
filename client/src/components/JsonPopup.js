@@ -26,6 +26,22 @@ const Styles = styled.div`
     margin: 10px;
 }
 
+.fa-copy{
+    padding:10px;
+    border-radius:5px;
+    border-style:solid;
+    border-width:0.012em;
+    border-color: white;
+}
+
+}
+
+.fa-copy:hover {
+    color: #0091ea;
+}
+
+.fa-copy:active {
+    border-color: #0091ea;
 
 `;
 
@@ -54,10 +70,10 @@ class JsonPopup extends React.Component {
         document.body.removeChild(el);
 
         toast.success("Copied to clipboard", {
-            autoClose:2000,
+            autoClose: 2000,
             position: toast.POSITION.BOTTOM_RIGHT,
             pauseOnFocusLoss: false
-          });
+        });
     };
 
     UNSAFE_componentWillReceiveProps(newProps) {
@@ -82,11 +98,18 @@ class JsonPopup extends React.Component {
                     modal
                     closeOnDocumentClick
                 >
-                    <div className='json-popup'>
-                        <Button onClick={() => this.copyToClipboard()} className='copy-json-btn' variant="outline-secondary">העתק</Button>
-                        <br /><br />
 
-                        <div className="json-display">
+                    <div className='json-popup'>
+                        <Row style={{ marginBottom: 20, marginLeft: 3, marginTop: 10 }}>
+                            <Col>
+                                <i onClick={() => this.copyToClipboard()} class="far fa-copy fa-3x"></i>
+
+
+                            </Col>
+                        </Row>
+                        
+
+                        <div style={{ marginTop:10, backgroundColor: '#27281e', height: 500 }} className="json-display">
                             <ReactJson
                                 src={this.state.json}
                                 theme="monokai"
@@ -98,7 +121,7 @@ class JsonPopup extends React.Component {
                     </div>
                 </Popup>
 
-                <ToastContainer/>
+                <ToastContainer />
             </Styles>
         )
     }
