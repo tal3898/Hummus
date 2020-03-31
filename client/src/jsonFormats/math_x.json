@@ -1,12 +1,11 @@
 {
-	"X_Ids": {
-		"X_name|string": "[GEN]",
-		"X_code|number": "0"
+	"Ids_X|[1]|מזהה ישות": {
+		"name_X|string|[0]|שם ישות": "[GEN]",
+		"code_X|number|[1]|קוד ישות": "0"
 	},
-	"X_Duration|number": "60",
-	"X_Time|time": "[NOW]",
-	"X_Teacher": {
-		"X_name|String": "rochale",
-		"X_type|enum|[666,555]": ""
-	} 	
+	"Chairs_X|[0]": {
+		"Info_X|string|[0]": "[GEN]",
+		"Type_X|enum|[1]": "[\"20 - Second\", \"30 - Third\", \"40 - Forth\", \"50 - Fith\"]"
+	}
+
 }
