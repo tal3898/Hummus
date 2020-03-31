@@ -59,7 +59,6 @@ class SaveScenarioPopup extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            scenarioName: props.scenarioName,
             isOpen: false,
             scenarioData: props.scenarioData,
             folderHierarchy: {}
@@ -122,7 +121,7 @@ class SaveScenarioPopup extends React.Component {
     save() {
         var folderPath = this.findFullPath(this.state.folderHierarchy, this.state.cursor);
         folderPath = folderPath.replace('/root', '');
-        var fileFullPath = folderPath + '/' + this.state.scenarioName;
+        var fileFullPath = folderPath + '/' + this.state.scenarioData.name;
 
         var jsonToSaveInDB = {
             path: fileFullPath,

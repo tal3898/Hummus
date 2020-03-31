@@ -224,7 +224,6 @@ class NGRequest extends React.Component {
 
 
                     <SaveScenarioPopup
-                        scenarioName={this.state.scenarioName}
                         scenarioData={this.state.scenarioData}
                         onClose={() => this.close()}
                         scenariosHierarchy={this.state.scenariosHierarchy}
