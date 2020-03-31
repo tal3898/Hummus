@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Children } from 'react';
 import styled from 'styled-components';
 import { Form, Col, Row, InputGroup } from 'react-bootstrap';
 
@@ -55,26 +55,50 @@ class ScenariosWindow extends React.Component {
 
     this.state = {
       currPath: '',
-      scenariosHierarchy: JSON.parse(props.scenariosHierarchy),
       files: [],
       folders: []
+    }
+
+    if (!this.state.hasOwnProperty('scenariosHierarchy')) {
+      this.getScenariosHierarchy();
     }
 
     this.getCurrPathContent();
   }
 
+  saveScenarios(data) {
+    this.state.scenariosHierarchy = data;
+    this.setState(this.state);
+    this.getCurrPathContent();
+  }
+
+  getScenariosHierarchy() {
+
+    fetch('/scenario')
+      .then(response => response.json())
+      .then(data => { 
+        this.state.scenariosHierarchy = data;
+        this.setState(this.state);    
+        this.getCurrPathContent();
+      }).catch(error => {
+        console.log(' error while getting scenarios')
+      });
+  }
+
+
   getCurrPathContent() {
 
-    var currChildren = this.state.currPath.split('/').splice(1).reduce( (o,n) => o[n], this.state.scenariosHierarchy);
+    var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], this.state.scenariosHierarchy);
     console.log('a ' + JSON.stringify(currChildren))
 
     this.state.files = [];
     this.state.folders = [];
 
     for (var key in currChildren) {
+
       if (currChildren[key].hasOwnProperty('steps')) {
         this.state.files.push(key);
-      } else {
+      } else if (typeof currChildren[key] == 'object') {
         this.state.folders.push(key);
       }
     }
@@ -89,7 +113,7 @@ class ScenariosWindow extends React.Component {
   }
 
   goBack() {
-    var prevPath = this.state.currPath.substring(0,this.state.currPath.lastIndexOf('/'));
+    var prevPath = this.state.currPath.substring(0, this.state.currPath.lastIndexOf('/'));
     this.openFolder(prevPath);
   }
 
@@ -138,7 +162,7 @@ class ScenariosWindow extends React.Component {
                 required
               />
               <InputGroup.Prepend>
-              
+
                 <InputGroup.Text onClick={() => this.goBack()} className="back-button" id="inputGroupPrepend">
                   <i class="fas fa-undo-alt"></i>
                 </InputGroup.Text>
@@ -156,7 +180,7 @@ class ScenariosWindow extends React.Component {
             {this.state.files.map((fileName) => this.createFileRow(fileName))}
 
             {this.state.files.length == 0 && this.state.folders.length == 0 &&
-              <center style={{marginTop:250, fontSize:40, color:'#b0bec5'}}>
+              <center style={{ marginTop: 250, fontSize: 40, color: '#b0bec5' }}>
                 Folder is empty
               </center>
             }
