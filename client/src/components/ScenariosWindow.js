@@ -157,7 +157,8 @@ class ScenariosWindow extends React.Component {
               <Form.Control
                 disabled
                 type="text"
-                value={this.state.currPath}
+                value={(this.state.currPath.length > 0 && this.state.currPath) ||
+                        '/'}
                 aria-describedby="inputGroupPrepend"
                 required
               />
