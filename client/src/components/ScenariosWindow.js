@@ -55,6 +55,7 @@ class ScenariosWindow extends React.Component {
 
     this.state = {
       currPath: '',
+      scenariosHierarchy: JSON.parse(props.scenariosHierarchy),
       files: [],
       folders: []
     }
@@ -64,40 +65,21 @@ class ScenariosWindow extends React.Component {
 
   getCurrPathContent() {
 
-    console.log('seanding')
+    var currChildren = this.state.currPath.split('/').splice(1).reduce( (o,n) => o[n], this.state.scenariosHierarchy);
+    console.log('a ' + JSON.stringify(currChildren))
 
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        path: this.state.currPath
-      })
-    };
+    this.state.files = [];
+    this.state.folders = [];
 
-    fetch('/scenario', requestOptions)
-      .then(response => response.json())
-      .then(data => {
-        var currPathContent = data;
-        var files = [];
-        var folders = [];
+    for (var key in currChildren) {
+      if (currChildren[key].hasOwnProperty('steps')) {
+        this.state.files.push(key);
+      } else {
+        this.state.folders.push(key);
+      }
+    }
 
-        for (var index in currPathContent) {
-          var currContent = currPathContent[index];
-
-          if (currContent.hasOwnProperty('steps')) {
-            files.push(currContent);
-          } else {
-            folders.push(currContent);
-          }
-        }
-        this.setState({ folders: folders });
-        this.setState({ files: files });
-
-
-
-      }).catch(error => {
-        console.error("local error: ", error)
-      });
+    this.setState(this.state);
   }
 
   openFolder(path) {
@@ -111,27 +93,27 @@ class ScenariosWindow extends React.Component {
     this.openFolder(prevPath);
   }
 
-  createFolderRow(folderJson) {
+  createFolderRow(folderName) {
     return (
-      <Row onClick={() => this.openFolder(folderJson.path)} className="field">
+      <Row onClick={() => this.openFolder(this.state.currPath + '/' + folderName)} className="field">
         <Col lg="1" className="col-md-2">
           <i class="action far fa-folder-open fa-2x"></i>
         </Col>
         <Col className="col-md-2">
-          <span style={{ float: 'right' }} className="scenario-name">{folderJson.path.split('/')[folderJson.path.split('/').length - 1]}</span>
+          <span style={{ float: 'right' }} className="scenario-name">{folderName}</span>
         </Col>
       </Row>
     )
   }
 
-  createFileRow(fileJson) {
+  createFileRow(fileName) {
     return (
       <Row className="field">
         <Col lg="1" className="col-md-2">
           <i class="action far fa-file fa-2x"></i>
         </Col>
         <Col className="col-md-2">
-          <span style={{ float: 'right' }} className="scenario-name">{fileJson.path.split('/')[fileJson.path.split('/').length - 1]}</span>
+          <span style={{ float: 'right' }} className="scenario-name">{fileName}</span>
         </Col>
       </Row>
     )
@@ -169,9 +151,9 @@ class ScenariosWindow extends React.Component {
         <div className="w3-container">
 
           <div dir="rtl" className='scenarios-list'>
-            {this.state.folders.map((folderJson) => this.createFolderRow(folderJson))}
+            {this.state.folders.map((folderName) => this.createFolderRow(folderName))}
 
-            {this.state.files.map((fileJson) => this.createFileRow(fileJson))}
+            {this.state.files.map((fileName) => this.createFileRow(fileName))}
 
             {this.state.files.length == 0 && this.state.folders.length == 0 &&
               <center style={{marginTop:250, fontSize:40, color:'#b0bec5'}}>

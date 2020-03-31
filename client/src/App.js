@@ -19,7 +19,7 @@ function App() {
             <NGRequest></NGRequest>
           </Col>
           <Col lg='3'>
-            <ScenariosWindow></ScenariosWindow>
+            <ScenariosWindow scenariosHierarchy='{"tal" : { "issue_54" : {  }, "write1" : { "steps" : [ ] }, "write2" : { "steps" : [ ] } }, "shahar" : {  }, "inon" : {  } }'></ScenariosWindow>
           </Col>
         </Row>
       </React.Fragment> 

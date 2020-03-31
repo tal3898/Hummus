@@ -17,18 +17,14 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 const port = 5000;
 
-app.post('/scenario', async (req, res) => {
-	console.log('in post, with body ' + JSON.stringify(req.body));
+app.get('/scenario', async (req, res) => {
 
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db("HummusDB");
-	var result = await dbo.collection("scenario").find({path: {$regex: '^' + req.body.path + '/' } }, {path:1,_id:0, steps:[]}).toArray();
+	var result = await dbo.collection("scenario").findOne({}, {_id:0});
 	
-	// Take only the documents which are direct children of the request path
-	var currPathChildren = result.filter((document) => document.path.split('/').length == req.body.path.split('/').length + 1 );
-
 	console.log('restult is ' + JSON.stringify(result))
-	res.json(currPathChildren);
+	res.json(result);
 
 	db.close();
 });
