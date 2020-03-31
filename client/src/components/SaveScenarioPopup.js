@@ -30,7 +30,7 @@ const Styles = styled.div`
 }
 
 .fa-save:hover {
-    color: red;
+    color: #0091ea;
 }
 
 `;
@@ -40,18 +40,117 @@ const backupData = {
     toggled: true,
     children: [
         {
-            name: 'a',
+            name: 'parent',
             children: [
-                { name: 'b' }
+                { name: 'child1' },
+                { name: 'child2' }
             ]
         },
         {
-            name: 'c'
-        }, {
-            name: 'd'
+            name: 'parent',
+            children: [
+                {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }, {
+                    name: 'nested parent',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }
+            ]
         }
     ]
 };
+
 
 
 class SaveScenarioPopup extends React.Component {
@@ -213,22 +312,21 @@ class SaveScenarioPopup extends React.Component {
                     closeOnDocumentClick
                 >
 
-                    <center>
-                        <Form.Label style={{ fontSize: 30, marginTop: 10, marginBottom: 1 }}>בחר תקייה</Form.Label>
-                    </center>
-
-                    <div dir="rtl" className="scenario-name-form">
-                        <Row style={{ marginTop: 1 }}>
-                            <Col lg="1">
-                                <i class="far fa-save fa-3x" onClick={() => this.save()}></i>
-                            </Col>
-                        </Row>
-                    </div>
+                    <Row style={{marginLeft:5, marginTop:7, marginBottom:20}}>
+                        <Col lg="5">
+                            <i class="far fa-save fa-3x" onClick={() => this.save()}></i>
+                        </Col>
+                        <Col>
+                            <Form.Label style={{ fontSize: 30,  marginBottom: 1 }}>בחר תקייה</Form.Label>
+                        </Col>
 
 
-                    <div className="directory-tree">
+                    </Row>
+
+
+                    <div style={{height:400, backgroundColor: '#21252b'}} className="directory-tree">
                         <Treebeard
-                            data={this.state.folderHierarchy}
+                            data={backupData}
                             onToggle={this.onToggle}
                         />
                     </div>
