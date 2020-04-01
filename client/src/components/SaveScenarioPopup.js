@@ -247,7 +247,7 @@ class SaveScenarioPopup extends React.Component {
 
             var jsonToSaveInDB = {
                 path: fileFullPath,
-                steps: this.state.scenarioData
+                steps: this.state.scenarioData.steps
             }
 
             const requestOptions = {

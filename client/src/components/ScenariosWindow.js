@@ -129,6 +129,10 @@ class ScenariosWindow extends React.Component {
     .then(response => response.json())
     .then(data => {
       delete data._id;
+      console.log('bb ' + this.context);
+      this.context.data.currScenario = data;
+      this.context.updateData(this.context);
+
       //this.data.scenariosHierarchy = data;
       //this.setState()
         
