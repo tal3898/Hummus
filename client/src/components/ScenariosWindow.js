@@ -66,7 +66,7 @@ class ScenariosWindow extends React.Component {
       this.context.data.scenariosHierarchy = data;
       this.context.updateData(data);
     });
-  } 
+  }
 
   //#region navigation functions
   openFolder(path) {
@@ -153,53 +153,44 @@ class ScenariosWindow extends React.Component {
 
   render() {
     return (<Styles>
+      <div className="all w3-card-4" style={{ width: 400 }}>
+        <header dir="rtl" class="w3-container w3-blue">
+          <h1 className="headline">תרחישים</h1>
+          <Form.Group dir="ltr" md="4" controlId="validationCustomUsername">
+            <InputGroup>
+              <InputGroup.Prepend>
+                <InputGroup.Text id="inputGroupPrepend">path</InputGroup.Text>
+              </InputGroup.Prepend>
+              <Form.Control
+                disabled
+                type="text"
+                value={(this.state.currPath.length > 0 && this.state.currPath) ||
+                  '/'}
+                aria-describedby="inputGroupPrepend"
+                required
+              />
+              <InputGroup.Prepend>
 
-      <HummusConsumer>
-        {(value) =>
-
-          <div className="all w3-card-4" style={{ width: 400 }}>
-            <header dir="rtl" class="w3-container w3-blue">
-              <h1 className="headline">תרחישים</h1>
-              <Form.Group dir="ltr" md="4" controlId="validationCustomUsername">
-                <InputGroup>
-                  <InputGroup.Prepend>
-                    <InputGroup.Text id="inputGroupPrepend">path</InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <Form.Control
-                    disabled
-                    type="text"
-                    value={(this.state.currPath.length > 0 && this.state.currPath) ||
-                      '/'}
-                    aria-describedby="inputGroupPrepend"
-                    required
-                  />
-                  <InputGroup.Prepend>
-
-                    <InputGroup.Text onClick={() => this.goBack()} className="back-button" id="inputGroupPrepend">
-                      <i class="fas fa-undo-alt"></i>
-                    </InputGroup.Text>
-                  </InputGroup.Prepend>
-                </InputGroup>
-              </Form.Group>
-            </header>
-
+                <InputGroup.Text onClick={() => this.goBack()} className="back-button" id="inputGroupPrepend">
+                  <i class="fas fa-undo-alt"></i>
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+            </InputGroup>
+          </Form.Group>
+        </header>
+        
+        <HummusConsumer>
+          {(value) =>
 
             <div className="w3-container">
               <div dir="rtl" className='scenarios-list'>
                 {this.getWindowContent(value)}
               </div>
             </div>
-          </div>
-        }
-      </HummusConsumer>
+          }
+        </HummusConsumer>
 
-
-
-
-
-
-
-
+      </div>
     </Styles>)
   }
 }
