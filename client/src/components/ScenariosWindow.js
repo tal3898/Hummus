@@ -1,6 +1,7 @@
 import React, { useState, Children } from 'react';
 import styled from 'styled-components';
 import { Form, Col, Row, InputGroup } from 'react-bootstrap';
+import {HummusConsumer} from './HummusContext'
 
 const Styles = styled.div`
 
@@ -147,8 +148,10 @@ class ScenariosWindow extends React.Component {
 
   render() {
     return (<Styles>
-
+      <HummusConsumer>
+{ (value) => 
       <div className="all w3-card-4" style={{ width: 400 }}>
+        <p>hello {value}</p>
         <header dir="rtl" class="w3-container w3-blue">
           <h1 className="headline">תרחישים</h1>
           <Form.Group dir="ltr" md="4" controlId="validationCustomUsername">
@@ -192,7 +195,9 @@ class ScenariosWindow extends React.Component {
         </div>
 
       </div>
+  }
 
+      </HummusConsumer>
 
 
 

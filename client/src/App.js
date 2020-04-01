@@ -6,23 +6,26 @@ import { NavigationBar } from './components/NavigationBar';
 import ScenariosWindow from './components/ScenariosWindow';
 import NGRequest from './components/NGRequest';
 import { Col, Row } from 'react-bootstrap';
+import { HummusProvider } from './components/HummusContext';
 
 function App() {
   return (
     <div className='main-body'>
-      <React.Fragment>
-        <Router>
-          <NavigationBar />
-        </Router>
-        <Row>
-          <Col>
-            <NGRequest></NGRequest>
-          </Col>
-          <Col lg='3'>
-            <ScenariosWindow></ScenariosWindow>
-          </Col>
-        </Row>
-      </React.Fragment> 
+      <HummusProvider value='vashuvashu'>
+        <React.Fragment>
+          <Router>
+            <NavigationBar />
+          </Router>
+          <Row>
+            <Col>
+              <NGRequest></NGRequest>
+            </Col>
+            <Col lg='3'>
+              <ScenariosWindow></ScenariosWindow>
+            </Col>
+          </Row>
+        </React.Fragment>
+      </HummusProvider>
     </div>
   );
 }
