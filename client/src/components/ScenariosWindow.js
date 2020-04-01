@@ -65,38 +65,20 @@ class ScenariosWindow extends React.Component {
     
 
     if (!this.state.hasOwnProperty('scenariosHierarchy')) {
-      this.getScenariosHierarchy();
     }
 
-    this.getCurrPathContent();
   }
 
-  saveScenarios(data) {
-    this.state.scenariosHierarchy = data;
-    this.setState(this.state);
-    this.getCurrPathContent();
-  }
-
-  getScenariosHierarchy() {
-
-    fetch('/scenario')
-      .then(response => response.json())
-      .then(data => { 
-        this.context.data.scenariosHierarchy = data;
-        this.context.updateData(this.context.data);
-
-        this.state.scenariosHierarchy = data;
-        delete this.state.scenariosHierarchy._id;
-        this.getCurrPathContent();
-      }).catch(error => {
-        console.log(' error while getting scenarios')
-      });
+  componentDidMount() {
+    this.context.loadFolderHiierarchy( ()=> {
+      this.getCurrPathContent();      
+    } );
   }
 
 
   getCurrPathContent() {
 
-    var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], this.state.scenariosHierarchy);
+    var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], this.context.data.scenariosHierarchy);
     console.log('a ' + JSON.stringify(currChildren))
 
     this.state.files = [];

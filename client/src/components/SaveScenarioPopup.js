@@ -221,7 +221,7 @@ class SaveScenarioPopup extends React.Component {
             children: []
         };
         this.state.folderHierarchy.children = this.buildData(this.context.data.scenariosHierarchy);
-        
+
         this.setState(this.state);
     }
 
@@ -261,6 +261,7 @@ class SaveScenarioPopup extends React.Component {
                 .then(data => {
                     console.log("db response: " + JSON.stringify(data));
                     toast.success("Scenario saved successfully", toastProperties);
+                    this.context.loadFolderHiierarchy();
                 }).catch(error => {
                     console.error("db error: ", error);
                     toast.success("error occured while saving", toastProperties);

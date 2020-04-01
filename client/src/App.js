@@ -10,15 +10,35 @@ import { HummusProvider } from './components/HummusContext';
 
 
 function App() {
-  const [state, setState] = React.useState({msg: 'aaa', scenariosHierarchy: {}});
+  const [state, setState] = React.useState({ msg: 'aaa', scenariosHierarchy: {} });
 
-  const updateData = (data)=> {
+  const updateData = (data) => {
     setState(data);
+  }
+
+  const loadFolderHiierarchy = (thenFunction) => {
+
+    fetch('/scenario')
+      .then(response => response.json())
+      .then(data => {
+        delete data._id;
+        state.scenariosHierarchy = data;
+        updateData(state);
+        
+        if (thenFunction) {
+          thenFunction();
+        }
+      }).catch(error => {
+        console.log(' error while getting scenarios')
+      });
+
   }
 
   return (
     <div className='main-body'>
-      <HummusProvider value={{data: state , updateData: updateData}}>
+      <HummusProvider value={{ data: state, 
+                               updateData: updateData, 
+                               loadFolderHiierarchy: loadFolderHiierarchy }}>
         <React.Fragment>
           <Router>
             <NavigationBar />
