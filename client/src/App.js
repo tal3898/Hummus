@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -8,10 +8,17 @@ import NGRequest from './components/NGRequest';
 import { Col, Row } from 'react-bootstrap';
 import { HummusProvider } from './components/HummusContext';
 
+
 function App() {
+  const [state, setState] = React.useState({msg: 'aaa'});
+
+  const updateData = (data)=> {
+    setState(data);
+  }
+
   return (
     <div className='main-body'>
-      <HummusProvider value={{msg: 'vashuvashu'}}>
+      <HummusProvider value={{data: state , updateData: updateData}}>
         <React.Fragment>
           <Router>
             <NavigationBar />

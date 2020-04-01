@@ -64,6 +64,8 @@ class ScenariosWindow extends React.Component {
       folders: []
     }
 
+    
+
     if (!this.state.hasOwnProperty('scenariosHierarchy')) {
       this.getScenariosHierarchy();
     }
@@ -82,6 +84,7 @@ class ScenariosWindow extends React.Component {
     fetch('/scenario')
       .then(response => response.json())
       .then(data => { 
+        
         ScenariosWindow.scenariosHierarchy = data;
         delete ScenariosWindow.scenariosHierarchy._id;
         this.getCurrPathContent();
@@ -151,7 +154,7 @@ class ScenariosWindow extends React.Component {
   render() {
     return (<Styles>
 
-    <p>context + {this.context.msg}</p>
+    <p>context + {this.context.data.msg}</p>
       <div className="all w3-card-4" style={{ width: 400 }}>
         <header dir="rtl" class="w3-container w3-blue">
           <h1 className="headline">תרחישים</h1>

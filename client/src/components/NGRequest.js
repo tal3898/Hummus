@@ -10,7 +10,7 @@ import SaveScenarioPopup from './SaveScenarioPopup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ScenariosWindow from './ScenariosWindow';
-
+import HummusContext from './HummusContext';
 
 import english_2 from '../jsonFormats/english_2.json'
 import math_2 from '../jsonFormats/math_2.json'
@@ -55,6 +55,8 @@ const Styles = styled.div`
 `;
 
 class NGRequest extends React.Component {
+
+    static contextType = HummusContext;
 
     constructor(props) {
         super(props)
@@ -139,6 +141,7 @@ class NGRequest extends React.Component {
     }
 
     openSavePopup() {
+        this.context.updateData({msg: 'mshu'});
         this.state.isSavePopupOpen = true;
         this.state.scenariosHierarchy = ScenariosWindow.scenariosHierarchy;
 
@@ -238,6 +241,7 @@ class NGRequest extends React.Component {
     render() {
         return (
             <Styles>
+                <p>ng context + {this.context.data.msg}</p>
                 <div className='main-comp'>
 
                     <ToastContainer />
