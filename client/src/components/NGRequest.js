@@ -247,8 +247,6 @@ class NGRequest extends React.Component {
     render() {
         return (
             <Styles>
-                <p>ng context + {this.context.data.msg}</p>
-
                 <HummusConsumer>
                     {(context) =>
 

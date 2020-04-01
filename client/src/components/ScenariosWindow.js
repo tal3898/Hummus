@@ -5,10 +5,11 @@ import HummusContext, { HummusConsumer } from './HummusContext'
 
 const Styles = styled.div`
 
-.header {
+.headline {
   float: right;
   margin-bottom:20px;
   margin-top:10px; 
+  margin-right:15px;
   font-size:50px;
   letter-spacing: 0.05em;
   fontFamily:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
@@ -23,7 +24,15 @@ const Styles = styled.div`
   margin-top:35px;
   margin-right:35px;
   height:700px;
+  padding: 0px !important;
+
 }
+
+.header {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
 
 `;
 class ScenariosWindow extends React.Component {
@@ -147,7 +156,7 @@ class ScenariosWindow extends React.Component {
       return totalItems;
     } else {
       return (
-        <center style={{ marginTop: 250, fontSize: 40, color: '#b0bec5' }}>
+        <center style={{ marginTop: 220, fontSize: 40, color: '#b0bec5' }}>
           Folder is empty
         </center>
       )
@@ -160,13 +169,17 @@ class ScenariosWindow extends React.Component {
 
 
       <div class="w3-card-4">
-        <header style={{ marginBottom: 10 }} class="w3-container w3-blue">
-          <h1 className="header" >תרחישים</h1>
-          <Form.Group dir="ltr" md="4" controlId="validationCustomUsername">
+        <header style={{ marginBottom: 10 }} class="w3-container w3-blue header">
+          <h1 className="headline" >תרחישים</h1>
+
+          
+          <Form.Group style={{marginBottom:0, marginLeft:0, width:'100%'}} md="4" controlId="validationCustomUsername">
             <InputGroup>
+              
               <InputGroup.Prepend>
-                <InputGroup.Text id="inputGroupPrepend">path</InputGroup.Text>
+                <InputGroup.Text style={{borderRadius:0}} id="inputGroupPrepend">path</InputGroup.Text>
               </InputGroup.Prepend>
+
               <Form.Control
                 disabled
                 type="text"

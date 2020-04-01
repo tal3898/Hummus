@@ -67,10 +67,10 @@ class App extends React.Component {
               <NavigationBar />
             </Router>
             <Row>
-              <Col>
+              <Col sm="9">
                 <NGRequest></NGRequest>
               </Col>
-              <Col lg='3'>
+              <Col sm="3">
                 <ScenariosWindow></ScenariosWindow>
               </Col>
             </Row>
