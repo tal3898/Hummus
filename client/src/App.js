@@ -11,7 +11,7 @@ import { HummusProvider } from './components/HummusContext';
 function App() {
   return (
     <div className='main-body'>
-      <HummusProvider value='vashuvashu'>
+      <HummusProvider value={{msg: 'vashuvashu'}}>
         <React.Fragment>
           <Router>
             <NavigationBar />
