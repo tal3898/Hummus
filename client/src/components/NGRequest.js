@@ -87,7 +87,7 @@ class NGRequest extends React.Component {
             "מחיקה": "DELETE"
         }
 
-        this.jsonMap = {
+        this.state.scenarioData.jsonMap = {
             "אנגלית": {
                 "2": JSON.stringify(english_2),
                 "X": JSON.stringify(english_x)
@@ -194,7 +194,7 @@ class NGRequest extends React.Component {
         var chosenEntity = this.entityNode.value;
         var chosenVersion = this.versionNode.value;
 
-        return this.jsonMap[chosenEntity][chosenVersion];
+        return this.state.scenarioData.jsonMap[chosenEntity][chosenVersion];
     }
 
     loadJson() {
@@ -209,6 +209,14 @@ class NGRequest extends React.Component {
         this.state.isJsonPopupOpen = false;
         this.state.isSavePopupOpen = false;
         this.setState(this.state);
+    }
+
+    updateRequest(event) {
+        this.state.scenarioData.jsonToEdit = JSON.stringify(event.newJson);
+        var chosenEntity = this.entityNode.value;
+        var chosenVersion = this.versionNode.value;
+
+        this.state.scenarioData.jsonMap[chosenEntity][chosenVersion] = this.state.scenarioData.jsonToEdit;
     }
 
     render() {
@@ -389,7 +397,7 @@ class NGRequest extends React.Component {
                                     level='0'
                                     fullJson={this.state.scenarioData.fullJsonToEdit}
                                     jsondata={this.state.scenarioData.jsonToEdit}
-                                    onInnerFieldChanged={(event) => this.state.scenarioData.jsonToEdit = JSON.stringify(event.newJson)} ></EntityEditor>
+                                    onInnerFieldChanged={(event) => this.updateRequest(event)} ></EntityEditor>
 
                             </Col>
                         </Row>
