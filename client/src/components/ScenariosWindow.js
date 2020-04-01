@@ -33,6 +33,10 @@ const Styles = styled.div`
   padding-right: 0px !important;
 }
 
+.name {
+  
+}
+
 
 `;
 class ScenariosWindow extends React.Component {
@@ -95,13 +99,29 @@ class ScenariosWindow extends React.Component {
       <Row onClick={() => this.openFolder(this.state.currPath + '/' + folderName)} className='field' dir="rtl">
         <Col lg="2">
           <center>
-            <i style={{ marginTop: 5 }} class="action far fa-folder-open fa-2x"></i>
+            <i style={{ marginTop: 5, color: '#ffa726' }} class="action fas fa-folder-open fa-2x"></i>
           </center>
         </Col>
         <Col style={{ fontSize: 25, marginTop: 1 }} lg="1">
-          <p>{folderName}</p>
+          {folderName}
         </Col>
       </Row>
+    )
+  }
+
+  createFileRow(fileName) {
+    return (
+      <Row className='field' onClick={() => this.openFile(this.state.currPath + '/' + fileName)} dir="rtl">
+        <Col lg="2">
+          <center>
+            <i style={{ marginTop: 5, color: '#90a4ae' }} class="action fas fa-file fa-2x"></i>
+          </center>
+        </Col>
+        <Col style={{ fontSize: 25, marginTop: 1 }} lg="1">
+          {fileName}
+        </Col>
+      </Row>
+
     )
   }
 
@@ -128,22 +148,6 @@ class ScenariosWindow extends React.Component {
       });
   }
 
-  createFileRow(fileName) {
-    return (
-      <Row className='field' onClick={() => this.openFile(this.state.currPath + '/' + fileName)} dir="rtl">
-        <Col lg="2">
-          <center>
-            <i style={{ marginTop: 5 }} class="action far fa-file fa-2x"></i>
-          </center>
-        </Col>
-        <Col style={{ fontSize: 25, marginTop: 1 }} lg="1">
-          <p>{fileName}</p>
-        </Col>
-      </Row>
-
-    )
-  }
-
   getWindowContent(context) {
     var totalItems = [];
 
@@ -156,7 +160,7 @@ class ScenariosWindow extends React.Component {
       return totalItems;
     } else {
       return (
-        <center style={{ marginTop: 220, fontSize: 40, color: '#b0bec5' }}>
+        <center style={{ marginTop: 200, fontSize: 40, color: '#b0bec5' }}>
           Folder is empty
         </center>
       )

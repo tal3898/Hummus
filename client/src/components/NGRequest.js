@@ -26,6 +26,7 @@ const Styles = styled.div`
 
 .main-comp {
     padding-right: 50px;
+    margin-top:35px;
 }
 
 .entity-editor-window {
