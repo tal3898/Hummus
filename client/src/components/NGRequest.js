@@ -63,7 +63,15 @@ class NGRequest extends React.Component {
             json: {},
             isJsonPopupOpen: false,
             isSavePopupOpen: false,
-            scenarioData: {},
+            scenarioData: {
+                name: '',
+                description: '',
+                entity: 'אנגלית',
+                system: 'טל',
+                reality: 'א',
+                action: 'יצירה',
+                version: '2'
+            },
             scenarioName: 'bbb'
         }
 
@@ -112,8 +120,7 @@ class NGRequest extends React.Component {
         .then(response => response.json())
         .then(data => {
             console.log('here work')
-            this.state.scenarioData.jsonToEdit = data.steps[0].jsonToEdit;
-            this.state.scenarioData.jsonMap = data.steps[0].jsonMap;
+            this.state.scenarioData = data.steps[0];
             this.setState(this.state);
         }).catch(error => {
             console.error("dont work : ", error);
@@ -133,19 +140,7 @@ class NGRequest extends React.Component {
 
     openSavePopup() {
         this.state.isSavePopupOpen = true;
-
-        console.log('aaa ' + JSON.stringify(ScenariosWindow.scenariosHierarchy));
-
         this.state.scenariosHierarchy = ScenariosWindow.scenariosHierarchy;
-        this.state.scenarioData.name = this.scenarioNameNode.value;
-        this.state.scenarioData.description = this.scenarioDescriptionNode.value;
-
-        this.state.scenarioData.entity = this.entityMap[this.entityNode.value];
-        this.state.scenarioData.system = this.systemMap[this.systemNode.value];
-        this.state.scenarioData.reality = this.realityMap[this.realityNode.value];
-        this.state.scenarioData.action = this.actionMap[this.actionNode.value];
-        this.state.scenarioData.version = this.versionNode.value;
-
 
         this.setState(this.state);
     }
@@ -158,6 +153,11 @@ class NGRequest extends React.Component {
 
     expendAll() {
         this.setState({ expandAll: !this.state.expandAll })
+    }
+
+    onMetadataChange(event, key) {
+        this.state.scenarioData[key] = event.target.value;
+        this.setState(this.state);
     }
 
     sendJsonToNG() {
@@ -260,7 +260,11 @@ class NGRequest extends React.Component {
                                     <Form.Label >שם תרחיש</Form.Label>
                                 </Col>
                                 <Col lg='3'>
-                                    <Form.Control onChange={(event)=> console.log('s n ' + event.value)} ref={(ref) => this.scenarioNameNode = ref} type="text" />
+                                    <Form.Control 
+                                        onChange={(event)=> this.onMetadataChange(event, 'name')} 
+                                        value={this.state.scenarioData.name} 
+                                        ref={(ref) => this.scenarioNameNode = ref} 
+                                        type="text" />
                                 </Col>
                                 <Col lg='6'>
 
@@ -316,7 +320,12 @@ class NGRequest extends React.Component {
                                     <Form.Label >תיאור תרחיש</Form.Label>
                                 </Col>
                                 <Col lg='5'>
-                                    <Form.Control ref={(ref) => this.scenarioDescriptionNode = ref} as="textarea" rows="3" />
+                                    <Form.Control 
+                                        onChange={(event)=> this.onMetadataChange(event, 'description')}
+                                        value={this.state.scenarioData.description} 
+                                        ref={(ref) => this.scenarioDescriptionNode = ref} 
+                                        as="textarea" 
+                                        rows="3" />
                                 </Col>
                             </Row>
 
@@ -328,7 +337,8 @@ class NGRequest extends React.Component {
                                 </Col>
                                 <Col lg='2'>
                                     <Form.Control 
-                                        onChange={(event) => this.loadJson()} 
+                                        onChange={(event) => {this.loadJson(); this.onMetadataChange(event, 'entity')} } 
+                                        value={this.state.scenarioData.entity} 
                                         ref={(ref) => this.entityNode = ref} 
                                         as="select">
                                         <option>אנגלית</option>
@@ -343,7 +353,11 @@ class NGRequest extends React.Component {
                                     <Form.Label >סוג בקשה</Form.Label>
                                 </Col>
                                 <Col lg='2'>
-                                    <Form.Control ref={(ref) => this.actionNode = ref} as="select">
+                                    <Form.Control 
+                                        onChange={(event)=> this.onMetadataChange(event, 'action')} 
+                                        value={this.state.scenarioData.action} 
+                                        ref={(ref) => this.actionNode = ref}
+                                        as="select">
                                         <option>יצירה</option>
                                         <option>עדכון</option>
                                         <option>מחיקה</option>
@@ -354,7 +368,11 @@ class NGRequest extends React.Component {
                                     <Form.Label >מערכת</Form.Label>
                                 </Col>
                                 <Col lg='2'>
-                                    <Form.Control ref={(ref) => this.systemNode = ref} as="select">
+                                    <Form.Control 
+                                        onChange={(event)=> this.onMetadataChange(event, 'system')} 
+                                        value={this.state.scenarioData.system} 
+                                        ref={(ref) => this.systemNode = ref} 
+                                        as="select">
                                         <option>טל</option>
                                         <option>ינון</option>
                                     </Form.Control>
@@ -367,7 +385,11 @@ class NGRequest extends React.Component {
                                     <Form.Label >תקן</Form.Label>
                                 </Col>
                                 <Col lg='2'>
-                                    <Form.Control onChange={(event) => this.loadJson()} ref={(ref) => this.versionNode = ref} as="select">
+                                    <Form.Control 
+                                        onChange={(event) => {this.loadJson(); this.onMetadataChange(event, 'version') }} 
+                                        ref={(ref) => this.versionNode = ref} 
+                                        as="select">
+
                                         <option>2</option>
                                         <option>X</option>
                                     </Form.Control>
@@ -376,7 +398,11 @@ class NGRequest extends React.Component {
                                     <Form.Label >שיעור</Form.Label>
                                 </Col>
                                 <Col lg='2'>
-                                    <Form.Control ref={(ref) => this.realityNode = ref} as="select" >
+                                    <Form.Control 
+                                        onChange={(event)=> this.onMetadataChange(event, 'reality')} 
+                                        ref={(ref) => this.realityNode = ref} 
+                                        as="select" >
+
                                         <option>א</option>
                                         <option>ב</option>
                                         <option>ג</option>
