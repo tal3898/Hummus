@@ -118,9 +118,28 @@ class ScenariosWindow extends React.Component {
     )
   }
 
+  openFile(filePath) {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path: filePath })
+    };
+
+    fetch('/scenarioFile', requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      delete data._id;
+      //this.data.scenariosHierarchy = data;
+      //this.setState()
+        
+    }).catch(error => {
+      console.log(' error while getting scenarios')
+    });
+  }
+
   createFileRow(fileName) {
     return (
-      <Row className="field">
+      <Row className="field" onClick={() => this.openFile(this.state.currPath + '/' + fileName)}>
         <Col lg="1" className="col-md-2">
           <i class="action far fa-file fa-2x"></i>
         </Col>
@@ -178,7 +197,7 @@ class ScenariosWindow extends React.Component {
             </InputGroup>
           </Form.Group>
         </header>
-        
+
         <HummusConsumer>
           {(value) =>
 

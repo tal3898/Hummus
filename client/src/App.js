@@ -17,7 +17,22 @@ class App extends React.Component {
     this.state = {
       data: {
         msg: 'aaa',
-        scenariosHierarchy: {}
+        scenariosHierarchy: {},
+        currScenario: {
+          steps:[{
+            
+            "jsonMap": {},
+            "jsonToEdit": "{}",
+            "entity": "כמיה",
+            "system": "ינון",
+            "reality": "ג",
+            "action": "מחיקה",
+            "version": "X",
+            "fullJsonToEdit": "{}",
+            "name": "",
+            "description": ""
+          }]
+        }
       },
       updateData: (newValue) => {
         this.setState(newValue)
