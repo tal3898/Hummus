@@ -9,6 +9,8 @@ const Styles = styled.div`
   float: right;
   margin-bottom:20px;
   margin-top:10px; 
+  font-size:50px;
+  letter-spacing: 0.05em;
   fontFamily:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
