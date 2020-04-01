@@ -1,7 +1,7 @@
 import React, { useState, Children } from 'react';
 import styled from 'styled-components';
 import { Form, Col, Row, InputGroup } from 'react-bootstrap';
-import HummusContext, {HummusConsumer} from './HummusContext'
+import HummusContext, { HummusConsumer } from './HummusContext'
 
 const Styles = styled.div`
 
@@ -52,103 +52,59 @@ const Styles = styled.div`
 `;
 class ScenariosWindow extends React.Component {
   static contextType = HummusContext;
-  
+
   constructor(props) {
     super(props);
 
     this.state = {
-      currPath: '',
-      files: [],
-      folders: []
+      currPath: ''
     }
-
-    
-
-    if (!this.state.hasOwnProperty('scenariosHierarchy')) {
-    }
-
   }
 
   componentDidMount() {
-    this.context.loadFolderHiierarchy( (data)=> {
+    this.context.loadFolderHiierarchy((data) => {
       this.context.data.scenariosHierarchy = data;
       this.context.updateData(data);
+    });
+  } 
 
-      this.getCurrPathContent(data);      
-    } );
-  }
-
-  getFolderJson(data) {
-    return this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], data);
-  }
-
-  getCurrPathContent() {
-
-    var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], this.context.data.scenariosHierarchy);
-    console.log('a ' + JSON.stringify(currChildren))
-
-    this.state.files = [];
-    this.state.folders = [];
-
-    for (var key in currChildren) {
-
-      if (currChildren[key].hasOwnProperty('steps')) {
-        this.state.files.push(key);
-      } else if (typeof currChildren[key] == 'object') {
-        this.state.folders.push(key);
-      }
-    }
-
-    this.setState(this.state);
-  }
-
-  getCurrPathFolders(context) {
-
-    var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], context.data.scenariosHierarchy);
-    console.log('a ' + JSON.stringify(currChildren))
-
-    
-    var folders = [];
-
-    for (var key in currChildren) {
-
-      if (!currChildren[key].hasOwnProperty('steps')) {
-        folders.push(key);
-      } 
-    }
-
-    return folders;
-  }
-
-  getCurrPathFiles(context) {
-
-    var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], context.data.scenariosHierarchy);
-    console.log('a ' + JSON.stringify(currChildren))
-
-    
-    var files = [];
-
-    for (var key in currChildren) {
-
-      if (currChildren[key].hasOwnProperty('steps')) {
-        files.push(key);
-      } 
-    }
-
-    return files;
-  }
-
+  //#region navigation functions
   openFolder(path) {
     this.state.currPath = path;
     this.setState(this.state);
-    this.getCurrPathContent();
   }
 
   goBack() {
     var prevPath = this.state.currPath.substring(0, this.state.currPath.lastIndexOf('/'));
     this.openFolder(prevPath);
   }
+  //#endregion
 
+  //#region get curr folder content
+  getCurrPathFolders(context) {
+    var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], context.data.scenariosHierarchy);
+    var folders = [];
+    for (var key in currChildren) {
+      if (!currChildren[key].hasOwnProperty('steps')) {
+        folders.push(key);
+      }
+    }
+    return folders;
+  }
+
+  getCurrPathFiles(context) {
+    var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], context.data.scenariosHierarchy);
+    var files = [];
+    for (var key in currChildren) {
+      if (currChildren[key].hasOwnProperty('steps')) {
+        files.push(key);
+      }
+    }
+    return files;
+  }
+  //#endregion
+
+  //#region content rendering
   createFolderRow(folderName) {
     return (
       <Row onClick={() => this.openFolder(this.state.currPath + '/' + folderName)} className="field">
@@ -175,63 +131,69 @@ class ScenariosWindow extends React.Component {
     )
   }
 
+  getWindowContent(context) {
+    var totalItems = [];
+
+    var folders = this.getCurrPathFolders(context).map((folderName) => this.createFolderRow(folderName));
+    var files = this.getCurrPathFiles(context).map((fileName) => this.createFileRow(fileName));
+
+    totalItems = totalItems.concat(folders);
+    totalItems = totalItems.concat(files);
+    if (totalItems.length > 0) {
+      return totalItems;
+    } else {
+      return (
+        <center style={{ marginTop: 250, fontSize: 40, color: '#b0bec5' }}>
+          Folder is empty
+        </center>
+      )
+    }
+  }
+  //#endregion
+
   render() {
     return (<Styles>
 
-<HummusConsumer>
-  {(value) => 
-    
-      <div className="all w3-card-4" style={{ width: 400 }}>
-        <p>context + {this.context.data.msg}</p>
+      <HummusConsumer>
+        {(value) =>
 
-        <header dir="rtl" class="w3-container w3-blue">
-          <h1 className="headline">תרחישים</h1>
-          <Form.Group dir="ltr" md="4" controlId="validationCustomUsername">
-            <InputGroup>
-              <InputGroup.Prepend>
-                <InputGroup.Text id="inputGroupPrepend">path</InputGroup.Text>
-              </InputGroup.Prepend>
-              <Form.Control
-                disabled
-                type="text"
-                value={(this.state.currPath.length > 0 && this.state.currPath) ||
-                        '/'}
-                aria-describedby="inputGroupPrepend"
-                required
-              />
-              <InputGroup.Prepend>
+          <div className="all w3-card-4" style={{ width: 400 }}>
+            <header dir="rtl" class="w3-container w3-blue">
+              <h1 className="headline">תרחישים</h1>
+              <Form.Group dir="ltr" md="4" controlId="validationCustomUsername">
+                <InputGroup>
+                  <InputGroup.Prepend>
+                    <InputGroup.Text id="inputGroupPrepend">path</InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <Form.Control
+                    disabled
+                    type="text"
+                    value={(this.state.currPath.length > 0 && this.state.currPath) ||
+                      '/'}
+                    aria-describedby="inputGroupPrepend"
+                    required
+                  />
+                  <InputGroup.Prepend>
 
-                <InputGroup.Text onClick={() => this.goBack()} className="back-button" id="inputGroupPrepend">
-                  <i class="fas fa-undo-alt"></i>
-                </InputGroup.Text>
-              </InputGroup.Prepend>
-            </InputGroup>
-          </Form.Group>
-        </header>
+                    <InputGroup.Text onClick={() => this.goBack()} className="back-button" id="inputGroupPrepend">
+                      <i class="fas fa-undo-alt"></i>
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                </InputGroup>
+              </Form.Group>
+            </header>
 
 
-        <div className="w3-container">
-
-          <div dir="rtl" className='scenarios-list'>
-            {this.getCurrPathFolders(value).map((folderName) => this.createFolderRow(folderName))}
-
-            {this.getCurrPathFiles(value).map((fileName) => this.createFileRow(fileName))}
-
-            {this.state.files.length == 0 && this.state.folders.length == 0 &&
-              <center style={{ marginTop: 250, fontSize: 40, color: '#b0bec5' }}>
-                Folder is empty
-              </center>
-            }
+            <div className="w3-container">
+              <div dir="rtl" className='scenarios-list'>
+                {this.getWindowContent(value)}
+              </div>
+            </div>
           </div>
+        }
+      </HummusConsumer>
 
-        </div>
 
-      </div>
-
-  }
-</HummusConsumer>
-
-    
 
 
 
