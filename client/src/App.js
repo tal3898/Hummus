@@ -28,9 +28,7 @@ class App extends React.Component {
             "reality": "ג",
             "action": "מחיקה",
             "version": "X",
-            "fullJsonToEdit": "{}",
-            "name": "",
-            "description": ""
+            "fullJsonToEdit": "{}"
           }]
         }
       },

@@ -118,28 +118,13 @@ class NGRequest extends React.Component {
             }
         }
 
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ path: '/tal/test3' })
-        };
-
-        fetch('/scenarioFile', requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                console.log('here work')
-                this.context.data.currScenario.steps[0] = data.steps[0];
-                this.setState(this.state);
-            }).catch(error => {
-                console.error("dont work : ", error);
-            });
 
         this.context.data.currScenario.steps[0].jsonToEdit = JSON.stringify(english_2);
         this.context.data.currScenario.steps[0].entity = 'English';
         this.context.data.currScenario.steps[0].system = 'Tal';
         this.context.data.currScenario.steps[0].reality = '0';
         this.context.data.currScenario.steps[0].action = 'POST';
-        this.context.data.currScenario.steps[0].version = 'X';
+        this.context.data.currScenario.steps[0].version = '2';
 
         this.context.data.currScenario.steps[0].fullJsonToEdit = JSON.stringify(english_2);
 
@@ -165,14 +150,14 @@ class NGRequest extends React.Component {
 
     onMetadataChange(event, key) {
         this.context.data.currScenario.steps[0][key] = event.target.value;
-        this.setState(this.state);
+        this.context.updateData(this.context);
     }
 
     loadScenarioToState() {
-        
-        this.state.scenarioData.steps[0].name = this.context.data.currScenario.steps[0].name;
-        this.state.scenarioData.steps[0].description = this.context.data.currScenario.steps[0].description;
+        this.state.scenarioData.name = this.context.data.currScenario.name;
+        this.state.scenarioData.description = this.context.data.currScenario.description;
 
+        this.state.scenarioData.steps[0].jsonMap = this.context.data.currScenario.steps[0].jsonMap
         this.state.scenarioData.steps[0].fullJsonToEdit = this.context.data.currScenario.steps[0].fullJsonToEdit;
         this.state.scenarioData.steps[0].jsonToEdit = this.context.data.currScenario.steps[0].jsonToEdit;
 
@@ -181,9 +166,6 @@ class NGRequest extends React.Component {
         this.state.scenarioData.steps[0].reality = this.context.data.currScenario.steps[0].reality;
         this.state.scenarioData.steps[0].action = this.context.data.currScenario.steps[0].action;
         this.state.scenarioData.steps[0].version = this.context.data.currScenario.steps[0].version;
-
-        
-
     }
     
 
@@ -293,8 +275,10 @@ class NGRequest extends React.Component {
                                         </Col>
                                         <Col lg='3'>
                                             <Form.Control
-                                                onChange={(event) => this.onMetadataChange(event, 'name')}
-                                                value={context.data.currScenario.steps[0].name}
+                                                onChange={(event) => {
+                                                    context.data.currScenario.name = event.target.value; 
+                                                    context.updateData(context)}}
+                                                value={context.data.currScenario.name}
                                                 ref={(ref) => this.scenarioNameNode = ref}
                                                 type="text" />
                                         </Col>
@@ -353,8 +337,10 @@ class NGRequest extends React.Component {
                                         </Col>
                                         <Col lg='5'>
                                             <Form.Control
-                                                onChange={(event) => this.onMetadataChange(event, 'description')}
-                                                value={context.data.currScenario.steps[0].description}
+                                                onChange={(event) => {
+                                                    context.data.currScenario.description = event.target.value; 
+                                                    context.updateData(context)}}
+                                                value={context.data.currScenario.description}
                                                 ref={(ref) => this.scenarioDescriptionNode = ref}
                                                 as="textarea"
                                                 rows="3" />

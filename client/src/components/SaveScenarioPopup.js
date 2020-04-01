@@ -243,10 +243,12 @@ class SaveScenarioPopup extends React.Component {
             toast.error("Please select a folder.", toastProperties);
         } else {
             folderPath = folderPath.replace('/root', '');
-            var fileFullPath = folderPath + '/' + this.state.scenarioData.steps[0].name;
+            var fileFullPath = folderPath + '/' + this.state.scenarioData.name;
 
             var jsonToSaveInDB = {
                 path: fileFullPath,
+                name: this.state.scenarioData.name,
+                description: this.state.scenarioData.description,
                 steps: this.state.scenarioData.steps
             }
 
