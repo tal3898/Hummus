@@ -53,4 +53,22 @@ app.post('/scenario', async (req, res) => {
 	db.close();
 });
 
+app.post('/scenarioFile', async (req, res) => {
+
+	var wantedScenarioPath = req.body.path;
+	
+	var db = await MongoClient.connect(dbUrl);
+	var dbo = db.db("HummusDB");
+
+
+	var result = await dbo.collection("scenarioFiles").findOne({path: wantedScenarioPath}, {_id:0});
+	
+	
+
+	res.json(result);
+
+	db.close();
+});
+
+
 app.listen(port, () => console.log('server started on port ' + port));

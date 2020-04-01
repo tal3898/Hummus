@@ -46,7 +46,7 @@ const Styles = styled.div`
 
 `;
 
-const backupData = {
+const backupData2 = {
     name: 'root',
     toggled: true,
     children: [
@@ -336,7 +336,7 @@ class SaveScenarioPopup extends React.Component {
 
                     <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
                         <Treebeard
-                            data={backupData}
+                            data={this.state.folderHierarchy}
                             onToggle={this.onToggle}
                         />
                     </div>

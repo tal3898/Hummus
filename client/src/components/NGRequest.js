@@ -102,6 +102,22 @@ class NGRequest extends React.Component {
             }
         }
 
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({path:'/tal/test'})
+        };
+
+        fetch('/scenarioFile', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            console.log('here work')
+            this.state.scenarioData.jsonToEdit = data.steps[0].jsonToEdit;
+            this.state.scenarioData.jsonMap = data.steps[0].jsonMap;
+            this.setState(this.state);
+        }).catch(error => {
+            console.error("dont work : ", error);
+        });
         
         this.state.scenarioData.jsonToEdit = JSON.stringify(english_2);
         this.state.scenarioData.entity = 'English';
@@ -216,7 +232,7 @@ class NGRequest extends React.Component {
         var chosenEntity = this.entityNode.value;
         var chosenVersion = this.versionNode.value;
 
-        this.state.scenarioData.jsonMap[chosenEntity][chosenVersion] = this.state.scenarioData.jsonToEdit;
+        this.state.scenarioData.jsonMap[chosenEntity][chosenVersion] = this.state.scenarioData.jsonToEdit;  
     }
 
     render() {
