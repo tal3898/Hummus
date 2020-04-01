@@ -113,7 +113,7 @@ class NGRequest extends React.Component {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({path:'/tal/test'})
+            body: JSON.stringify({path:'/tal/test3'})
         };
 
         fetch('/scenarioFile', requestOptions)
@@ -387,6 +387,7 @@ class NGRequest extends React.Component {
                                 <Col lg='2'>
                                     <Form.Control 
                                         onChange={(event) => {this.loadJson(); this.onMetadataChange(event, 'version') }} 
+                                        value={this.state.scenarioData.version} 
                                         ref={(ref) => this.versionNode = ref} 
                                         as="select">
 
@@ -400,6 +401,7 @@ class NGRequest extends React.Component {
                                 <Col lg='2'>
                                     <Form.Control 
                                         onChange={(event)=> this.onMetadataChange(event, 'reality')} 
+                                        value={this.state.scenarioData.reality} 
                                         ref={(ref) => this.realityNode = ref} 
                                         as="select" >
 
