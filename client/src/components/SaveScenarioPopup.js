@@ -261,7 +261,10 @@ class SaveScenarioPopup extends React.Component {
                 .then(data => {
                     console.log("db response: " + JSON.stringify(data));
                     toast.success("Scenario saved successfully", toastProperties);
-                    this.context.loadFolderHiierarchy();
+                    this.context.loadFolderHiierarchy((data) => {
+                        this.context.data.scenariosHierarchy = data;
+                        this.context.updateData(this.context);
+                    });
                 }).catch(error => {
                     console.error("db error: ", error);
                     toast.success("error occured while saving", toastProperties);

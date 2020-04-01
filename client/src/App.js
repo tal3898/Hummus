@@ -9,24 +9,35 @@ import { Col, Row } from 'react-bootstrap';
 import { HummusProvider } from './components/HummusContext';
 
 
-function App() {
-  const [state, setState] = React.useState({ msg: 'aaa', scenariosHierarchy: {} });
+class App extends React.Component {
 
-  const updateData = (data) => {
-    setState(data);
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: {
+        msg: 'aaa',
+        scenariosHierarchy: {}
+      },
+      updateData: (newValue) => {
+        this.setState(newValue)
+      },
+      loadFolderHiierarchy: this.loadFolderHiierarchy
+    }
   }
+  
 
-  const loadFolderHiierarchy = (thenFunction) => {
+  loadFolderHiierarchy(callback) {
 
     fetch('/scenario')
       .then(response => response.json())
       .then(data => {
         delete data._id;
-        state.scenariosHierarchy = data;
-        updateData(state);
-        
-        if (thenFunction) {
-          thenFunction();
+        //this.data.scenariosHierarchy = data;
+        //this.setState()
+
+        if (callback) {
+          callback(data);
         }
       }).catch(error => {
         console.log(' error while getting scenarios')
@@ -34,27 +45,27 @@ function App() {
 
   }
 
-  return (
-    <div className='main-body'>
-      <HummusProvider value={{ data: state, 
-                               updateData: updateData, 
-                               loadFolderHiierarchy: loadFolderHiierarchy }}>
-        <React.Fragment>
-          <Router>
-            <NavigationBar />
-          </Router>
-          <Row>
-            <Col>
-              <NGRequest></NGRequest>
-            </Col>
-            <Col lg='3'>
-              <ScenariosWindow></ScenariosWindow>
-            </Col>
-          </Row>
-        </React.Fragment>
-      </HummusProvider>
-    </div>
-  );
+  render() {
+    return (
+      <div className='main-body'>
+        <HummusProvider value={this.state}>
+          <React.Fragment>
+            <Router>
+              <NavigationBar />
+            </Router>
+            <Row>
+              <Col>
+                <NGRequest></NGRequest>
+              </Col>
+              <Col lg='3'>
+                <ScenariosWindow></ScenariosWindow>
+              </Col>
+            </Row>
+          </React.Fragment>
+        </HummusProvider>
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -1,7 +1,7 @@
 import React, { useState, Children } from 'react';
 import styled from 'styled-components';
 import { Form, Col, Row, InputGroup } from 'react-bootstrap';
-import HummusContext from './HummusContext'
+import HummusContext, {HummusConsumer} from './HummusContext'
 
 const Styles = styled.div`
 
@@ -70,11 +70,17 @@ class ScenariosWindow extends React.Component {
   }
 
   componentDidMount() {
-    this.context.loadFolderHiierarchy( ()=> {
-      this.getCurrPathContent();      
+    this.context.loadFolderHiierarchy( (data)=> {
+      this.context.data.scenariosHierarchy = data;
+      this.context.updateData(data);
+
+      this.getCurrPathContent(data);      
     } );
   }
 
+  getFolderJson(data) {
+    return this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], data);
+  }
 
   getCurrPathContent() {
 
@@ -94,6 +100,42 @@ class ScenariosWindow extends React.Component {
     }
 
     this.setState(this.state);
+  }
+
+  getCurrPathFolders(context) {
+
+    var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], context.data.scenariosHierarchy);
+    console.log('a ' + JSON.stringify(currChildren))
+
+    
+    var folders = [];
+
+    for (var key in currChildren) {
+
+      if (!currChildren[key].hasOwnProperty('steps')) {
+        folders.push(key);
+      } 
+    }
+
+    return folders;
+  }
+
+  getCurrPathFiles(context) {
+
+    var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], context.data.scenariosHierarchy);
+    console.log('a ' + JSON.stringify(currChildren))
+
+    
+    var files = [];
+
+    for (var key in currChildren) {
+
+      if (currChildren[key].hasOwnProperty('steps')) {
+        files.push(key);
+      } 
+    }
+
+    return files;
   }
 
   openFolder(path) {
@@ -136,8 +178,12 @@ class ScenariosWindow extends React.Component {
   render() {
     return (<Styles>
 
-    <p>context + {this.context.data.msg}</p>
+<HummusConsumer>
+  {(value) => 
+    
       <div className="all w3-card-4" style={{ width: 400 }}>
+        <p>context + {this.context.data.msg}</p>
+
         <header dir="rtl" class="w3-container w3-blue">
           <h1 className="headline">תרחישים</h1>
           <Form.Group dir="ltr" md="4" controlId="validationCustomUsername">
@@ -167,9 +213,9 @@ class ScenariosWindow extends React.Component {
         <div className="w3-container">
 
           <div dir="rtl" className='scenarios-list'>
-            {this.state.folders.map((folderName) => this.createFolderRow(folderName))}
+            {this.getCurrPathFolders(value).map((folderName) => this.createFolderRow(folderName))}
 
-            {this.state.files.map((fileName) => this.createFileRow(fileName))}
+            {this.getCurrPathFiles(value).map((fileName) => this.createFileRow(fileName))}
 
             {this.state.files.length == 0 && this.state.folders.length == 0 &&
               <center style={{ marginTop: 250, fontSize: 40, color: '#b0bec5' }}>
@@ -181,6 +227,11 @@ class ScenariosWindow extends React.Component {
         </div>
 
       </div>
+
+  }
+</HummusConsumer>
+
+    
 
 
 
