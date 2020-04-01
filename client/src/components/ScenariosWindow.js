@@ -52,8 +52,6 @@ const Styles = styled.div`
 `;
 class ScenariosWindow extends React.Component {
   static contextType = HummusContext;
-
-  static scenariosHierarchy = {};
   
   constructor(props) {
     super(props);
@@ -84,9 +82,11 @@ class ScenariosWindow extends React.Component {
     fetch('/scenario')
       .then(response => response.json())
       .then(data => { 
-        
-        ScenariosWindow.scenariosHierarchy = data;
-        delete ScenariosWindow.scenariosHierarchy._id;
+        this.context.data.scenariosHierarchy = data;
+        this.context.updateData(this.context.data);
+
+        this.state.scenariosHierarchy = data;
+        delete this.state.scenariosHierarchy._id;
         this.getCurrPathContent();
       }).catch(error => {
         console.log(' error while getting scenarios')
@@ -96,7 +96,7 @@ class ScenariosWindow extends React.Component {
 
   getCurrPathContent() {
 
-    var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], ScenariosWindow.scenariosHierarchy);
+    var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], this.state.scenariosHierarchy);
     console.log('a ' + JSON.stringify(currChildren))
 
     this.state.files = [];

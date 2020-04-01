@@ -4,6 +4,7 @@ import { Nav, Button, Form, FormControl, Col, Row } from 'react-bootstrap';
 import { JSONEditor } from 'react-json-editor-viewer';
 import EntityEditor from './EntityEditor';
 import { Treebeard } from 'react-treebeard';
+import HummusContext from './HummusContext'
 
 import Popup from "reactjs-popup";
 import ReactJson from 'react-json-view'
@@ -166,6 +167,8 @@ const backupData2 = {
 
 class SaveScenarioPopup extends React.Component {
 
+    static contextType = HummusContext;
+
     constructor(props) {
         super(props)
         this.state = {
@@ -179,7 +182,7 @@ class SaveScenarioPopup extends React.Component {
             toggled: true,
             children: []
         };
-        this.state.folderHierarchy.children = this.buildData(props.folderHierarchy)
+
 
         this.onToggle = this.onToggle.bind(this);
 
@@ -217,8 +220,8 @@ class SaveScenarioPopup extends React.Component {
             toggled: true,
             children: []
         };
-        this.state.folderHierarchy.children = this.buildData(newProps.scenariosHierarchy)
-
+        this.state.folderHierarchy.children = this.buildData(this.context.data.scenariosHierarchy);
+        
         this.setState(this.state);
     }
 

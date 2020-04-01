@@ -10,7 +10,7 @@ import { HummusProvider } from './components/HummusContext';
 
 
 function App() {
-  const [state, setState] = React.useState({msg: 'aaa'});
+  const [state, setState] = React.useState({msg: 'aaa', scenariosHierarchy: {}});
 
   const updateData = (data)=> {
     setState(data);

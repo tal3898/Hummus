@@ -141,7 +141,6 @@ class NGRequest extends React.Component {
     }
 
     openSavePopup() {
-        this.context.updateData({msg: 'mshu'});
         this.state.isSavePopupOpen = true;
         this.state.scenariosHierarchy = ScenariosWindow.scenariosHierarchy;
 
