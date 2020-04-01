@@ -5,48 +5,22 @@ import HummusContext, { HummusConsumer } from './HummusContext'
 
 const Styles = styled.div`
 
-
-.all {
-  margin-top:20px
+.header {
+  float: right;
+  margin-bottom:20px;
+  margin-top:10px; 
+  fontFamily:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
-.headline {
-  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-  color: #bbdefb;
-
-}
-
-.back-button {
-  color: #546e7a;
-  cursor: pointer;
-}
-
-.back-button:hover {
-  color: #212121;
-  cursor: pointer;
+.field {
+  height:40px;
+  &:hover { background: #bbdefb; }
 }
 
 .w3-card-4 {
-  height:750px;
-}
-
-  .action {
-    margin-top:5px;
-  }
-
-  .scenario-name {
-    font-size: 1.7em;
-    width:300px;
-    
-    float:right;
-    margin-right: 10px;
-  }
-
-  .field {
-    height: 40px; 
-    float:right;
-    margin-top : 5px;
-    &:hover { background: #bbdefb; }
+  margin-top:35px;
+  margin-right:35px;
+  height:700px;
 }
 
 `;
@@ -107,12 +81,14 @@ class ScenariosWindow extends React.Component {
   //#region content rendering
   createFolderRow(folderName) {
     return (
-      <Row onClick={() => this.openFolder(this.state.currPath + '/' + folderName)} className="field">
-        <Col lg="1" className="col-md-2">
-          <i class="action far fa-folder-open fa-2x"></i>
+      <Row onClick={() => this.openFolder(this.state.currPath + '/' + folderName)} className='field' dir="rtl">
+        <Col lg="2">
+          <center>
+            <i style={{ marginTop: 5 }} class="action far fa-folder-open fa-2x"></i>
+          </center>
         </Col>
-        <Col className="col-md-2">
-          <span style={{ float: 'right' }} className="scenario-name">{folderName}</span>
+        <Col style={{ fontSize: 25, marginTop: 1 }} lg="1">
+          <p>{folderName}</p>
         </Col>
       </Row>
     )
@@ -126,31 +102,34 @@ class ScenariosWindow extends React.Component {
     };
 
     fetch('/scenarioFile', requestOptions)
-    .then(response => response.json())
-    .then(data => {
-      delete data._id;
-      console.log('bb ' + this.context);
-      this.context.data.currScenario = data;
-      this.context.updateData(this.context);
+      .then(response => response.json())
+      .then(data => {
+        delete data._id;
+        console.log('bb ' + this.context);
+        this.context.data.currScenario = data;
+        this.context.updateData(this.context);
 
-      //this.data.scenariosHierarchy = data;
-      //this.setState()
-        
-    }).catch(error => {
-      console.log(' error while getting scenarios')
-    });
+        //this.data.scenariosHierarchy = data;
+        //this.setState()
+
+      }).catch(error => {
+        console.log(' error while getting scenarios')
+      });
   }
 
   createFileRow(fileName) {
     return (
-      <Row className="field" onClick={() => this.openFile(this.state.currPath + '/' + fileName)}>
-        <Col lg="1" className="col-md-2">
-          <i class="action far fa-file fa-2x"></i>
+      <Row className='field' onClick={() => this.openFile(this.state.currPath + '/' + fileName)} dir="rtl">
+        <Col lg="2">
+          <center>
+            <i style={{ marginTop: 5 }} class="action far fa-file fa-2x"></i>
+          </center>
         </Col>
-        <Col className="col-md-2">
-          <span style={{ float: 'right' }} className="scenario-name">{fileName}</span>
+        <Col style={{ fontSize: 25, marginTop: 1 }} lg="1">
+          <p>{fileName}</p>
         </Col>
       </Row>
+
     )
   }
 
@@ -176,9 +155,11 @@ class ScenariosWindow extends React.Component {
 
   render() {
     return (<Styles>
-      <div className="all w3-card-4" style={{ width: 400 }}>
-        <header dir="rtl" class="w3-container w3-blue">
-          <h1 className="headline">תרחישים</h1>
+
+
+      <div class="w3-card-4">
+        <header style={{ marginBottom: 10 }} class="w3-container w3-blue">
+          <h1 className="header" >תרחישים</h1>
           <Form.Group dir="ltr" md="4" controlId="validationCustomUsername">
             <InputGroup>
               <InputGroup.Prepend>
@@ -192,7 +173,7 @@ class ScenariosWindow extends React.Component {
                 aria-describedby="inputGroupPrepend"
                 required
               />
-              <InputGroup.Prepend>
+              <InputGroup.Prepend style={{marginLeft:-2}}>
 
                 <InputGroup.Text onClick={() => this.goBack()} className="back-button" id="inputGroupPrepend">
                   <i class="fas fa-undo-alt"></i>
@@ -202,18 +183,18 @@ class ScenariosWindow extends React.Component {
           </Form.Group>
         </header>
 
-        <HummusConsumer>
-          {(value) =>
+        <div class="w3-container">
 
-            <div className="w3-container">
-              <div dir="rtl" className='scenarios-list'>
-                {this.getWindowContent(value)}
-              </div>
-            </div>
-          }
-        </HummusConsumer>
+          <HummusConsumer>
+            {(value) =>
+              this.getWindowContent(value)
+            }
+          </HummusConsumer>
+
+        </div>
 
       </div>
+
     </Styles>)
   }
 }
