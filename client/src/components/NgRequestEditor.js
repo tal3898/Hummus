@@ -29,9 +29,6 @@ const Styles = styled.div`
     background: #f5f5f5;   
 }
 
-.metadata {
-    margin-top:20px;
-}
 
 .field {
     margin-bottom: 20px;
@@ -133,7 +130,7 @@ class NgRequestEditor extends React.Component {
                 <HummusConsumer>
                     {(context) =>
 
-                        <div className='main-comp'>
+                        <div>
 
                             <ToastContainer />
 
