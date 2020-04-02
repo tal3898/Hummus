@@ -204,11 +204,20 @@ class Scenario extends React.Component {
 
     addStep() {
         this.context.data.currScenario.steps.push(this.createStepTemplate());
+        this.state.openStepIndex = this.context.data.currScenario.steps.length - 1;
         this.context.updateData(this.context);
     }
 
     removeStep() {
+        this.context.data.currScenario.steps.splice(this.state.openStepIndex,1);
+        this.state.openStepIndex--;
 
+        if (this.state.openStepIndex > 0) {
+            this.state.openStepIndex--;
+        }
+
+        this.context.updateData(this.context);
+        this.setState(this.state)
     }
 
     render() {
@@ -335,7 +344,7 @@ class Scenario extends React.Component {
                                         <Col lg='2'>
                                             <Form.Control
                                                 onChange={(event) => {
-                                                    context.data.currScenario.name = event.target.value;
+                                                    context.data.currScenario.steps[this.state.openStepIndex].name = event.target.value;
                                                     context.updateData(context)
                                                 }}
                                                 value={context.data.currScenario.steps[this.state.openStepIndex].name}
