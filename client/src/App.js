@@ -20,7 +20,17 @@ class App extends React.Component {
         scenariosHierarchy: {},
         currScenario: {
           steps:[{
-            
+            "name": "asdf",
+            "jsonMap": {},
+            "jsonToEdit": "{}",
+            "entity": "כמיה",
+            "system": "ינון",
+            "reality": "ג",
+            "action": "מחיקה",
+            "version": "X",
+            "fullJsonToEdit": "{}"
+          },{
+            "name": "rrree",
             "jsonMap": {},
             "jsonToEdit": "{}",
             "entity": "כמיה",

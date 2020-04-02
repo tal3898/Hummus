@@ -69,6 +69,7 @@ class Scenario extends React.Component {
                     version: '2'
                 }]
             },
+            openStepIndex:0
         }
 
         this.ngRequestEditorRef = React.createRef();
@@ -153,6 +154,25 @@ class Scenario extends React.Component {
         this.setState(this.state);
     }
 
+    getStepsOptions() {
+        var options = [];
+        for (var index in this.context.data.currScenario.steps) {
+            var currStep = this.context.data.currScenario.steps[index];
+            options.push(
+                <option>{index} - {currStep.name}</option>    
+            )
+        }
+
+        return options;
+    }
+
+    onStepChange(event) {
+        var selectOptionString = event.target.value;
+        var selectedStepAsInt = parseInt(selectOptionString);
+        this.state.openStepIndex = selectedStepAsInt;
+        this.setState(this.state);
+    }
+
     render() {
         return (
             <Styles>
@@ -167,7 +187,7 @@ class Scenario extends React.Component {
                                 onClose={() => this.close()}
                                 isOpen={this.state.isJsonPopupOpen} />
 
-
+                            {/** remove the propery scenarioData, so the component wil take from */}
                             <SaveScenarioPopup
                                 scenarioData={this.state.scenarioData}
                                 onClose={() => this.close()}
@@ -263,13 +283,11 @@ class Scenario extends React.Component {
                                         </Col>
                                         <Col lg='2'>
                                             <Form.Control
-                                                onChange={(event) => this.onMetadataChange(event, 'action')}
-                                                value={context.data.currScenario.steps[0].action}
+                                                onChange={(event) => this.onStepChange(event)}
+                                                
                                                 ref={(ref) => this.actionNode = ref}
                                                 as="select">
-                                                <option>יצירה</option>
-                                                <option>עדכון</option>
-                                                <option>מחיקה</option>
+                                                {this.getStepsOptions()}
                                             </Form.Control>
                                         </Col>
 
@@ -282,7 +300,7 @@ class Scenario extends React.Component {
                                                     context.data.currScenario.name = event.target.value;
                                                     context.updateData(context)
                                                 }}
-                                                value={context.data.currScenario.name}
+                                                value={context.data.currScenario.steps[this.state.openStepIndex].name}
                                                 ref={(ref) => this.scenarioNameNode = ref}
                                                 type="text" />
                                         </Col>
