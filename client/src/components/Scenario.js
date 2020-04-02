@@ -1,36 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Nav, Button, Form, FormControl, Col, Row } from 'react-bootstrap';
-import { JSONEditor } from 'react-json-editor-viewer';
-import EntityEditor from './EntityEditor';
-import Popup from "reactjs-popup";
-import ReactJson from 'react-json-view';
+import { Form, Col, Row } from 'react-bootstrap';
 import JsonPopup from './JsonPopup';
 import SaveScenarioPopup from './SaveScenarioPopup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ScenariosWindow from './ScenariosWindow';
 import HummusContext, { HummusConsumer } from './HummusContext'
 import NgRequestEditor from './NgRequestEditor';
+import Popup from "reactjs-popup";
 
 import ActionMap from '../globals/ActionMap.json'
 
 
 const Styles = styled.div`
-
-
-
 .main-comp {
     padding-right: 50px;
     margin-top:35px;
-}
-
-.entity-editor-window {
-    height: 480px;
-    overflow-y: scroll;
-    margin-top: 10px;
-    padding: 10px;
-    background: #f5f5f5;   
 }
 
 .metadata {

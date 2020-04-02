@@ -1,15 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Nav, Button, Form, FormControl, Col, Row } from 'react-bootstrap';
-import { JSONEditor } from 'react-json-editor-viewer';
+import {  Button, Form, Col, Row } from 'react-bootstrap';
 import EntityEditor from './EntityEditor';
-import Popup from "reactjs-popup";
-import ReactJson from 'react-json-view';
-import JsonPopup from './JsonPopup';
-import SaveScenarioPopup from './SaveScenarioPopup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ScenariosWindow from './ScenariosWindow';
 import HummusContext, { HummusConsumer } from './HummusContext'
 
 import EntityMap from '../globals/EntityMap.json'
@@ -25,13 +19,7 @@ import math_x from '../jsonFormats/math_x.json'
 import chemistry_x from '../jsonFormats/chemistry_x.json'
 
 const Styles = styled.div`
-
-
-
-.main-comp {
-    padding-right: 50px;
-    margin-top:35px;
-}
+    
 
 .entity-editor-window {
     height: 480px;
@@ -49,14 +37,6 @@ const Styles = styled.div`
     margin-bottom: 20px;
 }
 
-.action-btn {
-    margin-right: 20px;
-    color: #607d8b;
-}
-
-.action-btn:hover {
-    color: #0091ea;
-}
 `;
 
 class NgRequestEditor extends React.Component {
@@ -124,7 +104,7 @@ class NgRequestEditor extends React.Component {
     }
 
     //TODO change function name
-    getChosenJson() {
+    getChosenJsonByEntityAndVersion() {
         var chosenEntity = this.entityNode.value;
         var chosenVersion = this.versionNode.value;
 
@@ -132,8 +112,8 @@ class NgRequestEditor extends React.Component {
     }
 
     //TODO change function name
-    loadJson() {
-        var chosenJson = this.getChosenJson();
+    loadJsonByChosenEntityAndVersion() {
+        var chosenJson = this.getChosenJsonByEntityAndVersion();
         this.context.data.currScenario.steps[0].jsonToEdit = chosenJson;
         this.context.data.currScenario.steps[0].fullJsonToEdit = chosenJson;
         this.setState(this.state);
@@ -166,7 +146,7 @@ class NgRequestEditor extends React.Component {
                                         </Col>
                                         <Col lg='2'>
                                             <Form.Control
-                                                onChange={(event) => { this.loadJson(); this.onMetadataChange(event, 'entity') }}
+                                                onChange={(event) => { this.loadJsonByChosenEntityAndVersion(); this.onMetadataChange(event, 'entity') }}
                                                 value={context.data.currScenario.steps[0].entity}
                                                 ref={(ref) => this.entityNode = ref}
                                                 as="select">
@@ -215,7 +195,7 @@ class NgRequestEditor extends React.Component {
                                         </Col>
                                         <Col lg='2'>
                                             <Form.Control
-                                                onChange={(event) => { this.loadJson(); this.onMetadataChange(event, 'version') }}
+                                                onChange={(event) => { this.loadJsonByChosenEntityAndVersion(); this.onMetadataChange(event, 'version') }}
                                                 value={context.data.currScenario.steps[0].version}
                                                 ref={(ref) => this.versionNode = ref}
                                                 as="select">
@@ -241,14 +221,6 @@ class NgRequestEditor extends React.Component {
                                         </Col>
                                     </Row>
                                 </div>
-
-                                <Row dir='rtl'>
-                                    <Col lg='10'>
-
-
-
-                                    </Col>
-                                </Row>
 
                                 <Row dir='rtl'>
 
