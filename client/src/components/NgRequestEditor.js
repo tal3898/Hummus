@@ -131,7 +131,6 @@ class NgRequestEditor extends React.Component {
                     {(context) =>
 
                         <div>
-
                             <ToastContainer />
 
                             <Form>

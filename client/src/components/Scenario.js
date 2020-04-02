@@ -34,6 +34,18 @@ const Styles = styled.div`
 .action-btn:hover {
     color: #0091ea;
 }
+
+.action-btn:active {
+    color: #01579b;
+}
+
+/* Large rounded green border */
+.seperator {
+    width: 80%;
+    border: 0.05em solid grey;
+    border-radius: 5px;
+}
+
 `;
 
 class Scenario extends React.Component {
@@ -95,7 +107,7 @@ class Scenario extends React.Component {
         this.state.scenarioData.steps[0].action = this.context.data.currScenario.steps[0].action;
         this.state.scenarioData.steps[0].version = this.context.data.currScenario.steps[0].version;
     }
-    
+
 
     sendJsonToNG() {
         var fullRequestJson = this.ngRequestEditorRef.current.getFullRequestJson();
@@ -171,8 +183,9 @@ class Scenario extends React.Component {
                                         <Col lg='3'>
                                             <Form.Control
                                                 onChange={(event) => {
-                                                    context.data.currScenario.name = event.target.value; 
-                                                    context.updateData(context)}}
+                                                    context.data.currScenario.name = event.target.value;
+                                                    context.updateData(context)
+                                                }}
                                                 value={context.data.currScenario.name}
                                                 ref={(ref) => this.scenarioNameNode = ref}
                                                 type="text" />
@@ -232,9 +245,11 @@ class Scenario extends React.Component {
                                         </Col>
                                         <Col lg='5'>
                                             <Form.Control
+                                                style={{ height: 50 }}
                                                 onChange={(event) => {
-                                                    context.data.currScenario.description = event.target.value; 
-                                                    context.updateData(context)}}
+                                                    context.data.currScenario.description = event.target.value;
+                                                    context.updateData(context)
+                                                }}
                                                 value={context.data.currScenario.description}
                                                 ref={(ref) => this.scenarioDescriptionNode = ref}
                                                 as="textarea"
@@ -242,15 +257,46 @@ class Scenario extends React.Component {
                                         </Col>
                                     </Row>
 
-                                    <hr style={{ width: '80%' }} />
+                                    <Row className='field'>
+                                    <Col lg='1'>
+                                            <Form.Label >צעד</Form.Label>
+                                        </Col>
+                                        <Col lg='2'>
+                                            <Form.Control
+                                                onChange={(event) => this.onMetadataChange(event, 'action')}
+                                                value={context.data.currScenario.steps[0].action}
+                                                ref={(ref) => this.actionNode = ref}
+                                                as="select">
+                                                <option>יצירה</option>
+                                                <option>עדכון</option>
+                                                <option>מחיקה</option>
+                                            </Form.Control>
+                                        </Col>
+
+                                        <Col lg='1'>
+                                            <Form.Label >שם צעד</Form.Label>
+                                        </Col>
+                                        <Col lg='2'>
+                                        <Form.Control
+                                                onChange={(event) => {
+                                                    context.data.currScenario.name = event.target.value;
+                                                    context.updateData(context)
+                                                }}
+                                                value={context.data.currScenario.name}
+                                                ref={(ref) => this.scenarioNameNode = ref}
+                                                type="text" />
+                                        </Col>
+                                    </Row>
+
+                                    <hr className="seperator"  />
 
                                 </div>
 
-                                <NgRequestEditor ref={this.ngRequestEditorRef}/>
-                                                    
+                                <NgRequestEditor ref={this.ngRequestEditorRef} />
 
 
-                              
+
+
 
 
                             </Form>

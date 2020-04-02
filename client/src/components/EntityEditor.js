@@ -240,7 +240,7 @@ class EntityEditor extends React.Component {
 
             finalValue = randomString
         } else if (fieldType == "number" || fieldType == "enum") {
-            finalValue = parseInt(fieldValue); // If enum, and looks like this : "50 - ABC", it will parse the only th 50 to string
+            finalValue = parseInt(fieldValue); // If enum, and looks like this : "50 - ABC", it will parse only the 50 to int
         } else if (fieldType == "float") {
             finalValue = parseFloat(fieldValue);
         }
