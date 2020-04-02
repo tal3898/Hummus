@@ -33,10 +33,10 @@ const Styles = styled.div`
   padding-right: 0px !important;
 }
 
-.name {
-  
+.main-content{
+  overflow-y: scroll;
+  height:574px;
 }
-
 
 `;
 class ScenariosWindow extends React.Component {
@@ -173,7 +173,7 @@ class ScenariosWindow extends React.Component {
 
 
       <div class="w3-card-4">
-        <header style={{ marginBottom: 10 }} class="w3-container w3-blue header">
+        <header style={{ marginBottom: 0 }} class="w3-container w3-blue header">
           <h1 className="headline" >תרחישים</h1>
 
           
@@ -202,7 +202,7 @@ class ScenariosWindow extends React.Component {
           </Form.Group>
         </header>
 
-        <div class="w3-container">
+        <div class="main-content w3-container">
 
           <HummusConsumer>
             {(value) =>
