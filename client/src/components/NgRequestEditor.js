@@ -43,14 +43,23 @@ class NgRequestEditor extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            expandAll: false
+            expandAll: false,
+            openStepIndex: props.openStepIndex
         }
         this.entidyEditorChild = React.createRef();
     }
 
+    UNSAFE_componentWillReceiveProps(newProps) {
+        this.state = {
+            expandAll: false,
+            openStepIndex: newProps.openStepIndex
+        }
+        this.setState(this.state);
+    }
+
     componentDidMount() {
 
-        this.context.data.currScenario.steps[0].jsonMap = {
+        this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap = {
             "אנגלית": {
                 "2": JSON.stringify(english_2),
                 "X": JSON.stringify(english_x)
@@ -66,14 +75,40 @@ class NgRequestEditor extends React.Component {
         }
 
 
-        this.context.data.currScenario.steps[0].jsonToEdit = JSON.stringify(english_2);
-        this.context.data.currScenario.steps[0].entity = 'English';
-        this.context.data.currScenario.steps[0].system = 'Tal';
-        this.context.data.currScenario.steps[0].reality = '0';
-        this.context.data.currScenario.steps[0].action = 'POST';
-        this.context.data.currScenario.steps[0].version = '2';
+        this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit = JSON.stringify(english_2);
+        this.context.data.currScenario.steps[this.state.openStepIndex].entity = 'English';
+        this.context.data.currScenario.steps[this.state.openStepIndex].system = 'Tal';
+        this.context.data.currScenario.steps[this.state.openStepIndex].reality = '0';
+        this.context.data.currScenario.steps[this.state.openStepIndex].action = 'POST';
+        this.context.data.currScenario.steps[this.state.openStepIndex].version = '2';
 
-        this.context.data.currScenario.steps[0].fullJsonToEdit = JSON.stringify(english_2);
+        this.context.data.currScenario.steps[this.state.openStepIndex].fullJsonToEdit = JSON.stringify(english_2);
+
+        //
+
+        this.context.data.currScenario.steps[1].jsonMap = {
+            "אנגלית": {
+                "2": JSON.stringify(english_2),
+                "X": JSON.stringify(english_x)
+            },
+            "חשבון": {
+                "2": JSON.stringify(math_2),
+                "X": JSON.stringify(math_x)
+            },
+            "כמיה": {
+                "2": JSON.stringify(chemistry_2),
+                "X": JSON.stringify(chemistry_x),
+            }
+        }
+
+        this.context.data.currScenario.steps[1].jsonToEdit = JSON.stringify(english_2);
+        this.context.data.currScenario.steps[1].entity = 'English';
+        this.context.data.currScenario.steps[1].system = 'Tal';
+        this.context.data.currScenario.steps[1].reality = '0';
+        this.context.data.currScenario.steps[1].action = 'POST';
+        this.context.data.currScenario.steps[1].version = '2';
+
+        this.context.data.currScenario.steps[1].fullJsonToEdit = JSON.stringify(english_2);
 
     }
 
@@ -96,7 +131,7 @@ class NgRequestEditor extends React.Component {
     }
 
     onMetadataChange(event, key) {
-        this.context.data.currScenario.steps[0][key] = event.target.value;
+        this.context.data.currScenario.steps[this.state.openStepIndex][key] = event.target.value;
         this.context.updateData(this.context);
     }
 
@@ -105,23 +140,23 @@ class NgRequestEditor extends React.Component {
         var chosenEntity = this.entityNode.value;
         var chosenVersion = this.versionNode.value;
 
-        return this.context.data.currScenario.steps[0].jsonMap[chosenEntity][chosenVersion];
+        return this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion];
     }
 
     //TODO change function name
     loadJsonByChosenEntityAndVersion() {
         var chosenJson = this.getChosenJsonByEntityAndVersion();
-        this.context.data.currScenario.steps[0].jsonToEdit = chosenJson;
-        this.context.data.currScenario.steps[0].fullJsonToEdit = chosenJson;
+        this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit = chosenJson;
+        this.context.data.currScenario.steps[this.state.openStepIndex].fullJsonToEdit = chosenJson;
         this.setState(this.state);
     }
 
     updateRequest(event) {
-        this.context.data.currScenario.steps[0].jsonToEdit = JSON.stringify(event.newJson);
+        this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit = JSON.stringify(event.newJson);
         var chosenEntity = this.entityNode.value;
         var chosenVersion = this.versionNode.value;
 
-        this.context.data.currScenario.steps[0].jsonMap[chosenEntity][chosenVersion] = this.context.data.currScenario.steps[0].jsonToEdit;
+        this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion] = this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit;
     }
 
     render() {
@@ -143,7 +178,7 @@ class NgRequestEditor extends React.Component {
                                         <Col lg='2'>
                                             <Form.Control
                                                 onChange={(event) => { this.loadJsonByChosenEntityAndVersion(); this.onMetadataChange(event, 'entity') }}
-                                                value={context.data.currScenario.steps[0].entity}
+                                                value={context.data.currScenario.steps[this.state.openStepIndex].entity}
                                                 ref={(ref) => this.entityNode = ref}
                                                 as="select">
                                                 <option>אנגלית</option>
@@ -160,7 +195,7 @@ class NgRequestEditor extends React.Component {
                                         <Col lg='2'>
                                             <Form.Control
                                                 onChange={(event) => this.onMetadataChange(event, 'action')}
-                                                value={context.data.currScenario.steps[0].action}
+                                                value={context.data.currScenario.steps[this.state.openStepIndex].action}
                                                 ref={(ref) => this.actionNode = ref}
                                                 as="select">
                                                 <option>יצירה</option>
@@ -175,11 +210,12 @@ class NgRequestEditor extends React.Component {
                                         <Col lg='2'>
                                             <Form.Control
                                                 onChange={(event) => this.onMetadataChange(event, 'system')}
-                                                value={context.data.currScenario.steps[0].system}
+                                                value={context.data.currScenario.steps[this.state.openStepIndex].system}
                                                 ref={(ref) => this.systemNode = ref}
                                                 as="select">
                                                 <option>טל</option>
                                                 <option>ינון</option>
+                                                <option>שחר</option>
                                             </Form.Control>
                                         </Col>
 
@@ -192,7 +228,7 @@ class NgRequestEditor extends React.Component {
                                         <Col lg='2'>
                                             <Form.Control
                                                 onChange={(event) => { this.loadJsonByChosenEntityAndVersion(); this.onMetadataChange(event, 'version') }}
-                                                value={context.data.currScenario.steps[0].version}
+                                                value={context.data.currScenario.steps[this.state.openStepIndex].version}
                                                 ref={(ref) => this.versionNode = ref}
                                                 as="select">
 
@@ -206,7 +242,7 @@ class NgRequestEditor extends React.Component {
                                         <Col lg='2'>
                                             <Form.Control
                                                 onChange={(event) => this.onMetadataChange(event, 'reality')}
-                                                value={context.data.currScenario.steps[0].reality}
+                                                value={context.data.currScenario.steps[this.state.openStepIndex].reality}
                                                 ref={(ref) => this.realityNode = ref}
                                                 as="select" >
 
@@ -236,8 +272,8 @@ class NgRequestEditor extends React.Component {
                                             expandAll={this.state.expandAll}
                                             ref={this.entidyEditorChild}
                                             level='0'
-                                            fullJson={context.data.currScenario.steps[0].fullJsonToEdit}
-                                            jsondata={context.data.currScenario.steps[0].jsonToEdit}
+                                            fullJson={context.data.currScenario.steps[this.state.openStepIndex].fullJsonToEdit}
+                                            jsondata={context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit}
                                             onInnerFieldChanged={(event) => this.updateRequest(event)} ></EntityEditor>
 
                                     </Col>

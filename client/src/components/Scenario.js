@@ -69,7 +69,7 @@ class Scenario extends React.Component {
                     version: '2'
                 }]
             },
-            openStepIndex:0
+            openStepIndex: 0
         }
 
         this.ngRequestEditorRef = React.createRef();
@@ -90,7 +90,7 @@ class Scenario extends React.Component {
     }
 
     onMetadataChange(event, key) {
-        this.context.data.currScenario.steps[0][key] = event.target.value;
+        this.context.data.currScenario.steps[this.state.openStepIndex][key] = event.target.value;
         this.context.updateData(this.context);
     }
 
@@ -98,15 +98,7 @@ class Scenario extends React.Component {
         this.state.scenarioData.name = this.context.data.currScenario.name;
         this.state.scenarioData.description = this.context.data.currScenario.description;
 
-        this.state.scenarioData.steps[0].jsonMap = this.context.data.currScenario.steps[0].jsonMap
-        this.state.scenarioData.steps[0].fullJsonToEdit = this.context.data.currScenario.steps[0].fullJsonToEdit;
-        this.state.scenarioData.steps[0].jsonToEdit = this.context.data.currScenario.steps[0].jsonToEdit;
-
-        this.state.scenarioData.steps[0].entity = this.context.data.currScenario.steps[0].entity;
-        this.state.scenarioData.steps[0].system = this.context.data.currScenario.steps[0].system;
-        this.state.scenarioData.steps[0].reality = this.context.data.currScenario.steps[0].reality;
-        this.state.scenarioData.steps[0].action = this.context.data.currScenario.steps[0].action;
-        this.state.scenarioData.steps[0].version = this.context.data.currScenario.steps[0].version;
+        this.state.scenarioData.steps = this.context.data.currScenario.steps;
     }
 
 
@@ -159,7 +151,7 @@ class Scenario extends React.Component {
         for (var index in this.context.data.currScenario.steps) {
             var currStep = this.context.data.currScenario.steps[index];
             options.push(
-                <option>{index} - {currStep.name}</option>    
+                <option>{index} - {currStep.name}</option>
             )
         }
 
@@ -278,13 +270,13 @@ class Scenario extends React.Component {
                                     </Row>
 
                                     <Row className='field'>
-                                    <Col lg='1'>
+                                        <Col lg='1'>
                                             <Form.Label >צעד</Form.Label>
                                         </Col>
                                         <Col lg='2'>
                                             <Form.Control
                                                 onChange={(event) => this.onStepChange(event)}
-                                                
+
                                                 ref={(ref) => this.actionNode = ref}
                                                 as="select">
                                                 {this.getStepsOptions()}
@@ -295,7 +287,7 @@ class Scenario extends React.Component {
                                             <Form.Label >שם צעד</Form.Label>
                                         </Col>
                                         <Col lg='2'>
-                                        <Form.Control
+                                            <Form.Control
                                                 onChange={(event) => {
                                                     context.data.currScenario.name = event.target.value;
                                                     context.updateData(context)
@@ -306,11 +298,13 @@ class Scenario extends React.Component {
                                         </Col>
                                     </Row>
 
-                                    <hr className="seperator"  />
+                                    <hr className="seperator" />
 
                                 </div>
 
-                                <NgRequestEditor ref={this.ngRequestEditorRef} />
+                                <NgRequestEditor
+                                    openStepIndex={this.state.openStepIndex}
+                                    ref={this.ngRequestEditorRef} />
 
 
 
