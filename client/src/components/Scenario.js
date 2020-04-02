@@ -46,6 +46,16 @@ const Styles = styled.div`
     border-radius: 5px;
 }
 
+.plus-scenario-button {
+
+    &:hover { color: #bbdefb; }
+}
+
+.minus-scenario-button {
+    &:hover { color: #bbdefb; }
+
+}
+
 `;
 
 class Scenario extends React.Component {
@@ -165,6 +175,42 @@ class Scenario extends React.Component {
         this.setState(this.state);
     }
 
+    createStepTemplate() {
+        return {
+            "name": "צעד",
+            "jsonMap": {
+                "אנגלית": {
+                    "2": "{\"Ids|[1]|מזהה ישות\":{\"name|string|[0]|שם ישות\":\"[GEN]\",\"code|number|[1]|קוד ישות\":\"0\"},\"Data|[0]\":{\"Location|[1]\":{\"a\":{\"b\":{\"c|string|[1]|תיאור מאוד ארוך ארוך ארוך של שדה מסוים שיכול להיות עם מלא דברים ובגלל זה התיאור מאוד מאוד ארוך\":\"stam\"}},\"Street|string|[1]\":\"Agadati\",\"number|number|[1]\":\"30\"},\"Info|string|[0]\":\"[GEN]\",\"Type|enum|[1]\":\"[\\\"20 - Second\\\", \\\"30 - Third\\\", \\\"40 - Forth\\\", \\\"50 - Fith\\\"]\",\"Angle|float|[0]|זווית של הבניין, נגיד של פיזה זה 27.3\":\"\",\"Trips|array|[0..1]|כל המקומות שהייתי בהם\":\"[ { \\\"value\\\": 1, \\\"label\\\": \\\"Paris - 1\\\" },  { \\\"value\\\": 1, \\\"label\\\": \\\"London - 2\\\" },  { \\\"value\\\": 3, \\\"label\\\": \\\"New York - 3\\\" }, { \\\"value\\\": 4, \\\"label\\\": \\\" Tel Aviv - 4\\\" } ]\"},\"Planing|[0..1]\":[{\"Goal|string|[1]\":\"learn piano\",\"Time|time|[1]\":\"[NOW]\"},{\"Goal|string|[1]\":\"learn piano\",\"Time|time|[1]\":\"[NOW]\"}]}",
+                    "X": "{\"X_Ids\":{\"X_name|string\":\"[GEN]\",\"X_code|number\":\"0\"},\"X_Data\":{\"X_Location\":{\"X_Street|string\":\"Agadati\",\"X_number|number\":\"30\"},\"X_Info|string\":\"[GEN]\"},\"X_Planing\":[{\"X_Goal|string\":\"learn piano\",\"X_Way|string\":\"play piano\",\"X_Time|time\":\"[NOW]\"}]}"
+                },
+                "חשבון": {
+                    "2": "{\"Ids|[1]|מזהה ישות\":{\"name|string|[0]|שם ישות\":\"[GEN]\",\"code|number|[1]|קוד ישות\":\"0\"},\"Chairs|[0]\":{\"Info|string|[0]\":\"[GEN]\",\"Type|enum|[1]\":\"[\\\"20 - Second\\\", \\\"30 - Third\\\", \\\"40 - Forth\\\", \\\"50 - Fith\\\"]\"}}",
+                    "X": "{\"Ids_X|[1]|מזהה ישות\":{\"name_X|string|[0]|שם ישות\":\"[GEN]\",\"code_X|number|[1]|קוד ישות\":\"0\"},\"Chairs_X|[0]\":{\"Info_X|string|[0]\":\"[GEN]\",\"Type_X|enum|[1]\":\"[\\\"20 - Second\\\", \\\"30 - Third\\\", \\\"40 - Forth\\\", \\\"50 - Fith\\\"]\"}}"
+                },
+                "כמיה": {
+                    "2": "{\"Ids\":{\"name|string\":\"[GEN]\",\"code|number\":\"0\"},\"Nothing|string\":\"\"}",
+                    "X": "{\"X_Ids\":{\"X_name|string\":\"[GEN]\",\"X_code|number\":\"0\"},\"X_Nothing|string\":\"\"}"
+                }
+            },
+            "jsonToEdit": "{\"Ids|[1]|מזהה ישות\":{\"name|string|[0]|שם ישות\":\"[GEN]\",\"code|number|[1]|קוד ישות\":\"0\"},\"Data|[0]\":{\"Location|[1]\":{\"a\":{\"b\":{\"c|string|[1]|תיאור מאוד ארוך ארוך ארוך של שדה מסוים שיכול להיות עם מלא דברים ובגלל זה התיאור מאוד מאוד ארוך\":\"stam\"}},\"Street|string|[1]\":\"Agadati\",\"number|number|[1]\":\"30\"},\"Info|string|[0]\":\"[GEN]\",\"Type|enum|[1]\":\"[\\\"20 - Second\\\", \\\"30 - Third\\\", \\\"40 - Forth\\\", \\\"50 - Fith\\\"]\",\"Angle|float|[0]|זווית של הבניין, נגיד של פיזה זה 27.3\":\"\",\"Trips|array|[0..1]|כל המקומות שהייתי בהם\":\"[ { \\\"value\\\": 1, \\\"label\\\": \\\"Paris - 1\\\" },  { \\\"value\\\": 1, \\\"label\\\": \\\"London - 2\\\" },  { \\\"value\\\": 3, \\\"label\\\": \\\"New York - 3\\\" }, { \\\"value\\\": 4, \\\"label\\\": \\\" Tel Aviv - 4\\\" } ]\"},\"Planing|[0..1]\":[{\"Goal|string|[1]\":\"learn piano\",\"Time|time|[1]\":\"[NOW]\"},{\"Goal|string|[1]\":\"learn piano\",\"Time|time|[1]\":\"[NOW]\"}]}",
+            "entity": "English",
+            "system": "Tal",
+            "reality": "0",
+            "action": "POST",
+            "version": "2",
+            "fullJsonToEdit": "{\"Ids|[1]|מזהה ישות\":{\"name|string|[0]|שם ישות\":\"[GEN]\",\"code|number|[1]|קוד ישות\":\"0\"},\"Data|[0]\":{\"Location|[1]\":{\"a\":{\"b\":{\"c|string|[1]|תיאור מאוד ארוך ארוך ארוך של שדה מסוים שיכול להיות עם מלא דברים ובגלל זה התיאור מאוד מאוד ארוך\":\"stam\"}},\"Street|string|[1]\":\"Agadati\",\"number|number|[1]\":\"30\"},\"Info|string|[0]\":\"[GEN]\",\"Type|enum|[1]\":\"[\\\"20 - Second\\\", \\\"30 - Third\\\", \\\"40 - Forth\\\", \\\"50 - Fith\\\"]\",\"Angle|float|[0]|זווית של הבניין, נגיד של פיזה זה 27.3\":\"\",\"Trips|array|[0..1]|כל המקומות שהייתי בהם\":\"[ { \\\"value\\\": 1, \\\"label\\\": \\\"Paris - 1\\\" },  { \\\"value\\\": 1, \\\"label\\\": \\\"London - 2\\\" },  { \\\"value\\\": 3, \\\"label\\\": \\\"New York - 3\\\" }, { \\\"value\\\": 4, \\\"label\\\": \\\" Tel Aviv - 4\\\" } ]\"},\"Planing|[0..1]\":[{\"Goal|string|[1]\":\"learn piano\",\"Time|time|[1]\":\"[NOW]\"},{\"Goal|string|[1]\":\"learn piano\",\"Time|time|[1]\":\"[NOW]\"}]}"
+        }
+    }
+
+    addStep() {
+        this.context.data.currScenario.steps.push(this.createStepTemplate());
+        this.context.updateData(this.context);
+    }
+
+    removeStep() {
+
+    }
+
     render() {
         return (
             <Styles>
@@ -241,7 +287,7 @@ class Scenario extends React.Component {
                                                 on="hover"
                                                 trigger={
                                                     <a className="action-btn" variant="outline-info" onClick={() => this.sendJsonToNG()}>
-                                                        <i class="far fa-paper-plane fa-3x fa-flip-horizontal"></i>
+                                                        <i class="fas fa-paper-plane fa-3x fa-flip-horizontal"></i>
                                                     </a>}
                                             >
                                                 <center>
@@ -296,6 +342,36 @@ class Scenario extends React.Component {
                                                 ref={(ref) => this.scenarioNameNode = ref}
                                                 type="text" />
                                         </Col>
+                                        <Col lg="1">
+                                            <Popup
+
+                                                position="bottom center"
+                                                on="hover"
+                                                trigger={
+                                                    <a className="plus-scenario-button" variant="outline-info" onClick={() => this.addStep()}>
+                                                        <i class="fas fa-plus fa-2x"></i>
+                                                    </a>}
+                                            >
+                                                <center>
+                                                    הוסף צעד
+                                                </center>
+                                            </Popup>
+
+                                            <Popup
+
+                                                position="bottom center"
+                                                on="hover"
+                                                trigger={
+                                                    <a className="minus-scenario-button" style={{ marginRight: 20 }} variant="outline-info" onClick={() => this.removeStep()}>
+                                                        <i class="fas fa-minus fa-2x"></i>
+                                                    </a>}
+                                            >
+                                                <center>
+                                                    הוסף צעד
+                                                </center>
+                                            </Popup>
+                                        </Col>
+
                                     </Row>
 
                                     <hr className="seperator" />
@@ -305,12 +381,6 @@ class Scenario extends React.Component {
                                 <NgRequestEditor
                                     openStepIndex={this.state.openStepIndex}
                                     ref={this.ngRequestEditorRef} />
-
-
-
-
-
-
                             </Form>
 
                         </div>
