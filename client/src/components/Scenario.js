@@ -51,7 +51,7 @@ const Styles = styled.div`
 }
 `;
 
-class NGRequest extends React.Component {
+class Scenario extends React.Component {
 
     static contextType = HummusContext;
 
@@ -280,4 +280,4 @@ class NGRequest extends React.Component {
     }
 }
 
-export default NGRequest;
+export default Scenario;

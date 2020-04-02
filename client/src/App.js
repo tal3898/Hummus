@@ -4,7 +4,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { NavigationBar } from './components/NavigationBar';
 import ScenariosWindow from './components/ScenariosWindow';
-import NGRequest from './components/NGRequest';
+import Scenario from './components/Scenario';
 import { Col, Row } from 'react-bootstrap';
 import { HummusProvider } from './components/HummusContext';
 
@@ -68,7 +68,7 @@ class App extends React.Component {
             </Router>
             <Row>
               <Col sm="9">
-                <NGRequest></NGRequest>
+                <Scenario></Scenario>
               </Col>
               <Col sm="3">
                 <ScenariosWindow></ScenariosWindow>
