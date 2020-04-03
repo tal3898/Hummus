@@ -210,14 +210,26 @@ class Scenario extends React.Component {
     }
 
     removeStep() {
-        this.context.data.currScenario.steps.splice(this.state.openStepIndex, 1);
+        if (this.context.data.currScenario.steps.length >= 2) {
 
-        if (this.state.openStepIndex > 0) {
-            this.state.openStepIndex--;
+
+            this.context.data.currScenario.steps.splice(this.state.openStepIndex, 1);
+
+            if (this.state.openStepIndex > 0) {
+                this.state.openStepIndex--;
+            }
+
+            this.context.updateData(this.context);
+            this.setState(this.state)
+        } else {
+            const toastProperties = {
+                autoClose: 4000,
+                position: toast.POSITION.BOTTOM_RIGHT,
+                pauseOnFocusLoss: false
+            };
+    
+            toast.error("You must have at least one scenario", toastProperties);
         }
-
-        this.context.updateData(this.context);
-        this.setState(this.state)
     }
 
     render() {
@@ -378,7 +390,7 @@ class Scenario extends React.Component {
                                                     </a>}
                                             >
                                                 <center>
-                                                    הוסף צעד
+                                                    מחק צעד
                                                 </center>
                                             </Popup>
                                         </Col>
