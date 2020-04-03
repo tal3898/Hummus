@@ -161,6 +161,10 @@ class NgRequestEditor extends React.Component {
         this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion] = this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit;
     }
 
+    addLink() {
+        this.context.data.currScenario.steps[this.state.openStepIndex].links.push(  { "fromStep": 0, "fromPath": "/Ids/name", "toPath": "/Ids/name" }  );
+    }
+
     render() {
         return (
             <Styles>
@@ -266,6 +270,12 @@ class NgRequestEditor extends React.Component {
                                             }
                                             {!this.state.expandAll &&
                                                 <i class="fas fa-expand-alt"></i>
+                                            }
+                                        </Button>
+
+                                        <Button style={{ top: 70, right: 20, position: 'absolute' }} variant="outline-info" onClick={() => this.addLink()}>
+                                            {
+                                                <i class="fas fa-code"></i>
                                             }
                                         </Button>
 

@@ -28,7 +28,8 @@ class App extends React.Component {
             "reality": "ג",
             "action": "מחיקה",
             "version": "X",
-            "fullJsonToEdit": "{}"
+            "fullJsonToEdit": "{}",
+            "links": []
           },{
             "name": "rrree",
             "jsonMap": {},
@@ -38,7 +39,8 @@ class App extends React.Component {
             "reality": "ג",
             "action": "מחיקה",
             "version": "X",
-            "fullJsonToEdit": "{}"
+            "fullJsonToEdit": "{}",
+            "links": []
           }]
         }
       },

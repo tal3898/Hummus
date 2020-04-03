@@ -125,14 +125,14 @@ class Scenario extends React.Component {
      * and values or normal values.
      * @param {*} json 
      */
-    convertJsonTemplateToActualJson(json, generatedSteps) {
+    convertJsonTemplateToActualJson(json) {
         var resultJson = {};
 
         // loop on all value fields
         for (var key in json) {
             if (typeof json[key] != 'object') {
                 var keyName = key.split('|')[0];
-                var keyValue = this.getFieldFinalValue(key, json[key], generatedSteps);
+                var keyValue = this.getFieldFinalValue(key, json[key]);
 
                 resultJson[keyName] = keyValue;
             }
@@ -143,14 +143,14 @@ class Scenario extends React.Component {
             var keyName = key.split('|')[0];
 
             // arrays
-            if (typeof json[key] == 'object' && Array.isArray(json[key]) ) {
+            if (typeof json[key] == 'object' && Array.isArray(json[key])) {
                 resultJson[keyName] = []
                 for (var index in json[key]) {
-                    var singleJsonResult = this.convertJsonTemplateToActualJson(json[key][index], generatedSteps);
+                    var singleJsonResult = this.convertJsonTemplateToActualJson(json[key][index]);
                     resultJson[keyName].push(singleJsonResult);
                 }
             } else if (typeof json[key] == 'object') {
-                var subObjectCovertResult = this.convertJsonTemplateToActualJson(json[key], generatedSteps);
+                var subObjectCovertResult = this.convertJsonTemplateToActualJson(json[key]);
                 resultJson[keyName] = subObjectCovertResult;
             }
         }
@@ -172,16 +172,6 @@ class Scenario extends React.Component {
             }
 
             finalValue = randomString
-        } else if (this.isFieldLink(fieldValue)) {
-            
-            var currLink = JSON.parse(fieldValue)[0].LINK;
-
-            var linkedStepJson = generatedSteps[currLink.stepNo].Entities[0]; //TODO, when creating several entities in request, replace it
-            
-            var linkedValue = currLink.path.split('/').splice(1).reduce((o, n) => o[n], linkedStepJson);
-
-            finalValue = linkedValue;
-
         } else if (fieldType == "number" || fieldType == "enum") {
             finalValue = parseInt(fieldValue); // If enum, and looks like this : "50 - ABC", it will parse only the 50 to int
         } else if (fieldType == "float") {
@@ -191,10 +181,10 @@ class Scenario extends React.Component {
         return finalValue;
     }
 
-    getStepNgRequest(stepNumber, generatedSteps) {
+    getStepNgRequest(stepNumber) {
         var currStepJson = JSON.parse(this.context.data.currScenario.steps[stepNumber].jsonToEdit);
-        var jsonResult = this.convertJsonTemplateToActualJson(currStepJson, generatedSteps);
-        var entityJson  = jsonResult;
+        var jsonResult = this.convertJsonTemplateToActualJson(currStepJson);
+        var entityJson = jsonResult;
 
 
         console.log("links are " + JSON.stringify(jsonResult.links));
@@ -211,12 +201,36 @@ class Scenario extends React.Component {
         return fullRequestJson;
     }
 
+    setToValue(obj, value, path) {
+        var i;
+        path = path.split('/');
+        path.splice(0,1);
+        for (i = 0; i < path.length - 1; i++)
+            obj = obj[path[i]];
+    
+        obj[path[i]] = value;
+    }
+
     sendJsonToNG() {
         var generatedSteps = [];
         for (var index in this.context.data.currScenario.steps) {
             var currStep = this.context.data.currScenario.steps[index];
-            var currStepRequest = this.getStepNgRequest(index, generatedSteps);
+            var currStepRequest = this.getStepNgRequest(index);
             generatedSteps.push(currStepRequest);
+
+            for (var index in currStep.links) {
+
+
+                var currLink = currStep.links[index];
+
+                var linkedStepJson = generatedSteps[currLink.fromStep].Entities[0]; //TODO, when creating several entities in request, replace it
+
+                var linkedValue = currLink.fromPath.split('/').splice(1).reduce((o, n) => o[n], linkedStepJson);
+
+                this.setToValue(currStepRequest.Entities[0], linkedValue, currLink.toPath)
+                
+
+            }
 
             console.log('sending json to ng ' + JSON.stringify(currStepRequest));
 
@@ -224,23 +238,23 @@ class Scenario extends React.Component {
                 nameA: "paul rudd",
                 moviesA: ["I Love You Man", "Role Models"]
             });
-    
+
             var requestMethod = currStep.action;
-    
+
             const requestOptions = {
                 method: requestMethod,
                 headers: { 'Content-Type': 'application/json' },
                 body: bodyJ
             };
-    
+
             const toastProperties = {
                 autoClose: 2000,
                 position: toast.POSITION.BOTTOM_RIGHT,
                 pauseOnFocusLoss: false
             };
-    
+
             toast.warn("Sending", toastProperties);
-    
+
             fetch('https://reqres.in/api/users', requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -331,7 +345,7 @@ class Scenario extends React.Component {
                 position: toast.POSITION.BOTTOM_RIGHT,
                 pauseOnFocusLoss: false
             };
-    
+
             toast.error("You must have at least one scenario", toastProperties);
         }
     }
