@@ -93,11 +93,7 @@ class Scenario extends React.Component {
     }
 
     openJsonPopup() {
-        var aaa = this.convertJsonTemplateToActualJson(JSON.parse(this.context.data.currScenario.steps[0].jsonToEdit));
-
         this.state.json = this.ngRequestEditorRef.current.getFullRequestJson();
-
-
         this.state.isJsonPopupOpen = true;
         this.setState(this.state);
     }
@@ -114,21 +110,30 @@ class Scenario extends React.Component {
         this.state.scenarioData.steps = this.context.data.currScenario.steps;
     }
 
+    isFieldLink(fieldValue) {
+        try {
+            var linkData = JSON.parse(fieldValue)[0].LINK;
+            return linkData != undefined;
+        } catch {
+            return false;
+        }
+    }
+
     /**
      * The method gets a json that the keys format are with |..|..|, and values or dynamic, like [GEN], or [NOW], or enum.
      * so the method gets the json, and convert it to a normal json, when keys are only the name of the keys,
      * and values or normal values.
      * @param {*} json 
      */
-    convertJsonTemplateToActualJson(json) {
+    convertJsonTemplateToActualJson(json, generatedSteps) {
         var resultJson = {};
 
         // loop on all value fields
         for (var key in json) {
             if (typeof json[key] != 'object') {
                 var keyName = key.split('|')[0];
-                var keyValue = this.getFieldFinalValue(key, json[key]);
-                
+                var keyValue = this.getFieldFinalValue(key, json[key], generatedSteps);
+
                 resultJson[keyName] = keyValue;
             }
         }
@@ -141,18 +146,19 @@ class Scenario extends React.Component {
             if (typeof json[key] == 'object' && Array.isArray(json[key]) ) {
                 resultJson[keyName] = []
                 for (var index in json[key]) {
-                    var singleJsonResult = this.convertJsonTemplateToActualJson(json[key][index]);
+                    var singleJsonResult = this.convertJsonTemplateToActualJson(json[key][index], generatedSteps);
                     resultJson[keyName].push(singleJsonResult);
                 }
             } else if (typeof json[key] == 'object') {
-                resultJson[keyName] = this.convertJsonTemplateToActualJson(json[key]);
+                var subObjectCovertResult = this.convertJsonTemplateToActualJson(json[key], generatedSteps);
+                resultJson[keyName] = subObjectCovertResult;
             }
         }
 
         return resultJson;
     }
 
-    getFieldFinalValue(key, fieldValue) {
+    getFieldFinalValue(key, fieldValue, generatedSteps) {
         var finalValue = fieldValue;
         var fieldType = key.split('|')[1];
 
@@ -166,6 +172,16 @@ class Scenario extends React.Component {
             }
 
             finalValue = randomString
+        } else if (this.isFieldLink(fieldValue)) {
+            
+            var currLink = JSON.parse(fieldValue)[0].LINK;
+
+            var linkedStepJson = generatedSteps[currLink.stepNo].Entities[0]; //TODO, when creating several entities in request, replace it
+            
+            var linkedValue = currLink.path.split('/').splice(1).reduce((o, n) => o[n], linkedStepJson);
+
+            finalValue = linkedValue;
+
         } else if (fieldType == "number" || fieldType == "enum") {
             finalValue = parseInt(fieldValue); // If enum, and looks like this : "50 - ABC", it will parse only the 50 to int
         } else if (fieldType == "float") {
@@ -175,8 +191,13 @@ class Scenario extends React.Component {
         return finalValue;
     }
 
-    getStepNgRequest(stepNumber) {
-        var entityJson  = this.convertJsonTemplateToActualJson( JSON.parse(this.context.data.currScenario.steps[stepNumber].jsonToEdit) );
+    getStepNgRequest(stepNumber, generatedSteps) {
+        var currStepJson = JSON.parse(this.context.data.currScenario.steps[stepNumber].jsonToEdit);
+        var jsonResult = this.convertJsonTemplateToActualJson(currStepJson, generatedSteps);
+        var entityJson  = jsonResult;
+
+
+        console.log("links are " + JSON.stringify(jsonResult.links));
 
         var fullRequestJson = {
             "Entity": this.context.data.currScenario.steps[stepNumber].entity,
@@ -191,9 +212,11 @@ class Scenario extends React.Component {
     }
 
     sendJsonToNG() {
+        var generatedSteps = [];
         for (var index in this.context.data.currScenario.steps) {
             var currStep = this.context.data.currScenario.steps[index];
-            var currStepRequest = this.getStepNgRequest(index);
+            var currStepRequest = this.getStepNgRequest(index, generatedSteps);
+            generatedSteps.push(currStepRequest);
 
             console.log('sending json to ng ' + JSON.stringify(currStepRequest));
 
