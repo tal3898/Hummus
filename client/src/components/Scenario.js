@@ -206,10 +206,11 @@ class Scenario extends React.Component {
         this.context.data.currScenario.steps.push(this.createStepTemplate());
         this.state.openStepIndex = this.context.data.currScenario.steps.length - 1;
         this.context.updateData(this.context);
+        this.setState(this.state);
     }
 
     removeStep() {
-        this.context.data.currScenario.steps.splice(this.state.openStepIndex,1);
+        this.context.data.currScenario.steps.splice(this.state.openStepIndex, 1);
 
         if (this.state.openStepIndex > 0) {
             this.state.openStepIndex--;
@@ -330,10 +331,12 @@ class Scenario extends React.Component {
                                         <Col lg='2'>
                                             <Form.Control
                                                 onChange={(event) => this.onStepChange(event)}
-
+                                                value={this.getStepsOptions()[this.state.openStepIndex].props.children.join('')}
                                                 ref={(ref) => this.actionNode = ref}
                                                 as="select">
+
                                                 {this.getStepsOptions()}
+
                                             </Form.Control>
                                         </Col>
 
