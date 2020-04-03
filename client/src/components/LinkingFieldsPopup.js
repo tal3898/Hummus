@@ -27,7 +27,7 @@ const Styles = styled.div`
 .fa-check {
     color: #81c784; 
     top:10px;
-    right: 20px;
+    left: 20px;
     position: absolute;
 
     padding:10px;
@@ -155,9 +155,6 @@ class LinkingFieldsPopup extends React.Component {
                             <Form.Label style={{ fontSize: 30, marginBottom: 1 }}>קישור שדות</Form.Label>
                         </center>
                     </div>
-
-
-
 
                     <Row>
                         <Col lg="6" style={{ marginRight: 0, paddingRight: 0 }}>

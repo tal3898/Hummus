@@ -113,8 +113,6 @@ class NgRequestEditor extends React.Component {
     }
 
     getFullRequestJson() {
-        var res = this.entidyEditorChild.current.getLinks('');
-
         var entityJson = this.entidyEditorChild.current.getTotalJson();
         var fullRequestJson = {
             "Entity": EntityMap[this.entityNode.value],

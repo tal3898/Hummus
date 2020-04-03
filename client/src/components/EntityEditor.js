@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
 import Popup from "reactjs-popup";
 import Select from 'react-select';
+import {convertJsonTemplateToActualJson} from './Utility'
 
 
 const Styles = styled.div`
@@ -174,59 +175,6 @@ class EntityEditor extends React.Component {
         this.setState(this.state)
     }
 
-    getLinks(fatherPath) {
-        var links = []
-
-        // loop on objects or arrays children
-        for (var key in this.children) {
-            var fieldName = key.split('|')[0];
-            var thisPath = fatherPath + '/' + fieldName;
-
-            if (Array.isArray(this.children[key])) {
-
-                for (var index in this.children[key]) {
-                    var currChild = this.children[key][index];
-                    var currChildPath = thisPath + '/' + index;
-
-                    var currLinks = currChild.current.getLinks(currChildPath);
-
-
-                    links = links.concat(currLinks);
-                }
-
-            } else {
-                var child = this.children[key];
-                var childLinks = child.current.getLinks(thisPath);
-                links = links.concat(childLinks);
-            }
-        }
-
-        // loop on regular fields
-        for (var key in this.fieldsInput) {
-            if (this.fieldsInput[key] != null) { // This is a PLASTER
-                var fieldName = key.split('|')[0];
-                var fieldPath = fatherPath + '/' + fieldName;
-
-                var fieldValue = this.getFieldFinalValue(key);
-                try {
-                    var fieldLinkObject = JSON.parse(fieldValue)[0].LINK;
-                    var currLink = {
-                        fromPath: fieldLinkObject.path,
-                        fromStepNo: fieldLinkObject.stepNo,
-                        toPath: fieldPath
-                    }
-                    links.push(currLink)
-
-                } catch(err) {
-                    // if we get here, the field is not linked
-                }
-                
-            }
-        }
-
-        return links;
-    }
-
     /*
         The method gets the total json of the entity editor (recursivly).
         It gets the data of the current json fields, 
@@ -236,69 +184,7 @@ class EntityEditor extends React.Component {
             recursivly call the get json of this entity, and remove the '1.'/'2.' etc. key
     */
     getTotalJson() {
-        var resultJson = {}
-
-        // loop on objects or arrays children
-        for (var key in this.children) {
-            var fieldName = key.split('|')[0];
-
-            if (Array.isArray(this.children[key])) {
-
-                var jsonItems = [];
-                for (var index in this.children[key]) {
-                    var currChild = this.children[key][index];
-                    var currJson = currChild.current.getTotalJson();
-
-                    // The currJson is now looks like this : {"1.": {...} }
-                    // We need to push the array only the inner json, without the key "1.0"                
-                    var finalJson = Object.values(currJson)[0]
-
-                    jsonItems.push(finalJson);
-                }
-
-                resultJson[fieldName] = jsonItems;
-
-            } else {
-                var child = this.children[key];
-                var fieldValue = child.current.getTotalJson();
-                resultJson[fieldName] = fieldValue;
-            }
-        }
-
-        // loop on regular fields
-        for (var key in this.fieldsInput) {
-            if (this.fieldsInput[key] != null) { // This is a PLASTER
-                var fieldName = key.split('|')[0];
-                var fieldValue = this.getFieldFinalValue(key);
-                resultJson[fieldName] = fieldValue;
-            }
-        }
-
-        return resultJson;
-    }
-
-    getFieldFinalValue(key) {
-        var fieldValue = this.fieldsInput[key].value;
-        var finalValue = fieldValue;
-        var fieldType = key.split('|')[1];
-
-        if (fieldValue == '[NOW]') {
-            finalValue = new Date().toISOString();;
-        } else if (fieldValue == '[GEN]') {
-            var randomString = "";
-            for (let step = 0; step < 5; step++) {
-                var randomLetter = "abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random() * 1000) % 26];
-                randomString += randomLetter
-            }
-
-            finalValue = randomString
-        } else if (fieldType == "number" || fieldType == "enum") {
-            finalValue = parseInt(fieldValue); // If enum, and looks like this : "50 - ABC", it will parse only the 50 to int
-        } else if (fieldType == "float") {
-            finalValue = parseFloat(fieldValue);
-        }
-
-        return finalValue;
+        return convertJsonTemplateToActualJson(this.state.json);
     }
 
     insertTimeNowToField(key) {
