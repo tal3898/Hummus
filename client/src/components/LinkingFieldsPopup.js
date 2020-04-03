@@ -22,8 +22,6 @@ const Styles = styled.div`
     overflow-y: scroll;
 }
 
-
-
 .fa-check {
     color: #81c784; 
     top:10px;
@@ -47,6 +45,18 @@ const Styles = styled.div`
 
 `;
 
+//    width:2500px;
+//  margin-left:-15%;
+const StyledPopup = styled(Popup)`
+  // use your custom style for ".popup-overlay"
+  &-overlay {
+
+  }
+  // use your custom style for ".popup-content"
+  &-content {
+   
+  }
+`
 
 class LinkingFieldsPopup extends React.Component {
 
@@ -135,12 +145,11 @@ class LinkingFieldsPopup extends React.Component {
         return options;
     }
     
-    render() {
-        return (
+    render() {return (
             <Styles>
                 <ToastContainer />
 
-                <Popup
+                <StyledPopup
                     open={this.state.isOpen}
                     onClose={() => this.close()}
                     modal
@@ -215,7 +224,7 @@ class LinkingFieldsPopup extends React.Component {
                             </div>
                         </Col>
                     </Row>
-                </Popup>
+                </StyledPopup>
 
             </Styles>
         )
