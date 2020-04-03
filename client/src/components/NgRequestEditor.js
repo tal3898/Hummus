@@ -5,7 +5,7 @@ import EntityEditor from './EntityEditor';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HummusContext, { HummusConsumer } from './HummusContext'
-
+import LinkingFieldsPopup from './LinkingFieldsPopup'
 import EntityMap from '../globals/EntityMap.json'
 import RealityMap from '../globals/RealityMap.json'
 import SystemMap from '../globals/SystemMap.json'
@@ -44,7 +44,9 @@ class NgRequestEditor extends React.Component {
         super(props)
         this.state = {
             expandAll: false,
-            openStepIndex: props.openStepIndex
+            openStepIndex: props.openStepIndex,
+            json: {},
+            isLinkPopupOpen: false
         }
         this.entidyEditorChild = React.createRef();
     }
@@ -132,6 +134,12 @@ class NgRequestEditor extends React.Component {
         this.setState({ expandAll: !this.state.expandAll })
     }
 
+    openLinkPopup() {
+        this.state.json = this.getFullRequestJson().Entities[0];
+        this.state.isLinkPopupOpen = true;
+        this.setState(this.state);
+    }
+
     onMetadataChange(event, key) {
         this.context.data.currScenario.steps[this.state.openStepIndex][key] = event.target.value;
         this.context.updateData(this.context);
@@ -165,6 +173,11 @@ class NgRequestEditor extends React.Component {
         this.context.data.currScenario.steps[this.state.openStepIndex].links.push(  { "fromStep": 0, "fromPath": "/Ids/name", "toPath": "/Ids/name" }  );
     }
 
+    closePopup() {
+        this.state.isLinkPopupOpen = false;
+        this.setState(this.state);
+    }
+
     render() {
         return (
             <Styles>
@@ -173,6 +186,12 @@ class NgRequestEditor extends React.Component {
 
                         <div>
                             <ToastContainer />
+
+                            <LinkingFieldsPopup
+                                json={this.state.json}
+                                onClose={() => this.closePopup()}
+                                isOpen={this.state.isLinkPopupOpen}
+                            />
 
                             <Form>
                                 <div dir='rtl' className='metadata'>
@@ -273,7 +292,8 @@ class NgRequestEditor extends React.Component {
                                             }
                                         </Button>
 
-                                        <Button style={{ top: 70, right: 20, position: 'absolute' }} variant="outline-info" onClick={() => this.addLink()}>
+                                        <Button style={{ top: 70, right: 20, position: 'absolute' }} variant="outline-info" 
+                                                onClick={() => this.openLinkPopup()}>
                                             {
                                                 <i class="fas fa-code"></i>
                                             }

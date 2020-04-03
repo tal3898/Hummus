@@ -48,9 +48,7 @@ const Styles = styled.div`
 `;
 
 
-
-
-class SaveScenarioPopup extends React.Component {
+class LinkingFieldsPopup extends React.Component {
 
     static contextType = HummusContext;
 
@@ -58,8 +56,7 @@ class SaveScenarioPopup extends React.Component {
         super(props)
         this.state = {
             isOpen: false,
-            scenarioData: props.scenarioData,
-            folderHierarchy: {}
+            json: props.json
         }
         this.onCloseCallback = props.onClose;
         this.jsonViewerNode = React.createRef();
@@ -67,8 +64,7 @@ class SaveScenarioPopup extends React.Component {
 
 
     UNSAFE_componentWillReceiveProps(newProps) {
-        this.state.isOpen = JSON.parse(newProps.isOpen);
-        this.state.folderHierarchy = this.context.data.scenariosHierarchy;
+        this.state.isOpen = newProps.isOpen;
         this.setState(this.state);
     }
 
@@ -78,59 +74,10 @@ class SaveScenarioPopup extends React.Component {
         this.setState(this.state);
     }
 
-    save() {
-        const toastProperties = {
-            autoClose: 2000,
-            position: toast.POSITION.BOTTOM_RIGHT,
-            pauseOnFocusLoss: false
-        };
-
-        var folderPath = this.jsonViewerNode.current.getSelectedPath();
-        if (folderPath == false) {
-            toast.error("Please select a folder.", toastProperties);
-        } else {
-            folderPath = folderPath.replace('/root', '');
-            var fileFullPath = folderPath + '/' + this.state.scenarioData.name;
-
-            var jsonToSaveInDB = {
-                path: fileFullPath,
-                name: this.state.scenarioData.name,
-                description: this.state.scenarioData.description,
-                steps: this.state.scenarioData.steps
-            }
-
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(jsonToSaveInDB)
-            };
-
-            fetch('/scenario', requestOptions)
-                .then(response => response.json())
-                .then(data => {
-                    console.log("db response: " + JSON.stringify(data));
-                    toast.success("Scenario saved successfully", toastProperties);
-                    this.context.loadFolderHiierarchy((data) => {
-                        this.context.data.scenariosHierarchy = data;
-                        this.context.updateData(this.context);
-                    });
-                }).catch(error => {
-                    console.error("db error: ", error);
-                    toast.success("error occured while saving", toastProperties);
-                });
-
-            console.log('data to save into ' + JSON.stringify(this.state.scenarioData));
-
-            this.close();
-            toast.warning("saving...", toastProperties);
-        }
-    }
-
     render() {
         return (
             <Styles>
                 <ToastContainer />
-
 
                 <Popup
                     open={this.state.isOpen}
@@ -141,9 +88,6 @@ class SaveScenarioPopup extends React.Component {
                 >
 
                     <Row style={{ marginLeft: 0, marginTop: 7, marginBottom: 20 }}>
-                        <Col lg="5">
-                            <i class="far fa-save fa-3x" onClick={() => this.save()}></i>
-                        </Col>
                         <Col>
                             <Form.Label style={{ fontSize: 30, marginBottom: 1 }}>בחר תקייה</Form.Label>
                         </Col>
@@ -157,10 +101,9 @@ class SaveScenarioPopup extends React.Component {
                     </div>
                 </Popup>
 
-                <ToastContainer />
             </Styles>
         )
     }
 }
 
-export default SaveScenarioPopup;
+export default LinkingFieldsPopup;
