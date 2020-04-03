@@ -174,6 +174,59 @@ class EntityEditor extends React.Component {
         this.setState(this.state)
     }
 
+    getLinks(fatherPath) {
+        var links = []
+
+        // loop on objects or arrays children
+        for (var key in this.children) {
+            var fieldName = key.split('|')[0];
+            var thisPath = fatherPath + '/' + fieldName;
+
+            if (Array.isArray(this.children[key])) {
+
+                for (var index in this.children[key]) {
+                    var currChild = this.children[key][index];
+                    var currChildPath = thisPath + '/' + index;
+
+                    var currLinks = currChild.current.getLinks(currChildPath);
+
+
+                    links = links.concat(currLinks);
+                }
+
+            } else {
+                var child = this.children[key];
+                var childLinks = child.current.getLinks(thisPath);
+                links = links.concat(childLinks);
+            }
+        }
+
+        // loop on regular fields
+        for (var key in this.fieldsInput) {
+            if (this.fieldsInput[key] != null) { // This is a PLASTER
+                var fieldName = key.split('|')[0];
+                var fieldPath = fatherPath + '/' + fieldName;
+
+                var fieldValue = this.getFieldFinalValue(key);
+                try {
+                    var fieldLinkObject = JSON.parse(fieldValue)[0].LINK;
+                    var currLink = {
+                        fromPath: fieldLinkObject.path,
+                        fromStepNo: fieldLinkObject.stepNo,
+                        toPath: fieldPath
+                    }
+                    links.push(currLink)
+
+                } catch(err) {
+                    // if we get here, the field is not linked
+                }
+                
+            }
+        }
+
+        return links;
+    }
+
     /*
         The method gets the total json of the entity editor (recursivly).
         It gets the data of the current json fields, 
