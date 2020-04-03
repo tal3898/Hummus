@@ -309,31 +309,33 @@ class EntityEditor extends React.Component {
         this.fieldsInput[key].value = '[GEN]'
     }
 
+    //#region data changed functions
+    changeField(event, key) {
+        this.state.json[key] = event.target.value;
+        this.updateJson('change');
+    }
+
     removeField(key) {
         delete this.state.json[key];
         delete this.children[key];
         delete this.fieldsInput[key];
-        this.setState(this.state);
-
-        var event = {
-            type: 'delete',
-            newJson: this.state.json,
-            father: this.state.name
-        };
-
-        if (this.onInnerFieldChangedCallback) {
-            this.onInnerFieldChangedCallback(event);
-        }
+        this.updateJson('delete');
     }
 
     addField(key, event) {
-        console.log('event is ' + event)
         this.state.json[key].push(JSON.parse(JSON.stringify(this.arrayFieldsObjectTemplate[key])));
         this.children[key].push(React.createRef());
+
+        this.updateJson('add');
+
+        event.stopPropagation();
+    }
+
+    updateJson(updateType) {
         this.setState(this.state);
 
         var newEvent = {
-            type: 'add',
+            type: updateType,
             newJson: this.state.json,
             father: this.state.name
         };
@@ -342,8 +344,8 @@ class EntityEditor extends React.Component {
             this.onInnerFieldChangedCallback(newEvent);
         }
 
-        event.stopPropagation();
     }
+    //#endregion
 
     /**
      * The method handle a change in inner json.
@@ -463,7 +465,8 @@ class EntityEditor extends React.Component {
                     {keyType == 'enum' &&
                         <Form.Control
                             as="select"
-                            ref={(ref) => this.fieldsInput[key] = ref} name={key}
+                            ref={(ref) => this.fieldsInput[key] = ref} 
+                            name={key}
                             size="sm"
                             type={this.inputTypesMap[keyType]}
                             width="20px">
@@ -487,6 +490,7 @@ class EntityEditor extends React.Component {
                         <Form.Control
                             ref={(ref) => this.fieldsInput[key] = ref}
                             name={key}
+                            onChange={(event) => this.changeField(event, key)}
                             defaultValue={defaultValue}
                             size="sm"
                             type={this.inputTypesMap[keyType]}
@@ -539,7 +543,7 @@ class EntityEditor extends React.Component {
                             <hr style={{margin:2}}/>}
                     
                     <center className="info-field-path-txt">
-                        {this.state.parentPath + '/' + key.split('|')[0]}
+                        {this.state.parentPath + '/' + key}
                     </center>
                 </Popup>
             </div>
@@ -582,7 +586,7 @@ class EntityEditor extends React.Component {
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor
-                        parentPath= {this.state.parentPath + "/" + keyName}
+                        parentPath= {this.state.parentPath + "/" + key}
                         expandAll={this.state.expandAll}
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
                         name={key}
@@ -642,7 +646,7 @@ class EntityEditor extends React.Component {
             items.push(
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor
-                        parentPath= {this.state.parentPath + "/" + keyName}
+                        parentPath= {this.state.parentPath + "/" + key}
                         expandAll={this.state.expandAll}
                         name={key + '/' + step}
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
