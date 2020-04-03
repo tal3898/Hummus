@@ -8,7 +8,7 @@ import HummusContext from './HummusContext'
 
 import Popup from "reactjs-popup";
 import ReactJson from 'react-json-view'
-
+import JsonViewer from './JsonViewer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ScenariosWindow from './ScenariosWindow';
@@ -176,52 +176,14 @@ class SaveScenarioPopup extends React.Component {
             scenarioData: props.scenarioData,
             folderHierarchy: {}
         }
-
-        this.state.folderHierarchy = {
-            name: 'root',
-            toggled: true,
-            children: []
-        };
-
-
-        this.onToggle = this.onToggle.bind(this);
-
         this.onCloseCallback = props.onClose;
+        this.jsonViewerNode = React.createRef();
     }
 
-    buildData(json) {
-        var children = [];
-
-        for (var key in json) {
-            // if curr key, is folder, and not file
-            if (!json[key].hasOwnProperty('steps')) {
-                var keyObject = {
-                    name: key
-                };
-
-                var keyChildren = this.buildData(json[key]);
-                if (keyChildren.length > 0) {
-                    keyObject.children = keyChildren;
-                }
-
-                children.push(keyObject);
-            }
-        }
-
-        return children;
-    }
 
     UNSAFE_componentWillReceiveProps(newProps) {
-        this.state.scenarioData = newProps.scenarioData;
         this.state.isOpen = JSON.parse(newProps.isOpen);
-
-        this.state.folderHierarchy = {
-            name: 'root',
-            toggled: true,
-            children: []
-        };
-        this.state.folderHierarchy.children = this.buildData(this.context.data.scenariosHierarchy);
-
+        this.state.folderHierarchy = this.context.data.scenariosHierarchy;
         this.setState(this.state);
     }
 
@@ -238,7 +200,7 @@ class SaveScenarioPopup extends React.Component {
             pauseOnFocusLoss: false
         };
 
-        var folderPath = this.findFullPath(this.state.folderHierarchy, this.state.cursor);
+        var folderPath = this.jsonViewerNode.current.getSelectedPath();
         if (folderPath == false) {
             toast.error("Please select a folder.", toastProperties);
         } else {
@@ -279,45 +241,6 @@ class SaveScenarioPopup extends React.Component {
         }
     }
 
-    findFullPath(data, childFolder) {
-        if (data == childFolder) {
-            return '/' + childFolder.name;
-        } else if (!data.hasOwnProperty('children')) {
-            return false;
-        } else {
-            for (var index in data.children) {
-                var childFullPath = this.findFullPath(data.children[index], childFolder);
-                if (childFullPath != false) {
-                    return '/' + data.name + childFullPath
-                }
-            }
-
-            return false;
-        }
-    }
-
-    /**
-     * When clicking on a node, this will be called. it gets the selected node, and if toggled.
-     * the function, dis-toggle the prev selected node, select the new one in state.cursor, and open
-     * the node, if has children
-     * 
-     * @param {*} node 
-     * @param {*} toggled 
-     */
-    onToggle(node, toggled) {
-        const { cursor, folderHierarchy } = this.state;
-        if (cursor) {
-            this.state.cursor.active = false;
-        }
-        node.active = true;
-        if (node.children) {
-            node.toggled = toggled;
-        }
-        console.log('full path ' + this.findFullPath(folderHierarchy, node));
-        this.setState({ cursor: node, folderHierarchy: Object.assign({}, folderHierarchy) });
-    }
-
-
     render() {
         return (
             <Styles>
@@ -344,9 +267,9 @@ class SaveScenarioPopup extends React.Component {
                     </Row>
 
                     <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
-                        <Treebeard
-                            data={this.state.folderHierarchy}
-                            onToggle={this.onToggle}
+                        <JsonViewer
+                            json={this.state.folderHierarchy}
+                            ref={this.jsonViewerNode}
                         />
                     </div>
                 </Popup>
