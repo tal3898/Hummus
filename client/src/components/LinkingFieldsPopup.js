@@ -22,28 +22,27 @@ const Styles = styled.div`
     overflow-y: scroll;
 }
 
-.scenario-name-form {
-    margin-top: 30px;
-    margin-bottom: 20px;
-}
 
-.fa-save {
-    margin-right:30px;
-    color: #607d8b;
+
+.fa-check {
+    color: #81c784; 
+    top:10px;
+    right: 20px;
+    position: absolute;
 
     padding:10px;
     border-radius:5px;
     border-style:solid;
-    border-width:0.012em;
+    border-width:0.02em;
     border-color: white;
 }
 
-.fa-save:active {
-    border-color: #0091ea;
+.fa-check:active {
+    border-color: #4caf50;
 }
 
-.fa-save:hover {
-    color: #0091ea;
+.fa-check:hover {
+    color: #4caf50;
 }
 
 `;
@@ -65,10 +64,6 @@ class LinkingFieldsPopup extends React.Component {
         this.onCloseCallback = props.onClose;
         this.jsonViewerFromRef = React.createRef();
         this.jsonViewerToRef = React.createRef();
-    }
-
-    componentDidMount() {
-
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
@@ -123,12 +118,23 @@ class LinkingFieldsPopup extends React.Component {
             this.context.data.currScenario.steps[this.state.stepNumber].links.push(newLink);
 
             toast.success("Link created successfully", toastProperties);
+
+            this.close();
         }
-
-
-
     }
 
+    getStepsOptions() {
+        var options = [];
+        for (var index in this.context.data.currScenario.steps) {
+            var currStep = this.context.data.currScenario.steps[index];
+            options.push(
+                <option>{index} - {currStep.name}</option>
+            )
+        }
+
+        return options;
+    }
+    
     render() {
         return (
             <Styles>
@@ -142,14 +148,14 @@ class LinkingFieldsPopup extends React.Component {
                     closeOnDocumentClick
                 >
 
-                    <Row style={{ marginLeft: 0, marginTop: 7, marginBottom: 20 }}>
-                        <Col>
+
+                    <div style={{ marginBottom: 30 }}>
+                        <i onClick={() => this.addLink()} class="fas fa-check fa-2x"></i>
+                        <center>
                             <Form.Label style={{ fontSize: 30, marginBottom: 1 }}>קישור שדות</Form.Label>
-                        </Col>
-                        <Col>
-                            <i onClick={() => this.addLink()} class="fas fa-check fa-3x"></i>
-                        </Col>
-                    </Row>
+                        </center>
+                    </div>
+
 
 
 
@@ -163,19 +169,20 @@ class LinkingFieldsPopup extends React.Component {
                                     size="sm"
                                     onChange={(event) => this.loadSourceJson(event)}
                                     as="select">
-                                    <option>0 - asdf</option>
-                                    <option>1 - redf</option>
+                                    {this.getStepsOptions()}
                                 </Form.Control>
                                 <br />
                             </div>
 
-                            <div style={{ float: 'right', marginRight: 30 }} dir="rtl">בחר שדה מקור</div>
-                            <br />
-                            <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
-                                <JsonViewer
-                                    json={this.state.fromJson}
-                                    ref={this.jsonViewerFromRef}
-                                />
+                            <div style={{ marginTop: 25 }}>
+                                <div style={{ float: 'right', marginRight: 30 }} dir="rtl">בחר שדה מקור</div>
+                                <br />
+                                <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
+                                    <JsonViewer
+                                        json={this.state.fromJson}
+                                        ref={this.jsonViewerFromRef}
+                                    />
+                                </div>
                             </div>
                         </Col>
 
@@ -197,15 +204,17 @@ class LinkingFieldsPopup extends React.Component {
                             </div>
 
 
-                            <div style={{ float: 'right', marginRight: 30 }} dir="rtl">בחר שדה יעד</div>
-                            <br />
-                            {/** TODO put the div with the style, and the css of the class , inside the JsonViewer */}
-                            <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
+                            <div style={{ marginTop: 25 }}>
+                                <div style={{ float: 'right', marginRight: 30 }} dir="rtl">בחר שדה יעד</div>
+                                <br />
+                                {/** TODO put the div with the style, and the css of the class , inside the JsonViewer */}
+                                <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
 
-                                <JsonViewer
-                                    json={this.state.json}
-                                    ref={this.jsonViewerToRef}
-                                />
+                                    <JsonViewer
+                                        json={this.state.json}
+                                        ref={this.jsonViewerToRef}
+                                    />
+                                </div>
                             </div>
                         </Col>
                     </Row>
