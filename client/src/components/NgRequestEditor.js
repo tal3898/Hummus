@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import {  Button, Form, Col, Row } from 'react-bootstrap';
 import EntityEditor from './EntityEditor';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import HummusContext, { HummusConsumer } from './HummusContext'
 import LinkingFieldsPopup from './LinkingFieldsPopup'
 import EntityMap from '../globals/EntityMap.json'
@@ -185,7 +183,6 @@ class NgRequestEditor extends React.Component {
                     {(context) =>
 
                         <div>
-                            <ToastContainer />
 
                             <LinkingFieldsPopup
                                 json={this.state.json}

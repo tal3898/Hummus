@@ -34,205 +34,208 @@ const backupData2 = {
                     name: 'nested parent',
                     children: [
                         { name: 'nested child 1' },
-                        { name: 'nested child 2',
-                        children: [
-                            {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' ,children: [
+                        {
+                            name: 'nested child 2',
+                            children: [
+                                {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
                                         {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
-                                            ]
-                                        }, {
-                                            name: 'nested parent',
-                                            children: [
-                                                { name: 'nested child 1' },
-                                                { name: 'nested child 2' }
+                                            name: 'nested child 2', children: [
+                                                {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }, {
+                                                    name: 'nested parent',
+                                                    children: [
+                                                        { name: 'nested child 1' },
+                                                        { name: 'nested child 2' }
+                                                    ]
+                                                }
                                             ]
                                         }
-                                    ]}
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }, {
-                                name: 'nested parent',
-                                children: [
-                                    { name: 'nested child 1' },
-                                    { name: 'nested child 2' }
-                                ]
-                            }
-                        ]
-                     }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }, {
+                                    name: 'nested parent',
+                                    children: [
+                                        { name: 'nested child 1' },
+                                        { name: 'nested child 2' }
+                                    ]
+                                }
+                            ]
+                        }
                     ]
                 }, {
                     name: 'nested parent',
@@ -352,6 +355,7 @@ class JsonViewer extends React.Component {
         this.onCloseCallback = props.onClose;
     }
 
+    // TODO: make generic, to fit the save scenario popup, and the linking field popup.
     buildData(json) {
         var children = [];
 
@@ -362,9 +366,11 @@ class JsonViewer extends React.Component {
                     name: key
                 };
 
-                var keyChildren = this.buildData(json[key]);
-                if (keyChildren.length > 0) {
-                    keyObject.children = keyChildren;
+                if (typeof json[key] == 'object') {
+                    var keyChildren = this.buildData(json[key]);
+                    if (keyChildren.length > 0) {
+                        keyObject.children = keyChildren;
+                    }
                 }
 
                 children.push(keyObject);
@@ -421,7 +427,11 @@ class JsonViewer extends React.Component {
     }
 
     getSelectedPath() {
-        return this.findFullPath(this.state.jsonToDisplay, this.state.cursor);
+        return this.findFullPath(this.state.jsonToDisplay, this.state.cursor).replace('/root', '');
+    }
+
+    isSelectedFieldHasChildren() {
+        return this.state.cursor.hasOwnProperty('children');
     }
 
     render() {
