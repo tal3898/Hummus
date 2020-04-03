@@ -120,7 +120,7 @@ class LinkingFieldsPopup extends React.Component {
                 toPath: toPath
             }
 
-            this.context.data.currScenario.steps[this.state.stepNumber].links.push(newLink);    
+            this.context.data.currScenario.steps[this.state.stepNumber].links.push(newLink);
 
             toast.success("Link created successfully", toastProperties);
         }
@@ -151,31 +151,26 @@ class LinkingFieldsPopup extends React.Component {
                         </Col>
                     </Row>
 
-                    <Row>
-                        <Col lg="3">
-                            <Form.Control
-                                onChange={(event) => this.loadSourceJson(event)}
-                                as="select">
-                                <option>0 - asdf</option>
-                                <option>1 - redf</option>
-                            </Form.Control>
-                        </Col>
-                        <Col>
-                            <Form.Label style={{ marginBottom: 1 }}>בחר צעד לקשר ממנו</Form.Label>
-                        </Col>
-                    </Row>
 
-                    <Row dir="rtl">
-                        <Col dir="rtl" lg="6">
-                            <Form.Label dir="rtl" style={{ fontSize: 11, marginBottom: 1 }}>בחר שדה יעד</Form.Label>
-                        </Col>
-                        <Col dir="rtl" lg="5">
-                            <p dir="rtl">בחר שדה יעד</p>
-                        </Col>
-                    </Row>
 
                     <Row>
-                        <Col lg="6">
+                        <Col lg="6" style={{ marginRight: 0, paddingRight: 0 }}>
+
+                            <div style={{ marginRight: 30, marginBottom: 10 }}>
+                                <Form.Label style={{ float: 'right', marginBottom: 1, marginLeft: 20, fontSize: 20 }}>בחר צעד לקשר ממנו</Form.Label>
+                                <Form.Control
+                                    style={{ width: 150, float: 'right', marginTop: 2 }}
+                                    size="sm"
+                                    onChange={(event) => this.loadSourceJson(event)}
+                                    as="select">
+                                    <option>0 - asdf</option>
+                                    <option>1 - redf</option>
+                                </Form.Control>
+                                <br />
+                            </div>
+
+                            <div style={{ float: 'right', marginRight: 30 }} dir="rtl">בחר שדה מקור</div>
+                            <br />
                             <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
                                 <JsonViewer
                                     json={this.state.fromJson}
@@ -183,11 +178,30 @@ class LinkingFieldsPopup extends React.Component {
                                 />
                             </div>
                         </Col>
-                        <Col lg="1">
-                            ------->
-                        </Col>
-                        <Col lg="5">
+
+
+
+                        <Col lg="6" style={{ marginLeft: 0, paddingLeft: 0 }}>
+                            <div style={{ marginRight: 30, marginBottom: 10 }}>
+                                <Form.Label style={{ float: 'right', marginBottom: 1, marginLeft: 20, fontSize: 20 }}>צעד יעד</Form.Label>
+                                <Form.Control
+                                    style={{ width: 150, float: 'right', marginTop: 2 }}
+                                    size="sm"
+                                    disabled
+                                    onChange={(event) => this.loadSourceJson(event)}
+                                    as="select">
+                                    <option>{this.state.stepNumber + ' - ' +
+                                        this.context.data.currScenario.steps[this.state.stepNumber].name}</option>
+                                </Form.Control>
+                                <br />
+                            </div>
+
+
+                            <div style={{ float: 'right', marginRight: 30 }} dir="rtl">בחר שדה יעד</div>
+                            <br />
+                            {/** TODO put the div with the style, and the css of the class , inside the JsonViewer */}
                             <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
+
                                 <JsonViewer
                                     json={this.state.json}
                                     ref={this.jsonViewerToRef}
