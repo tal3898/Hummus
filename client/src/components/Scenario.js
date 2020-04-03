@@ -210,7 +210,6 @@ class Scenario extends React.Component {
 
     removeStep() {
         this.context.data.currScenario.steps.splice(this.state.openStepIndex,1);
-        this.state.openStepIndex--;
 
         if (this.state.openStepIndex > 0) {
             this.state.openStepIndex--;
