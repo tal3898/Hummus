@@ -427,7 +427,21 @@ class JsonViewer extends React.Component {
     }
 
     getSelectedPath() {
-        return this.findFullPath(this.state.jsonToDisplay, this.state.cursor).replace('/root', '');
+        if (this.state.cursor == undefined) {
+            return '/'
+        } else {
+            var fullPath = this.findFullPath(this.state.jsonToDisplay, this.state.cursor);
+            if (fullPath == false) {
+                return '/'
+            } else {
+                return fullPath.replace('/root', '');
+            }
+        }
+    }
+
+    didSelectedField() {
+        var selectedPath = this.getSelectedPath();
+        return selectedPath != '/';
     }
 
     isSelectedFieldHasChildren() {

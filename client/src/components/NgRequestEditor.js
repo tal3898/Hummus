@@ -185,6 +185,7 @@ class NgRequestEditor extends React.Component {
                         <div>
 
                             <LinkingFieldsPopup
+                                step={this.state.openStepIndex}
                                 json={this.state.json}
                                 onClose={() => this.closePopup()}
                                 isOpen={this.state.isLinkPopupOpen}

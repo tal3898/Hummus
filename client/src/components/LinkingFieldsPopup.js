@@ -12,7 +12,7 @@ import JsonViewer from './JsonViewer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ScenariosWindow from './ScenariosWindow';
-import {convertJsonTemplateToActualJson} from './Utility'
+import { convertJsonTemplateToActualJson } from './Utility'
 
 const Styles = styled.div`
 
@@ -56,10 +56,12 @@ class LinkingFieldsPopup extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            stepNumber: props.step,
             isOpen: false,
             json: props.json,
-            fromJson : {}
+            fromJson: {}
         }
+        this.selectedScenarioNumber = 0;
         this.onCloseCallback = props.onClose;
         this.jsonViewerFromRef = React.createRef();
         this.jsonViewerToRef = React.createRef();
@@ -72,6 +74,7 @@ class LinkingFieldsPopup extends React.Component {
     UNSAFE_componentWillReceiveProps(newProps) {
         this.state.isOpen = newProps.isOpen;
         this.state.json = newProps.json;
+        this.state.stepNumber = newProps.step;
 
         var defaultStep = this.context.data.currScenario.steps[0];
         this.state.fromJson = convertJsonTemplateToActualJson(JSON.parse(defaultStep.jsonToEdit));
@@ -95,29 +98,35 @@ class LinkingFieldsPopup extends React.Component {
     }
 
     addLink() {
-        var fromPath = this.jsonViewerFromRef.current.getSelectedPath();
-        var toPath = this.jsonViewerToRef.current.getSelectedPath();
-        
-        if (this.jsonViewerFromRef.current.isSelectedFieldHasChildren() || this.jsonViewerToRef.current.isSelectedFieldHasChildren()) {
+        const toastProperties = {
+            autoClose: 7000,
+            position: toast.POSITION.BOTTOM_RIGHT,
+            pauseOnFocusLoss: false
+        };
 
-            const toastProperties = {
-                autoClose: 7000,
-                position: toast.POSITION.BOTTOM_RIGHT,
-                pauseOnFocusLoss: false
-            };
-
+        if (this.selectedScenarioNumber > this.state.stepNumber) {
+            toast.error("You can only link fields to previuos steps", toastProperties);
+        } else if (!this.jsonViewerFromRef.current.didSelectedField() || !this.jsonViewerToRef.current.didSelectedField()) {
+            toast.error("You must select fields", toastProperties);
+        } else if (this.jsonViewerFromRef.current.isSelectedFieldHasChildren() || this.jsonViewerToRef.current.isSelectedFieldHasChildren()) {
             toast.error("You can only link fields which have value", toastProperties);
-
         } else {
+            var fromPath = this.jsonViewerFromRef.current.getSelectedPath();
+            var toPath = this.jsonViewerToRef.current.getSelectedPath();
+
             var newLink = {
-                fromPath: fromPath, 
-                fromStep: this.selectedScenario,
+                fromPath: fromPath,
+                fromStep: this.selectedScenarioNumber,
                 toPath: toPath
             }
+
+            this.context.data.currScenario.steps[this.state.stepNumber].links.push(newLink);    
+
+            toast.success("Link created successfully", toastProperties);
         }
 
 
-        
+
     }
 
     render() {
