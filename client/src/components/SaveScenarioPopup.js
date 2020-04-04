@@ -57,7 +57,7 @@ class SaveScenarioPopup extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            isOpen: false,
+            isOpen: props.isOpen,
             scenarioData: props.scenarioData,
             folderHierarchy: {}
         }

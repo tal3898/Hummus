@@ -3,8 +3,18 @@ import styled from 'styled-components';
 import { Form, Col, Row, InputGroup } from 'react-bootstrap';
 import HummusContext, { HummusConsumer } from './HummusContext'
 import SaveFolderPopup from './SaveFolderPopup'
+import SlidingPanel from 'react-sliding-side-panel';
 
 const Styles = styled.div`
+.panel-container {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 
 .headline {
   float: right;
@@ -67,8 +77,11 @@ class ScenariosWindow extends React.Component {
 
     this.state = {
       currPath: '',
-      isSavePopupOpen: false
+      isSavePopupOpen: false,
+      isOpen: false
     }
+
+    this.onCloseCallback = props.onClose;
   }
 
   componentDidMount() {
@@ -199,59 +212,44 @@ class ScenariosWindow extends React.Component {
     this.setState(this.state);
   }
 
+  UNSAFE_componentWillReceiveProps(newProps) {
+    this.state.isOpen = newProps.isOpen;
+    this.setState(this.state);
+  }
+
+  closePanel() {
+    if (this.onCloseCallback) {
+      this.onCloseCallback();
+    }
+    this.state.isOpen = false;
+    this.setState(this.state);
+  }
+
   render() {
     return (<Styles>
 
+      <SlidingPanel
+        type={'right'}
+        isOpen={this.state.isOpen}
+        size={25}
+        backdropClicked={() => {
+          this.closePanel();
+        }}>
 
-      <div className="w3-card-4">
-        <header style={{ marginBottom: 0 }} className="w3-container w3-blue header">
-          <h1 className="headline" >תרחישים</h1>
-
-          <i 
-            className="fas fa-plus"
-            onClick={() => this.openNewFolderPopup()}></i>
-
-          <SaveFolderPopup
-            onClose={() => this.closePopup()}
-            folderHierarchy={this.context.scenariosHierarchy}
-            isOpen={this.state.isSavePopupOpen} />
-
-          <Form.Group style={{ marginBottom: 0, marginLeft: 0, width: '100%' }} md="4" controlId="validationCustomUsername">
-            <InputGroup>
-
-              <InputGroup.Prepend>
-                <InputGroup.Text style={{ borderRadius: 0 }} id="inputGroupPrepend">path</InputGroup.Text>
-              </InputGroup.Prepend>
-
-              <Form.Control
-                disabled
-                type="text"
-                value={(this.state.currPath.length > 0 && this.state.currPath) ||
-                  '/'}
-                aria-describedby="inputGroupPrepend"
-                required
-              />
-              <InputGroup.Prepend style={{ marginLeft: -2 }}>
-
-                <InputGroup.Text onClick={() => this.goBack()} className="back-button" id="inputGroupPrepend">
-                  <i className="fas fa-undo-alt"></i>
-                </InputGroup.Text>
-              </InputGroup.Prepend>
-            </InputGroup>
-          </Form.Group>
-        </header>
-
-        <div className="main-content w3-container">
-
+        <div className="panel-container">
           <HummusConsumer>
             {(value) =>
               this.getWindowContent(value)
             }
           </HummusConsumer>
-
         </div>
+      </SlidingPanel>
 
-      </div>
+
+
+
+
+
 
     </Styles>)
   }

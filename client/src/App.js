@@ -68,12 +68,9 @@ class App extends React.Component {
               <NavigationBar />
             </Router>
             <Row>
-              <Col sm="9">
+              <Col lg="10">
                 <Scenario></Scenario>
-              </Col>
-              <Col sm="3">
-                <ScenariosWindow></ScenariosWindow>
-              </Col>
+              </Col>  
             </Row>
           </React.Fragment>
         </HummusProvider>
