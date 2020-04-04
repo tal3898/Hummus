@@ -27,7 +27,7 @@ const Styles = styled.div`
 
 `;
 export const NavigationBar = () => {
-  const [isScenarioWindowOpen, setIsOpen] = React.useState(true);
+  const [isScenarioWindowOpen, setIsOpen] = React.useState(false);
 
   return (
   <Styles>

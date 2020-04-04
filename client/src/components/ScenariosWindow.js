@@ -31,11 +31,16 @@ const Styles = styled.div`
 .fa-plus {
   color: #66bb6a;
   cursor: pointer;
-  margin-left: 15px;
-  margin-top: 20px;
+  
+  position: absolute;
+  left:1;
+  bottom: 0;
+  margin-left: 20px;
+  margin-bottom: 20px;
+
   font-size: 45px;
   &:hover { 
-    color: #4caf50; 
+    color: #43a047; 
   }
 }
 
@@ -93,7 +98,7 @@ class ScenariosWindow extends React.Component {
     this.state = {
       currPath: '',
       isSavePopupOpen: false,
-      isOpen: true
+      isOpen: false
     }
 
     this.onCloseCallback = props.onClose;
@@ -273,6 +278,15 @@ class ScenariosWindow extends React.Component {
               this.getWindowContent(value)
             }
           </HummusConsumer>
+
+          <i 
+            className="fas fa-plus"
+            onClick={() => this.openNewFolderPopup()}></i>
+
+          <SaveFolderPopup
+            onClose={() => this.closePopup()}
+            folderHierarchy={this.context.scenariosHierarchy}
+            isOpen={this.state.isSavePopupOpen} />
         </div>
       </SlidingPanel>
 
