@@ -252,7 +252,7 @@ class Scenario extends React.Component {
         for (var index in this.context.data.currScenario.steps) {
             var currStep = this.context.data.currScenario.steps[index];
             options.push(
-                <option>{index} - {currStep.name}</option>
+                <option key={index + '-' + currStep.name}>{index} - {currStep.name}</option>
             )
         }
 
@@ -370,7 +370,7 @@ class Scenario extends React.Component {
                                                 on="hover"
                                                 trigger={
                                                     <a className="action-btn" variant="outline-info" onClick={() => this.openSavePopup()}>
-                                                        <i class="far fa-save fa-3x"></i>
+                                                        <i className="far fa-save fa-3x"></i>
                                                     </a>}
                                             >
                                                 <center>
@@ -385,7 +385,7 @@ class Scenario extends React.Component {
                                                 on="hover"
                                                 trigger={
                                                     <a className="action-btn" variant="outline-info" onClick={() => this.openJsonPopup()}>
-                                                        <i class="fas fa-code fa-3x"></i>
+                                                        <i className="fas fa-code fa-3x"></i>
                                                     </a>}
                                             >
                                                 <center>
@@ -400,7 +400,7 @@ class Scenario extends React.Component {
                                                 on="hover"
                                                 trigger={
                                                     <a className="action-btn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.state.openStepIndex)}>
-                                                        <i class="far fa-paper-plane fa-3x fa-flip-horizontal"></i>
+                                                        <i className="far fa-paper-plane fa-3x fa-flip-horizontal"></i>
                                                     </a>}
                                             >
                                                 <center>
@@ -415,7 +415,7 @@ class Scenario extends React.Component {
                                                 on="hover"
                                                 trigger={
                                                     <a className="action-btn" variant="outline-info" onClick={() => this.sendAllStepsToNg()}>
-                                                        <i class="fas fa-paper-plane fa-3x fa-flip-horizontal"></i>
+                                                        <i className="fas fa-paper-plane fa-3x fa-flip-horizontal"></i>
                                                     </a>}
                                             >
                                                 <center>
@@ -479,7 +479,7 @@ class Scenario extends React.Component {
                                                 on="hover"
                                                 trigger={
                                                     <a className="plus-scenario-button" variant="outline-info" onClick={() => this.addStep()}>
-                                                        <i class="fas fa-plus fa-2x"></i>
+                                                        <i className="fas fa-plus fa-2x"></i>
                                                     </a>}
                                             >
                                                 <center>
@@ -493,7 +493,7 @@ class Scenario extends React.Component {
                                                 on="hover"
                                                 trigger={
                                                     <a className="minus-scenario-button" style={{ marginRight: 20 }} variant="outline-info" onClick={() => this.removeStep()}>
-                                                        <i class="fas fa-minus fa-2x"></i>
+                                                        <i className="fas fa-minus fa-2x"></i>
                                                     </a>}
                                             >
                                                 <center>

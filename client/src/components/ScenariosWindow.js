@@ -107,7 +107,7 @@ class ScenariosWindow extends React.Component {
       <Row onClick={() => this.openFolder(this.state.currPath + '/' + folderName)} className='field' dir="rtl">
         <Col lg="2">
           <center>
-            <i style={{ marginTop: 5, color: '#ffa726' }} class="action fas fa-folder-open fa-2x"></i>
+            <i style={{ marginTop: 5, color: '#ffa726' }} className="action fas fa-folder-open fa-2x"></i>
           </center>
         </Col>
         <Col style={{ fontSize: 25, marginTop: 1 }} lg="1">
@@ -122,7 +122,7 @@ class ScenariosWindow extends React.Component {
       <Row className='field' onClick={() => this.openFile(this.state.currPath + '/' + fileName)} dir="rtl">
         <Col lg="2">
           <center>
-            <i style={{ marginTop: 5, color: '#90a4ae' }} class="action fas fa-file fa-2x"></i>
+            <i style={{ marginTop: 5, color: '#90a4ae' }} className="action fas fa-file fa-2x"></i>
           </center>
         </Col>
         <Col style={{ fontSize: 25, marginTop: 1 }} lg="1">
@@ -180,8 +180,8 @@ class ScenariosWindow extends React.Component {
     return (<Styles>
 
 
-      <div class="w3-card-4">
-        <header style={{ marginBottom: 0 }} class="w3-container w3-blue header">
+      <div className="w3-card-4">
+        <header style={{ marginBottom: 0 }} className="w3-container w3-blue header">
           <h1 className="headline" >תרחישים</h1>
 
           
@@ -203,14 +203,14 @@ class ScenariosWindow extends React.Component {
               <InputGroup.Prepend style={{marginLeft:-2}}>
 
                 <InputGroup.Text onClick={() => this.goBack()} className="back-button" id="inputGroupPrepend">
-                  <i class="fas fa-undo-alt"></i>
+                  <i className="fas fa-undo-alt"></i>
                 </InputGroup.Text>
               </InputGroup.Prepend>
             </InputGroup>
           </Form.Group>
         </header>
 
-        <div class="main-content w3-container">
+        <div className="main-content w3-container">
 
           <HummusConsumer>
             {(value) =>

@@ -164,7 +164,7 @@ class NgRequestEditor extends React.Component {
                                 isOpen={this.state.isLinkPopupOpen}
                             />
 
-                            <Form>
+                            
                                 <div dir='rtl' className='metadata'>
                                     {/** TODO: instead of harcoded entities, loop on the EntityMap */}
                                     <Row className='field'>
@@ -256,10 +256,10 @@ class NgRequestEditor extends React.Component {
                                         <Button style={{ top: 20, right: 20, position: 'absolute' }} variant="outline-info" onClick={() => this.expendAll()}>
                                             {
                                                 this.state.expandAll &&
-                                                <i class="fas fa-compress-alt"></i>
+                                                <i className="fas fa-compress-alt"></i>
                                             }
                                             {!this.state.expandAll &&
-                                                <i class="fas fa-expand-alt"></i>
+                                                <i className="fas fa-expand-alt"></i>
                                             }
                                         </Button>
 
@@ -273,7 +273,7 @@ class NgRequestEditor extends React.Component {
                                             trigger={
                                                 <Button style={{ top: 20, right: 60, position: 'absolute' }} variant="outline-info"
                                                     onClick={() => this.openLinkPopup()}>
-                                                    {<i class="fas fa-sitemap"></i>}
+                                                    {<i className="fas fa-sitemap"></i>}
                                                 </Button>
                                             }
                                         >
@@ -294,7 +294,7 @@ a                                                </center>
                                 </Row>
 
 
-                            </Form>
+                            
 
                         </div>
                     }

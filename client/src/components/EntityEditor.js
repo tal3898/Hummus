@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
 import Popup from "reactjs-popup";
 import Select from 'react-select';
-import {convertJsonTemplateToActualJson} from './Utility'
+import { convertJsonTemplateToActualJson } from './Utility'
 
 
 const Styles = styled.div`
@@ -336,7 +336,7 @@ class EntityEditor extends React.Component {
             var optionalValues = JSON.parse(defaultValue);
             for (var index in optionalValues) {
                 enumValuesItem.push(
-                    <option>{optionalValues[index]}</option>
+                    <option key={optionalValues[index]}>{optionalValues[index]}</option>
                 );
             }
 
@@ -345,21 +345,21 @@ class EntityEditor extends React.Component {
         return (
 
             <Row key={key} className="field mb-1" style={{ marginLeft: this.state.indent }}>
-                <div class="field-component">
+                <div className="field-component">
                     <Form.Label >{keyName}</Form.Label>
                 </div>
 
-                <div class="field-component">
+                <div className="field-component">
                     <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
                 </div>
 
-                <div class="field-component" style={{ marginTop: 3 }}>
+                <div className="field-component" style={{ marginTop: 3 }}>
 
                     {/* If current field is enum, create select input */}
                     {keyType == 'enum' &&
                         <Form.Control
                             as="select"
-                            ref={(ref) => this.fieldsInput[key] = ref} 
+                            ref={(ref) => this.fieldsInput[key] = ref}
                             name={key}
                             size="sm"
                             type={this.inputTypesMap[keyType]}
@@ -393,20 +393,20 @@ class EntityEditor extends React.Component {
                     }
                 </div>
 
-                <div class="field-component" >
+                <div className="field-component" >
                     {keyType == "time" &&
-                        <i class="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(key)} ></i>
+                        <i className="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(key)} ></i>
                     }
 
                     {keyType == "string" &&
-                        <i class="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
+                        <i className="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
                     }
                 </div>
 
-                {this.createInfoPopup(key,3)}
+                {this.createInfoPopup(key, 3)}
 
-                <div class="field-component">
-                    <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
+                <div className="field-component">
+                    <i className=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
                 </div>
 
             </Row>
@@ -427,18 +427,20 @@ class EntityEditor extends React.Component {
                     position="right top"
                     on="hover"
                     trigger={
-                        <i class="fas fa-info-circle field-action mt-1"></i>}
+                        <i className="fas fa-info-circle field-action mt-1"></i>}
                 >
-                    <center className="info-txt">
+                    <div>
+                        <center className="info-txt">
+                            {this.hasInfo(key, infoIndex) &&
+                                key.split('|')[infoIndex]}
+                        </center>
                         {this.hasInfo(key, infoIndex) &&
-                            key.split('|')[infoIndex]}
-                    </center>
-                    {this.hasInfo(key, infoIndex) &&
-                            <hr style={{margin:2}}/>}
-                    
-                    <center className="info-field-path-txt">
-                        {this.state.parentPath + '/' + key}
-                    </center>
+                            <hr style={{ margin: 2 }} />}
+
+                        <center className="info-field-path-txt">
+                            {this.state.parentPath + '/' + key}
+                        </center>
+                    </div>
                 </Popup>
             </div>
         );
@@ -451,28 +453,28 @@ class EntityEditor extends React.Component {
         var keyRequiredValue = key.split('|')[1];
 
         return (
-            <div>
-                <Row key={key} className="field mb-1" style={{ marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)}>
+            <div key={key}>
+                <Row className="field mb-1" style={{ marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)}>
 
-                    <div class="field-component">
+                    <div className="field-component">
                         {this.state.objectFieldsOpen[key] ?
-                            <i class="fas fa-angle-down" style={{ width: 18 }}></i> :
-                            <i class="fas fa-angle-right" style={{ width: 18 }}></i>
+                            <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
+                            <i className="fas fa-angle-right" style={{ width: 18 }}></i>
                         }
                     </div>
 
-                    <div class="field-component">
+                    <div className="field-component">
                         <Form.Label>{keyName}</Form.Label>
                     </div>
 
-                    <div class="field-component">
+                    <div className="field-component">
                         <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
                     </div>
 
-                    {this.createInfoPopup(key,2)}
+                    {this.createInfoPopup(key, 2)}
 
-                    <div class="field-component">
-                        <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
+                    <div className="field-component">
+                        <i className=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
                     </div>
 
 
@@ -480,7 +482,7 @@ class EntityEditor extends React.Component {
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor
-                        parentPath= {this.state.parentPath + "/" + key}
+                        parentPath={this.state.parentPath + "/" + key}
                         expandAll={this.state.expandAll}
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
                         name={key}
@@ -502,31 +504,31 @@ class EntityEditor extends React.Component {
         // create the array field itself, with collapseEntityEditor button
         items.push(
 
-            <div  >
+            <div key={key}>
                 <Row className='field mb-1' style={{ marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
-                    <div class="field-component">
+                    <div className="field-component">
                         {this.state.objectFieldsOpen[key] ?
-                            <i class="fas fa-angle-down" style={{ width: 18 }}></i> :
-                            <i class="fas fa-angle-right" style={{ width: 18 }}></i>
+                            <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
+                            <i className="fas fa-angle-right" style={{ width: 18 }}></i>
                         }
                     </div>
 
-                    <div class="field-component">
+                    <div className="field-component">
                         <Form.Label>{keyName}</Form.Label>
                     </div>
 
-                    <div class="field-component">
+                    <div className="field-component">
                         <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
                     </div>
 
-                    <div class="field-component">
-                        <i class=" fas fa-plus field-action mt-1" onClick={(event) => this.addField(key, event)}></i>
+                    <div className="field-component">
+                        <i className=" fas fa-plus field-action mt-1" onClick={(event) => this.addField(key, event)}></i>
                     </div>
 
-                    {this.createInfoPopup(key,3)}
+                    {this.createInfoPopup(key, 3)}
 
-                    <div class="field-component">
-                        <i class=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
+                    <div className="field-component">
+                        <i className=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
                     </div>
                 </Row>
             </div>
@@ -538,9 +540,9 @@ class EntityEditor extends React.Component {
             const currJson = '{"' + step + '.":' + JSON.stringify(this.state.json[key][step]) + "}"
             const currFullJson = '{"' + step + '.":' + JSON.stringify(this.state.fullJson[key][0]) + "}"
             items.push(
-                <Collapse isOpen={this.state.objectFieldsOpen[key]}>
+                <Collapse key={key + '/' + step} isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor
-                        parentPath= {this.state.parentPath + "/" + key}
+                        parentPath={this.state.parentPath + "/" + key}
                         expandAll={this.state.expandAll}
                         name={key + '/' + step}
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
