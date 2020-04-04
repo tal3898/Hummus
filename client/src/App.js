@@ -43,7 +43,7 @@ class App extends React.Component {
 
   loadFolderHiierarchy(callback) {
 
-    fetch('/scenario')
+    fetch('/folder')
       .then(response => response.json())
       .then(data => {
         delete data._id;

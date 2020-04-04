@@ -12,12 +12,9 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
 }));
 
-
-
-
 const port = 5000;
 
-app.get('/scenario', async (req, res) => {
+app.get('/folder', async (req, res) => {
 
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db("HummusDB");
@@ -47,6 +44,8 @@ app.post('/folder', async (req, res) => {
 
 	db.close();
 });
+
+
 
 app.post('/scenario', async (req, res) => {
 
