@@ -16,11 +16,22 @@ const Styles = styled.div`
   fontFamily:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
+.fa-plus {
+  color: #66bb6a;
+  cursor: pointer;
+  margin-left: 15px;
+  margin-top: 20px;
+  font-size: 45px;
+  &:hover { 
+    color: #4caf50; 
+  }
+}
+
 .field {
+  cursor: pointer;
   height:40px;
   &:hover { 
     background: #bbdefb; 
-    cursor: pointer;
   }
 }
 
@@ -196,8 +207,8 @@ class ScenariosWindow extends React.Component {
         <header style={{ marginBottom: 0 }} className="w3-container w3-blue header">
           <h1 className="headline" >תרחישים</h1>
 
-          <i style={{ color: '#66bb6a', cursor: 'pointer', marginLeft: 15, marginTop: 15, fontSize: 55, }}
-            class="fas fa-plus"
+          <i 
+            className="fas fa-plus"
             onClick={() => this.openNewFolderPopup()}></i>
 
           <SaveFolderPopup
