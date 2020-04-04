@@ -1,6 +1,6 @@
 {
 	"X_Ids": {
-		"X_name|string": "[GEN]",
+		"X_name|string": "{text}",
 		"X_code|number": "0"
 	},
 	"X_Nothing|string": ""

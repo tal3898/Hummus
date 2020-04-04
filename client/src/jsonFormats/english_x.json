@@ -1,6 +1,6 @@
 {
 	"X_Ids": {
-		"X_name|string": "[GEN]",
+		"X_name|string": "{text}",
 		"X_code|number": "0"
 	},
 	"X_Data": {
@@ -8,7 +8,7 @@
 			"X_Street|string": "Agadati",
 			"X_number|number": "30"
 		},
-		"X_Info|string": "[GEN]"
+		"X_Info|string": "{text}"
 	},
 	"X_Planing": [{
 		"X_Goal|string": "learn piano",

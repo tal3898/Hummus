@@ -1,10 +1,10 @@
 {
 	"Ids|[1]|מזהה ישות": {
-		"name|string|[0]|שם ישות": "[GEN]",
+		"name|string|[0]|שם ישות": "{text}",
 		"code|number|[1]|קוד ישות": "0"
 	},
 	"Chairs|[0]": {
-		"Info|string|[0]": "[GEN]",
+		"Info|string|[0]": "{text}",
 		"Type|enum|[1]": "[\"20 - Second\", \"30 - Third\", \"40 - Forth\", \"50 - Fith\"]"
 	}
 

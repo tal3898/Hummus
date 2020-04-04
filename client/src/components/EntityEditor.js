@@ -196,7 +196,7 @@ class EntityEditor extends React.Component {
     }
 
     insertGenerateWordToField(key) {
-        this.fieldsInput[key].value = '[GEN]'
+        this.fieldsInput[key].value = '{text}'
     }
 
     //#region data changed functions

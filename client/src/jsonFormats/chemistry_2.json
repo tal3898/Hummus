@@ -1,6 +1,6 @@
 {
 	"Ids": {
-		"name|string": "[GEN]",
+		"name|string": "{text}",
 		"code|number": "0"
 	},
 	"Nothing|string": ""

@@ -1,6 +1,6 @@
 {
 	"Ids|[1]|מזהה ישות": {
-		"name|string|[0]|שם ישות": "[GEN]",
+		"name|string|[0]|שם ישות": "{text}",
 		"code|number|[1]|קוד ישות": "0"
 	},
 	"Data|[0]": {
@@ -13,7 +13,7 @@
 			"Street|string|[1]": "Agadati",
 			"number|number|[1]": "30"
 		},
-		"Info|string|[0]": "[GEN]",
+		"Info|string|[0]": "{text}",
 		"Type|enum|[1]": "[\"20 - Second\", \"30 - Third\", \"40 - Forth\", \"50 - Fith\"]",
 		"Angle|float|[0]|זווית של הבניין, נגיד של פיזה זה 27.3": "",
 		"Trips|array|[0..1]|כל המקומות שהייתי בהם":  "[ { \"value\": 1, \"label\": \"Paris - 1\" },  { \"value\": 1, \"label\": \"London - 2\" },  { \"value\": 3, \"label\": \"New York - 3\" }, { \"value\": 4, \"label\": \" Tel Aviv - 4\" } ]"
