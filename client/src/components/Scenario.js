@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import HummusContext, { HummusConsumer } from './HummusContext'
 import NgRequestEditor from './NgRequestEditor';
 import Popup from "reactjs-popup";
-import {convertJsonTemplateToActualJson} from './Utility'
+import { convertJsonTemplateToActualJson } from './Utility'
 import ActionMap from '../globals/ActionMap.json'
 
 const Styles = styled.div`
@@ -140,21 +140,60 @@ class Scenario extends React.Component {
     setToValue(obj, path, value) {
         var i;
         path = path.split('/');
-        path.splice(0,1);
+        path.splice(0, 1);
         for (i = 0; i < path.length - 1; i++)
             obj = obj[path[i]];
-    
+
         obj[path[i]] = value;
     }
 
-    applyLink(link, generatedSteps, currStep ) {
+    applyLink(link, generatedSteps, currStep) {
         var linkedStepJson = generatedSteps[link.fromStep].Entities[0]; //TODO, when creating several entities in request, replace it
         var linkedValue = link.fromPath.split('/').splice(1).reduce((o, n) => o[n], linkedStepJson);
         this.setToValue(currStep.Entities[0], link.toPath, linkedValue);
     }
     //#endregion
 
-    sendJsonToNG() {
+    sendSingleStepToNg(stepIndex) {
+        var currStep = this.context.data.currScenario.steps[stepIndex];
+        var currStepRequest = this.getStepNgRequest(stepIndex);
+
+        console.log('sending json to ng ' + JSON.stringify(currStepRequest));
+
+        var bodyJ = JSON.stringify({
+            nameA: "paul rudd",
+            moviesA: ["I Love You Man", "Role Models"]
+        });
+
+        var requestMethod = currStep.action;
+
+        const requestOptions = {
+            method: requestMethod,
+            headers: { 'Content-Type': 'application/json' },
+            body: bodyJ
+        };
+
+        const toastProperties = {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_RIGHT,
+            pauseOnFocusLoss: false
+        };
+
+        toast.warn("Sending", toastProperties);
+
+        fetch('https://reqres.in/api/users', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                toast.success("Sent successfully", toastProperties);
+                console.log("NG response: " + JSON.stringify(data));
+            }).catch(error => {
+                toast.error("Error sending write request", toastProperties);
+                console.error("NG error: ", error)
+            });
+
+    }
+
+    sendAllStepsToNg() {
         var generatedSteps = [];
         for (var index in this.context.data.currScenario.steps) {
             var currStep = this.context.data.currScenario.steps[index];
@@ -360,12 +399,27 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a className="action-btn" variant="outline-info" onClick={() => this.sendJsonToNG()}>
+                                                    <a className="action-btn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.state.openStepIndex)}>
+                                                        <i class="far fa-paper-plane fa-3x fa-flip-horizontal"></i>
+                                                    </a>}
+                                            >
+                                                <center>
+                                                    שלח צעד נוכחי
+                                                </center>
+                                            </Popup>
+
+                                            {/* creating the sending button, which sends the json to NG */}
+                                            <Popup
+                                                className="action-btn"
+                                                position="bottom center"
+                                                on="hover"
+                                                trigger={
+                                                    <a className="action-btn" variant="outline-info" onClick={() => this.sendAllStepsToNg()}>
                                                         <i class="fas fa-paper-plane fa-3x fa-flip-horizontal"></i>
                                                     </a>}
                                             >
                                                 <center>
-                                                    שלח בקשת כתיבה
+                                                    שלח הכל
                                                 </center>
                                             </Popup>
                                         </Col>

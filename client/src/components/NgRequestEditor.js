@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import {  Button, Form, Col, Row } from 'react-bootstrap';
+import { Button, Form, Col, Row } from 'react-bootstrap';
 import EntityEditor from './EntityEditor';
 import HummusContext, { HummusConsumer } from './HummusContext'
 import LinkingFieldsPopup from './LinkingFieldsPopup'
 import EntityMap from '../globals/EntityMap.json'
 import RealityMap from '../globals/RealityMap.json'
 import SystemMap from '../globals/SystemMap.json'
+import Popup from "reactjs-popup";
 
 import english_2 from '../jsonFormats/english_2.json'
 import math_2 from '../jsonFormats/math_2.json'
@@ -30,6 +31,7 @@ const Styles = styled.div`
 
 .field {
     margin-bottom: 20px;
+    width:91%;
 }
 
 `;
@@ -139,7 +141,7 @@ class NgRequestEditor extends React.Component {
     }
 
     addLink() {
-        this.context.data.currScenario.steps[this.state.openStepIndex].links.push(  { "fromStep": 0, "fromPath": "/Ids/name", "toPath": "/Ids/name" }  );
+        this.context.data.currScenario.steps[this.state.openStepIndex].links.push({ "fromStep": 0, "fromPath": "/Ids/name", "toPath": "/Ids/name" });
     }
 
     closePopup() {
@@ -261,12 +263,23 @@ class NgRequestEditor extends React.Component {
                                             }
                                         </Button>
 
-                                        <Button style={{ top: 70, right: 20, position: 'absolute' }} variant="outline-info" 
-                                                onClick={() => this.openLinkPopup()}>
-                                            {
-                                                <i class="fas fa-code"></i>
+
+
+                                        <Popup
+                                            className="action-btn"
+                                            position="bottom center"
+                                            on="hover"
+                                            style={{width:10, marginRight:200}}
+                                            trigger={
+                                                <Button style={{ top: 20, right: 60, position: 'absolute' }} variant="outline-info"
+                                                    onClick={() => this.openLinkPopup()}>
+                                                    {<i class="fas fa-sitemap"></i>}
+                                                </Button>
                                             }
-                                        </Button>
+                                        >
+                                            <center>
+a                                                </center>
+                                        </Popup>
 
                                         <EntityEditor
                                             parentPath=''
