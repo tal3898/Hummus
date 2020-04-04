@@ -28,11 +28,12 @@ const Styles = styled.div`
 .action-btn {
     margin-right: 20px;
     color: #607d8b;
+    font-size:30px;
+    cursor: pointer;
 }
 
 .action-btn:hover {
     color: #0091ea;
-    cursor: pointer;
 }
 
 .action-btn:active {
@@ -370,7 +371,7 @@ class Scenario extends React.Component {
                                                 on="hover"
                                                 trigger={
                                                     <a className="action-btn" variant="outline-info" onClick={() => this.openSavePopup()}>
-                                                        <i className="far fa-save fa-3x"></i>
+                                                        <i className="far fa-save"></i>
                                                     </a>}
                                             >
                                                 <center>
@@ -385,7 +386,7 @@ class Scenario extends React.Component {
                                                 on="hover"
                                                 trigger={
                                                     <a className="action-btn" variant="outline-info" onClick={() => this.openJsonPopup()}>
-                                                        <i className="fas fa-code fa-3x"></i>
+                                                        <i className="fas fa-code"></i>
                                                     </a>}
                                             >
                                                 <center>
@@ -400,7 +401,7 @@ class Scenario extends React.Component {
                                                 on="hover"
                                                 trigger={
                                                     <a className="action-btn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.state.openStepIndex)}>
-                                                        <i className="far fa-paper-plane fa-3x fa-flip-horizontal"></i>
+                                                        <i className="far fa-paper-plane fa-flip-horizontal"></i>
                                                     </a>}
                                             >
                                                 <center>
@@ -415,7 +416,7 @@ class Scenario extends React.Component {
                                                 on="hover"
                                                 trigger={
                                                     <a className="action-btn" variant="outline-info" onClick={() => this.sendAllStepsToNg()}>
-                                                        <i className="fas fa-paper-plane fa-3x fa-flip-horizontal"></i>
+                                                        <i className="fas fa-paper-plane fa-flip-horizontal"></i>
                                                     </a>}
                                             >
                                                 <center>
@@ -478,8 +479,8 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a className="plus-scenario-button" variant="outline-info" onClick={() => this.addStep()}>
-                                                        <i className="fas fa-plus fa-2x"></i>
+                                                    <a className="action-btn" variant="outline-info" onClick={() => this.addStep()}>
+                                                        <i className="fas fa-plus"></i>
                                                     </a>}
                                             >
                                                 <center>
@@ -492,8 +493,8 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a className="minus-scenario-button" style={{ marginRight: 20 }} variant="outline-info" onClick={() => this.removeStep()}>
-                                                        <i className="fas fa-minus fa-2x"></i>
+                                                    <a className="action-btn" style={{ marginRight: 20 }} variant="outline-info" onClick={() => this.removeStep()}>
+                                                        <i className="fas fa-minus"></i>
                                                     </a>}
                                             >
                                                 <center>
