@@ -84,7 +84,7 @@ class ScenariosWindow extends React.Component {
     var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], context.data.scenariosHierarchy);
     var folders = [];
     for (var key in currChildren) {
-      if (!currChildren[key].hasOwnProperty('steps')) {
+      if (currChildren[key] != 'file') {
         folders.push(key);
       }
     }
@@ -95,7 +95,7 @@ class ScenariosWindow extends React.Component {
     var currChildren = this.state.currPath.split('/').splice(1).reduce((o, n) => o[n], context.data.scenariosHierarchy);
     var files = [];
     for (var key in currChildren) {
-      if (currChildren[key].hasOwnProperty('steps')) {
+      if (currChildren[key] == 'file') {
         files.push(key);
       }
     }
