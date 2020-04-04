@@ -39,7 +39,7 @@ export const NavigationBar = () => {
         <a href="/" style={{ textDecoration: 'none' }}><span className="headline">HummusNG</span></a>
       </Col>
 
-      <i onClick={()=> setIsOpen(true)} style={{color:'#bbdefb', marginRight:40}} className="fas fa-align-justify fa-3x"></i>
+      <i id="scenariosListBtn" onClick={()=> setIsOpen(true)} style={{color:'#bbdefb', marginRight:40}} className="fas fa-align-justify fa-3x"></i>
 
       <ScenariosWindow 
         isOpen={isScenarioWindowOpen}

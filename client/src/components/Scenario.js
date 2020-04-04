@@ -370,7 +370,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a className="action-btn" variant="outline-info" onClick={() => this.openSavePopup()}>
+                                                    <a id="openSavePopupBtn" className="action-btn" variant="outline-info" onClick={() => this.openSavePopup()}>
                                                         <i className="far fa-save"></i>
                                                     </a>}
                                             >
@@ -385,7 +385,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a className="action-btn" variant="outline-info" onClick={() => this.openJsonPopup()}>
+                                                    <a id="showJsonBtn" className="action-btn" variant="outline-info" onClick={() => this.openJsonPopup()}>
                                                         <i className="fas fa-code"></i>
                                                     </a>}
                                             >
@@ -400,7 +400,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a className="action-btn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.state.openStepIndex)}>
+                                                    <a className="action-btn" id="sendStepBtn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.state.openStepIndex)}>
                                                         <i className="far fa-paper-plane fa-flip-horizontal"></i>
                                                     </a>}
                                             >
@@ -480,7 +480,7 @@ class Scenario extends React.Component {
                                                 on="hover"
                                                 trigger={
                                                     <a className="action-btn" variant="outline-info" onClick={() => this.addStep()}>
-                                                        <i className="fas fa-plus"></i>
+                                                        <i  id="addStepBtn" className="fas fa-plus"></i>
                                                     </a>}
                                             >
                                                 <center>
@@ -493,7 +493,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a className="action-btn" style={{ marginRight: 20 }} variant="outline-info" onClick={() => this.removeStep()}>
+                                                    <a  id="removeStepBtn" className="action-btn" style={{ marginRight: 20 }} variant="outline-info" onClick={() => this.removeStep()}>
                                                         <i className="fas fa-minus"></i>
                                                     </a>}
                                             >

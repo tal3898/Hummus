@@ -141,7 +141,7 @@ class SaveScenarioPopup extends React.Component {
                     <div>
                         <Row style={{ marginLeft: 0, marginTop: 7, marginBottom: 20 }}>
                             <Col lg="5">
-                                <i className="far fa-save fa-3x" onClick={() => this.save()}></i>
+                                <i id="saveScenarioBtn" className="far fa-save fa-3x" onClick={() => this.save()}></i>
                             </Col>
                             <Col>
                                 <Form.Label style={{ fontSize: 30, marginBottom: 1 }}>בחר תקייה</Form.Label>

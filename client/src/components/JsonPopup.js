@@ -103,7 +103,7 @@ class JsonPopup extends React.Component {
                     <div className='json-popup'>
                         <Row style={{ marginBottom: 20, marginLeft: 3, marginTop: 10 }}>
                             <Col>
-                                <i onClick={() => this.copyToClipboard()} className="far fa-copy fa-3x"></i>
+                                <i id="copyJsonBtn" onClick={() => this.copyToClipboard()} className="far fa-copy fa-3x"></i>
 
 
                             </Col>
