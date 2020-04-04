@@ -25,6 +25,15 @@ const Styles = styled.div`
     height:70px;
   }
 
+  .nav-button {
+    color: #bbdefb;
+    margin-right: 40px;
+    cursor: pointer;
+    &:hover {
+      color: #90caf9;
+    }
+  }
+  
   .code-style {
     background-color: #f7f7f7;
     color: #dd1144;
@@ -79,9 +88,10 @@ export const NavigationBar = () => {
         </Col>
 
 
-        <i id="scenariosListBtn" onClick={() => setIsOpen()} style={{ color: '#bbdefb', marginRight: 40 }} className="fas fa-align-justify fa-3x"></i>
 
-        <i onClick={() => openShortCutsPopup(true)} style={{ color: '#bbdefb', marginRight: 40 }} className="fas fa-cog fa-3x"></i>
+        <i onClick={() => openShortCutsPopup(true)} className="nav-button fas fa-cog fa-3x"></i>
+
+        <i id="scenariosListBtn" onClick={() => setIsOpen(true)} className="nav-button fas fa-align-justify fa-3x"></i>
 
 
         <Popup
@@ -96,7 +106,7 @@ export const NavigationBar = () => {
             </center>
           </div>
 
-          <div style={{marginBottom:15}}>
+          <div style={{ marginBottom: 15 }}>
             <center>
               <table dir="rtl" style={{ width: '75%' }}>
                 {getShortcuts()}
