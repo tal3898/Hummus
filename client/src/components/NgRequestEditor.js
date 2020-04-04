@@ -83,33 +83,6 @@ class NgRequestEditor extends React.Component {
         this.context.data.currScenario.steps[this.state.openStepIndex].version = '2';
 
         this.context.data.currScenario.steps[this.state.openStepIndex].fullJsonToEdit = JSON.stringify(english_2);
-
-        //
-
-        this.context.data.currScenario.steps[1].jsonMap = {
-            "אנגלית": {
-                "2": JSON.stringify(english_2),
-                "X": JSON.stringify(english_x)
-            },
-            "חשבון": {
-                "2": JSON.stringify(math_2),
-                "X": JSON.stringify(math_x)
-            },
-            "כמיה": {
-                "2": JSON.stringify(chemistry_2),
-                "X": JSON.stringify(chemistry_x),
-            }
-        }
-
-        this.context.data.currScenario.steps[1].jsonToEdit = JSON.stringify(english_2);
-        this.context.data.currScenario.steps[1].entity = 'English';
-        this.context.data.currScenario.steps[1].system = 'Tal';
-        this.context.data.currScenario.steps[1].reality = '0';
-        this.context.data.currScenario.steps[1].action = 'POST';
-        this.context.data.currScenario.steps[1].version = '2';
-
-        this.context.data.currScenario.steps[1].fullJsonToEdit = JSON.stringify(english_2);
-
     }
 
     getFullRequestJson() {
