@@ -29,6 +29,24 @@ app.get('/scenario', async (req, res) => {
 	db.close();
 });
 
+app.post('/folder', async (req, res) => {
+
+	var scenarioDocument = req.body;
+	
+	var db = await MongoClient.connect(dbUrl);
+	var dbo = db.db("HummusDB");
+	
+	// Insert the folder to the folder hirechical
+	var pathWithDots = req.body.path.replace('/','').split('/').join('.');
+	var updateQuery = {};
+	updateQuery[pathWithDots] = {} ;
+
+	await dbo.collection("scenario").update({}, {'$set': updateQuery });
+
+	res.json({response: 'saved in db'});
+
+	db.close();
+});
 
 app.post('/scenario', async (req, res) => {
 
@@ -43,7 +61,7 @@ app.post('/scenario', async (req, res) => {
 	// Insert the scenario to the folder hirechical
 	var pathWithDots = req.body.path.replace('/','').split('/').join('.');
 	var updateQuery = {};
-	updateQuery[pathWithDots] = { steps: []};
+	updateQuery[pathWithDots] = 'file' ;
 
 	await dbo.collection("scenario").update({}, {'$set': updateQuery });
 	

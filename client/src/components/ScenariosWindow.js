@@ -2,6 +2,7 @@ import React, { useState, Children } from 'react';
 import styled from 'styled-components';
 import { Form, Col, Row, InputGroup } from 'react-bootstrap';
 import HummusContext, { HummusConsumer } from './HummusContext'
+import SaveFolderPopup from './SaveFolderPopup'
 
 const Styles = styled.div`
 
@@ -54,7 +55,8 @@ class ScenariosWindow extends React.Component {
     super(props);
 
     this.state = {
-      currPath: ''
+      currPath: '',
+      isSavePopupOpen: false
     }
   }
 
@@ -176,6 +178,16 @@ class ScenariosWindow extends React.Component {
   }
   //#endregion
 
+  openNewFolderPopup() {
+    this.state.isSavePopupOpen = true;
+    this.setState(this.state);
+  }
+
+  closePopup() {
+    this.state.isSavePopupOpen = false;
+    this.setState(this.state);
+  }
+
   render() {
     return (<Styles>
 
@@ -184,12 +196,20 @@ class ScenariosWindow extends React.Component {
         <header style={{ marginBottom: 0 }} className="w3-container w3-blue header">
           <h1 className="headline" >תרחישים</h1>
 
-          
-          <Form.Group style={{marginBottom:0, marginLeft:0, width:'100%'}} md="4" controlId="validationCustomUsername">
+          <i style={{ color: '#66bb6a', cursor: 'pointer', marginLeft: 15, marginTop: 15, fontSize: 55, }}
+            class="fas fa-plus"
+            onClick={() => this.openNewFolderPopup()}></i>
+
+          <SaveFolderPopup
+            onClose={() => this.closePopup()}
+            folderHierarchy={this.context.scenariosHierarchy}
+            isOpen={this.state.isSavePopupOpen} />
+
+          <Form.Group style={{ marginBottom: 0, marginLeft: 0, width: '100%' }} md="4" controlId="validationCustomUsername">
             <InputGroup>
-              
+
               <InputGroup.Prepend>
-                <InputGroup.Text style={{borderRadius:0}} id="inputGroupPrepend">path</InputGroup.Text>
+                <InputGroup.Text style={{ borderRadius: 0 }} id="inputGroupPrepend">path</InputGroup.Text>
               </InputGroup.Prepend>
 
               <Form.Control
@@ -200,7 +220,7 @@ class ScenariosWindow extends React.Component {
                 aria-describedby="inputGroupPrepend"
                 required
               />
-              <InputGroup.Prepend style={{marginLeft:-2}}>
+              <InputGroup.Prepend style={{ marginLeft: -2 }}>
 
                 <InputGroup.Text onClick={() => this.goBack()} className="back-button" id="inputGroupPrepend">
                   <i className="fas fa-undo-alt"></i>
