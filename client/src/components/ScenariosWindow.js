@@ -4,6 +4,7 @@ import { Form, Col, Row, InputGroup } from 'react-bootstrap';
 import HummusContext, { HummusConsumer } from './HummusContext'
 import SaveFolderPopup from './SaveFolderPopup'
 import SlidingPanel from 'react-sliding-side-panel';
+import Logo from './logo.png'
 
 const Styles = styled.div`
 .panel-container {
@@ -15,6 +16,7 @@ const Styles = styled.div`
   justify-content: center;
   flex-direction: column;
 }
+
 
 .headline {
   float: right;
@@ -40,14 +42,27 @@ const Styles = styled.div`
 .field {
   cursor: pointer;
   height:40px;
+  width:100%
   &:hover { 
-    background: #bbdefb; 
+    background: #016795; 
   }
+}
+
+.font {
+  color:#bbdefb;
+  font-size: 25px;
+  margin-top: 1px;
+}
+
+
+
+.back-button {
+  cursor: pointer;
+  color: #424242;
 }
 
 .back-button:hover {
   color: #212121;
-  cursor: pointer;
 }
 
 .w3-card-4 {
@@ -78,7 +93,7 @@ class ScenariosWindow extends React.Component {
     this.state = {
       currPath: '',
       isSavePopupOpen: false,
-      isOpen: false
+      isOpen: true
     }
 
     this.onCloseCallback = props.onClose;
@@ -136,8 +151,8 @@ class ScenariosWindow extends React.Component {
             <i style={{ marginTop: 5, color: '#ffa726' }} className="action fas fa-folder-open fa-2x"></i>
           </center>
         </Col>
-        <Col style={{ fontSize: 25, marginTop: 1 }} lg="1">
-          {folderName}
+        <Col lg="1" className="font">
+            {folderName}
         </Col>
       </Row>
     )
@@ -151,7 +166,7 @@ class ScenariosWindow extends React.Component {
             <i style={{ marginTop: 5, color: '#90a4ae' }} className="action fas fa-file fa-2x"></i>
           </center>
         </Col>
-        <Col style={{ fontSize: 25, marginTop: 1 }} lg="1">
+        <Col lg="1" className="font">
           {fileName}
         </Col>
       </Row>
@@ -174,8 +189,7 @@ class ScenariosWindow extends React.Component {
         this.context.data.currScenario = data;
         this.context.updateData(this.context);
 
-        //this.data.scenariosHierarchy = data;
-        //this.setState()
+        this.closePanel();
 
       }).catch(error => {
         console.log(' error while getting scenarios')
@@ -194,7 +208,7 @@ class ScenariosWindow extends React.Component {
       return totalItems;
     } else {
       return (
-        <center style={{ marginTop: 200, fontSize: 40, color: '#b0bec5' }}>
+        <center style={{ marginTop: 300, fontSize: 50, color: '#b0bec5' }}>
           Folder is empty
         </center>
       )
@@ -236,7 +250,24 @@ class ScenariosWindow extends React.Component {
           this.closePanel();
         }}>
 
-        <div className="panel-container">
+        <div style={{ background: '#1B2431', height: '100%' }}>
+
+          <div style={{ height: 170, background: '#1E488F' ,paddingTop:10}}>
+            <center >
+              <img className="logo" src={Logo} />
+              <h1>תרחישים</h1>
+            </center>
+
+
+            <div style={{ paddingLeft:10, marginLeft: 15, backgroundColor: '#2E5A88', borderRadius: 10, width: '90%' }}>
+              <i onClick={() => this.goBack()} style={{ fontSize: 20, marginRight: 12 }} className="back-button fas fa-undo-alt"></i>
+              <span style={{ fontSize: 20 }}>
+                {(this.state.currPath.length > 0 && this.state.currPath) ||
+                  '/'}
+              </span>
+            </div>
+          </div>
+
           <HummusConsumer>
             {(value) =>
               this.getWindowContent(value)

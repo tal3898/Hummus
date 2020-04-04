@@ -7,7 +7,7 @@ import ScenariosWindow from './ScenariosWindow';
 
 const Styles = styled.div`
   .navbar { 
-    background-color: #1e88e5; 
+    background-color: #1B2431; 
     height: 100px;
   }
 
@@ -18,6 +18,7 @@ const Styles = styled.div`
     &:hover { color: #bbdefb; }
   }
 
+
   .logo {
     margin-left:10px;
     width:70px;
@@ -26,7 +27,7 @@ const Styles = styled.div`
 
 `;
 export const NavigationBar = () => {
-  const [isScenarioWindowOpen, setIsOpen] = React.useState(false);
+  const [isScenarioWindowOpen, setIsOpen] = React.useState(true);
 
   return (
   <Styles>
@@ -38,7 +39,7 @@ export const NavigationBar = () => {
         <a href="/" style={{ textDecoration: 'none' }}><span className="headline">HummusNG</span></a>
       </Col>
 
-      <i onClick={()=> setIsOpen(true)} style={{marginRight:40}} className="fas fa-align-justify fa-3x"></i>
+      <i onClick={()=> setIsOpen(true)} style={{color:'#bbdefb', marginRight:40}} className="fas fa-align-justify fa-3x"></i>
 
       <ScenariosWindow 
         isOpen={isScenarioWindowOpen}
