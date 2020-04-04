@@ -3,7 +3,7 @@ import { Nav, Navbar, Form, FormControl, Col, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import Logo from './logo.png'
 import ScenariosWindow from './ScenariosWindow';
-
+import Popup from "reactjs-popup";
 
 const Styles = styled.div`
   .navbar { 
@@ -25,27 +25,91 @@ const Styles = styled.div`
     height:70px;
   }
 
+  .code-style {
+    background-color: #f7f7f7;
+    color: #dd1144;
+    fontFamily: monospace,monospace;
+    margin-bottom: 10px;
+  }
+
+  .shortcut-desc {
+    padding-bottom:12px;
+    font-size:20px;   
+  }
 `;
 export const NavigationBar = () => {
   const [isScenarioWindowOpen, setIsOpen] = React.useState(false);
+  const [isShortcutPopupOpen, setIsShortcutPopupOpen] = React.useState(false);
+
+  const openShortCutsPopup = () => {
+    setIsShortcutPopupOpen(true);
+  };
+
+  const getShortcuts = () => {
+    var shortcutsMap = {
+      "פתיחת חלון תרחישים": "ctrl + q",
+      "שליחת צעד": "ctrl + alt + d",
+      "שליחת תרחיש": "ctlr + alt + shift + d",
+      "expand/collapse all": "ctrl + b",
+      "פתיחת חלון שמירת תרחיש": "ctrl + alt + o",
+      "שמירת תרחיש": "atrl + alt + s",
+    };
+
+    var items = []
+    for (var key in shortcutsMap) {
+      items.push(
+        <tr className="shortcut-desc">
+          <td >{key}</td>
+          <td><span className="code-style" >{shortcutsMap[key]}</span></td>
+        </tr>
+      )
+    }
+
+    return items;
+  }
 
   return (
-  <Styles>
-    <Row className="navbar">
-      <Col lg="0">
-        <a href="/" style={{ textDecoration: 'none' }}><img className="logo" src={Logo} /></a>
-      </Col>
-      <Col >
-        <a href="/" style={{ textDecoration: 'none' }}><span className="headline">HummusNG</span></a>
-      </Col>
+    <Styles>
+      <Row className="navbar">
+        <Col lg="0">
+          <a href="/" style={{ textDecoration: 'none' }}><img className="logo" src={Logo} /></a>
+        </Col>
+        <Col >
+          <a href="/" style={{ textDecoration: 'none' }}><span className="headline">HummusNG</span></a>
+        </Col>
 
-      <i id="scenariosListBtn" onClick={()=> setIsOpen(true)} style={{color:'#bbdefb', marginRight:40}} className="fas fa-align-justify fa-3x"></i>
 
-      <ScenariosWindow 
-        isOpen={isScenarioWindowOpen}
-        onClose={()=> setIsOpen(false)}
-      />
-    </Row>
-  </Styles>
+        <i id="scenariosListBtn" onClick={() => setIsOpen()} style={{ color: '#bbdefb', marginRight: 40 }} className="fas fa-align-justify fa-3x"></i>
+
+        <i onClick={() => openShortCutsPopup(true)} style={{ color: '#bbdefb', marginRight: 40 }} className="fas fa-cog fa-3x"></i>
+
+
+        <Popup
+          open={isShortcutPopupOpen}
+          onClose={() => setIsShortcutPopupOpen(false)}
+          modal
+          closeOnDocumentClick
+        >
+          <div style={{ fontSize: 40, marginBottom: 25 }}>
+            <center>
+              shortcuts
+            </center>
+          </div>
+
+          <div style={{marginBottom:15}}>
+            <center>
+              <table dir="rtl" style={{ width: '75%' }}>
+                {getShortcuts()}
+              </table>
+            </center>
+          </div>
+        </Popup>
+
+        <ScenariosWindow
+          isOpen={isScenarioWindowOpen}
+          onClose={() => setIsOpen(false)}
+        />
+      </Row>
+    </Styles>
   )
 }
