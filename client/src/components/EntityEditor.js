@@ -40,11 +40,11 @@ const Styles = styled.div`
     }
 
     .info-txt {
-        font-size:12px;
+        font-size:13px;
     }
 
     .info-field-path-txt {
-        font-size:15px;
+        font-size:12px;
     }
 
     .fa-trash-alt {
@@ -421,6 +421,8 @@ class EntityEditor extends React.Component {
     }
 
     createInfoPopup(key, infoIndex) {
+        var parentCleanPath = this.state.parentPath.split('/').map(subKey=> subKey.split('|')[0] ).join('/');
+        var fieldName = key.split('|')[0];
         return (
             <div className="field-component">
                 <Popup
@@ -438,7 +440,7 @@ class EntityEditor extends React.Component {
                             <hr style={{ margin: 2 }} />}
 
                         <center className="info-field-path-txt">
-                            {this.state.parentPath + '/' + key}
+                            {parentCleanPath + '/' + fieldName}
                         </center>
                     </div>
                 </Popup>
