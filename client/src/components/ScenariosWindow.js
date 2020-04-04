@@ -17,7 +17,15 @@ const Styles = styled.div`
 
 .field {
   height:40px;
-  &:hover { background: #bbdefb; }
+  &:hover { 
+    background: #bbdefb; 
+    cursor: pointer;
+  }
+}
+
+.back-button:hover {
+  color: #212121;
+  cursor: pointer;
 }
 
 .w3-card-4 {

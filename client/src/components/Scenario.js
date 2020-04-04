@@ -32,6 +32,7 @@ const Styles = styled.div`
 
 .action-btn:hover {
     color: #0091ea;
+    cursor: pointer;
 }
 
 .action-btn:active {
@@ -47,11 +48,17 @@ const Styles = styled.div`
 
 .plus-scenario-button {
 
-    &:hover { color: #bbdefb; }
+    &:hover { 
+        color: #bbdefb; 
+        cursor: pointer;
+    }
 }
 
 .minus-scenario-button {
-    &:hover { color: #bbdefb; }
+    &:hover { 
+        color: #bbdefb; 
+        cursor: pointer;
+    }
 
 }
 

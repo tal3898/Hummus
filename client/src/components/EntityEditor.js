@@ -53,18 +53,22 @@ const Styles = styled.div`
 
     .fa-trash-alt:hover {
         color: #d32f2f;
+        cursor: pointer;
     }
     
     .fa-dice:hover {
         color: #388e3c;
+        cursor: pointer;
     }
 
     .fa-clock:hover {
         color: #2196f3;
+        cursor: pointer;
     }
 
     .fa-plus:hover {
         color: #66bb6a;
+        cursor: pointer;
     }
 
     .fa-info-circle:hover {
