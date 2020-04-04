@@ -191,17 +191,21 @@ class EntityEditor extends React.Component {
         return convertJsonTemplateToActualJson(this.state.json);
     }
 
+    // TODO: check if still need the fieldsInput
+
     insertTimeNowToField(key) {
         this.fieldsInput[key].value = '{iso}'
+        this.changeField(key, '{iso}');
     }
 
     insertGenerateWordToField(key) {
         this.fieldsInput[key].value = '{text}'
+        this.changeField(key, '{text}');
     }
 
     //#region data changed functions
-    changeField(event, key) {
-        this.state.json[key] = event.target.value;
+    changeField(key, value) {
+        this.state.json[key] = value;
         this.updateJson('change');
     }
 
@@ -380,7 +384,7 @@ class EntityEditor extends React.Component {
                         <Form.Control
                             ref={(ref) => this.fieldsInput[key] = ref}
                             name={key}
-                            onChange={(event) => this.changeField(event, key)}
+                            onChange={(event) => this.changeField(key, event.target.value)}
                             defaultValue={defaultValue}
                             size="sm"
                             type={this.inputTypesMap[keyType]}
