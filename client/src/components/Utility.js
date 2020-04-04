@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 /**
-   * The method gets a json that the keys format are with |..|..|, and values or dynamic, like {text}, or [NOW], or enum.
+   * The method gets a json that the keys format are with |..|..|, and values or dynamic, like {text}, or {iso}, or enum.
    * so the method gets the json, and convert it to a normal json, when keys are only the name of the keys,
    * and values or normal values.
    * @param {*} json 
@@ -12,7 +12,7 @@ const getFieldFinalValue = (key, fieldValue) => {
     var finalValue = fieldValue;
     var fieldType = key.split('|')[1];
 
-    if (fieldValue == '[NOW]') {
+    if (fieldValue == '{iso}') {
         finalValue = new Date().toISOString();;
     } else if (fieldValue == '{text}') {
         var randomString = "";

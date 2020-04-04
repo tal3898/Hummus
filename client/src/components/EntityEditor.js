@@ -192,7 +192,7 @@ class EntityEditor extends React.Component {
     }
 
     insertTimeNowToField(key) {
-        this.fieldsInput[key].value = '[NOW]'
+        this.fieldsInput[key].value = '{iso}'
     }
 
     insertGenerateWordToField(key) {

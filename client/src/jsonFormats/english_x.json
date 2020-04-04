@@ -13,6 +13,6 @@
 	"X_Planing": [{
 		"X_Goal|string": "learn piano",
 		"X_Way|string": "play piano",
-		"X_Time|time": "[NOW]"
+		"X_Time|time": "{iso}"
 	}]
 }
