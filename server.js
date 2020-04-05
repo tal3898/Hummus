@@ -18,8 +18,8 @@ app.get('/folder', async (req, res) => {
 
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db("HummusDB");
-	var result = await dbo.collection("scenario").findOne({}, {_id:0});
-	
+	var result = await dbo.collection("scenario").findOne({}, { _id: 0 });
+
 	console.log('restult is ' + JSON.stringify(result))
 	res.json(result);
 
@@ -27,36 +27,36 @@ app.get('/folder', async (req, res) => {
 });
 
 app.post('/folder', async (req, res) => {
-	
+
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db("HummusDB");
-	
+
 	// Insert the folder to the folder hirechical
-	var pathWithDots = req.body.path.replace('/','').split('/').join('.');
+	var pathWithDots = req.body.path.replace('/', '').split('/').join('.');
 	var updateQuery = {};
-	updateQuery[pathWithDots] = {} ;
+	updateQuery[pathWithDots] = {};
 
-	await dbo.collection("scenario").update({}, {'$set': updateQuery });
+	await dbo.collection("scenario").update({}, { '$set': updateQuery });
 
-	res.json({response: 'saved in db'});
+	res.json({ response: 'saved in db' });
 
 	db.close();
 });
 
 app.delete('/folder', async (req, res) => {
 
-	
+
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db("HummusDB");
-	
+
 	// Insert the folder to the folder hirechical
-	var pathWithDots = req.body.path.replace('/','').split('/').join('.');
+	var pathWithDots = req.body.path.replace('/', '').split('/').join('.');
 	var updateQuery = {};
-	updateQuery[pathWithDots] = {} ;
+	updateQuery[pathWithDots] = {};
 
-	await dbo.collection("scenario").update({}, {'$unset': updateQuery });
+	await dbo.collection("scenario").update({}, { '$unset': updateQuery });
 
-	res.json({response: 'saved in db'});
+	res.json({ response: 'saved in db' });
 
 	db.close();
 });
@@ -66,22 +66,22 @@ app.delete('/folder', async (req, res) => {
 app.post('/scenario', async (req, res) => {
 
 	var scenarioDocument = req.body;
-	
+
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db("HummusDB");
-	
+
 	// Insert the actual scenario
 	await dbo.collection("scenarioFiles").insertOne(scenarioDocument);
 
 	// Insert the scenario to the folder hirechical
-	var pathWithDots = req.body.path.replace('/','').split('/').join('.');
+	var pathWithDots = req.body.path.replace('/', '').split('/').join('.');
 	var updateQuery = {};
-	updateQuery[pathWithDots] = 'file' ;
+	updateQuery[pathWithDots] = 'file';
 
-	await dbo.collection("scenario").update({}, {'$set': updateQuery });
-	
+	await dbo.collection("scenario").update({}, { '$set': updateQuery });
 
-	res.json({response: 'saved in db'});
+
+	res.json({ response: 'saved in db' });
 
 	db.close();
 });
@@ -89,14 +89,36 @@ app.post('/scenario', async (req, res) => {
 app.post('/scenarioFile', async (req, res) => {
 
 	var wantedScenarioPath = req.body.path;
-	
+
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db("HummusDB");
 
 
-	var result = await dbo.collection("scenarioFiles").findOne({path: wantedScenarioPath}, {_id:0});
-	
-	
+	var result = await dbo.collection("scenarioFiles").findOne({ path: wantedScenarioPath }, { _id: 0 });
+
+
+
+	res.json(result);
+
+	db.close();
+});
+
+app.delete('/scenarioFile', async (req, res) => {
+
+	var wantedScenarioPath = req.body.path;
+
+	var db = await MongoClient.connect(dbUrl);
+	var dbo = db.db("HummusDB");
+
+	// remove from the scenarioFiles collection
+	var result = await dbo.collection("scenarioFiles").remove({ path: wantedScenarioPath });
+
+	// remove from the hierarchy
+	var pathWithDots = req.body.path.replace('/', '').split('/').join('.');
+	var updateQuery = {};
+	updateQuery[pathWithDots] = {};
+
+	await dbo.collection("scenario").update({}, { '$unset': updateQuery });
 
 	res.json(result);
 

@@ -157,8 +157,8 @@ class ScenariosWindow extends React.Component {
   }
   //#endregion
 
-  removeFileOrFolderFromHierarchy(name, afterDeleteCallback) {
-    var fullPath = this.state.currPath + "/" + name;
+  removeFolder(folderName) {
+    var fullPath = this.state.currPath + "/" + folderName;
     var body = {
       path: fullPath
     }
@@ -180,9 +180,38 @@ class ScenariosWindow extends React.Component {
       .then(data => {
         toast.success("Deleted successfully", toastProperties);
 
-        if (afterDeleteCallback) {
-          afterDeleteCallback();
-        }
+        this.context.loadFolderHiierarchy((data) => {
+          this.context.data.scenariosHierarchy = data;
+          this.context.updateData(this.context);
+        });
+
+      }).catch(error => {
+        toast.error("Error occurred while deleting", toastProperties);
+      });
+  }
+
+  removeFile(fileName) {
+    var fullPath = this.state.currPath + "/" + fileName;
+    var body = {
+      path: fullPath
+    }
+
+    const requestOptions = {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    };
+
+    const toastProperties = {
+      autoClose: 2000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+      pauseOnFocusLoss: false
+    };
+
+    fetch('/scenarioFile', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        toast.success("Deleted successfully", toastProperties);
 
         this.context.loadFolderHiierarchy((data) => {
           this.context.data.scenariosHierarchy = data;
@@ -207,7 +236,7 @@ class ScenariosWindow extends React.Component {
           {folderName}
         </Col>
         <Col>
-          <i onClick={(event) => {this.removeFileOrFolderFromHierarchy(folderName); event.stopPropagation();}} class="fas fa-trash"></i>
+          <i onClick={(event) => { this.removeFolder(folderName); event.stopPropagation(); }} class="fas fa-trash"></i>
         </Col>
       </Row>
     )
@@ -227,6 +256,9 @@ class ScenariosWindow extends React.Component {
         </Col>
         <Col lg="1" className="font">
           {fileName}
+        </Col>
+        <Col>
+          <i onClick={(event) => { this.removeFile(fileName); event.stopPropagation(); }} class="fas fa-trash"></i>
         </Col>
       </Row>
 
