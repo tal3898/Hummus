@@ -12,9 +12,10 @@ ReactDOM.render(<App />, document.getElementById('root'));
 serviceWorker.unregister();
 
 document.onkeyup = function (e) {
-    if (e.keyCode == 77) {
-        alert("M key was pressed");
-    } else if (e.ctrlKey && e.keyCode == 66) {
+    if (e.keyCode == 8) {
+        // back
+        document.getElementById("goBackBtn").click();
+    } if (e.ctrlKey && e.keyCode == 66) {
         // ctrl + b
         document.getElementById("expandAllBtn").click();
     } else if (e.ctrlKey && e.which == 81) {

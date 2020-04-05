@@ -44,8 +44,6 @@ app.post('/folder', async (req, res) => {
 });
 
 app.delete('/folder', async (req, res) => {
-
-
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db("HummusDB");
 
@@ -59,7 +57,6 @@ app.delete('/folder', async (req, res) => {
 	var startWithFolderNameRegex = '^' + req.body.path + '/';
 	await dbo.collection("scenarioFiles").remove({ path: { '$regex': startWithFolderNameRegex } });
 	
-
 	res.json({ response: 'saved in db' });
 
 	db.close();

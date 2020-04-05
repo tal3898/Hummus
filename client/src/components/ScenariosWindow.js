@@ -360,7 +360,7 @@ class ScenariosWindow extends React.Component {
 
 
             <div style={{ paddingLeft: 10, marginLeft: 15, backgroundColor: '#2E5A88', borderRadius: 10, width: '90%' }}>
-              <i onClick={() => this.goBack()} style={{ fontSize: 20, marginRight: 12 }} className="back-button fas fa-undo-alt"></i>
+              <i id="goBackBtn" onClick={() => this.goBack()} style={{ fontSize: 20, marginRight: 12 }} className="back-button fas fa-undo-alt"></i>
               <span style={{ fontSize: 20 }}>
                 {(this.state.currPath.length > 0 && this.state.currPath) ||
                   '/'}

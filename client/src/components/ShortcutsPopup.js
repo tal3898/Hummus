@@ -31,6 +31,7 @@ class ShortcutsPopup extends React.Component {
                 "expand/collapse all": "ctrl + b",
                 "פתיחת חלון שמירת תרחיש": "ctrl + alt + o",
                 "שמירת תרחיש": "atrl + alt + s",
+                "חזרה אחורה בתיקיות": "Backspace->"
             }
         };
 
