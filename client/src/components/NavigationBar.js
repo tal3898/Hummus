@@ -49,9 +49,13 @@ export const NavigationBar = () => {
           <a href="/" style={{ textDecoration: 'none' }}><span className="headline">HummusNG</span></a>
         </Col>
 
+        <p style={{fontSize:20, color: '#bbdefb', cursor:'pointer', marginRight:30, marginTop:10}}>כניסה</p>
+
         <i onClick={() => setIsShortcutPopupOpen(true)} className="nav-button fas fa-cog fa-3x"></i>
 
         <i id="scenariosListBtn" onClick={() => setIsOpen(true)} className="nav-button fas fa-align-justify fa-3x"></i>
+
+        
 
         <ShortcutsPopup isOpen={isShortcutPopupOpen} onClose={()=> setIsShortcutPopupOpen(false)}/>
 
