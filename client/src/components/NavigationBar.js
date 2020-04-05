@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Logo from './logo.png'
 import ScenariosWindow from './ScenariosWindow';
 import Popup from "reactjs-popup";
+import ShortcutsPopup from './ShortcutsPopup'
 
 const Styles = styled.div`
   .navbar { 
@@ -33,49 +34,10 @@ const Styles = styled.div`
       color: #90caf9;
     }
   }
-  
-  .code-style {
-    background-color: #f7f7f7;
-    color: #dd1144;
-    fontFamily: monospace,monospace;
-    margin-bottom: 10px;
-  }
-
-  .shortcut-desc {
-    padding-bottom:12px;
-    font-size:20px;   
-  }
 `;
 export const NavigationBar = () => {
   const [isScenarioWindowOpen, setIsOpen] = React.useState(false);
   const [isShortcutPopupOpen, setIsShortcutPopupOpen] = React.useState(false);
-
-  const openShortCutsPopup = () => {
-    setIsShortcutPopupOpen(true);
-  };
-
-  const getShortcuts = () => {
-    var shortcutsMap = {
-      "פתיחת חלון תרחישים": "ctrl + q",
-      "שליחת צעד": "ctrl + alt + d",
-      "שליחת תרחיש": "ctlr + alt + shift + d",
-      "expand/collapse all": "ctrl + b",
-      "פתיחת חלון שמירת תרחיש": "ctrl + alt + o",
-      "שמירת תרחיש": "atrl + alt + s",
-    };
-
-    var items = []
-    for (var key in shortcutsMap) {
-      items.push(
-        <tr className="shortcut-desc">
-          <td >{key}</td>
-          <td><span className="code-style" >{shortcutsMap[key]}</span></td>
-        </tr>
-      )
-    }
-
-    return items;
-  }
 
   return (
     <Styles>
@@ -87,33 +49,11 @@ export const NavigationBar = () => {
           <a href="/" style={{ textDecoration: 'none' }}><span className="headline">HummusNG</span></a>
         </Col>
 
-
-
-        <i onClick={() => openShortCutsPopup(true)} className="nav-button fas fa-cog fa-3x"></i>
+        <i onClick={() => setIsShortcutPopupOpen(true)} className="nav-button fas fa-cog fa-3x"></i>
 
         <i id="scenariosListBtn" onClick={() => setIsOpen(true)} className="nav-button fas fa-align-justify fa-3x"></i>
 
-
-        <Popup
-          open={isShortcutPopupOpen}
-          onClose={() => setIsShortcutPopupOpen(false)}
-          modal
-          closeOnDocumentClick
-        >
-          <div style={{ fontSize: 40, marginBottom: 25 }}>
-            <center>
-              shortcuts
-            </center>
-          </div>
-
-          <div style={{ marginBottom: 15 }}>
-            <center>
-              <table dir="rtl" style={{ width: '75%' }}>
-                {getShortcuts()}
-              </table>
-            </center>
-          </div>
-        </Popup>
+        <ShortcutsPopup isOpen={isShortcutPopupOpen} onClose={()=> setIsShortcutPopupOpen(false)}/>
 
         <ScenariosWindow
           isOpen={isScenarioWindowOpen}
