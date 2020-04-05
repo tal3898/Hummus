@@ -308,7 +308,7 @@ class ScenariosWindow extends React.Component {
       return totalItems;
     } else {
       return (
-        <center style={{ marginTop: 300, fontSize: 50, color: '#b0bec5' }}>
+        <center style={{ marginTop: 300, fontSize: 50, color: '#b0bec5', fontFamily:'"Lucida Sans Unicode", "Lucida Grande", sans-serif' }}>
           Folder is empty
         </center>
       )
