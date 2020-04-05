@@ -12,8 +12,8 @@ ReactDOM.render(<App />, document.getElementById('root'));
 serviceWorker.unregister();
 
 document.onkeyup = function (e) {
-    if (e.keyCode == 8) {
-        // back
+    if (e.ctrlKey && e.keyCode == 8) {
+        // ctrl + back
         document.getElementById("goBackBtn").click();
     } if (e.ctrlKey && e.keyCode == 66) {
         // ctrl + b
