@@ -241,8 +241,10 @@ class ScenariosWindow extends React.Component {
             <i style={{ marginTop: 5, color: '#ffa726' }} className="action fas fa-folder-open fa-2x"></i>
           </center>
         </Col>
-        <Col lg="1" className="font">
-          {folderName}
+        <Col lg="8" className="font">
+          <span style={{ float: 'right' }}>
+            {folderName}
+          </span>
         </Col>
         <Col>
           <i onClick={(event) => { this.removeFolder(folderName); event.stopPropagation(); }} class="fas fa-trash"></i>
@@ -263,8 +265,10 @@ class ScenariosWindow extends React.Component {
             <i style={{ marginTop: 5, color: '#90a4ae' }} className="action fas fa-file fa-2x"></i>
           </center>
         </Col>
-        <Col lg="1" className="font">
-          {fileName}
+        <Col lg="8" className="font">
+          <span style={{ float: 'right' }}>
+            {fileName}
+          </span>
         </Col>
         <Col>
           <i onClick={(event) => { this.removeFile(fileName); event.stopPropagation(); }} class="fas fa-trash"></i>
@@ -308,7 +312,7 @@ class ScenariosWindow extends React.Component {
       return totalItems;
     } else {
       return (
-        <center style={{ marginTop: 300, fontSize: 50, color: '#b0bec5', fontFamily:'"Lucida Sans Unicode", "Lucida Grande", sans-serif' }}>
+        <center style={{ marginTop: 300, fontSize: 50, color: '#b0bec5', fontFamily: '"Lucida Sans Unicode", "Lucida Grande", sans-serif' }}>
           Folder is empty
         </center>
       )
