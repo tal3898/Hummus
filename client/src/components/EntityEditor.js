@@ -47,11 +47,11 @@ const Styles = styled.div`
         font-size:12px;
     }
 
-    .fa-trash-alt {
+    .fa-trash {
         margin-left:40px;
     }
 
-    .fa-trash-alt:hover {
+    .fa-trash:hover {
         color: #d32f2f;
         cursor: pointer;
     }
@@ -406,7 +406,7 @@ class EntityEditor extends React.Component {
                 {this.createInfoPopup(key, 3)}
 
                 <div className="field-component">
-                    <i className=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
+                    <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
                 </div>
 
             </Row>
@@ -476,7 +476,7 @@ class EntityEditor extends React.Component {
                     {this.createInfoPopup(key, 2)}
 
                     <div className="field-component">
-                        <i className=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
+                        <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
                     </div>
 
 
@@ -530,7 +530,7 @@ class EntityEditor extends React.Component {
                     {this.createInfoPopup(key, 3)}
 
                     <div className="field-component">
-                        <i className=" far fa-trash-alt field-action mt-1" onClick={() => this.removeField(key)}></i>
+                        <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
                     </div>
                 </Row>
             </div>

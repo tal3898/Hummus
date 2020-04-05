@@ -27,8 +27,6 @@ app.get('/folder', async (req, res) => {
 });
 
 app.post('/folder', async (req, res) => {
-
-	var scenarioDocument = req.body;
 	
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db("HummusDB");
@@ -39,6 +37,24 @@ app.post('/folder', async (req, res) => {
 	updateQuery[pathWithDots] = {} ;
 
 	await dbo.collection("scenario").update({}, {'$set': updateQuery });
+
+	res.json({response: 'saved in db'});
+
+	db.close();
+});
+
+app.delete('/folder', async (req, res) => {
+
+	
+	var db = await MongoClient.connect(dbUrl);
+	var dbo = db.db("HummusDB");
+	
+	// Insert the folder to the folder hirechical
+	var pathWithDots = req.body.path.replace('/','').split('/').join('.');
+	var updateQuery = {};
+	updateQuery[pathWithDots] = {} ;
+
+	await dbo.collection("scenario").update({}, {'$unset': updateQuery });
 
 	res.json({response: 'saved in db'});
 

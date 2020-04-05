@@ -5,6 +5,7 @@ import HummusContext, { HummusConsumer } from './HummusContext'
 import SaveFolderPopup from './SaveFolderPopup'
 import SlidingPanel from 'react-sliding-side-panel';
 import Logo from './logo.png'
+import { ToastContainer, toast } from 'react-toastify';
 
 const Styles = styled.div`
 .panel-container {
@@ -88,6 +89,15 @@ const Styles = styled.div`
   height:574px;
 }
 
+.fa-trash {
+  margin-top:7px;
+  margin-left:7px;
+  font-size: 25px;
+  &:hover {
+    color:red;
+  }
+}
+
 `;
 class ScenariosWindow extends React.Component {
   static contextType = HummusContext;
@@ -147,6 +157,43 @@ class ScenariosWindow extends React.Component {
   }
   //#endregion
 
+  removeFileOrFolderFromHierarchy(name, afterDeleteCallback) {
+    var fullPath = this.state.currPath + "/" + name;
+    var body = {
+      path: fullPath
+    }
+
+    const requestOptions = {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    };
+
+    const toastProperties = {
+      autoClose: 2000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+      pauseOnFocusLoss: false
+    };
+
+    fetch('/folder', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        toast.success("Deleted successfully", toastProperties);
+
+        if (afterDeleteCallback) {
+          afterDeleteCallback();
+        }
+
+        this.context.loadFolderHiierarchy((data) => {
+          this.context.data.scenariosHierarchy = data;
+          this.context.updateData(this.context);
+        });
+
+      }).catch(error => {
+        toast.error("Error occurred while deleting", toastProperties);
+      });
+  }
+
   //#region content rendering
   createFolderRow(folderName) {
     return (
@@ -157,11 +204,18 @@ class ScenariosWindow extends React.Component {
           </center>
         </Col>
         <Col lg="1" className="font">
-            {folderName}
+          {folderName}
+        </Col>
+        <Col>
+          <i onClick={(event) => {this.removeFileOrFolderFromHierarchy(folderName); event.stopPropagation();}} class="fas fa-trash"></i>
         </Col>
       </Row>
     )
   }
+
+
+
+
 
   createFileRow(fileName) {
     return (
@@ -257,14 +311,14 @@ class ScenariosWindow extends React.Component {
 
         <div style={{ background: '#1B2431', height: '100%' }}>
 
-          <div style={{ height: 170, background: '#1E488F' ,paddingTop:10}}>
+          <div style={{ height: 170, background: '#1E488F', paddingTop: 10 }}>
             <center >
               <img className="logo" src={Logo} />
               <h1>תרחישים</h1>
             </center>
 
 
-            <div style={{ paddingLeft:10, marginLeft: 15, backgroundColor: '#2E5A88', borderRadius: 10, width: '90%' }}>
+            <div style={{ paddingLeft: 10, marginLeft: 15, backgroundColor: '#2E5A88', borderRadius: 10, width: '90%' }}>
               <i onClick={() => this.goBack()} style={{ fontSize: 20, marginRight: 12 }} className="back-button fas fa-undo-alt"></i>
               <span style={{ fontSize: 20 }}>
                 {(this.state.currPath.length > 0 && this.state.currPath) ||
@@ -279,7 +333,7 @@ class ScenariosWindow extends React.Component {
             }
           </HummusConsumer>
 
-          <i 
+          <i
             className="fas fa-plus"
             onClick={() => this.openNewFolderPopup()}></i>
 
