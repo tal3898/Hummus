@@ -55,6 +55,11 @@ const Styles = styled.div`
         color: #d32f2f;
         cursor: pointer;
     }
+
+    .fa-times:hover {
+        color: #d32f2f;
+        cursor: pointer;   
+    }
     
     .fa-dice:hover {
         color: #388e3c;
@@ -100,6 +105,7 @@ class EntityEditor extends React.Component {
             parentPath: props.parentPath,
             expandAll: props.expandAll,
             json: JSON.parse(props.jsondata),
+            disabledFields: [],
             fullJson: JSON.parse(props.fullJson),
             name: props.name,
             level: parseInt(props.level),
@@ -323,6 +329,15 @@ class EntityEditor extends React.Component {
         return false;
     }
 
+    disableField(key) {
+        if (this.state.disabledFields.includes(key)) {
+            this.state.disabledFields.splice(this.state.disabledFields.indexOf(key));
+        } else {
+            this.state.disabledFields.push(key);
+        }        
+        this.setState(this.state);
+    }
+
     //#region rendering json fields
     getSingleFieldJSX(key) {
         var keyName = key.split('|')[0];
@@ -346,7 +361,14 @@ class EntityEditor extends React.Component {
 
             <Row key={key} className="field mb-1" style={{ marginLeft: this.state.indent }}>
                 <div className="field-component">
-                    <Form.Label >{keyName}</Form.Label>
+                    {this.state.disabledFields.includes(key) &&
+                        <Form.Label style={{ textDecoration:'line-through'}}>{keyName}</Form.Label>
+                    } 
+                    {!this.state.disabledFields.includes(key) &&
+                        <Form.Label >{keyName}</Form.Label>
+                    } 
+
+
                 </div>
 
                 <div className="field-component">
@@ -403,6 +425,12 @@ class EntityEditor extends React.Component {
                     }
                 </div>
 
+
+
+                <div className="field-component">
+                    <i onClick={() => this.disableField(key)} className="fas fa-times field-action mt-1"></i>
+                </div>
+
                 {this.createInfoPopup(key, 3)}
 
                 <div className="field-component">
@@ -421,7 +449,7 @@ class EntityEditor extends React.Component {
     }
 
     createInfoPopup(key, infoIndex) {
-        var parentCleanPath = this.state.parentPath.split('/').map(subKey=> subKey.split('|')[0] ).join('/');
+        var parentCleanPath = this.state.parentPath.split('/').map(subKey => subKey.split('|')[0]).join('/');
         var fieldName = key.split('|')[0];
         return (
             <div className="field-component">
