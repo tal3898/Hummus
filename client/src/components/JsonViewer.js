@@ -361,7 +361,7 @@ class JsonViewer extends React.Component {
 
         for (var key in json) {
             // if curr key, is folder, and not file
-            if (!json[key].hasOwnProperty('steps')) {
+            if (json[key] != 'file') {
                 var keyObject = {
                     name: key
                 };
