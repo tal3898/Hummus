@@ -89,13 +89,22 @@ const Styles = styled.div`
   height:574px;
 }
 
+.field:hover .fa-trash {
+  display: block;
+}
+
+
 .fa-trash {
   margin-top:7px;
   margin-left:7px;
   font-size: 25px;
+  width:35px;
+  float:left;
   &:hover {
-    color:red;
+    color:#e53935;
   }
+
+  display: none;
 }
 
 `;
