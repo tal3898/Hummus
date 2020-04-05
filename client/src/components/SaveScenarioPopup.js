@@ -29,7 +29,8 @@ const Styles = styled.div`
 .fa-save {
     margin-right:30px;
     color: #607d8b;
-
+    cursor: pointer;
+    
     padding:10px;
     border-radius:5px;
     border-style:solid;
@@ -38,7 +39,7 @@ const Styles = styled.div`
 }
 
 .fa-save:active {
-    border-color: #0091ea;
+    color: #01579b;
 }
 
 .fa-save:hover {

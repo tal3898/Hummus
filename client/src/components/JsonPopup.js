@@ -28,7 +28,8 @@ const Styles = styled.div`
 
 .fa-copy{
     color: #607d8b;
-
+    cursor: pointer;
+    
     padding:10px;
     border-radius:5px;
     border-style:solid;
@@ -42,7 +43,7 @@ const Styles = styled.div`
 }
 
 .fa-copy:active {
-    border-color: #0091ea;
+    color: #01579b;
 }
 `;
 

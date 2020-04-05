@@ -27,7 +27,7 @@ const Styles = styled.div`
     top:10px;
     left: 20px;
     position: absolute;
-
+    cursor: pointer;
     padding:10px;
     border-radius:5px;
     border-style:solid;
@@ -36,7 +36,7 @@ const Styles = styled.div`
 }
 
 .fa-check:active {
-    border-color: #4caf50;
+    color: #388e3c;
 }
 
 .fa-check:hover {
