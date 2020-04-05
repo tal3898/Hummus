@@ -155,11 +155,17 @@ class LinkingFieldsPopup extends React.Component {
                             </center>
                         </div>
 
-                        <Row  >
-                            <Col style={{ float: 'right' }} >
-                                <span style={{ float: 'right' }}>כאן תוכלו לקשר שדות בין צעדים בתוך התרחיש. תבחרו את הצעד והשדה ממנו אתה רוצה להעתיק את הערך, ותבחרו את השדה אליו אתם רוצים להעתיק </span>
-                            </Col>
-                        </Row>
+                        <div style={{marginRight:25}}>
+                            <div style={{ float: 'right' }}>
+                                כאן תוכלו לקשר שדות בין צעדים בתוך התרחיש <br />
+                            </div>
+                            <br />
+                            <div style={{ float: 'right' }}>
+                                תבחרו את הצעד והשדה ממנו אתה רוצה להעתיק את הערך, ותבחרו את השדה אליו אתם רוצים להעתיק <br />
+                            </div>
+                            <br />
+                            <br />
+                        </div>
 
                         <Row>
                             <Col lg="6" style={{ marginRight: 0, paddingRight: 0 }}>
