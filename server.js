@@ -49,12 +49,16 @@ app.delete('/folder', async (req, res) => {
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db("HummusDB");
 
-	// Insert the folder to the folder hirechical
+	// Remove the folder from the hierarchy
 	var pathWithDots = req.body.path.replace('/', '').split('/').join('.');
 	var updateQuery = {};
 	updateQuery[pathWithDots] = {};
-
 	await dbo.collection("scenario").update({}, { '$unset': updateQuery });
+
+	// Remove all files under this folder
+	var startWithFolderNameRegex = '^' + req.body.path + '/';
+	await dbo.collection("scenarioFiles").remove({ path: { '$regex': startWithFolderNameRegex } });
+	
 
 	res.json({ response: 'saved in db' });
 
