@@ -105,14 +105,7 @@ class EntityEditor extends React.Component {
             parentPath: props.parentPath,
             expandAll: props.expandAll,
             json: JSON.parse(props.jsondata),
-            disabledFields: [
-                "PrevLesson",
-                "Planing",
-                "Homworks",
-                "XPrevLesson",
-                "XPlaning",
-                "XHomworks"
-            ],
+            disabledFields: [],
             fullJson: JSON.parse(props.fullJson),
             name: props.name,
             level: parseInt(props.level),
