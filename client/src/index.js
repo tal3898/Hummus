@@ -46,6 +46,8 @@ document.onkeyup = function (e) {
         } else if (e.ctrlKey && e.altKey && e.which == 67) {
             // ctrl + alt + c
             document.getElementById("copyJsonBtn").click();
+        } else if (e.keyCode == 27) {
+            document.getElementsByClassName("glass")[0].click();
         }
     } catch (err) { }
 };
