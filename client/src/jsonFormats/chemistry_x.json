@@ -1,7 +1,14 @@
 {
-	"X_Ids": {
-		"X_name|string": "{text}",
-		"X_code|number": "0"
+	"XIds|[1]": {
+		"Xname|string|[1]": "{text}",
+		"Xcode|number|[1]": "0"
 	},
-	"X_Nothing|string": ""
+	"XPrevLesson|[0]|קישור לשיעור הקודם": {
+		"XIds|[1]": {
+			"Xcode|number|[1]|קוד ישות": "0",
+			"Xname|string|[0]|שם ישות": ""
+		},
+		"XBreakDuration|number|[1]|זמן הפסקה בין השיעורים": "15"	
+	},
+	"XNothing|string|[0]": ""
 }
