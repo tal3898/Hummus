@@ -105,7 +105,11 @@ class EntityEditor extends React.Component {
             parentPath: props.parentPath,
             expandAll: props.expandAll,
             json: JSON.parse(props.jsondata),
-            disabledFields: [],
+            disabledFields: [
+                "PrevLesson",
+                "Planing",
+                "Homworks"
+            ],
             fullJson: JSON.parse(props.fullJson),
             name: props.name,
             level: parseInt(props.level),
@@ -500,10 +504,10 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        {this.state.disabledFields.includes(key) &&
+                        {this.state.disabledFields.includes(keyName) &&
                             <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
                         }
-                        {!this.state.disabledFields.includes(key) &&
+                        {!this.state.disabledFields.includes(keyName) &&
                             <Form.Label >{keyName}</Form.Label>
                         }
                     </div>
@@ -562,10 +566,10 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        {this.state.disabledFields.includes(key) &&
+                        {this.state.disabledFields.includes(keyName) &&
                             <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
                         }
-                        {!this.state.disabledFields.includes(key) &&
+                        {!this.state.disabledFields.includes(keyName) &&
                             <Form.Label >{keyName}</Form.Label>
                         }
                     </div>
