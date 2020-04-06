@@ -13,9 +13,14 @@
 			"Street|string|[1]": "Agadati",
 			"number|number|[1]": "30"
 		},
-		"Info|string|[0]": "{text}",
-		"Type|enum|[1]": "[\"20 - Second\", \"30 - Third\", \"40 - Forth\", \"50 - Fith\"]",
-		"Angle|float|[0]|זווית של הבניין, נגיד של פיזה זה 27.3": ""			
+		"Info|string|[0]": "{text}"
+	},
+	"PrevLesson|[0]|קישור לשיעור הקודם": {
+		"Ids|[1]": {
+			"code|number|[1]|קוד ישות": "0",
+			"name|string|[0]|שם ישות": ""
+		},
+		"BreakDuration|number|[1]|זמן הפסקה בין השיעורים": "15"	
 	},
 	"Planing|[0..1]": [{
 		"Goal|string|[1]": "learn piano",
@@ -23,6 +28,11 @@
 	},{
 		"Goal|string|[1]": "learn piano",
 		"Time|time|[1]": "{iso}"
+	}],
+	"Homworks|[0..1]": [{
+		"Pages|string|[1]": "{text}",
+		"Bool|string|[1]": "{text}"
 	}]
+	
 
 }

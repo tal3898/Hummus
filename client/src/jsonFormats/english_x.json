@@ -1,18 +1,38 @@
 {
-	"X_Ids": {
-		"X_name|string": "{text}",
-		"X_code|number": "0"
+	"XIds|[1]|מזהה ישות": {
+		"Xname|string|[0]|שם ישות": "{text}",
+		"Xcode|number|[1]|קוד ישות": "0"
 	},
-	"X_Data": {
-		"X_Location": {
-			"X_Street|string": "Agadati",
-			"X_number|number": "30"
+	"XData|[0]": {
+		"XLocation|[1]": {
+			"Xa": {
+				"Xb": {
+					"Xc|string|[1]|תיאור מאוד ארוך ארוך ארוך של שדה מסוים שיכול להיות עם מלא דברים ובגלל זה התיאור מאוד מאוד ארוך": "stam"
+				}
+			},
+			"XStreet|string|[1]": "Agadati",
+			"Xnumber|number|[1]": "30"
 		},
-		"X_Info|string": "{text}"
+		"XInfo|string|[0]": "{text}"
 	},
-	"X_Planing": [{
-		"X_Goal|string": "learn piano",
-		"X_Way|string": "play piano",
-		"X_Time|time": "{iso}"
+	"XPrevLesson|[0]|קישור לשיעור הקודם": {
+		"XIds|[1]": {
+			"Xcode|number|[1]|קוד ישות": "0",
+			"Xname|string|[0]|שם ישות": ""
+		},
+		"XBreakDuration|number|[1]|זמן הפסקה בין השיעורים": "15"	
+	},
+	"XPlaning|[0..1]": [{
+		"XGoal|string|[1]": "learn piano",
+		"XTime|time|[1]": "{iso}"
+	},{
+		"XGoal|string|[1]": "learn piano",
+		"XTime|time|[1]": "{iso}"
+	}],
+	"XHomworks|[0..1]": [{
+		"XPages|string|[1]": "{text}",
+		"XBool|string|[1]": "{text}"
 	}]
+	
+
 }
