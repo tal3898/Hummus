@@ -1,11 +1,96 @@
 {
-	"Ids_X|[1]|מזהה ישות": {
-		"name_X|string|[0]|שם ישות": "{text}",
-		"code_X|number|[1]|קוד ישות": "0"
+	"XIds|[1]|מזהה ישות": {
+		"XName|string|[0]|שם ישות": "{text}",
+		"XCode|number|[1]|קוד ישות": "0"
 	},
-	"Chairs_X|[0]": {
-		"Info_X|string|[0]": "{text}",
-		"Type_X|enum|[1]": "[\"20 - Second\", \"30 - Third\", \"40 - Forth\", \"50 - Fith\"]"
-	}
-
+	"XPrevLesson|[0]|קישור לשיעור הקודם": {
+		"XIds|[1]": {
+			"Xcode|number|[1]|קוד ישות": "0",
+			"Xname|string|[0]|שם ישות": "{text}"
+		},
+		"XBreakDuration|number|[1]|זמן הפסקה בין השיעורים": "15"
+	},
+	"XChairs|[0]": {
+		"XInfo|string|[0]": "{text}",
+		"XType|enum|[1]": "[\"20 - Second\", \"30 - Third\", \"40 - Forth\", \"50 - Fith\"]",
+		"XSize|[0]|מידות של הכיסא": {
+			"XWidth|number|[1]": "0",
+			"XHeight|number|[1]": "0",
+			"XDepth|number|[1]": "0"
+		}
+	},
+	"XLocation|[0..1]": [
+		{
+			"XBuilding|string|[1]": "{text}",
+			"XFloor|number|[1]": "{text}",
+			"XClassNo|number|[1]": "0",
+			"XTime|string|[1]": "{iso}"
+		},
+		{
+			"XBuilding|string|[1]": "{text}",
+			"XFloor|number|[1]": "{text}",
+			"XClassNo|number|[1]": "0",
+			"XTime|string|[1]": "{iso}"
+		},
+		{
+			"XBuilding|string|[1]": "{text}",
+			"XFloor|number|[1]": "{text}",
+			"XClassNo|number|[1]": "0",
+			"XTime|string|[1]": "{iso}"
+		},
+		{
+			"XBuilding|string|[1]": "{text}",
+			"XFloor|number|[1]": "{text}",
+			"XClassNo|number|[1]": "0",
+			"XTime|string|[1]": "{iso}"
+		},
+		{
+			"XBuilding|string|[1]": "{text}",
+			"XFloor|number|[1]": "{text}",
+			"XClassNo|number|[1]": "0",
+			"XTime|string|[1]": "{iso}"
+		}
+	],
+	"XTeachers|[0..1]": [
+		{
+			"XIds|[1]": {
+				"XName|string|[1]": "{text}",
+				"XId|number|[1]": "0"
+			},
+			"XLook|[0]": {
+				"XHair|string|[1]": "{text}",
+				"XHeiht|string|[1]": "{text}"
+			}
+		},
+		{
+			"XIds|[1]": {
+				"XName|string|[1]": "{text}",
+				"XId|number|[1]": "0"
+			},
+			"XLook|[0]": {
+				"XHair|string|[1]": "{text}",
+				"XHeiht|string|[1]": "{text}"
+			}
+		},
+		{
+			"XIds|[1]": {
+				"XName|string|[1]": "{text}",
+				"XId|number|[1]": "0"
+			},
+			"XLook|[0]": {
+				"XHair|string|[1]": "{text}",
+				"XHeiht|string|[1]": "{text}"
+			}
+		},
+		{
+			"XIds|[1]": {
+				"XName|string|[1]": "{text}",
+				"XId|number|[1]": "0"
+			},
+			"XLook|[0]": {
+				"XHair|string|[1]": "{text}",
+				"XHeiht|string|[1]": "{text}"
+			}
+		}
+	]
 }
