@@ -277,23 +277,10 @@ class NgRequestEditor extends React.Component {
                                             }
                                         </Button>
 
-
-
-                                        <Popup
-                                            className="action-btn"
-                                            position="bottom center"
-                                            on="hover"
-                                            style={{width:10, marginRight:200}}
-                                            trigger={
-                                                <Button style={{ top: 20, right: 60, position: 'absolute' }} variant="outline-info"
+                                        <Button style={{ top: 20, right: 60, position: 'absolute' }} variant="outline-info"
                                                     onClick={() => this.openLinkPopup()}>
                                                     {<i className="fas fa-sitemap"></i>}
                                                 </Button>
-                                            }
-                                        >
-                                            <center>
-a                                                </center>
-                                        </Popup>
 
                                         <EntityEditor
                                             parentPath=''
