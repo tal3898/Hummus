@@ -74,6 +74,7 @@ class Scenario extends React.Component {
         this.child = React.createRef();
         this.state = {
             json: {},
+            bombaJson: {},
             isJsonPopupOpen: false,
             isSavePopupOpen: false,
             scenarioName: 'bbb',
@@ -102,6 +103,7 @@ class Scenario extends React.Component {
 
     openJsonPopup() {
         this.state.json = this.ngRequestEditorRef.current.getFullRequestJson();
+        this.state.bombaJson = this.ngRequestEditorRef.current.getBombaFullRequestJson();
         this.state.isJsonPopupOpen = true;
         this.setState(this.state);
     }
@@ -336,6 +338,7 @@ class Scenario extends React.Component {
                             <ToastContainer />
                             <JsonPopup
                                 json={JSON.stringify(this.state.json)}
+                                bombaJson={JSON.stringify(this.state.bombaJson)}
                                 onClose={() => this.close()}
                                 isOpen={this.state.isJsonPopupOpen} />
 

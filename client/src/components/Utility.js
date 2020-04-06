@@ -8,13 +8,13 @@ import React, { useState } from 'react';
    */
 
 
-const getFieldFinalValue = (key, fieldValue) => {
+const getFieldFinalValue = (key, fieldValue, activateFunctionFields) => {
     var finalValue = fieldValue;
     var fieldType = key.split('|')[1];
 
-    if (fieldValue == '{iso}') {
+    if (fieldValue == '{iso}' && activateFunctionFields) {
         finalValue = new Date().toISOString();;
-    } else if (fieldValue == '{text}') {
+    } else if (fieldValue == '{text}' && activateFunctionFields) {
         var randomString = "";
         for (let step = 0; step < 5; step++) {
             var randomLetter = "abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random() * 1000) % 26];
@@ -31,14 +31,14 @@ const getFieldFinalValue = (key, fieldValue) => {
 }
 
 
-export const convertJsonTemplateToActualJson = (json) => {
+export const convertJsonTemplateToActualJson = (json, activateFunctionFields=true) => {
     var resultJson = {};
 
     // loop on all value fields
     for (var key in json) {
         if (typeof json[key] != 'object') {
             var keyName = key.split('|')[0];
-            var keyValue = getFieldFinalValue(key, json[key]);
+            var keyValue = getFieldFinalValue(key, json[key], activateFunctionFields);
 
             resultJson[keyName] = keyValue;
         }
@@ -52,11 +52,11 @@ export const convertJsonTemplateToActualJson = (json) => {
         if (typeof json[key] == 'object' && Array.isArray(json[key])) {
             resultJson[keyName] = []
             for (var index in json[key]) {
-                var singleJsonResult = convertJsonTemplateToActualJson(json[key][index]);
+                var singleJsonResult = convertJsonTemplateToActualJson(json[key][index], activateFunctionFields);
                 resultJson[keyName].push(singleJsonResult);
             }
         } else if (typeof json[key] == 'object') {
-            var subObjectCovertResult = convertJsonTemplateToActualJson(json[key]);
+            var subObjectCovertResult = convertJsonTemplateToActualJson(json[key], activateFunctionFields);
             resultJson[keyName] = subObjectCovertResult;
         }
     }

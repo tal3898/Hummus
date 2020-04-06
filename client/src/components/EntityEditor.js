@@ -197,6 +197,10 @@ class EntityEditor extends React.Component {
         return convertJsonTemplateToActualJson(this.state.json);
     }
 
+    getTotalBombaJson() {
+        return convertJsonTemplateToActualJson(this.state.json, false);
+    }
+
     // TODO: check if still need the fieldsInput
 
     insertTimeNowToField(key) {

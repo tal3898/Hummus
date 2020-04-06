@@ -101,6 +101,20 @@ class NgRequestEditor extends React.Component {
         return fullRequestJson;
     }
 
+    getBombaFullRequestJson() {
+        var entityJson = this.entidyEditorChild.current.getTotalBombaJson();
+        var fullRequestJson = {
+            "Entity": EntityMap[this.entityNode.value],
+            "SendingTime": new Date().toISOString(),
+            "Reality": RealityMap[this.realityNode.value],
+            "Version": this.versionNode.value,
+            "System": SystemMap[this.systemNode.value],
+            "Entities": [entityJson]
+        }
+
+        return fullRequestJson;
+    }
+
     expendAll() {
         this.setState({ expandAll: !this.state.expandAll })
     }

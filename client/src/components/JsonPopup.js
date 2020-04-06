@@ -29,7 +29,7 @@ const Styles = styled.div`
 .fa-copy{
     color: #607d8b;
     cursor: pointer;
-    
+
     padding:10px;
     border-radius:5px;
     border-style:solid;
@@ -53,14 +53,15 @@ class JsonPopup extends React.Component {
         super(props)
         this.state = {
             isOpen: false,
-            json: JSON.parse(props.json)
+            json: JSON.parse(props.json),
+            bombaJson: JSON.parse(props.bombaJson)
         }
 
         this.onCloseCallback = props.onClose;
     }
 
-    copyToClipboard() {
-        var str = JSON.stringify(this.state.json)
+    copyToClipboard(json) {
+        var str = JSON.stringify(json)
         const el = document.createElement('textarea');
         el.value = str;
         el.setAttribute('readonly', '');
@@ -80,6 +81,7 @@ class JsonPopup extends React.Component {
 
     UNSAFE_componentWillReceiveProps(newProps) {
         this.state.json = JSON.parse(newProps.json);
+        this.state.bombaJson = JSON.parse(newProps.bombaJson);
         this.state.isOpen = JSON.parse(newProps.isOpen);
         this.setState(this.state);
     }
@@ -103,15 +105,20 @@ class JsonPopup extends React.Component {
 
                     <div className='json-popup'>
                         <Row style={{ marginBottom: 20, marginLeft: 3, marginTop: 10 }}>
-                            <Col>
-                                <i id="copyJsonBtn" onClick={() => this.copyToClipboard()} className="far fa-copy fa-3x"></i>
+                            <Col lg="1">
+                                <i id="copyJsonBtn" onClick={() => this.copyToClipboard(this.state.json)} className="fas fa-copy fa-3x"></i>
+                                <p style={{ marginLeft: 6 }}>העתק</p>
 
+                            </Col>
+                            <Col lg="2">
+                                <i id="copyJsonBtn" style={{marginLeft:23}} onClick={() => this.copyToClipboard(this.state.bombaJson)} className="far fa-copy fa-3x"></i>
+                                <p style={{ marginLeft: 4 }}>העתק לבומבה</p>
 
                             </Col>
                         </Row>
-                        
 
-                        <div style={{ marginTop:10, backgroundColor: '#27281e', height: 500 }} className="json-display">
+
+                        <div style={{ marginTop: 10, backgroundColor: '#27281e', height: 500 }} className="json-display">
                             <ReactJson
                                 src={this.state.json}
                                 theme="monokai"
