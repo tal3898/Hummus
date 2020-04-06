@@ -108,7 +108,10 @@ class EntityEditor extends React.Component {
             disabledFields: [
                 "PrevLesson",
                 "Planing",
-                "Homworks"
+                "Homworks",
+                "XPrevLesson",
+                "XPlaning",
+                "XHomworks"
             ],
             fullJson: JSON.parse(props.fullJson),
             name: props.name,
