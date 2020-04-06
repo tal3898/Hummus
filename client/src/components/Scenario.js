@@ -11,6 +11,16 @@ import Popup from "reactjs-popup";
 import { convertJsonTemplateToActualJson } from './Utility'
 import ActionMap from '../globals/ActionMap.json'
 
+
+import english_2 from '../jsonFormats/english_2.json'
+import math_2 from '../jsonFormats/math_2.json'
+import chemistry_2 from '../jsonFormats/chemistry_2.json'
+
+import english_x from '../jsonFormats/english_x.json'
+import math_x from '../jsonFormats/math_x.json'
+import chemistry_x from '../jsonFormats/chemistry_x.json'
+
+
 const Styles = styled.div`
 .main-comp {
     padding-right: 50px;
@@ -270,29 +280,30 @@ class Scenario extends React.Component {
     }
 
     createStepTemplate() {
+
         return {
             "name": "צעד",
             "jsonMap": {
                 "אנגלית": {
-                    "2": "{\"Ids|[1]|מזהה ישות\":{\"name|string|[0]|שם ישות\":\"{text}\",\"code|number|[1]|קוד ישות\":\"0\"},\"Data|[0]\":{\"Location|[1]\":{\"a\":{\"b\":{\"c|string|[1]|תיאור מאוד ארוך ארוך ארוך של שדה מסוים שיכול להיות עם מלא דברים ובגלל זה התיאור מאוד מאוד ארוך\":\"stam\"}},\"Street|string|[1]\":\"Agadati\",\"number|number|[1]\":\"30\"},\"Info|string|[0]\":\"{text}\",\"Type|enum|[1]\":\"[\\\"20 - Second\\\", \\\"30 - Third\\\", \\\"40 - Forth\\\", \\\"50 - Fith\\\"]\",\"Angle|float|[0]|זווית של הבניין, נגיד של פיזה זה 27.3\":\"\",\"Trips|text|[0..1]|כל המקומות שהייתי בהם\":\"[ { \\\"value\\\": 1, \\\"label\\\": \\\"Paris - 1\\\" },  { \\\"value\\\": 1, \\\"label\\\": \\\"London - 2\\\" },  { \\\"value\\\": 3, \\\"label\\\": \\\"New York - 3\\\" }, { \\\"value\\\": 4, \\\"label\\\": \\\" Tel Aviv - 4\\\" } ]\"},\"Planing|[0..1]\":[{\"Goal|string|[1]\":\"learn piano\",\"Time|time|[1]\":\"{iso}\"},{\"Goal|string|[1]\":\"learn piano\",\"Time|time|[1]\":\"{iso}\"}]}",
-                    "X": "{\"X_Ids\":{\"X_name|string\":\"{text}\",\"X_code|number\":\"0\"},\"X_Data\":{\"X_Location\":{\"X_Street|string\":\"Agadati\",\"X_number|number\":\"30\"},\"X_Info|string\":\"{text}\"},\"X_Planing\":[{\"X_Goal|string\":\"learn piano\",\"X_Way|string\":\"play piano\",\"X_Time|time\":\"{iso}\"}]}"
+                    "2": JSON.stringify(english_2), 
+                    "X": JSON.stringify(english_x)
                 },
                 "חשבון": {
-                    "2": "{\"Ids|[1]|מזהה ישות\":{\"name|string|[0]|שם ישות\":\"{text}\",\"code|number|[1]|קוד ישות\":\"0\"},\"Chairs|[0]\":{\"Info|string|[0]\":\"{text}\",\"Type|enum|[1]\":\"[\\\"20 - Second\\\", \\\"30 - Third\\\", \\\"40 - Forth\\\", \\\"50 - Fith\\\"]\"}}",
-                    "X": "{\"Ids_X|[1]|מזהה ישות\":{\"name_X|string|[0]|שם ישות\":\"{text}\",\"code_X|number|[1]|קוד ישות\":\"0\"},\"Chairs_X|[0]\":{\"Info_X|string|[0]\":\"{text}\",\"Type_X|enum|[1]\":\"[\\\"20 - Second\\\", \\\"30 - Third\\\", \\\"40 - Forth\\\", \\\"50 - Fith\\\"]\"}}"
+                    "2": JSON.stringify(math_2), 
+                    "X": JSON.stringify(math_x)
                 },
                 "כמיה": {
-                    "2": "{\"Ids\":{\"name|string\":\"{text}\",\"code|number\":\"0\"},\"Nothing|string\":\"\"}",
-                    "X": "{\"X_Ids\":{\"X_name|string\":\"{text}\",\"X_code|number\":\"0\"},\"X_Nothing|string\":\"\"}"
+                    "2": JSON.stringify(chemistry_2), 
+                    "X": JSON.stringify(chemistry_x)
                 }
             },
-            "jsonToEdit": "{\"Ids|[1]|מזהה ישות\":{\"name|string|[0]|שם ישות\":\"{text}\",\"code|number|[1]|קוד ישות\":\"0\"},\"Data|[0]\":{\"Location|[1]\":{\"a\":{\"b\":{\"c|string|[1]|תיאור מאוד ארוך ארוך ארוך של שדה מסוים שיכול להיות עם מלא דברים ובגלל זה התיאור מאוד מאוד ארוך\":\"stam\"}},\"Street|string|[1]\":\"Agadati\",\"number|number|[1]\":\"30\"},\"Info|string|[0]\":\"{text}\",\"Type|enum|[1]\":\"[\\\"20 - Second\\\", \\\"30 - Third\\\", \\\"40 - Forth\\\", \\\"50 - Fith\\\"]\",\"Angle|float|[0]|זווית של הבניין, נגיד של פיזה זה 27.3\":\"\",\"Trips|text|[0..1]|כל המקומות שהייתי בהם\":\"[ { \\\"value\\\": 1, \\\"label\\\": \\\"Paris - 1\\\" },  { \\\"value\\\": 1, \\\"label\\\": \\\"London - 2\\\" },  { \\\"value\\\": 3, \\\"label\\\": \\\"New York - 3\\\" }, { \\\"value\\\": 4, \\\"label\\\": \\\" Tel Aviv - 4\\\" } ]\"},\"Planing|[0..1]\":[{\"Goal|string|[1]\":\"learn piano\",\"Time|time|[1]\":\"{iso}\"},{\"Goal|string|[1]\":\"learn piano\",\"Time|time|[1]\":\"{iso}\"}]}",
+            "jsonToEdit": JSON.stringify(english_2), 
             "entity": "English",
             "system": "Tal",
             "reality": "0",
             "action": "POST",
             "version": "2",
-            "fullJsonToEdit": "{\"Ids|[1]|מזהה ישות\":{\"name|string|[0]|שם ישות\":\"{text}\",\"code|number|[1]|קוד ישות\":\"0\"},\"Data|[0]\":{\"Location|[1]\":{\"a\":{\"b\":{\"c|string|[1]|תיאור מאוד ארוך ארוך ארוך של שדה מסוים שיכול להיות עם מלא דברים ובגלל זה התיאור מאוד מאוד ארוך\":\"stam\"}},\"Street|string|[1]\":\"Agadati\",\"number|number|[1]\":\"30\"},\"Info|string|[0]\":\"{text}\",\"Type|enum|[1]\":\"[\\\"20 - Second\\\", \\\"30 - Third\\\", \\\"40 - Forth\\\", \\\"50 - Fith\\\"]\",\"Angle|float|[0]|זווית של הבניין, נגיד של פיזה זה 27.3\":\"\",\"Trips|text|[0..1]|כל המקומות שהייתי בהם\":\"[ { \\\"value\\\": 1, \\\"label\\\": \\\"Paris - 1\\\" },  { \\\"value\\\": 1, \\\"label\\\": \\\"London - 2\\\" },  { \\\"value\\\": 3, \\\"label\\\": \\\"New York - 3\\\" }, { \\\"value\\\": 4, \\\"label\\\": \\\" Tel Aviv - 4\\\" } ]\"},\"Planing|[0..1]\":[{\"Goal|string|[1]\":\"learn piano\",\"Time|time|[1]\":\"{iso}\"},{\"Goal|string|[1]\":\"learn piano\",\"Time|time|[1]\":\"{iso}\"}]}",
+            "fullJsonToEdit": JSON.stringify(english_2), 
             "links": []
         }
     }
