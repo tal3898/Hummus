@@ -283,32 +283,64 @@ class Scenario extends React.Component {
 
     createStepTemplate() {
 
-        return {
+        var step = {
             "name": "צעד",
             "jsonMap": {
                 "אנגלית": {
-                    "2": JSON.stringify(english_2), 
-                    "X": JSON.stringify(english_x)
+                    "2": {
+                        data: JSON.stringify(english_2),
+                        disabledFields: ['/PrevLesson',
+                            '/Planing',
+                            '/Homworks']
+                    },
+                    "X": {
+                        data: JSON.stringify(english_x),
+                        disabledFields: []
+                    }
                 },
                 "חשבון": {
-                    "2": JSON.stringify(math_2), 
-                    "X": JSON.stringify(math_x)
+                    "2": {
+                        data: JSON.stringify(math_2),
+                        disabledFields: []
+                    },
+                    "X": {
+                        data: JSON.stringify(math_x),
+                        disabledFields: []
+                    }
                 },
                 "כמיה": {
-                    "2": JSON.stringify(chemistry_2), 
-                    "X": JSON.stringify(chemistry_x)
+                    "2": {
+                        data: JSON.stringify(chemistry_2),
+                        disabledFields: []
+                    },
+                    "X": {
+                        data: JSON.stringify(chemistry_x),
+                        disabledFields: []
+                    }
                 }
             },
-            "jsonToEdit": JSON.stringify(english_2), 
             "entity": "English",
             "system": "Tal",
             "reality": "0",
             "action": "POST",
             "version": "2",
-            "fullJsonToEdit": JSON.stringify(english_2), 
+            "fullJsonToEdit": JSON.stringify(english_2),
+
+            "jsonToEdit": JSON.stringify(english_2),
+            "selectedVersion": "2",
+            "selectedEntity": "אנגלית",
             "links": [],
             "disabledFields": []
         }
+
+        step.disabledFields = JSON.parse(JSON.stringify(step.jsonMap["אנגלית"]["2"].disabledFields));
+        return step;
+    }
+
+
+    componentDidMount() {
+        this.context.data.currScenario.steps = [];
+        this.context.data.currScenario.steps.push(this.createStepTemplate());
     }
 
     addStep() {
@@ -497,7 +529,7 @@ class Scenario extends React.Component {
                                                 on="hover"
                                                 trigger={
                                                     <a className="action-btn" variant="outline-info" onClick={() => this.addStep()}>
-                                                        <i  id="addStepBtn" className="fas fa-plus"></i>
+                                                        <i id="addStepBtn" className="fas fa-plus"></i>
                                                     </a>}
                                             >
                                                 <center>
@@ -510,7 +542,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a  id="removeStepBtn" className="action-btn" style={{ marginRight: 20 }} variant="outline-info" onClick={() => this.removeStep()}>
+                                                    <a id="removeStepBtn" className="action-btn" style={{ marginRight: 20 }} variant="outline-info" onClick={() => this.removeStep()}>
                                                         <i className="fas fa-minus"></i>
                                                     </a>}
                                             >

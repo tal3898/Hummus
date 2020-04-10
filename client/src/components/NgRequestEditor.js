@@ -59,34 +59,6 @@ class NgRequestEditor extends React.Component {
         this.setState(this.state);
     }
 
-    componentDidMount() {
-
-        this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap = {
-            "אנגלית": {
-                "2": JSON.stringify(english_2),
-                "X": JSON.stringify(english_x)
-            },
-            "חשבון": {
-                "2": JSON.stringify(math_2),
-                "X": JSON.stringify(math_x)
-            },
-            "כמיה": {
-                "2": JSON.stringify(chemistry_2),
-                "X": JSON.stringify(chemistry_x),
-            }
-        }
-
-
-        this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit = JSON.stringify(english_2);
-        this.context.data.currScenario.steps[this.state.openStepIndex].entity = 'English';
-        this.context.data.currScenario.steps[this.state.openStepIndex].system = 'Tal';
-        this.context.data.currScenario.steps[this.state.openStepIndex].reality = '0';
-        this.context.data.currScenario.steps[this.state.openStepIndex].action = 'POST';
-        this.context.data.currScenario.steps[this.state.openStepIndex].version = '2';
-
-        this.context.data.currScenario.steps[this.state.openStepIndex].fullJsonToEdit = JSON.stringify(english_2);
-    }
-
     getFullRequestJson() {
         var entityJson = this.entidyEditorChild.current.getTotalJson();
         var fullRequestJson = {
@@ -135,23 +107,38 @@ class NgRequestEditor extends React.Component {
         var chosenEntity = this.entityNode.value;
         var chosenVersion = this.versionNode.value;
 
-        return this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion];
+        return this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion].data;
     }
 
     //TODO change function name
     loadJsonByChosenEntityAndVersion() {
-        var chosenJson = this.getChosenJsonByEntityAndVersion();
+        var chosenEntity = this.entityNode.value;
+        var chosenVersion = this.versionNode.value;
+
+        // Reset the chosen json
+        var chosenJson = this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion].data;
         this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit = chosenJson;
         this.context.data.currScenario.steps[this.state.openStepIndex].fullJsonToEdit = chosenJson;
+
+        // Reset the disabled fields
+        var disabledFields = this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion].disabledFields;
+        this.context.data.currScenario.steps[this.state.openStepIndex].disabledFields = JSON.parse(JSON.stringify(disabledFields));
+        
+
         this.setState(this.state);
     }
 
     updateRequest(event) {
-        this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit = JSON.stringify(event.newJson);
+        
         var chosenEntity = this.entityNode.value;
         var chosenVersion = this.versionNode.value;
 
-        this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion] = this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit;
+        this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit = JSON.stringify(event.newJson);
+        
+
+        this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion].data =
+            this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit;
+
     }
 
     addLink() {
@@ -178,124 +165,124 @@ class NgRequestEditor extends React.Component {
                                 isOpen={this.state.isLinkPopupOpen}
                             />
 
-                            
-                                <div dir='rtl' className='metadata'>
-                                    {/** TODO: instead of harcoded entities, loop on the EntityMap */}
-                                    <Row className='field'>
-                                        <Col lg='1' >
-                                            <Form.Label >ישות</Form.Label>
-                                        </Col>
-                                        <Col lg='2'>
-                                            <Form.Control
-                                                onChange={(event) => { this.loadJsonByChosenEntityAndVersion(); this.onMetadataChange(event, 'entity') }}
-                                                value={context.data.currScenario.steps[this.state.openStepIndex].entity}
-                                                ref={(ref) => this.entityNode = ref}
-                                                as="select">
-                                                <option>אנגלית</option>
-                                                <option>חשבון</option>
-                                                <option>כמיה</option>
-                                            </Form.Control>
-                                        </Col>
 
-
-
-                                        <Col lg='1' >
-                                            <Form.Label >סוג בקשה</Form.Label>
-                                        </Col>
-                                        <Col lg='2'>
-                                            <Form.Control
-                                                onChange={(event) => this.onMetadataChange(event, 'action')}
-                                                value={context.data.currScenario.steps[this.state.openStepIndex].action}
-                                                ref={(ref) => this.actionNode = ref}
-                                                as="select">
-                                                <option>יצירה</option>
-                                                <option>עדכון</option>
-                                                <option>מחיקה</option>
-                                            </Form.Control>
-                                        </Col>
-
-                                        <Col lg='1' >
-                                            <Form.Label >מערכת</Form.Label>
-                                        </Col>
-                                        <Col lg='2'>
-                                            <Form.Control
-                                                onChange={(event) => this.onMetadataChange(event, 'system')}
-                                                value={context.data.currScenario.steps[this.state.openStepIndex].system}
-                                                ref={(ref) => this.systemNode = ref}
-                                                as="select">
-                                                <option>טל</option>
-                                                <option>ינון</option>
-                                                <option>שחר</option>
-                                            </Form.Control>
-                                        </Col>
-
-                                    </Row>
-
-                                    <Row className='field'>
-                                        <Col lg='1'>
-                                            <Form.Label >תקן</Form.Label>
-                                        </Col>
-                                        <Col lg='2'>
-                                            <Form.Control
-                                                onChange={(event) => { this.loadJsonByChosenEntityAndVersion(); this.onMetadataChange(event, 'version') }}
-                                                value={context.data.currScenario.steps[this.state.openStepIndex].version}
-                                                ref={(ref) => this.versionNode = ref}
-                                                as="select">
-
-                                                <option>2</option>
-                                                <option>X</option>
-                                            </Form.Control>
-                                        </Col>
-                                        <Col lg='1'>
-                                            <Form.Label >שיעור</Form.Label>
-                                        </Col>
-                                        <Col lg='2'>
-                                            <Form.Control
-                                                onChange={(event) => this.onMetadataChange(event, 'reality')}
-                                                value={context.data.currScenario.steps[this.state.openStepIndex].reality}
-                                                ref={(ref) => this.realityNode = ref}
-                                                as="select" >
-
-                                                <option>א</option>
-                                                <option>ב</option>
-                                                <option>ג</option>
-                                            </Form.Control>
-                                        </Col>
-                                    </Row>
-                                </div>
-
-                                <Row dir='rtl'>
-
-                                    <Col lg='10' className='entity-editor-window'>
-                                        <Button id="expandAllBtn" style={{ top: 20, right: 20, position: 'absolute' }} variant="outline-info" onClick={() => this.expendAll()}>
-                                            {
-                                                this.state.expandAll &&
-                                                <i className="fas fa-compress-alt"></i>
-                                            }
-                                            {!this.state.expandAll &&
-                                                <i className="fas fa-expand-alt"></i>
-                                            }
-                                        </Button>
-
-                                        <Button style={{ top: 20, right: 60, position: 'absolute' }} variant="outline-info"
-                                                    onClick={() => this.openLinkPopup()}>
-                                                    {<i className="fas fa-sitemap"></i>}
-                                                </Button>
-
-                                        <EntityEditor
-                                            parentPath=''
-                                            expandAll={this.state.expandAll}
-                                            ref={this.entidyEditorChild}
-                                            level='0'
-                                            fullJson={context.data.currScenario.steps[this.state.openStepIndex].fullJsonToEdit}
-                                            jsondata={context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit}
-                                            onInnerFieldChanged={(event) => this.updateRequest(event)} ></EntityEditor>
-
+                            <div dir='rtl' className='metadata'>
+                                {/** TODO: instead of harcoded entities, loop on the EntityMap */}
+                                <Row className='field'>
+                                    <Col lg='1' >
+                                        <Form.Label >ישות</Form.Label>
                                     </Col>
+                                    <Col lg='2'>
+                                        <Form.Control
+                                            onChange={(event) => { this.loadJsonByChosenEntityAndVersion(); this.onMetadataChange(event, 'entity') }}
+                                            value={context.data.currScenario.steps[this.state.openStepIndex].entity}
+                                            ref={(ref) => this.entityNode = ref}
+                                            as="select">
+                                            <option>אנגלית</option>
+                                            <option>חשבון</option>
+                                            <option>כמיה</option>
+                                        </Form.Control>
+                                    </Col>
+
+
+
+                                    <Col lg='1' >
+                                        <Form.Label >סוג בקשה</Form.Label>
+                                    </Col>
+                                    <Col lg='2'>
+                                        <Form.Control
+                                            onChange={(event) => this.onMetadataChange(event, 'action')}
+                                            value={context.data.currScenario.steps[this.state.openStepIndex].action}
+                                            ref={(ref) => this.actionNode = ref}
+                                            as="select">
+                                            <option>יצירה</option>
+                                            <option>עדכון</option>
+                                            <option>מחיקה</option>
+                                        </Form.Control>
+                                    </Col>
+
+                                    <Col lg='1' >
+                                        <Form.Label >מערכת</Form.Label>
+                                    </Col>
+                                    <Col lg='2'>
+                                        <Form.Control
+                                            onChange={(event) => this.onMetadataChange(event, 'system')}
+                                            value={context.data.currScenario.steps[this.state.openStepIndex].system}
+                                            ref={(ref) => this.systemNode = ref}
+                                            as="select">
+                                            <option>טל</option>
+                                            <option>ינון</option>
+                                            <option>שחר</option>
+                                        </Form.Control>
+                                    </Col>
+
                                 </Row>
 
+                                <Row className='field'>
+                                    <Col lg='1'>
+                                        <Form.Label >תקן</Form.Label>
+                                    </Col>
+                                    <Col lg='2'>
+                                        <Form.Control
+                                            onChange={(event) => { this.loadJsonByChosenEntityAndVersion(); this.onMetadataChange(event, 'version') }}
+                                            value={context.data.currScenario.steps[this.state.openStepIndex].version}
+                                            ref={(ref) => this.versionNode = ref}
+                                            as="select">
 
-                            
+                                            <option>2</option>
+                                            <option>X</option>
+                                        </Form.Control>
+                                    </Col>
+                                    <Col lg='1'>
+                                        <Form.Label >שיעור</Form.Label>
+                                    </Col>
+                                    <Col lg='2'>
+                                        <Form.Control
+                                            onChange={(event) => this.onMetadataChange(event, 'reality')}
+                                            value={context.data.currScenario.steps[this.state.openStepIndex].reality}
+                                            ref={(ref) => this.realityNode = ref}
+                                            as="select" >
+
+                                            <option>א</option>
+                                            <option>ב</option>
+                                            <option>ג</option>
+                                        </Form.Control>
+                                    </Col>
+                                </Row>
+                            </div>
+
+                            <Row dir='rtl'>
+
+                                <Col lg='10' className='entity-editor-window'>
+                                    <Button id="expandAllBtn" style={{ top: 20, right: 20, position: 'absolute' }} variant="outline-info" onClick={() => this.expendAll()}>
+                                        {
+                                            this.state.expandAll &&
+                                            <i className="fas fa-compress-alt"></i>
+                                        }
+                                        {!this.state.expandAll &&
+                                            <i className="fas fa-expand-alt"></i>
+                                        }
+                                    </Button>
+
+                                    <Button style={{ top: 20, right: 60, position: 'absolute' }} variant="outline-info"
+                                        onClick={() => this.openLinkPopup()}>
+                                        {<i className="fas fa-sitemap"></i>}
+                                    </Button>
+
+                                    <EntityEditor
+                                        parentPath=''
+                                        expandAll={this.state.expandAll}
+                                        ref={this.entidyEditorChild}
+                                        level='0'
+                                        fullJson={context.data.currScenario.steps[this.state.openStepIndex].fullJsonToEdit}
+                                        jsondata={context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit}
+                                        onInnerFieldChanged={(event) => this.updateRequest(event)} ></EntityEditor>
+
+                                </Col>
+                            </Row>
+
+
+
 
                         </div>
                     }

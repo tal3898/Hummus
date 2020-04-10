@@ -216,6 +216,20 @@ class EntityEditor extends React.Component {
     }
 
     //#region data changed functions
+
+    disableField(event, key) {
+        var keyPath = this.getKeyFullPath(key);
+
+        var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
+        if (disabledFields.includes(keyPath)) {
+            disabledFields.splice(disabledFields.indexOf(keyPath),1);
+        } else {
+            disabledFields.push(keyPath);
+        }
+        this.setState(this.state);
+        event.stopPropagation();
+    }
+
     changeField(key, value) {
         this.state.json[key] = value;
         this.updateJson('change');
@@ -342,20 +356,6 @@ class EntityEditor extends React.Component {
             .join('/');
 
         return keyCleanFullPath;
-    }
-
-    disableField(event, key) {
-        var keyPath = this.getKeyFullPath(key);
-
-        var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
-        if (disabledFields.includes(keyPath)) {
-            disabledFields.splice(disabledFields.indexOf(keyPath),1);
-        } else {
-            disabledFields.push(keyPath);
-        }
-        this.setState(this.state);
-
-        event.stopPropagation();
     }
 
     //#region info button
