@@ -30,8 +30,7 @@ const Styles = styled.div`
 
 
 .field {
-    margin-bottom: 20px;
-    width:91%;
+    margin-bottom: 10px !important;
 }
 
 `;
@@ -162,6 +161,8 @@ class NgRequestEditor extends React.Component {
 
 
                             <div dir='rtl' className='metadata'>
+                            
+
                                 {/** TODO: instead of harcoded entities, loop on the EntityMap */}
                                 <Row className='field'>
                                     <Col lg='1' >
@@ -178,7 +179,8 @@ class NgRequestEditor extends React.Component {
                                             <option>כמיה</option>
                                         </Form.Control>
                                     </Col>
-
+                                    
+                                    
 
 
                                     <Col lg='1' >
@@ -244,6 +246,8 @@ class NgRequestEditor extends React.Component {
                                         </Form.Control>
                                     </Col>
                                 </Row>
+                                <span style={{marginTop:0, fontSize:10, float:'right', marginBottom:1, padding:0}}>*שים לב, שינוי ישות או תקן יאפס את כל המידע</span>
+                                <br/>
                             </div>
 
                             <Row dir='rtl'>
