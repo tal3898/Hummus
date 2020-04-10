@@ -31,7 +31,7 @@ const getFieldFinalValue = (key, fieldValue, activateFunctionFields) => {
 }
 
 
-export const convertJsonTemplateToActualJson = (json, disabledFields=[], activateFunctionFields = true, parentPath = '') => {
+export const convertJsonTemplateToActualJson = (json, disabledFields = [], activateFunctionFields = true, parentPath = '') => {
     var resultJson = {};
 
     // loop on all value fields
@@ -44,39 +44,38 @@ export const convertJsonTemplateToActualJson = (json, disabledFields=[], activat
             if (!disabledFields.includes(keyPath)) {
                 var keyValue = getFieldFinalValue(key, json[key], activateFunctionFields);
                 resultJson[keyName] = keyValue;
-            }            
+            }
         }
     }
 
     // loop on all object fileds
     for (var key in json) {
         var keyName = key.split('|')[0];
+        var keyFullPath = parentPath + '/' + keyName;
 
-        // arrays
-        if (typeof json[key] == 'object' && Array.isArray(json[key])) {
+        // if array, and field is not disabled
+        if (typeof json[key] == 'object' && Array.isArray(json[key]) && !disabledFields.includes(keyFullPath)) {
             resultJson[keyName] = []
             for (var index in json[key]) {
-                var currFullPath = parentPath + '/' + keyName + '/' + index;
+                var elementFullPath = keyFullPath + '/' + index;
 
                 // If curr element in array, is not disabled
-                if (!disabledFields.includes(currFullPath)) {
-                    var singleJsonResult = convertJsonTemplateToActualJson(json[key][index], 
-                        disabledFields, 
-                        activateFunctionFields, 
-                        currFullPath);
+                if (!disabledFields.includes(elementFullPath)) {
+                    var singleJsonResult = convertJsonTemplateToActualJson(json[key][index],
+                        disabledFields,
+                        activateFunctionFields,
+                        elementFullPath);
                     resultJson[keyName].push(singleJsonResult);
-                }                
+                }
             }
-        } else if (typeof json[key] == 'object') {
-            var objectFullPath = parentPath + '/' + keyName;
+        // else if object, and is not disabled
+        } else if (typeof json[key] == 'object' && !disabledFields.includes(keyFullPath)) {
+            var subObjectCovertResult = convertJsonTemplateToActualJson(json[key],
+                disabledFields,
+                activateFunctionFields,
+                keyFullPath);
+            resultJson[keyName] = subObjectCovertResult;
 
-            if (!disabledFields.includes(objectFullPath)) {
-                var subObjectCovertResult = convertJsonTemplateToActualJson(json[key], 
-                    disabledFields, 
-                    activateFunctionFields,
-                    objectFullPath);
-                resultJson[keyName] = subObjectCovertResult;
-            }            
         }
     }
 
