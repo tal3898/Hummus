@@ -33,7 +33,9 @@ const Styles = styled.div`
 
     .field-action {
         padding: 3px;
+        margin-left:7px;
         display: none;
+        cursor: pointer;
     }
 
     .field:hover .field-action {
@@ -49,36 +51,33 @@ const Styles = styled.div`
     }
 
     .fa-trash {
-        margin-left:40px;
+        
+        
     }
 
     .fa-trash:hover {
         color: #d32f2f;
-        cursor: pointer;
     }
 
     .fa-times:hover {
         color: #d32f2f;
-        cursor: pointer;   
     }
     
     .fa-dice:hover {
         color: #388e3c;
-        cursor: pointer;
     }
 
     .fa-clock:hover {
         color: #2196f3;
-        cursor: pointer;
     }
 
     .fa-plus:hover {
         color: #66bb6a;
-        cursor: pointer;
     }
 
     .fa-info-circle:hover {
         color: #2196f3;
+        cursor: arrow;
     }
 `;
 
@@ -350,7 +349,7 @@ class EntityEditor extends React.Component {
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
         if (disabledFields.includes(keyPath)) {
-            disabledFields.splice(disabledFields.indexOf(keyPath));
+            disabledFields.splice(disabledFields.indexOf(keyPath),1);
         } else {
             disabledFields.push(keyPath);
         }
