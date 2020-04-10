@@ -102,13 +102,6 @@ class NgRequestEditor extends React.Component {
         this.context.updateData(this.context);
     }
 
-    //TODO change function name
-    getChosenJsonByEntityAndVersion() {
-        var chosenEntity = this.entityNode.value;
-        var chosenVersion = this.versionNode.value;
-
-        return this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion].data;
-    }
 
     //TODO change function name
     loadJsonByChosenEntityAndVersion() {
@@ -124,6 +117,8 @@ class NgRequestEditor extends React.Component {
         var disabledFields = this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion].disabledFields;
         this.context.data.currScenario.steps[this.state.openStepIndex].disabledFields = JSON.parse(JSON.stringify(disabledFields));
         
+        // Reset links
+        this.context.data.currScenario.steps[this.state.openStepIndex].links = [];
 
         this.setState(this.state);
     }
