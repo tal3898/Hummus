@@ -136,7 +136,9 @@ class Scenario extends React.Component {
 
     getStepNgRequest(stepNumber) {
         var currStepJson = JSON.parse(this.context.data.currScenario.steps[stepNumber].jsonToEdit);
-        var entityJson = convertJsonTemplateToActualJson(currStepJson);
+
+        var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
+        var entityJson = convertJsonTemplateToActualJson(currStepJson, disabledFields);
 
         var fullRequestJson = {
             "Entity": this.context.data.currScenario.steps[stepNumber].entity,
@@ -304,7 +306,8 @@ class Scenario extends React.Component {
             "action": "POST",
             "version": "2",
             "fullJsonToEdit": JSON.stringify(english_2), 
-            "links": []
+            "links": [],
+            "disabledFields": []
         }
     }
 

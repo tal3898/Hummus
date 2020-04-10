@@ -31,16 +31,20 @@ const getFieldFinalValue = (key, fieldValue, activateFunctionFields) => {
 }
 
 
-export const convertJsonTemplateToActualJson = (json, activateFunctionFields=true) => {
+export const convertJsonTemplateToActualJson = (json, disabledFields=[], activateFunctionFields = true, parentPath = '') => {
     var resultJson = {};
 
     // loop on all value fields
     for (var key in json) {
         if (typeof json[key] != 'object') {
             var keyName = key.split('|')[0];
-            var keyValue = getFieldFinalValue(key, json[key], activateFunctionFields);
+            var keyPath = parentPath + '/' + keyName;
 
-            resultJson[keyName] = keyValue;
+            // If field is not disabled
+            if (!disabledFields.includes(keyPath)) {
+                var keyValue = getFieldFinalValue(key, json[key], activateFunctionFields);
+                resultJson[keyName] = keyValue;
+            }            
         }
     }
 
@@ -52,12 +56,27 @@ export const convertJsonTemplateToActualJson = (json, activateFunctionFields=tru
         if (typeof json[key] == 'object' && Array.isArray(json[key])) {
             resultJson[keyName] = []
             for (var index in json[key]) {
-                var singleJsonResult = convertJsonTemplateToActualJson(json[key][index], activateFunctionFields);
-                resultJson[keyName].push(singleJsonResult);
+                var currFullPath = parentPath + '/' + keyName + '/' + index;
+
+                // If curr element in array, is not disabled
+                if (!disabledFields.includes(currFullPath)) {
+                    var singleJsonResult = convertJsonTemplateToActualJson(json[key][index], 
+                        disabledFields, 
+                        activateFunctionFields, 
+                        currFullPath);
+                    resultJson[keyName].push(singleJsonResult);
+                }                
             }
         } else if (typeof json[key] == 'object') {
-            var subObjectCovertResult = convertJsonTemplateToActualJson(json[key], activateFunctionFields);
-            resultJson[keyName] = subObjectCovertResult;
+            var objectFullPath = parentPath + '/' + keyName;
+
+            if (!disabledFields.includes(objectFullPath)) {
+                var subObjectCovertResult = convertJsonTemplateToActualJson(json[key], 
+                    disabledFields, 
+                    activateFunctionFields,
+                    objectFullPath);
+                resultJson[keyName] = subObjectCovertResult;
+            }            
         }
     }
 

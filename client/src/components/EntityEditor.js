@@ -6,6 +6,7 @@ import { Collapse, Button, CardBody, Card } from 'reactstrap';
 import Popup from "reactjs-popup";
 import Select from 'react-select';
 import { convertJsonTemplateToActualJson } from './Utility'
+import HummusContext from './HummusContext'
 
 
 const Styles = styled.div`
@@ -83,6 +84,8 @@ const Styles = styled.div`
 
 class EntityEditor extends React.Component {
 
+    static contextType = HummusContext;
+
     //#region init
 
     constructor(props) {
@@ -95,9 +98,7 @@ class EntityEditor extends React.Component {
             "time": "text",
             "enum": "text"
         }
-
         this.init(props);
-
     }
 
     init(props) {
@@ -194,11 +195,13 @@ class EntityEditor extends React.Component {
             recursivly call the get json of this entity, and remove the '1.'/'2.' etc. key
     */
     getTotalJson() {
-        return convertJsonTemplateToActualJson(this.state.json);
+        var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
+        return convertJsonTemplateToActualJson(this.state.json, disabledFields);
     }
 
     getTotalBombaJson() {
-        return convertJsonTemplateToActualJson(this.state.json, false);
+        var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
+        return convertJsonTemplateToActualJson(this.state.json, disabledFields, false);
     }
 
     // TODO: check if still need the fieldsInput
@@ -333,25 +336,74 @@ class EntityEditor extends React.Component {
         return false;
     }
 
+    getKeyFullPath(key) {
+        var keyFullPath = this.state.parentPath + '/' + key
+        var keyCleanFullPath = keyFullPath.split('/')
+            .map(subKey => subKey.split('|')[0])
+            .join('/');
+
+        return keyCleanFullPath;
+    }
+
     disableField(event, key) {
-        if (this.state.disabledFields.includes(key)) {
-            this.state.disabledFields.splice(this.state.disabledFields.indexOf(key));
+        var keyPath = this.getKeyFullPath(key);
+
+        var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
+        if (disabledFields.includes(keyPath)) {
+            disabledFields.splice(disabledFields.indexOf(keyPath));
         } else {
-            this.state.disabledFields.push(key);
+            disabledFields.push(keyPath);
         }
         this.setState(this.state);
 
         event.stopPropagation();
     }
 
+    //#region info button
+
+    hasInfo(key, infoIndex) {
+        return key.split('|').length >= infoIndex + 1;
+    }
+
+    createInfoPopup(key, infoIndex) {
+        var parentCleanPath = this.state.parentPath.split('/').map(subKey => subKey.split('|')[0]).join('/');
+        var fieldName = key.split('|')[0];
+        return (
+            <div className="field-component">
+                <Popup
+                    position="right top"
+                    on="hover"
+                    trigger={
+                        <i className="fas fa-info-circle field-action mt-1"></i>}
+                >
+                    <div>
+                        <center className="info-txt">
+                            {this.hasInfo(key, infoIndex) &&
+                                key.split('|')[infoIndex]}
+                        </center>
+                        {this.hasInfo(key, infoIndex) &&
+                            <hr style={{ margin: 2 }} />}
+
+                        <center className="info-field-path-txt">
+                            {parentCleanPath + '/' + fieldName}
+                        </center>
+                    </div>
+                </Popup>
+            </div>
+        );
+    }
+
+    //#endregion
+
+
     //#region rendering json fields
     getSingleFieldJSX(key) {
         var keyName = key.split('|')[0];
         var keyType = key.split('|')[1];
         var keyRequiredValue = key.split('|')[2];
-        var defaultValue = this.state.json[key]
-
-
+        var defaultValue = this.state.json[key];
+        var keyFullPath = this.getKeyFullPath(key);
+        
         var enumValuesItem = []
         if (keyType == "enum") {
             var optionalValues = JSON.parse(defaultValue);
@@ -363,14 +415,17 @@ class EntityEditor extends React.Component {
 
         }
 
+        var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
+
+
         return (
 
             <Row key={key} className="field mb-1" style={{ marginLeft: this.state.indent }}>
                 <div className="field-component">
-                    {this.state.disabledFields.includes(key) &&
+                    {disabledFields.includes(keyFullPath) &&
                         <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
                     }
-                    {!this.state.disabledFields.includes(key) &&
+                    {!disabledFields.includes(keyFullPath) &&
                         <Form.Label >{keyName}</Form.Label>
                     }
 
@@ -448,45 +503,13 @@ class EntityEditor extends React.Component {
         );
     }
 
-    //#region info button
-
-    hasInfo(key, infoIndex) {
-        return key.split('|').length >= infoIndex + 1;
-    }
-
-    createInfoPopup(key, infoIndex) {
-        var parentCleanPath = this.state.parentPath.split('/').map(subKey => subKey.split('|')[0]).join('/');
-        var fieldName = key.split('|')[0];
-        return (
-            <div className="field-component">
-                <Popup
-                    position="right top"
-                    on="hover"
-                    trigger={
-                        <i className="fas fa-info-circle field-action mt-1"></i>}
-                >
-                    <div>
-                        <center className="info-txt">
-                            {this.hasInfo(key, infoIndex) &&
-                                key.split('|')[infoIndex]}
-                        </center>
-                        {this.hasInfo(key, infoIndex) &&
-                            <hr style={{ margin: 2 }} />}
-
-                        <center className="info-field-path-txt">
-                            {parentCleanPath + '/' + fieldName}
-                        </center>
-                    </div>
-                </Popup>
-            </div>
-        );
-    }
-
-    //#endregion
 
     getObjectFieldJSX(key) {
         var keyName = key.split('|')[0];
         var keyRequiredValue = key.split('|')[1];
+        var keyFullPath = this.getKeyFullPath(key);
+
+        var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
 
         return (
             <div key={key}>
@@ -500,10 +523,10 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        {this.state.disabledFields.includes(keyName) &&
+                        {disabledFields.includes(keyFullPath) &&
                             <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
                         }
-                        {!this.state.disabledFields.includes(keyName) &&
+                        {!disabledFields.includes(keyFullPath) &&
                             <Form.Label >{keyName}</Form.Label>
                         }
                     </div>
@@ -546,6 +569,9 @@ class EntityEditor extends React.Component {
     getArrayFieldJSX(key) {
         var keyName = key.split('|')[0];
         var keyRequiredValue = key.split('|')[1];
+        var keyFullPath = this.getKeyFullPath(key);
+
+        var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
 
         const items = []
 
@@ -562,10 +588,10 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        {this.state.disabledFields.includes(keyName) &&
+                        {disabledFields.includes(keyFullPath) &&
                             <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
                         }
-                        {!this.state.disabledFields.includes(keyName) &&
+                        {!disabledFields.includes(keyFullPath) &&
                             <Form.Label >{keyName}</Form.Label>
                         }
                     </div>

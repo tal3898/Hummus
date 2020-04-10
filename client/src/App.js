@@ -29,9 +29,11 @@ class App extends React.Component {
             "action": "מחיקה",
             "version": "X",
             "fullJsonToEdit": "{}",
-            "links": []
+            "links": [],
+            "disabledFields": []
           }]
-        }
+        },
+        currOpenStep: 0
       },
       updateData: (newValue) => {
         this.setState(newValue)
