@@ -394,12 +394,40 @@ class EntityEditor extends React.Component {
 
     //#endregion
 
+    isKeyLinkTo(key) {
+        var keyFullPath = this.getKeyFullPath(key);
+        var links = this.context.data.currScenario.steps[this.context.data.currOpenStep].links;
+        for (var index in links) {
+            if (links[index].toPath == keyFullPath) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    isKeyLinkFrom(key) {
+        var keyFullPath = this.getKeyFullPath(key);
+        var links = this.context.data.currScenario.steps[this.context.data.currOpenStep].links;
+        for (var index in links) {
+            if (links[index].fromPath == keyFullPath) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     //#region rendering json fields
     getSingleFieldJSX(key) {
         var keyName = key.split('|')[0];
         var keyType = key.split('|')[1];
         var keyRequiredValue = key.split('|')[2];
+
+        if (this.isKeyLinkTo(key)) {
+            this.state.json[key] = "{link}";
+        }
+
         var defaultValue = this.state.json[key];
         var keyFullPath = this.getKeyFullPath(key);
         
@@ -415,6 +443,7 @@ class EntityEditor extends React.Component {
         }
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
+
 
 
         return (
@@ -468,6 +497,7 @@ class EntityEditor extends React.Component {
                         <Form.Control
                             ref={(ref) => this.fieldsInput[key] = ref}
                             name={key}
+                            disabled={defaultValue=='{link}'}
                             onChange={(event) => this.changeField(key, event.target.value)}
                             value={defaultValue}
                             size="sm"
