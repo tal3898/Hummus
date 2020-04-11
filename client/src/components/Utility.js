@@ -5,6 +5,8 @@ import React, { useState } from 'react';
    * so the method gets the json, and convert it to a normal json, when keys are only the name of the keys,
    * and values or normal values.
    * @param {*} json 
+   * @param activateFunctionFields - boolean, indicates whether to replace function values with values. if true, 
+   * it replace {text} with random string, else, it will leave it {text} (this optinal is for bomba)
    */
 
 

@@ -13,6 +13,7 @@
 			"Street|string|[1]": "Agadati",
 			"number|number|[1]": "30"
 		},
+		"Type|enum|[0]|[\"20 - paris\", \"30 - italy\"]": "20",
 		"Info|string|[0]": "{text}"
 	},
 	"PrevLesson|[0]|קישור לשיעור הקודם": {

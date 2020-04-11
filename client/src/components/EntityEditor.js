@@ -405,10 +405,10 @@ class EntityEditor extends React.Component {
         
         var enumValuesItem = []
         if (keyType == "enum") {
-            var optionalValues = JSON.parse(defaultValue);
+            var optionalValues = JSON.parse(key.split('|')[3]);
             for (var index in optionalValues) {
                 enumValuesItem.push(
-                    <option key={optionalValues[index]}>{optionalValues[index]}</option>
+                    <option value={parseInt(optionalValues[index])} key={optionalValues[index]}>{optionalValues[index]}</option>
                 );
             }
 
@@ -444,6 +444,8 @@ class EntityEditor extends React.Component {
                             ref={(ref) => this.fieldsInput[key] = ref}
                             name={key}
                             size="sm"
+                            value={defaultValue}
+                            onChange={(event) => this.changeField(key, event.target.value)}
                             type={this.inputTypesMap[keyType]}
                             width="20px">
 
