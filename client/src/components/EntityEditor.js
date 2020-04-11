@@ -14,7 +14,7 @@ const Styles = styled.div`
         font-size: 18px;
         height: 36px; 
         margin-top : 5px;
-        width:95%;
+        width:91%;
         &:hover { background: #bbdefb; }
     }
 

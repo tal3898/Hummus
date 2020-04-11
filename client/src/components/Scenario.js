@@ -291,7 +291,7 @@ class Scenario extends React.Component {
                     "2": {
                         data: JSON.stringify(english_2),
                         disabledFields: ['/PrevLesson',
-                            '/Planing',
+                            //'/Planing',
                             '/Homworks']
                     },
                     "X": {

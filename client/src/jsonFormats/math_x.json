@@ -12,7 +12,7 @@
 	},
 	"XChairs|[0]": {
 		"XInfo|string|[0]": "{text}",
-		"XType|enum|[1]": "[\"20 - Second\", \"30 - Third\", \"40 - Forth\", \"50 - Fith\"]",
+		"XType|enum|[0]|[\"20 - paris\", \"30 - italy\"]": "20",
 		"XSize|[0]|מידות של הכיסא": {
 			"XWidth|number|[1]": "0",
 			"XHeight|number|[1]": "0",
