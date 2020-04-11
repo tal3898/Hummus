@@ -166,7 +166,10 @@ class Scenario extends React.Component {
     applyLink(link, generatedSteps, currStep) {
         var linkedStepJson = generatedSteps[link.fromStep].Entities[0]; //TODO, when creating several entities in request, replace it
         var linkedValue = link.fromPath.split('/').splice(1).reduce((o, n) => o[n], linkedStepJson);
-        this.setToValue(currStep.Entities[0], link.toPath, linkedValue);
+        
+        if (linkedValue) {
+            this.setToValue(currStep.Entities[0], link.toPath, linkedValue);
+        }        
     }
     //#endregion
 
