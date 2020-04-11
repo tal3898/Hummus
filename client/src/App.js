@@ -28,7 +28,6 @@ class App extends React.Component {
             "reality": "ג",
             "action": "מחיקה",
             "version": "X",
-            "fullJsonToEdit": "{}",
             "links": [],
             "disabledFields": []
           }]

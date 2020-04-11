@@ -324,11 +324,8 @@ class Scenario extends React.Component {
             "reality": "0",
             "action": "POST",
             "version": "2",
-            "fullJsonToEdit": JSON.stringify(english_2),
-
+            
             "jsonToEdit": JSON.stringify(english_2),
-            "selectedVersion": "2",
-            "selectedEntity": "אנגלית",
             "links": [],
             "disabledFields": []
         }

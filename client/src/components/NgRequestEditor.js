@@ -9,6 +9,8 @@ import RealityMap from '../globals/RealityMap.json'
 import SystemMap from '../globals/SystemMap.json'
 import Popup from "reactjs-popup";
 
+import { FullEntitiesMap } from '../globals/FullEntitiesMap'
+
 import english_2 from '../jsonFormats/english_2.json'
 import math_2 from '../jsonFormats/math_2.json'
 import chemistry_2 from '../jsonFormats/chemistry_2.json'
@@ -110,12 +112,11 @@ class NgRequestEditor extends React.Component {
         // Reset the chosen json
         var chosenJson = this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion].data;
         this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit = chosenJson;
-        this.context.data.currScenario.steps[this.state.openStepIndex].fullJsonToEdit = chosenJson;
 
         // Reset the disabled fields
         var disabledFields = this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion].disabledFields;
         this.context.data.currScenario.steps[this.state.openStepIndex].disabledFields = JSON.parse(JSON.stringify(disabledFields));
-        
+
         // Reset links
         this.context.data.currScenario.steps[this.state.openStepIndex].links = [];
 
@@ -123,16 +124,31 @@ class NgRequestEditor extends React.Component {
     }
 
     updateRequest(event) {
-        
+
         var chosenEntity = this.entityNode.value;
         var chosenVersion = this.versionNode.value;
 
         this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit = JSON.stringify(event.newJson);
-        
+
 
         this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion].data =
             this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit;
 
+    }
+
+    getChosenEntityFullJson() {
+        var chosenVersion = this.context.data.currScenario.steps[this.state.openStepIndex].version;
+        var chosenEntity = this.context.data.currScenario.steps[this.state.openStepIndex].entity;
+
+        if (chosenEntity == "English") {
+            chosenEntity = "אנגלית"
+        } else if (chosenEntity == "Math") {
+            chosenEntity = "חשבון";
+        } else if (chosenEntity == "Chemistry") {
+            chosenEntity = "כמיה";
+        }
+
+        return FullEntitiesMap[chosenEntity][chosenVersion].data;
     }
 
     addLink() {
@@ -161,7 +177,7 @@ class NgRequestEditor extends React.Component {
 
 
                             <div dir='rtl' className='metadata'>
-                            
+
 
                                 {/** TODO: instead of harcoded entities, loop on the EntityMap */}
                                 <Row className='field'>
@@ -179,8 +195,8 @@ class NgRequestEditor extends React.Component {
                                             <option>כמיה</option>
                                         </Form.Control>
                                     </Col>
-                                    
-                                    
+
+
 
 
                                     <Col lg='1' >
@@ -246,8 +262,8 @@ class NgRequestEditor extends React.Component {
                                         </Form.Control>
                                     </Col>
                                 </Row>
-                                <span style={{marginTop:0, fontSize:10, float:'right', marginBottom:1, padding:0}}>*שים לב, שינוי ישות או תקן יאפס את כל המידע</span>
-                                <br/>
+                                <span style={{ marginTop: 0, fontSize: 10, float: 'right', marginBottom: 1, padding: 0 }}>*שים לב, שינוי ישות או תקן יאפס את כל המידע</span>
+                                <br />
                             </div>
 
                             <Row dir='rtl'>
@@ -273,7 +289,7 @@ class NgRequestEditor extends React.Component {
                                         expandAll={this.state.expandAll}
                                         ref={this.entidyEditorChild}
                                         level='0'
-                                        fullJson={context.data.currScenario.steps[this.state.openStepIndex].fullJsonToEdit}
+                                        fullJson={this.getChosenEntityFullJson()}
                                         jsondata={context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit}
                                         onInnerFieldChanged={(event) => this.updateRequest(event)} ></EntityEditor>
 
