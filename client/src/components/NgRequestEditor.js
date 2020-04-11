@@ -60,20 +60,6 @@ class NgRequestEditor extends React.Component {
         this.setState(this.state);
     }
 
-    getFullRequestJson() {
-        var entityJson = this.entidyEditorChild.current.getTotalJson();
-        var fullRequestJson = {
-            "Entity": EntityMap[this.entityNode.value],
-            "SendingTime": new Date().toISOString(),
-            "Reality": RealityMap[this.realityNode.value],
-            "Version": this.versionNode.value,
-            "System": SystemMap[this.systemNode.value],
-            "Entities": [entityJson]
-        }
-
-        return fullRequestJson;
-    }
-
     getBombaFullRequestJson() {
         var entityJson = this.entidyEditorChild.current.getTotalBombaJson();
         var fullRequestJson = {
@@ -93,7 +79,7 @@ class NgRequestEditor extends React.Component {
     }
 
     openLinkPopup() {
-        this.state.json = this.getFullRequestJson().Entities[0];
+        this.state.json = this.entidyEditorChild.current.getTotalJson();
         this.state.isLinkPopupOpen = true;
         this.setState(this.state);
     }

@@ -11,7 +11,9 @@ import Popup from "reactjs-popup";
 import { convertJsonTemplateToActualJson } from './Utility'
 import ActionMap from '../globals/ActionMap.json'
 
-
+import EntityMap from '../globals/EntityMap.json'
+import RealityMap from '../globals/RealityMap.json'
+import SystemMap from '../globals/SystemMap.json'
 import english_2 from '../jsonFormats/english_2.json'
 import math_2 from '../jsonFormats/math_2.json'
 import chemistry_2 from '../jsonFormats/chemistry_2.json'
@@ -97,7 +99,6 @@ class Scenario extends React.Component {
                     version: '2'
                 }]
             },
-            openStepIndex: 0
         }
 
         this.ngRequestEditorRef = React.createRef();
@@ -112,14 +113,14 @@ class Scenario extends React.Component {
     }
 
     openJsonPopup() {
-        this.state.json = this.ngRequestEditorRef.current.getFullRequestJson();
+        this.state.json = this.getStepNgRequest(this.context.data.currOpenStep);
         this.state.bombaJson = this.ngRequestEditorRef.current.getBombaFullRequestJson();
         this.state.isJsonPopupOpen = true;
         this.setState(this.state);
     }
 
     onMetadataChange(event, key) {
-        this.context.data.currScenario.steps[this.state.openStepIndex][key] = event.target.value;
+        this.context.data.currScenario.steps[this.context.data.currOpenStep][key] = event.target.value;
         this.context.updateData(this.context);
     }
 
@@ -141,11 +142,11 @@ class Scenario extends React.Component {
         var entityJson = convertJsonTemplateToActualJson(currStepJson, disabledFields);
 
         var fullRequestJson = {
-            "Entity": this.context.data.currScenario.steps[stepNumber].entity,
+            "Entity": EntityMap[this.context.data.currScenario.steps[stepNumber].entity],
             "SendingTime": new Date().toISOString(),
-            "Reality": this.context.data.currScenario.steps[stepNumber].reality,
+            "Reality": RealityMap[this.context.data.currScenario.steps[stepNumber].reality],
             "Version": this.context.data.currScenario.steps[stepNumber].version,
-            "System": this.context.data.currScenario.steps[stepNumber].system,
+            "System": SystemMap[this.context.data.currScenario.steps[stepNumber].system],
             "Entities": [entityJson]
         }
 
@@ -277,7 +278,7 @@ class Scenario extends React.Component {
     onStepChange(event) {
         var selectOptionString = event.target.value;
         var selectedStepAsInt = parseInt(selectOptionString);
-        this.state.openStepIndex = selectedStepAsInt;
+        this.context.data.currOpenStep = selectedStepAsInt;
         this.setState(this.state);
     }
 
@@ -342,7 +343,7 @@ class Scenario extends React.Component {
 
     addStep() {
         this.context.data.currScenario.steps.push(this.createStepTemplate());
-        this.state.openStepIndex = this.context.data.currScenario.steps.length - 1;
+        this.context.data.currOpenStep = this.context.data.currScenario.steps.length - 1;
         this.context.updateData(this.context);
         this.setState(this.state);
     }
@@ -351,10 +352,10 @@ class Scenario extends React.Component {
         if (this.context.data.currScenario.steps.length >= 2) {
 
 
-            this.context.data.currScenario.steps.splice(this.state.openStepIndex, 1);
+            this.context.data.currScenario.steps.splice(this.context.data.currOpenStep, 1);
 
-            if (this.state.openStepIndex > 0) {
-                this.state.openStepIndex--;
+            if (this.context.data.currOpenStep > 0) {
+                this.context.data.currOpenStep--;
             }
 
             this.context.updateData(this.context);
@@ -446,7 +447,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a className="action-btn" id="sendStepBtn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.state.openStepIndex)}>
+                                                    <a className="action-btn" id="sendStepBtn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.context.data.currOpenStep)}>
                                                         <i className="far fa-paper-plane fa-flip-horizontal"></i>
                                                     </a>}
                                             >
@@ -497,7 +498,7 @@ class Scenario extends React.Component {
                                         <Col lg='2'>
                                             <Form.Control
                                                 onChange={(event) => this.onStepChange(event)}
-                                                value={this.getStepsOptions()[this.state.openStepIndex].props.children.join('')}
+                                                value={this.getStepsOptions()[this.context.data.currOpenStep].props.children.join('')}
                                                 ref={(ref) => this.actionNode = ref}
                                                 as="select">
 
@@ -512,10 +513,10 @@ class Scenario extends React.Component {
                                         <Col lg='2'>
                                             <Form.Control
                                                 onChange={(event) => {
-                                                    context.data.currScenario.steps[this.state.openStepIndex].name = event.target.value;
+                                                    context.data.currScenario.steps[this.context.data.currOpenStep].name = event.target.value;
                                                     context.updateData(context)
                                                 }}
-                                                value={context.data.currScenario.steps[this.state.openStepIndex].name}
+                                                value={context.data.currScenario.steps[this.context.data.currOpenStep].name}
                                                 ref={(ref) => this.scenarioNameNode = ref}
                                                 type="text" />
                                         </Col>
@@ -556,7 +557,7 @@ class Scenario extends React.Component {
                                 </div>
 
                                 <NgRequestEditor
-                                    openStepIndex={this.state.openStepIndex}
+                                    openStepIndex={this.context.data.currOpenStep}
                                     ref={this.ngRequestEditorRef} />
                             </Form>
 
