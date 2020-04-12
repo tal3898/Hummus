@@ -163,13 +163,36 @@ class Scenario extends React.Component {
         obj[path[i]] = value;
     }
 
+    isPathExists(obj, path) {
+        var i;
+        path = path.split('/');
+        path.splice(0, 1);
+        for (i = 0; i < path.length; i++) {
+            if (obj[path[i]]) {
+                obj = obj[path[i]];
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
     applyLink(link, generatedSteps, currStep) {
         var linkedStepJson = generatedSteps[link.fromStep].Entities[0]; //TODO, when creating several entities in request, replace it
-        var linkedValue = link.fromPath.split('/').splice(1).reduce((o, n) => o[n], linkedStepJson);
-        
-        if (linkedValue) {
-            this.setToValue(currStep.Entities[0], link.toPath, linkedValue);
-        }        
+
+        console.log('is ' + this.isPathExists(linkedStepJson, link.fromPath));
+        console.log('is ' + this.isPathExists(currStep.Entities[0], link.toPath));
+
+        if (this.isPathExists(linkedStepJson, link.fromPath) && this.isPathExists(currStep.Entities[0], link.toPath)){
+            var linkedValue = link.fromPath.split('/').splice(1).reduce((o, n) => o[n], linkedStepJson);
+
+
+    
+            if (linkedValue) {
+                this.setToValue(currStep.Entities[0], link.toPath, linkedValue);
+            }
+        }
+
     }
     //#endregion
 
@@ -328,7 +351,7 @@ class Scenario extends React.Component {
             "reality": "0",
             "action": "POST",
             "version": "2",
-            
+
             "jsonToEdit": JSON.stringify(english_2),
             "links": [],
             "disabledFields": []
