@@ -86,7 +86,7 @@ export const convertJsonTemplateToActualJson = (json, disabledFields = [], activ
 
 export const blackList = ['/','.']; // Cant contain any of those
 
-export const isInputValue = (value) => {
+export const isInputValid = (value) => {
     if (value == '') {
         return false;
     }

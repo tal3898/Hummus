@@ -12,7 +12,7 @@ import JsonViewer from './JsonViewer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ScenariosWindow from './ScenariosWindow';
-import { isInputValue, blackList } from './Utility';
+import { isInputValid, blackList } from './Utility';
 
 const Styles = styled.div`
 
@@ -88,7 +88,7 @@ class SaveScenarioPopup extends React.Component {
         };
 
 
-        if (!isInputValue(this.state.scenarioData.name)) {
+        if (!isInputValid(this.state.scenarioData.name)) {
             toast.error("Scenario name cannot be empty, or contain one of these characters: " + blackList.join(' '), toastProperties);
         } else {
             var folderPath = this.jsonViewerNode.current.getSelectedPath();
