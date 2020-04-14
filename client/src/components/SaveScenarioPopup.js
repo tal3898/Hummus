@@ -12,6 +12,7 @@ import JsonViewer from './JsonViewer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ScenariosWindow from './ScenariosWindow';
+import { isInputValue, blackList } from './Utility';
 
 const Styles = styled.div`
 
@@ -81,49 +82,56 @@ class SaveScenarioPopup extends React.Component {
 
     save() {
         const toastProperties = {
-            autoClose: 2000,
+            autoClose: 6000,
             position: toast.POSITION.BOTTOM_RIGHT,
             pauseOnFocusLoss: false
         };
 
-        var folderPath = this.jsonViewerNode.current.getSelectedPath();
-        if (folderPath == false) {
-            toast.error("Please select a folder.", toastProperties);
+
+        if (!isInputValue(this.state.scenarioData.name)) {
+            toast.error("Scenario name cannot be empty, or contain one of these characters: " + blackList.join(' '), toastProperties);
         } else {
-            var fileFullPath = folderPath + '/' + this.state.scenarioData.name;
+            var folderPath = this.jsonViewerNode.current.getSelectedPath();
+            if (folderPath == false) {
+                toast.error("Please select a folder.", toastProperties);
+            } else {
+                var fileFullPath = folderPath + '/' + this.state.scenarioData.name;
 
-            var jsonToSaveInDB = {
-                path: fileFullPath,
-                name: this.state.scenarioData.name,
-                description: this.state.scenarioData.description,
-                steps: this.state.scenarioData.steps
-            }
+                var jsonToSaveInDB = {
+                    path: fileFullPath,
+                    name: this.state.scenarioData.name,
+                    description: this.state.scenarioData.description,
+                    steps: this.state.scenarioData.steps
+                }
 
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(jsonToSaveInDB)
-            };
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(jsonToSaveInDB)
+                };
 
-            fetch('/scenario', requestOptions)
-                .then(response => response.json())
-                .then(data => {
-                    console.log("db response: " + JSON.stringify(data));
-                    toast.success("Scenario saved successfully", toastProperties);
-                    this.context.loadFolderHiierarchy((data) => {
-                        this.context.data.scenariosHierarchy = data;
-                        this.context.updateData(this.context);
+                fetch('/scenario', requestOptions)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("db response: " + JSON.stringify(data));
+                        toast.success("Scenario saved successfully", toastProperties);
+                        this.context.loadFolderHiierarchy((data) => {
+                            this.context.data.scenariosHierarchy = data;
+                            this.context.updateData(this.context);
+                        });
+                    }).catch(error => {
+                        console.error("db error: ", error);
+                        toast.success("error occured while saving", toastProperties);
                     });
-                }).catch(error => {
-                    console.error("db error: ", error);
-                    toast.success("error occured while saving", toastProperties);
-                });
 
-            console.log('data to save into ' + JSON.stringify(this.state.scenarioData));
+                console.log('data to save into ' + JSON.stringify(this.state.scenarioData));
 
-            this.close();
-            toast.warning("saving...", toastProperties);
+                this.close();
+                toast.warning("saving...", toastProperties);
+            }
         }
+
+
     }
 
     render() {

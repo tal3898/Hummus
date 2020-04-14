@@ -19,6 +19,7 @@ class App extends React.Component {
         msg: 'aaa',
         scenariosHierarchy: {},
         currScenario: {
+          name:'',
           steps:[{
             "name": "כתיבה",
             "jsonMap": {},

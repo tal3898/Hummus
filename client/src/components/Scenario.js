@@ -91,6 +91,7 @@ class Scenario extends React.Component {
             isSavePopupOpen: false,
             scenarioName: 'bbb',
             scenarioData: {
+                name:'',
                 steps: [{
                     entity: 'אנגלית',
                     system: 'טל',

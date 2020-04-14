@@ -83,3 +83,20 @@ export const convertJsonTemplateToActualJson = (json, disabledFields = [], activ
 
     return resultJson;
 };
+
+export const blackList = ['/','.']; // Cant contain any of those
+
+export const isInputValue = (value) => {
+    if (value == '') {
+        return false;
+    }
+
+    for (var index in blackList) {
+        if (value.includes(blackList[index])) {
+            return false;
+        }
+    }    
+
+
+    return true;
+};
