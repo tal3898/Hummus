@@ -12,6 +12,7 @@ import JsonViewer from './JsonViewer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ScenariosWindow from './ScenariosWindow';
+import { isInputValue, blackList } from './Utility';
 
 const Styles = styled.div`
 
@@ -59,9 +60,9 @@ class SaveFolderPopup extends React.Component {
         this.state = {
             isOpen: false,
             scenarioData: props.scenarioData,
-            folderHierarchy: {},
-            newFolderName: ''
+            folderHierarchy: {}
         }
+        this.newFolderName = '';
         this.onCloseCallback = props.onClose;
         this.jsonViewerNode = React.createRef();
     }
@@ -86,41 +87,46 @@ class SaveFolderPopup extends React.Component {
             pauseOnFocusLoss: false
         };
 
-        var folderPath = this.jsonViewerNode.current.getSelectedPath();
-        if (folderPath == false) {
-            toast.error("Please select a folder.", toastProperties);
+        if (!isInputValue(this.newFolderName)) {
+            toast.error("Scenario name cannot be empty, or contain one of these characters: " + blackList.join(' '), toastProperties);
         } else {
-            var newFolderFullPath = folderPath + '/' + this.newFolderName;
-
-            var requestBody = {
-                path: newFolderFullPath,
-            }
-
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(requestBody)
-            };
-
-            fetch('/folder', requestOptions)
-                .then(response => response.json())
-                .then(data => {
-                    console.log("db response: " + JSON.stringify(data));
-                    toast.success("Folder saved successfully", toastProperties);
-                    this.context.loadFolderHiierarchy((data) => {
-                        this.context.data.scenariosHierarchy = data;
-                        this.context.updateData(this.context);
+            var folderPath = this.jsonViewerNode.current.getSelectedPath();
+            if (folderPath == false) {
+                toast.error("Please select a folder.", toastProperties);
+            } else {
+                var newFolderFullPath = folderPath + '/' + this.newFolderName;
+    
+                var requestBody = {
+                    path: newFolderFullPath,
+                }
+    
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
+                };
+    
+                fetch('/folder', requestOptions)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("db response: " + JSON.stringify(data));
+                        toast.success("Folder saved successfully", toastProperties);
+                        this.context.loadFolderHiierarchy((data) => {
+                            this.context.data.scenariosHierarchy = data;
+                            this.context.updateData(this.context);
+                        });
+                    }).catch(error => {
+                        console.error("db error: ", error);
+                        toast.success("error occured while saving", toastProperties);
                     });
-                }).catch(error => {
-                    console.error("db error: ", error);
-                    toast.success("error occured while saving", toastProperties);
-                });
-
-            console.log('data to save into ' + JSON.stringify(this.state.scenarioData));
-
-            this.close();
-            toast.warning("saving...", toastProperties);
+    
+                console.log('data to save into ' + JSON.stringify(this.state.scenarioData));
+    
+                this.close();
+                toast.warning("saving...", toastProperties);
+            }
         }
+        
     }
 
     render() {

@@ -349,7 +349,7 @@ class ScenariosWindow extends React.Component {
       <SlidingPanel
         type={'right'}
         isOpen={this.state.isOpen}
-        size={25}
+        size={22}
         backdropClicked={() => {
           this.closePanel();
         }}>
