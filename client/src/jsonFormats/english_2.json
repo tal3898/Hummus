@@ -23,7 +23,7 @@
 		},
 		"BreakDuration|number|[1]|זמן הפסקה בין השיעורים": "15"	
 	},
-	"Planing|[0..1]": [{
+	"Planning|[0..1]": [{
 		"Goal|string|[1]": "learn piano",
 		"Time|time|[1]": "{iso}"
 	},{

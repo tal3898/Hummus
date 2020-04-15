@@ -22,7 +22,7 @@
 		},
 		"XBreakDuration|number|[1]|זמן הפסקה בין השיעורים": "15"	
 	},
-	"XPlaning|[0..1]": [{
+	"XPlanning|[0..1]": [{
 		"XGoal|string|[1]": "learn piano",
 		"XTime|time|[1]": "{iso}"
 	},{
