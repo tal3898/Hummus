@@ -222,7 +222,7 @@ class EntityEditor extends React.Component {
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
         if (disabledFields.includes(keyPath)) {
-            disabledFields.splice(disabledFields.indexOf(keyPath),1);
+            disabledFields.splice(disabledFields.indexOf(keyPath), 1);
         } else {
             disabledFields.push(keyPath);
         }
@@ -235,12 +235,9 @@ class EntityEditor extends React.Component {
         this.updateJson('change');
     }
 
-
-    removeField(key) {
-        // remove relevant links
-        var links = this.context.data.currScenario.steps[this.context.data.currOpenStep].links;
+    removeRelevantLinks(key) {
         var keyFullPath = '';
-        
+
         if (this.isCurrentJsonIsAnElementInArray()) {
             var elementIndex = parseInt(key);
             keyFullPath = this.getKeyFullPath(elementIndex);
@@ -248,11 +245,31 @@ class EntityEditor extends React.Component {
             keyFullPath = this.getKeyFullPath(key);
         }
 
-        for (var index in links) {
-            if (links[index].fromPath.includes(keyFullPath) || links[index].toPath.includes(keyFullPath)) {
-                links.splice(index,1);
+        // remove links from curr step        
+        var links = this.context.data.currScenario.steps[this.context.data.currOpenStep].links;
+
+        for (var index = 0; index < links.length; index++) {
+            if (links[index].toPath.includes(keyFullPath)) {
+                links.splice(index, 1);
+                index--;
             }
         }
+
+        // remove links from other steps
+        for (var stepIndex in this.context.data.currScenario.steps) {
+            var links = this.context.data.currScenario.steps[stepIndex].links;
+
+            for (var index = 0; index < links.length; index++) {
+                if (links[index].fromPath.includes(keyFullPath) && links[index].fromStep == this.context.data.currOpenStep) {
+                    links.splice(index, 1);
+                    index--;
+                }
+            }
+        }
+    }
+
+    removeField(key) {
+        this.removeRelevantLinks(key);
 
         // remove actual field
         delete this.state.json[key];
@@ -344,7 +361,7 @@ class EntityEditor extends React.Component {
     }
 
     isKeyIsElementNumber(key) {
-        
+
     }
 
     /*
@@ -454,7 +471,7 @@ class EntityEditor extends React.Component {
 
         var defaultValue = this.state.json[key];
         var keyFullPath = this.getKeyFullPath(key);
-        
+
         var enumValuesItem = []
         if (keyType == "enum") {
             var optionalValues = JSON.parse(key.split('|')[3]);
@@ -521,7 +538,7 @@ class EntityEditor extends React.Component {
                         <Form.Control
                             ref={(ref) => this.fieldsInput[key] = ref}
                             name={key}
-                            disabled={defaultValue=='{link}'}
+                            disabled={defaultValue == '{link}'}
                             onChange={(event) => this.changeField(key, event.target.value)}
                             value={defaultValue}
                             size="sm"
