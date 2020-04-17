@@ -235,6 +235,11 @@ class EntityEditor extends React.Component {
         this.updateJson('change');
     }
 
+    /**
+     * The method gets a removed key, and checks if the key is linked to another field. If it does,
+     * the method removes the link.
+     * @param {*} key - the removed key
+     */
     removeRelevantLinks(key) {
         var keyFullPath = '';
 
