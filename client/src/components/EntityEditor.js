@@ -235,10 +235,30 @@ class EntityEditor extends React.Component {
         this.updateJson('change');
     }
 
+
     removeField(key) {
+        // remove relevant links
+        var links = this.context.data.currScenario.steps[this.context.data.currOpenStep].links;
+        var keyFullPath = '';
+        
+        if (this.isCurrentJsonIsAnElementInArray()) {
+            var elementIndex = parseInt(key);
+            keyFullPath = this.getKeyFullPath(elementIndex);
+        } else {
+            keyFullPath = this.getKeyFullPath(key);
+        }
+
+        for (var index in links) {
+            if (links[index].fromPath.includes(keyFullPath) || links[index].toPath.includes(keyFullPath)) {
+                links.splice(index,1);
+            }
+        }
+
+        // remove actual field
         delete this.state.json[key];
         delete this.children[key];
         delete this.fieldsInput[key];
+
         this.updateJson('delete');
     }
 
@@ -321,6 +341,10 @@ class EntityEditor extends React.Component {
             this.onInnerFieldChangedCallback(newEvent)
         }
 
+    }
+
+    isKeyIsElementNumber(key) {
+        
     }
 
     /*
