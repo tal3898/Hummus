@@ -241,14 +241,7 @@ class EntityEditor extends React.Component {
      * @param {*} key - the removed key
      */
     removeRelevantLinks(key) {
-        var keyFullPath = '';
-
-        if (this.isCurrentJsonIsAnElementInArray()) {
-            var elementIndex = parseInt(key);
-            keyFullPath = this.getKeyFullPath(elementIndex);
-        } else {
-            keyFullPath = this.getKeyFullPath(key);
-        }
+        var keyFullPath = this.getKeyFullPath(key);
 
         // remove links from curr step        
         var links = this.context.data.currScenario.steps[this.context.data.currOpenStep].links;
@@ -396,6 +389,10 @@ class EntityEditor extends React.Component {
     }
 
     getKeyFullPath(key) {
+        if (this.isCurrentJsonIsAnElementInArray()) {
+            key = parseInt(key);
+        } 
+
         var keyFullPath = this.state.parentPath + '/' + key
         var keyCleanFullPath = keyFullPath.split('/')
             .map(subKey => subKey.split('|')[0])
@@ -585,8 +582,18 @@ class EntityEditor extends React.Component {
         var keyName = key.split('|')[0];
         var keyRequiredValue = key.split('|')[1];
         var keyFullPath = this.getKeyFullPath(key);
+        var keyPath = '';
+        
+        if (this.isCurrentJsonIsAnElementInArray()){
+            keyPath = this.state.parentPath + '/' + parseInt(key);
+        } else {
+            keyPath = this.state.parentPath + '/' + key;
+        }
+        
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
+
+        
 
         return (
             <div key={key}>
@@ -630,7 +637,7 @@ class EntityEditor extends React.Component {
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
                     <EntityEditor
-                        parentPath={this.state.parentPath + "/" + key}
+                        parentPath={keyPath}
                         expandAll={this.state.expandAll}
                         onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
                         name={key}
