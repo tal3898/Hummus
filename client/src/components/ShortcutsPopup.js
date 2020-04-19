@@ -1,8 +1,5 @@
 import React from 'react';
-import { Nav, Navbar, Form, FormControl, Col, Row } from 'react-bootstrap';
 import styled from 'styled-components';
-import Logo from './logo.png'
-import ScenariosWindow from './ScenariosWindow';
 import Popup from "reactjs-popup";
 
 const Styles = styled.div`

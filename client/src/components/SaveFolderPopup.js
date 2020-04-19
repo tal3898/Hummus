@@ -1,17 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Nav, Button, Form, FormControl, Col, Row } from 'react-bootstrap';
-import { JSONEditor } from 'react-json-editor-viewer';
-import EntityEditor from './EntityEditor';
-import { Treebeard } from 'react-treebeard';
+import {Form, Col, Row } from 'react-bootstrap';
 import HummusContext from './HummusContext'
 
 import Popup from "reactjs-popup";
-import ReactJson from 'react-json-view'
 import JsonViewer from './JsonViewer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ScenariosWindow from './ScenariosWindow';
 import { isInputValid, blackList } from './Utility';
 
 const Styles = styled.div`
@@ -47,9 +42,6 @@ const Styles = styled.div`
 }
 
 `;
-
-
-
 
 class SaveFolderPopup extends React.Component {
 

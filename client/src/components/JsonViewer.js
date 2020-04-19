@@ -1,12 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Nav, Button, Form, FormControl, Col, Row } from 'react-bootstrap';
 import { Treebeard } from 'react-treebeard';
 import HummusContext from './HummusContext'
 
-import Popup from "reactjs-popup";
-
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Styles = styled.div`
@@ -455,7 +451,6 @@ class JsonViewer extends React.Component {
                     data={this.state.jsonToDisplay}
                     onToggle={this.onToggle}
                 />
-                <ToastContainer />
             </Styles>
         )
     }

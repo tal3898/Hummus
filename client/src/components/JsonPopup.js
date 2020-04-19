@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Nav, Button, Form, FormControl, Col, Row } from 'react-bootstrap';
-import { JSONEditor } from 'react-json-editor-viewer';
-import EntityEditor from './EntityEditor';
+import {Col, Row } from 'react-bootstrap';
 import Popup from "reactjs-popup";
 import ReactJson from 'react-json-view'
 

@@ -9,7 +9,6 @@ import HummusContext, { HummusConsumer } from './HummusContext'
 import NgRequestEditor from './NgRequestEditor';
 import Popup from "reactjs-popup";
 import { convertJsonTemplateToActualJson } from './Utility'
-import ActionMap from '../globals/ActionMap.json'
 
 import EntityMap from '../globals/EntityMap.json'
 import RealityMap from '../globals/RealityMap.json'

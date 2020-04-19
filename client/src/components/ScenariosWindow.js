@@ -5,7 +5,7 @@ import HummusContext, { HummusConsumer } from './HummusContext'
 import SaveFolderPopup from './SaveFolderPopup'
 import SlidingPanel from 'react-sliding-side-panel';
 import Logo from './logo.png'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const Styles = styled.div`
 .panel-container {

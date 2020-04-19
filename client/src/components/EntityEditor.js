@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Form, Col, Row } from 'react-bootstrap';
+import { Form, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import { Collapse} from 'reactstrap';
 import Popup from "reactjs-popup";
 import Select from 'react-select';
 import { convertJsonTemplateToActualJson } from './Utility'

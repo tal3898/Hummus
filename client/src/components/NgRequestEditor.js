@@ -7,17 +7,8 @@ import LinkingFieldsPopup from './LinkingFieldsPopup'
 import EntityMap from '../globals/EntityMap.json'
 import RealityMap from '../globals/RealityMap.json'
 import SystemMap from '../globals/SystemMap.json'
-import Popup from "reactjs-popup";
 
 import { FullEntitiesMap } from '../globals/FullEntitiesMap'
-
-import english_2 from '../jsonFormats/english_2.json'
-import math_2 from '../jsonFormats/math_2.json'
-import chemistry_2 from '../jsonFormats/chemistry_2.json'
-
-import english_x from '../jsonFormats/english_x.json'
-import math_x from '../jsonFormats/math_x.json'
-import chemistry_x from '../jsonFormats/chemistry_x.json'
 
 const Styles = styled.div`
     
