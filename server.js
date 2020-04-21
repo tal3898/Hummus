@@ -71,6 +71,13 @@ app.post('/scenario', async (req, res) => {
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db("HummusDB");
 
+	// If scenario already exists, remove it.
+	var scenarioPath = scenarioDocument.path;
+	var result = await dbo.collection("scenarioFiles").findOne({ path: scenarioPath }, { _id: 0 });
+	if (result) {
+		await dbo.collection("scenarioFiles").remove({ path: scenarioPath });
+	}
+
 	// Insert the actual scenario
 	await dbo.collection("scenarioFiles").insertOne(scenarioDocument);
 
