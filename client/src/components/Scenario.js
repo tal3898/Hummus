@@ -546,7 +546,7 @@ class Scenario extends React.Component {
                                                 ref={(ref) => this.scenarioNameNode = ref}
                                                 type="text" />
                                         </Col>
-                                        <Col lg="1">
+                                        <Col lg="2">
                                             <Popup
 
                                                 position="bottom center"
