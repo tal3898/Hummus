@@ -410,6 +410,11 @@ class EntityEditor extends React.Component {
     createInfoPopup(key, infoIndex) {
         var parentCleanPath = this.state.parentPath.split('/').map(subKey => subKey.split('|')[0]).join('/');
         var fieldName = key.split('|')[0];
+        var fullPath = parentCleanPath + '/' + fieldName;
+
+        // Because the path starts with /Target/0, and we dont want it, we will remove it
+        fullPath = '/' + fullPath.split('/').slice(3).map(subKey => subKey.split('|')[0]).join('/');
+
         return (
             <div className="field-component">
                 <Popup
@@ -427,7 +432,7 @@ class EntityEditor extends React.Component {
                             <hr style={{ margin: 2 }} />}
 
                         <center className="info-field-path-txt">
-                            {parentCleanPath + '/' + fieldName}
+                            {fullPath}
                         </center>
                     </div>
                 </Popup>
