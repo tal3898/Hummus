@@ -1,14 +1,16 @@
 {
-	"Ids|[1]": {
-		"name|string|[1]": "{text}",
-		"code|number|[1]": "0"
-	},
-	"PrevLesson|[0]|קישור לשיעור הקודם": {
+	"Chemistry": [{
 		"Ids|[1]": {
-			"code|number|[1]|קוד ישות": "0",
-			"name|string|[0]|שם ישות": ""
+			"name|string|[1]": "{text}",
+			"code|number|[1]": "0"
 		},
-		"BreakDuration|number|[1]|זמן הפסקה בין השיעורים": "15"	
-	},
-	"Nothing|string|[0]": ""
+		"PrevLesson|[0]|קישור לשיעור הקודם": {
+			"Ids|[1]": {
+				"code|number|[1]|קוד ישות": "0",
+				"name|string|[0]|שם ישות": ""
+			},
+			"BreakDuration|number|[1]|זמן הפסקה בין השיעורים": "15"	
+		},
+		"Nothing|string|[0]": ""
+	}]
 }
