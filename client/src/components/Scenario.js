@@ -90,7 +90,7 @@ class Scenario extends React.Component {
             isSavePopupOpen: false,
             scenarioName: 'bbb',
             scenarioData: {
-                name:'',
+                name: '',
                 steps: [{
                     entity: 'אנגלית',
                     system: 'טל',
@@ -178,19 +178,36 @@ class Scenario extends React.Component {
         return true;
     }
 
+    /**
+     * The function gets a path in json, and removes the first field in the path.
+     * If the path is /a/b/c/d
+     * the function returns /b/c/d
+     * 
+     * Why to use it?
+     * because the json is /Target/0/Ids
+     * And the Target field is only for ui. It is not really in the request.
+     * 
+     * @param {*} path 
+     */
+    removeFirstFieldFromPath(path) {
+        return '/' + path.split('/').slice(2).join('/');
+    }
+
     applyLink(link, generatedSteps, currStep) {
         var linkedStepJson = generatedSteps[link.fromStep].Entities; //TODO, when creating several entities in request, replace it
+        var fromPath = this.removeFirstFieldFromPath(link.fromPath);
+        var toPath = this.removeFirstFieldFromPath(link.toPath);
 
-        console.log('is ' + this.isPathExists(linkedStepJson, link.fromPath));
-        console.log('is ' + this.isPathExists(currStep.Entities, link.toPath));
+        console.log('is ' + this.isPathExists(linkedStepJson, fromPath));
+        console.log('is ' + this.isPathExists(currStep.Entities, toPath));
 
-        if (this.isPathExists(linkedStepJson, link.fromPath) && this.isPathExists(currStep.Entities, link.toPath)){
-            var linkedValue = link.fromPath.split('/').splice(1).reduce((o, n) => o[n], linkedStepJson);
+        if (this.isPathExists(linkedStepJson, fromPath) && this.isPathExists(currStep.Entities, toPath)) {
+            var linkedValue = fromPath.split('/').splice(1).reduce((o, n) => o[n], linkedStepJson);
 
 
-    
+
             if (linkedValue) {
-                this.setToValue(currStep.Entities, link.toPath, linkedValue);
+                this.setToValue(currStep.Entities, toPath, linkedValue);
             }
         }
 
