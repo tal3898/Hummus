@@ -9,7 +9,7 @@ import chemistry_x from '../jsonFormats/chemistry_x.json'
 
 
 export const FullEntitiesMap = {
-    "אנגלית": {
+    "English": {
         "2": {
             data: JSON.stringify(english_2),
             disabledFields: ['/PrevLesson',
@@ -21,7 +21,7 @@ export const FullEntitiesMap = {
             disabledFields: []
         }
     },
-    "חשבון": {
+    "Math": {
         "2": {
             data: JSON.stringify(math_2),
             disabledFields: []
@@ -31,7 +31,7 @@ export const FullEntitiesMap = {
             disabledFields: []
         }
     },
-    "כמיה": {
+    "Chemistry": {
         "2": {
             data: JSON.stringify(chemistry_2),
             disabledFields: []

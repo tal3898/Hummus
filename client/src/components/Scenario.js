@@ -140,14 +140,14 @@ class Scenario extends React.Component {
 
         var disabledFields = this.context.data.currScenario.steps[stepNumber].disabledFields;
         var entityJson = convertJsonTemplateToActualJson(currStepJson, disabledFields);
-        var entityType = EntityMap[this.context.data.currScenario.steps[stepNumber].entity];
+        var entityType = this.context.data.currScenario.steps[stepNumber].entity;
 
         var fullRequestJson = {
             "Entity": entityType,
             "SendingTime": new Date().toISOString(),
-            "Reality": RealityMap[this.context.data.currScenario.steps[stepNumber].reality],
+            "Reality": this.context.data.currScenario.steps[stepNumber].reality,
             "Version": this.context.data.currScenario.steps[stepNumber].version,
-            "System": SystemMap[this.context.data.currScenario.steps[stepNumber].system],
+            "System": this.context.data.currScenario.steps[stepNumber].system,
             "Entities": entityJson[entityType]
         }
 
@@ -314,7 +314,7 @@ class Scenario extends React.Component {
         var step = {
             "name": "צעד",
             "jsonMap": {
-                "אנגלית": {
+                "English": {
                     "2": {
                         data: JSON.stringify(english_2),
                         disabledFields: ['/PrevLesson',
@@ -326,7 +326,7 @@ class Scenario extends React.Component {
                         disabledFields: []
                     }
                 },
-                "חשבון": {
+                "Math": {
                     "2": {
                         data: JSON.stringify(math_2),
                         disabledFields: []
@@ -336,7 +336,7 @@ class Scenario extends React.Component {
                         disabledFields: []
                     }
                 },
-                "כמיה": {
+                "Chemistry": {
                     "2": {
                         data: JSON.stringify(chemistry_2),
                         disabledFields: []
@@ -358,7 +358,7 @@ class Scenario extends React.Component {
             "disabledFields": []
         }
 
-        step.disabledFields = JSON.parse(JSON.stringify(step.jsonMap["אנגלית"]["2"].disabledFields));
+        step.disabledFields = JSON.parse(JSON.stringify(step.jsonMap["English"]["2"].disabledFields));
         return step;
     }
 

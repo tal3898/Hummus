@@ -53,13 +53,16 @@ class NgRequestEditor extends React.Component {
 
     getBombaFullRequestJson() {
         var entityJson = this.entidyEditorChild.current.getTotalBombaJson();
+        var stepNumber = this.context.data.currOpenStep;
+        var entityType = this.context.data.currScenario.steps[stepNumber].entity;
+
         var fullRequestJson = {
-            "Entity": EntityMap[this.entityNode.value],
+            "Entity": entityType,
             "SendingTime": new Date().toISOString(),
-            "Reality": RealityMap[this.realityNode.value],
-            "Version": this.versionNode.value,
-            "System": SystemMap[this.systemNode.value],
-            "Entities": [entityJson]
+            "Reality": this.context.data.currScenario.steps[stepNumber].reality,
+            "Version": this.context.data.currScenario.steps[stepNumber].version,
+            "System": this.context.data.currScenario.steps[stepNumber].system,
+            "Entities": entityJson[entityType]
         }
 
         return fullRequestJson;
@@ -69,6 +72,7 @@ class NgRequestEditor extends React.Component {
         this.setState({ expandAll: !this.state.expandAll })
     }
 
+    
     openLinkPopup() {
         this.state.json = this.entidyEditorChild.current.getTotalJson();
         this.state.isLinkPopupOpen = true;
@@ -117,14 +121,6 @@ class NgRequestEditor extends React.Component {
         var chosenVersion = this.context.data.currScenario.steps[this.state.openStepIndex].version;
         var chosenEntity = this.context.data.currScenario.steps[this.state.openStepIndex].entity;
 
-        if (chosenEntity == "English") {
-            chosenEntity = "אנגלית"
-        } else if (chosenEntity == "Math") {
-            chosenEntity = "חשבון";
-        } else if (chosenEntity == "Chemistry") {
-            chosenEntity = "כמיה";
-        }
-
         return FullEntitiesMap[chosenEntity][chosenVersion].data;
     }
 
@@ -167,9 +163,9 @@ class NgRequestEditor extends React.Component {
                                             value={context.data.currScenario.steps[this.state.openStepIndex].entity}
                                             ref={(ref) => this.entityNode = ref}
                                             as="select">
-                                            <option>אנגלית</option>
-                                            <option>חשבון</option>
-                                            <option>כמיה</option>
+                                            <option value="English">אנגלית</option>
+                                            <option value="Math">חשבון</option>
+                                            <option value="Chemistry">כמיה</option>
                                         </Form.Control>
                                     </Col>
 
@@ -233,9 +229,9 @@ class NgRequestEditor extends React.Component {
                                             ref={(ref) => this.realityNode = ref}
                                             as="select" >
 
-                                            <option>א</option>
-                                            <option>ב</option>
-                                            <option>ג</option>
+                                            <option value="0">א</option>
+                                            <option value="100">ב</option>
+                                            <option value="200">ג</option>
                                         </Form.Control>
                                     </Col>
                                 </Row>
