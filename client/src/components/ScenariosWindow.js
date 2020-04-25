@@ -313,7 +313,7 @@ class ScenariosWindow extends React.Component {
     } else {
       return (
         <center style={{ top:'50%', position:'absolute', fontSize: 50, color: '#b0bec5', fontFamily: '"Lucida Sans Unicode", "Lucida Grande", sans-serif' }}>
-          Folder is empty
+          Folder Is Empty
         </center>
       )
     }
