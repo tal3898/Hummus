@@ -1,39 +1,41 @@
 {
-	"Ids|[1]|מזהה ישות": {
-		"name|string|[0]|שם ישות": "{text}",
-		"code|number|[1]|קוד ישות": "0"
-	},
-	"Data|[0]": {
-		"Location|[1]": {
-			"a": {
-				"b": {
-					"c|string|[1]|תיאור מאוד ארוך ארוך ארוך של שדה מסוים שיכול להיות עם מלא דברים ובגלל זה התיאור מאוד מאוד ארוך": "stam"
-				}
+	"English": [{
+		"Ids|[1]|מזהה ישות": {
+			"name|string|[0]|שם ישות": "{text}",
+			"code|number|[1]|קוד ישות": "0"
+		},
+		"Data|[0]": {
+			"Location|[1]": {
+				"a": {
+					"b": {
+						"c|string|[1]|תיאור מאוד ארוך ארוך ארוך של שדה מסוים שיכול להיות עם מלא דברים ובגלל זה התיאור מאוד מאוד ארוך": "stam"
+					}
+				},
+				"Street|string|[1]": "Agadati",
+				"number|number|[1]": "30"
 			},
-			"Street|string|[1]": "Agadati",
-			"number|number|[1]": "30"
+			"Type|enum|[0]|[\"20 - paris\", \"30 - italy\"]": "20",
+			"Info|string|[0]": "{text}"
 		},
-		"Type|enum|[0]|[\"20 - paris\", \"30 - italy\"]": "20",
-		"Info|string|[0]": "{text}"
-	},
-	"PrevLesson|[0]|קישור לשיעור הקודם": {
-		"Ids|[1]": {
-			"code|number|[1]|קוד ישות": "0",
-			"name|string|[0]|שם ישות": ""
+		"PrevLesson|[0]|קישור לשיעור הקודם": {
+			"Ids|[1]": {
+				"code|number|[1]|קוד ישות": "0",
+				"name|string|[0]|שם ישות": ""
+			},
+			"BreakDuration|number|[1]|זמן הפסקה בין השיעורים": "15"	
 		},
-		"BreakDuration|number|[1]|זמן הפסקה בין השיעורים": "15"	
-	},
-	"Planning|[0..1]": [{
-		"Goal|string|[1]": "learn piano",
-		"Time|time|[1]": "{iso}"
-	},{
-		"Goal|string|[1]": "learn piano",
-		"Time|time|[1]": "{iso}"
-	}],
-	"Homworks|[0..1]": [{
-		"Pages|string|[1]": "{text}",
-		"Bool|string|[1]": "{text}"
-	}]
+		"Planning|[0..1]": [{
+			"Goal|string|[1]": "learn piano",
+			"Time|time|[1]": "{iso}"
+		},{
+			"Goal|string|[1]": "learn piano",
+			"Time|time|[1]": "{iso}"
+		}],
+		"Homworks|[0..1]": [{
+			"Pages|string|[1]": "{text}",
+			"Bool|string|[1]": "{text}"
+		}]
+		
 	
-
+	}]
 }

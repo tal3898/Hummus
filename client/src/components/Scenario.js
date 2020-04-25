@@ -140,14 +140,15 @@ class Scenario extends React.Component {
 
         var disabledFields = this.context.data.currScenario.steps[stepNumber].disabledFields;
         var entityJson = convertJsonTemplateToActualJson(currStepJson, disabledFields);
+        var entityType = EntityMap[this.context.data.currScenario.steps[stepNumber].entity];
 
         var fullRequestJson = {
-            "Entity": EntityMap[this.context.data.currScenario.steps[stepNumber].entity],
+            "Entity": entityType,
             "SendingTime": new Date().toISOString(),
             "Reality": RealityMap[this.context.data.currScenario.steps[stepNumber].reality],
             "Version": this.context.data.currScenario.steps[stepNumber].version,
             "System": SystemMap[this.context.data.currScenario.steps[stepNumber].system],
-            "Entities": [entityJson]
+            "Entities": entityJson[entityType]
         }
 
         return fullRequestJson;
