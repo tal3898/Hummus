@@ -88,6 +88,21 @@ class LinkingFieldsPopup extends React.Component {
         this.setState(this.state);
     }
 
+    /**
+     * The function gets a path in json, and remove the first field in the path.
+     * If the path is /a/b/c/d
+     * the function returns /b/c/d
+     * 
+     * Why to use it?
+     * because the json is /Target/0/Ids
+     * And the Target field is only for ui. It is not really in the request.
+     * 
+     * @param {*} path 
+     */
+    removeFirstFieldFromPath(path) {
+        return '/' + path.split('/').slice(2).join('/');
+    }
+
     addLink() {
         const toastProperties = {
             autoClose: 7000,
@@ -103,7 +118,10 @@ class LinkingFieldsPopup extends React.Component {
             toast.error("You can only link fields which have value", toastProperties);
         } else {
             var fromPath = this.jsonViewerFromRef.current.getSelectedPath();
+            fromPath = this.removeFirstFieldFromPath(fromPath);
+
             var toPath = this.jsonViewerToRef.current.getSelectedPath();
+            toPath = this.removeFirstFieldFromPath(toPath);
 
             var newLink = {
                 fromPath: fromPath,

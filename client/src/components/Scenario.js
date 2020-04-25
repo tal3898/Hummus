@@ -179,18 +179,18 @@ class Scenario extends React.Component {
     }
 
     applyLink(link, generatedSteps, currStep) {
-        var linkedStepJson = generatedSteps[link.fromStep].Entities[0]; //TODO, when creating several entities in request, replace it
+        var linkedStepJson = generatedSteps[link.fromStep].Entities; //TODO, when creating several entities in request, replace it
 
         console.log('is ' + this.isPathExists(linkedStepJson, link.fromPath));
-        console.log('is ' + this.isPathExists(currStep.Entities[0], link.toPath));
+        console.log('is ' + this.isPathExists(currStep.Entities, link.toPath));
 
-        if (this.isPathExists(linkedStepJson, link.fromPath) && this.isPathExists(currStep.Entities[0], link.toPath)){
+        if (this.isPathExists(linkedStepJson, link.fromPath) && this.isPathExists(currStep.Entities, link.toPath)){
             var linkedValue = link.fromPath.split('/').splice(1).reduce((o, n) => o[n], linkedStepJson);
 
 
     
             if (linkedValue) {
-                this.setToValue(currStep.Entities[0], link.toPath, linkedValue);
+                this.setToValue(currStep.Entities, link.toPath, linkedValue);
             }
         }
 
