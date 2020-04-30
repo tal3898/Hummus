@@ -72,7 +72,7 @@ class NgRequestEditor extends React.Component {
         this.setState({ expandAll: !this.state.expandAll })
     }
 
-    
+
     openLinkPopup() {
         this.state.json = this.entidyEditorChild.current.getTotalJson();
         this.state.isLinkPopupOpen = true;
@@ -196,9 +196,10 @@ class NgRequestEditor extends React.Component {
                                             value={context.data.currScenario.steps[this.state.openStepIndex].system}
                                             ref={(ref) => this.systemNode = ref}
                                             as="select">
-                                            <option value="Tal">טל</option>
-                                            <option value="Inon">ינון</option>
-                                            <option value="Shahar">שחר</option>
+                                            {Object.entries(SystemMap)
+                                                .map(entry =>
+                                                    <option value={entry[1]}>{entry[0]}</option>
+                                                )}
                                         </Form.Control>
                                     </Col>
 
@@ -228,21 +229,21 @@ class NgRequestEditor extends React.Component {
                                             value={context.data.currScenario.steps[this.state.openStepIndex].reality}
                                             ref={(ref) => this.realityNode = ref}
                                             as="select" >
-
-                                            <option value="0">א</option>
-                                            <option value="100">ב</option>
-                                            <option value="200">ג</option>
+                                            {Object.entries(RealityMap)
+                                                .map(entry =>
+                                                    <option value={entry[1]}>{entry[0]}</option>
+                                                )}
                                         </Form.Control>
                                     </Col>
                                 </Row>
-                    {/**
+                                {/**
                      <span style={{ marginTop: 0, fontSize: 10, float: 'right', marginBottom: 1, padding: 0 }}>*שים לב, שינוי ישות או תקן יאפס את כל המידע</span>
                                 <br />
                      */}}
-                                
+
                             </div>
 
-                            <Row dir='rtl' style={{marginBottom:60}}>
+                            <Row dir='rtl' style={{ marginBottom: 60 }}>
 
                                 <Col lg='10' className='entity-editor-window'>
                                     <Button id="expandAllBtn" style={{ top: 20, right: 20, position: 'absolute' }} variant="info" onClick={() => this.expendAll()}>
