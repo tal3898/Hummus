@@ -497,7 +497,7 @@ class EntityEditor extends React.Component {
 
         return (
 
-            <Row key={key} className="field mb-1" style={{ marginLeft: this.state.indent }}>
+            <Row key={key} className="field mb-1" style={{ paddingLeft: this.state.indent }}>
                 <div className="field-component">
                     {disabledFields.includes(keyFullPath) &&
                         <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
@@ -603,7 +603,7 @@ class EntityEditor extends React.Component {
 
         return (
             <div key={key}>
-                <Row className="field mb-1" style={{ marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)}>
+                <Row className="field mb-1" style={{ paddingLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)}>
 
                     <div className="field-component">
                         {this.state.objectFieldsOpen[key] ?
@@ -669,7 +669,7 @@ class EntityEditor extends React.Component {
         items.push(
 
             <div key={key}>
-                <Row className='field mb-1' style={{ marginLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
+                <Row className='field mb-1' style={{ paddingLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
                     <div className="field-component">
                         {this.state.objectFieldsOpen[key] ?
                             <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
