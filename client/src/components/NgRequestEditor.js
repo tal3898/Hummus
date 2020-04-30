@@ -242,7 +242,7 @@ class NgRequestEditor extends React.Component {
                                 
                             </div>
 
-                            <Row dir='rtl'>
+                            <Row dir='rtl' style={{marginBottom:60}}>
 
                                 <Col lg='10' className='entity-editor-window'>
                                     <Button id="expandAllBtn" style={{ top: 20, right: 20, position: 'absolute' }} variant="info" onClick={() => this.expendAll()}>

@@ -14,7 +14,7 @@ const Styles = styled.div`
         font-size: 18px;
         height: 36px; 
         margin-top : 5px;
-        width:110%;
+        width:100%;
         &:hover { background: #bbdefb; }
     }
 
@@ -669,7 +669,7 @@ class EntityEditor extends React.Component {
         items.push(
 
             <div key={key}>
-                <Row className='field mb-1' style={{ paddingLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
+                <Row className='field mb-1' style={{marginLeft:'0.001em', paddingLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
                     <div className="field-component">
                         {this.state.objectFieldsOpen[key] ?
                             <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
