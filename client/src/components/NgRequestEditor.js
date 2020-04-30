@@ -242,7 +242,7 @@ class NgRequestEditor extends React.Component {
                             <Row dir='rtl'>
 
                                 <Col lg='10' className='entity-editor-window'>
-                                    <Button id="expandAllBtn" style={{ top: 20, right: 20, position: 'absolute' }} variant="outline-info" onClick={() => this.expendAll()}>
+                                    <Button id="expandAllBtn" style={{ top: 20, right: 20, position: 'absolute' }} variant="info" onClick={() => this.expendAll()}>
                                         {
                                             this.state.expandAll &&
                                             <i className="fas fa-compress-alt"></i>
@@ -252,7 +252,7 @@ class NgRequestEditor extends React.Component {
                                         }
                                     </Button>
 
-                                    <Button style={{ top: 20, right: 60, position: 'absolute' }} variant="outline-info"
+                                    <Button style={{ top: 20, right: 60, position: 'absolute' }} variant="info"
                                         onClick={() => this.openLinkPopup()}>
                                         {<i className="fas fa-sitemap"></i>}
                                     </Button>
