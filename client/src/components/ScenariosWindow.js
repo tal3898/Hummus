@@ -45,6 +45,11 @@ const Styles = styled.div`
   }
 }
 
+.window-content {
+  overflow-y: scroll;
+  height:79%;
+}
+
 .field {
   cursor: pointer;
   height:40px;
@@ -312,7 +317,7 @@ class ScenariosWindow extends React.Component {
       return totalItems;
     } else {
       return (
-        <center style={{ top:'50%', position:'absolute', fontSize: 50, color: '#b0bec5', fontFamily: '"Lucida Sans Unicode", "Lucida Grande", sans-serif' }}>
+        <center style={{ top: '50%', position: 'absolute', fontSize: 50, color: '#b0bec5', fontFamily: '"Lucida Sans Unicode", "Lucida Grande", sans-serif' }}>
           Folder Is Empty
         </center>
       )
@@ -356,7 +361,7 @@ class ScenariosWindow extends React.Component {
 
         <div style={{ background: '#1B2431', height: '100%' }}>
 
-          <div style={{ height: 170, background: '#1E488F', paddingTop: 10 }}>
+          <div style={{ height: '21%', background: '#1E488F', paddingTop: 10 }}>
             <center >
               <img className="logo" src={Logo} />
               <h1>תרחישים</h1>
@@ -372,11 +377,13 @@ class ScenariosWindow extends React.Component {
             </div>
           </div>
 
-          <HummusConsumer>
-            {(value) =>
-              this.getWindowContent(value)
-            }
-          </HummusConsumer>
+          <div className="window-content">
+            <HummusConsumer>
+              {(value) =>
+                this.getWindowContent(value)
+              }
+            </HummusConsumer>
+          </div>
 
           <i
             className="fas fa-plus"
