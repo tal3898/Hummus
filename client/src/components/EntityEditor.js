@@ -247,7 +247,7 @@ class EntityEditor extends React.Component {
         var links = this.context.data.currScenario.steps[this.context.data.currOpenStep].links;
 
         for (var index = 0; index < links.length; index++) {
-            if (links[index].toPath.includes(keyFullPath)) {
+            if (links[index].toPath.includes(keyFullPath + '/') || links[index].toPath == keyFullPath) {
                 links.splice(index, 1);
                 index--;
             }
@@ -258,7 +258,8 @@ class EntityEditor extends React.Component {
             var links = this.context.data.currScenario.steps[stepIndex].links;
 
             for (var index = 0; index < links.length; index++) {
-                if (links[index].fromPath.includes(keyFullPath) && links[index].fromStep == this.context.data.currOpenStep) {
+                if ((links[index].fromPath.includes(keyFullPath + '/') || links[index].fromPath == keyFullPath) && 
+                        links[index].fromStep == this.context.data.currOpenStep) {
                     links.splice(index, 1);
                     index--;
                 }
