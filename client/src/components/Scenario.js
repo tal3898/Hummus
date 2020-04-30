@@ -193,7 +193,26 @@ class Scenario extends React.Component {
         return '/' + path.split('/').slice(2).join('/');
     }
 
-    applyLink(link, generatedSteps, currStep) {
+    /**
+     * The function gets a step number, and a path, and the method checks if there is an ancestor for this
+     * path, that is disabled. If there is, the function returns true.
+     * 
+     * Why the function isPathExists is not good enough? because, if a field is in array element, and the
+     * element is disabled, the next element in the array will take place, and the link will work on this element,
+     * instead of the original
+     * @param {number} stepNumber 
+     * @param {string} path 
+     */
+    isAncestorDisabled(stepNumber, path) {
+        var stepDisabledFields = this.context.data.currScenario.steps[stepNumber].disabledFields;
+        return stepDisabledFields.some(disabledField => {
+            var disabledFieldWithNoFirstField = this.removeFirstFieldFromPath(disabledField);
+            return path.includes(disabledFieldWithNoFirstField + '/') || path == disabledFieldWithNoFirstField;
+        });
+    }
+
+
+    applyLink(link, generatedSteps, currStep, currStepNumber) {
         var linkedStepJson = generatedSteps[link.fromStep].Entities; //TODO, when creating several entities in request, replace it
         var fromPath = this.removeFirstFieldFromPath(link.fromPath);
         var toPath = this.removeFirstFieldFromPath(link.toPath);
@@ -201,7 +220,12 @@ class Scenario extends React.Component {
         console.log('is ' + this.isPathExists(linkedStepJson, fromPath));
         console.log('is ' + this.isPathExists(currStep.Entities, toPath));
 
-        if (this.isPathExists(linkedStepJson, fromPath) && this.isPathExists(currStep.Entities, toPath)) {
+        console.log('is ancestor from' + this.isAncestorDisabled(link.fromStep, fromPath));
+        console.log('is ancestor to' + this.isAncestorDisabled(currStepNumber, toPath));
+
+        
+        if (!this.isAncestorDisabled(link.fromStep, fromPath) && !this.isAncestorDisabled(currStepNumber, toPath) &&
+            this.isPathExists(linkedStepJson, fromPath) && this.isPathExists(currStep.Entities, toPath)) {
             var linkedValue = fromPath.split('/').splice(1).reduce((o, n) => o[n], linkedStepJson);
 
 
@@ -255,14 +279,14 @@ class Scenario extends React.Component {
 
     sendAllStepsToNg() {
         var generatedSteps = [];
-        for (var index in this.context.data.currScenario.steps) {
-            var currStep = this.context.data.currScenario.steps[index];
-            var currStepRequest = this.getStepNgRequest(index);
+        for (var stepIndex in this.context.data.currScenario.steps) {
+            var currStep = this.context.data.currScenario.steps[stepIndex];
+            var currStepRequest = this.getStepNgRequest(stepIndex);
             generatedSteps.push(currStepRequest);
 
             // Apply all links created
-            for (var index in currStep.links) {
-                this.applyLink(currStep.links[index], generatedSteps, currStepRequest);
+            for (var linkIndex in currStep.links) {
+                this.applyLink(currStep.links[linkIndex], generatedSteps, currStepRequest, stepIndex);
             }
 
             console.log('sending json to ng ' + JSON.stringify(currStepRequest));
@@ -334,9 +358,7 @@ class Scenario extends React.Component {
                 "English": {
                     "2": {
                         data: JSON.stringify(english_2),
-                        disabledFields: ['/PrevLesson',
-                            '/Planning',
-                            '/Homworks']
+                        disabledFields: []
                     },
                     "X": {
                         data: JSON.stringify(english_x),
