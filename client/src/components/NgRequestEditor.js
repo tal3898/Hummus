@@ -196,9 +196,9 @@ class NgRequestEditor extends React.Component {
                                             value={context.data.currScenario.steps[this.state.openStepIndex].system}
                                             ref={(ref) => this.systemNode = ref}
                                             as="select">
-                                            <option>טל</option>
-                                            <option>ינון</option>
-                                            <option>שחר</option>
+                                            <option value="Tal">טל</option>
+                                            <option value="Inon">ינון</option>
+                                            <option value="Shahar">שחר</option>
                                         </Form.Control>
                                     </Col>
 
