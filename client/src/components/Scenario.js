@@ -169,7 +169,7 @@ class Scenario extends React.Component {
         path = path.split('/');
         path.splice(0, 1);
         for (i = 0; i < path.length; i++) {
-            if (obj[path[i]]) {
+            if (obj[path[i]] != undefined) {
                 obj = obj[path[i]];
             } else {
                 return false;
