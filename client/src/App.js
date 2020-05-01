@@ -63,7 +63,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className='main-body'>
+      <div style={{backgroundColor:'#fafafa'}} className='main-body'>
         <HummusProvider value={this.state}>
           <React.Fragment>
             <Router>
