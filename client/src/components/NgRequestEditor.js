@@ -19,6 +19,11 @@ const Styles = styled.div`
     margin-top: 10px;
     padding: 10px;
     background: #f5f5f5;   
+    border-color: #dddddd; 
+    border-style:solid;
+    border-width:1px;
+    border-radius:5px;
+      
 }
 
 
