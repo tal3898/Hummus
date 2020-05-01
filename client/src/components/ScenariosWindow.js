@@ -18,6 +18,13 @@ const Styles = styled.div`
   flex-direction: column;
 }
 
+.path-font {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap; 
+  text-overflow: ellipsis;  
+}
+
 .font {
   float: right;
   color: #bbdefb;
@@ -371,11 +378,11 @@ class ScenariosWindow extends React.Component {
 
 
             <div style={{ paddingLeft: 10, marginLeft: 15, backgroundColor: '#2E5A88', borderRadius: 10, width: '90%' }}>
-              <i id="goBackBtn" onClick={() => this.goBack()} style={{ fontSize: 20, marginRight: 12 }} className="back-button fas fa-undo-alt"></i>
-              <span style={{ fontSize: 20 }}>
+              <i id="goBackBtn" onClick={() => this.goBack()} style={{float:'left', marginTop:6, fontSize: 20, marginRight: 12 }} className="back-button fas fa-undo-alt"></i>
+              <div dir="rtl" className="path-font" style={{ fontSize: 20 }}>
                 {(this.state.currPath.length > 0 && this.state.currPath) ||
                   '/'}
-              </span>
+              </div>
             </div>
           </div>
 
