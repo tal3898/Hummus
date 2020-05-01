@@ -26,7 +26,7 @@ const Styles = styled.div`
 .center {
   margin: 0;
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -345,8 +345,10 @@ class ScenariosWindow extends React.Component {
       return (
 
         <div class="container">
-          <div class=" center" style={{ fontSize: 50, color: '#b0bec5', fontFamily: '"Lucida Sans Unicode", "Lucida Grande", sans-serif' }}>
-            <center>Folder Is Empty</center>
+          <div class="center">
+            <center style={{ fontSize: 50, color: '#b0bec5', fontFamily: '"Lucida Sans Unicode", "Lucida Grande", sans-serif' }}>
+              Empty
+            </center>
           </div>
         </div>
 
@@ -408,14 +410,12 @@ class ScenariosWindow extends React.Component {
               </div>
             </div>
           </div>
-
-          <div >  
+ 
             <HummusConsumer>
               {(value) =>
                 this.getWindowContent(value)
               }
             </HummusConsumer>
-          </div>
 
           <i
             className="fas fa-plus"
