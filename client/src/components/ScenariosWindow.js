@@ -19,7 +19,7 @@ const Styles = styled.div`
 }
 
 .folder-name {
-  width:100px;
+  max-width: 100%;
   overflow: hidden;
   white-space: nowrap; 
   text-overflow: ellipsis;  
@@ -252,10 +252,10 @@ class ScenariosWindow extends React.Component {
             <i style={{ marginTop: 5, color: '#ffa726' }} className="action fas fa-folder-open fa-2x"></i>
           </center>
         </Col>
-        <Col lg="8" className="font">
-          <span className="folder-name" style={{float: 'right' }}>
+        <Col lg="7" className="font">
+          <div dir="rtl" className="folder-name" style={{ float: 'right' }}>
             {folderName}
-          </span>
+          </div>
         </Col>
         <Col>
           <i onClick={(event) => { this.removeFolder(folderName); event.stopPropagation(); }} class="fas fa-trash"></i>
