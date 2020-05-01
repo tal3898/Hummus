@@ -18,7 +18,11 @@ const Styles = styled.div`
   flex-direction: column;
 }
 
-.folder-name {
+.font {
+  float: right;
+  color: #bbdefb;
+  font-size: 25px;
+  margin-top: 1px;
   max-width: 100%;
   overflow: hidden;
   white-space: nowrap; 
@@ -64,14 +68,6 @@ const Styles = styled.div`
     background: #016795; 
   }
 }
-
-.font {
-  color:#bbdefb;
-  font-size: 25px;
-  margin-top: 1px;
-}
-
-
 
 .back-button {
   cursor: pointer;
@@ -252,8 +248,8 @@ class ScenariosWindow extends React.Component {
             <i style={{ marginTop: 5, color: '#ffa726' }} className="action fas fa-folder-open fa-2x"></i>
           </center>
         </Col>
-        <Col lg="7" className="font">
-          <div dir="rtl" className="folder-name" style={{ float: 'right' }}>
+        <Col lg="7" >
+          <div dir="rtl" className="font">
             {folderName}
           </div>
         </Col>
@@ -276,10 +272,10 @@ class ScenariosWindow extends React.Component {
             <i style={{ marginTop: 5, color: '#90a4ae' }} className="action fas fa-file fa-2x"></i>
           </center>
         </Col>
-        <Col lg="8" className="font">
-          <span style={{ float: 'right' }}>
+        <Col lg="7">
+          <div dir="rtl" className="font">
             {fileName}
-          </span>
+          </div>
         </Col>
         <Col>
           <i onClick={(event) => { this.removeFile(fileName); event.stopPropagation(); }} class="fas fa-trash"></i>
