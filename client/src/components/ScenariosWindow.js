@@ -18,6 +18,20 @@ const Styles = styled.div`
   flex-direction: column;
 }
 
+.container { 
+  height: 100%;
+  position: relative;
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
 .path-font {
   max-width: 100%;
   overflow: hidden;
@@ -331,9 +345,13 @@ class ScenariosWindow extends React.Component {
       return totalItems;
     } else {
       return (
-        <center style={{ top: '50%', position: 'absolute', fontSize: 50, color: '#b0bec5', fontFamily: '"Lucida Sans Unicode", "Lucida Grande", sans-serif' }}>
-          Folder Is Empty
-        </center>
+
+        <div class="container">
+          <div class=" center" style={{fontSize: 50, color: '#b0bec5', fontFamily: '"Lucida Sans Unicode", "Lucida Grande", sans-serif'}}>
+            <center>Folder Is Empty</center>
+          </div>
+        </div>
+
       )
     }
   }
@@ -383,7 +401,7 @@ class ScenariosWindow extends React.Component {
 
 
             <div style={{ paddingLeft: 10, marginLeft: 15, backgroundColor: '#2E5A88', borderRadius: 10, width: '90%' }}>
-              <i id="goBackBtn" onClick={() => this.goBack()} style={{float:'left', marginTop:6, fontSize: 20, marginRight: 12 }} className="back-button fas fa-undo-alt"></i>
+              <i id="goBackBtn" onClick={() => this.goBack()} style={{ float: 'left', marginTop: 6, fontSize: 20, marginRight: 12 }} className="back-button fas fa-undo-alt"></i>
               <div dir="rtl" className="path-font" style={{ fontSize: 20 }}>
                 {(this.state.currPath.length > 0 && this.state.currPath) ||
                   '/'}
