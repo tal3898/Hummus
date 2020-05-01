@@ -83,7 +83,7 @@ const Styles = styled.div`
 
 .window-content {
   overflow-y: scroll;
-  height:79%;
+  height:100%;
 }
 
 .field {
@@ -347,7 +347,7 @@ class ScenariosWindow extends React.Component {
       return (
 
         <div class="container">
-          <div class=" center" style={{fontSize: 50, color: '#b0bec5', fontFamily: '"Lucida Sans Unicode", "Lucida Grande", sans-serif'}}>
+          <div class=" center" style={{ fontSize: 50, color: '#b0bec5', fontFamily: '"Lucida Sans Unicode", "Lucida Grande", sans-serif' }}>
             <center>Folder Is Empty</center>
           </div>
         </div>
@@ -391,13 +391,15 @@ class ScenariosWindow extends React.Component {
           this.closePanel();
         }}>
 
-        <div style={{ background: '#1B2431', height: '100%' }}>
+        <div className="window-content" style={{ background: '#1B2431', height: '100%' }}>
 
-          <div style={{ height: '21%', background: '#1E488F', paddingTop: 10 }}>
-            <center >
-              <img className="logo" src={Logo} />
-              <h1>תרחישים</h1>
-            </center>
+          <div style={{ paddingBottom: 10, background: '#1E488F', paddingTop: 10 }}>
+            <div >
+              <center >
+                <img className="logo" src={Logo} />
+                <h1>תרחישים</h1>
+              </center>
+            </div>
 
 
             <div style={{ paddingLeft: 10, marginLeft: 15, backgroundColor: '#2E5A88', borderRadius: 10, width: '90%' }}>
@@ -409,7 +411,7 @@ class ScenariosWindow extends React.Component {
             </div>
           </div>
 
-          <div className="window-content">
+          <div >
             <HummusConsumer>
               {(value) =>
                 this.getWindowContent(value)
