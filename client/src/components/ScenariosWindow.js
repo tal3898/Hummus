@@ -18,6 +18,12 @@ const Styles = styled.div`
   flex-direction: column;
 }
 
+.folder-name {
+  width:100px;
+  overflow: hidden;
+  white-space: nowrap; 
+  text-overflow: ellipsis;  
+}
 
 .headline {
   float: right;
@@ -247,7 +253,7 @@ class ScenariosWindow extends React.Component {
           </center>
         </Col>
         <Col lg="8" className="font">
-          <span style={{ float: 'right' }}>
+          <span className="folder-name" style={{float: 'right' }}>
             {folderName}
           </span>
         </Col>
@@ -354,7 +360,7 @@ class ScenariosWindow extends React.Component {
       <SlidingPanel
         type={'right'}
         isOpen={this.state.isOpen}
-        size={22}
+        size={24}
         backdropClicked={() => {
           this.closePanel();
         }}>
