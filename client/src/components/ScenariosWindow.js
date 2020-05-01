@@ -46,7 +46,8 @@ const Styles = styled.div`
 
 .font {
   float: right;
-  color: #bbdefb;
+  color: white;
+  font-weight: lighter;
   font-size: 25px;
   margin-top: 1px;
   max-width: 100%;
@@ -89,10 +90,7 @@ const Styles = styled.div`
 .field {
   cursor: pointer;
   height:40px;
-  width:100%
-  &:hover { 
-    background: #016795; 
-  }
+  width:100%;
 }
 
 .back-button {
@@ -268,10 +266,10 @@ class ScenariosWindow extends React.Component {
   //#region content rendering
   createFolderRow(folderName) {
     return (
-      <Row onClick={() => this.openFolder(this.state.currPath + '/' + folderName)} className='field' dir="rtl">
+      <Row onClick={() => this.openFolder(this.state.currPath + '/' + folderName)} className='field' dir="rtl" style={{marginRight:0, paddingRight:0}}>
         <Col lg="2">
           <center>
-            <i style={{ marginTop: 5, color: '#ffa726' }} className="action fas fa-folder-open fa-2x"></i>
+            <i style={{ marginTop: 5, color: 'white', fontSize:'30px' }} className="action fas fa-folder-open"></i>
           </center>
         </Col>
         <Col lg="7" >
@@ -295,7 +293,7 @@ class ScenariosWindow extends React.Component {
       <Row className='field' onClick={() => this.openFile(this.state.currPath + '/' + fileName)} dir="rtl">
         <Col lg="2">
           <center>
-            <i style={{ marginTop: 5, color: '#90a4ae' }} className="action fas fa-file fa-2x"></i>
+            <i style={{ marginTop: 5, color: 'white', fontSize:'30px' }} className="action fas fa-file"></i>
           </center>
         </Col>
         <Col lg="7">
@@ -391,27 +389,27 @@ class ScenariosWindow extends React.Component {
           this.closePanel();
         }}>
 
-        <div className="window-content" style={{ background: '#1B2431', height: '100%' }}>
+        <div className="window-content" style={{ background: '#4b4b4b', height: '100%' }}>
 
-          <div style={{ paddingBottom: 10, background: '#1E488F', paddingTop: 10 }}>
+          <div style={{ paddingBottom: 10, background: '#1a80df', paddingTop: 10 }}>
             <div >
-              <center >
-                <img className="logo" src={Logo} />
-                <h1>תרחישים</h1>
-              </center>
+              
+                {/**<img className="logo" src={Logo} />**/}
+                <h2 style={{paddingLeft:20, color:'white'}}>Scenarios</h2>
+              
             </div>
 
 
-            <div style={{ paddingLeft: 10, marginLeft: 15, backgroundColor: '#2E5A88', borderRadius: 10, width: '90%' }}>
+            <div style={{ paddingLeft: 10, marginLeft: 15, backgroundColor: '#1a80df', borderRadius: 10, width: '90%' }}>
               <i id="goBackBtn" onClick={() => this.goBack()} style={{ float: 'left', marginTop: 6, fontSize: 20, marginRight: 12 }} className="back-button fas fa-undo-alt"></i>
-              <div dir="rtl" className="path-font" style={{ fontSize: 20 }}>
+              <div className="path-font" style={{ fontSize: 20 }}>
                 {(this.state.currPath.length > 0 && this.state.currPath) ||
                   '/'}
               </div>
             </div>
           </div>
 
-          <div >
+          <div >  
             <HummusConsumer>
               {(value) =>
                 this.getWindowContent(value)

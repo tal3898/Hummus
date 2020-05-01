@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import Logo from './logo.png'
+import Logo2 from './logo2.png'
 import ScenariosWindow from './ScenariosWindow';
 import ShortcutsPopup from './ShortcutsPopup'
 
@@ -45,7 +46,7 @@ export const NavigationBar = () => {
     <Styles>
       <Row className="navbar">
         <Col lg="0">
-          <a href="/" style={{ textDecoration: 'none' }}><img className="logo" src={Logo} /></a>
+          <a href="/" style={{ textDecoration: 'none' }}><img className="logo" src={Logo2} /></a>
         </Col>
         <Col >
           <a href="/" style={{ textDecoration: 'none' }}><span className="headline">HummusNG</span></a>
