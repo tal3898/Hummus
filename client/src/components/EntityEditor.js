@@ -15,7 +15,7 @@ const Styles = styled.div`
         height: 36px; 
         margin-top : 5px;
         width:110%;
-        &:hover { background: #bbdefb; }
+        &:hover { background: #ffccbc; }
     }
 
     .collapse {

@@ -14,7 +14,7 @@ const Styles = styled.div`
     
 
 .entity-editor-window {
-    height: 480px;
+    height: 97vh;
     overflow-y: scroll;
     margin-top: 10px;
     padding: 10px;
@@ -248,7 +248,7 @@ class NgRequestEditor extends React.Component {
 
                             </div>
 
-                            <Row dir='rtl' style={{ marginBottom: 60 }}>
+                            <Row dir='rtl' style={{ marginBottom: 10 }}>
 
                                 <Col lg='10' className='entity-editor-window'>
                                     <Button id="expandAllBtn" style={{ top: 20, right: 20, position: 'absolute' }} variant="info" onClick={() => this.expendAll()}>
