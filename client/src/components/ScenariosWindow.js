@@ -39,11 +39,6 @@ const Styles = styled.div`
   text-overflow: ellipsis;  
 }
 
-.path-font:hover {
-  overflow: visible;
-  white-space: normal;
-}
-
 .font {
   float: right;
   color: white;
