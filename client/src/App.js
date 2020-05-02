@@ -7,7 +7,7 @@ import ScenariosWindow from './components/ScenariosWindow';
 import Scenario from './components/Scenario';
 import { Col, Row } from 'react-bootstrap';
 import { HummusProvider } from './components/HummusContext';
-
+import './App.css';
 
 class App extends React.Component {
 
@@ -65,6 +65,7 @@ class App extends React.Component {
     return (
       <div style={{backgroundColor:'#fafafa'}} className='main-body'>
         <HummusProvider value={this.state}>
+          
           <React.Fragment>
             <Router>
               <NavigationBar />

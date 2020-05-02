@@ -13,6 +13,7 @@ import { FullEntitiesMap } from '../globals/FullEntitiesMap'
 const Styles = styled.div`
     
 
+
 .entity-editor-window {
     height: 97vh;
     overflow-y: scroll;
