@@ -271,7 +271,7 @@ class NgRequestEditor extends React.Component {
                                         parentPath=''
                                         expandAll={this.state.expandAll}
                                         ref={this.entidyEditorChild}
-                                        level='0'
+                                        level={0}
                                         fullJson={this.getChosenEntityFullJson()}
                                         jsondata={context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit}
                                         onInnerFieldChanged={(event) => this.updateRequest(event)} ></EntityEditor>

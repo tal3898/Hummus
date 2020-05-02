@@ -108,8 +108,8 @@ class EntityEditor extends React.Component {
             disabledFields: [],
             fullJson: JSON.parse(props.fullJson),
             name: props.name,
-            level: parseInt(props.level),
-            indent: 30 * parseInt(props.level),
+            level: props.level,
+            indent: 30 * props.level,
             objectFieldsOpen: {} // for each field in the current json scope, set true/false, if the field is collapsed or not.
         }
 
