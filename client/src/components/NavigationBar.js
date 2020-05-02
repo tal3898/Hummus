@@ -48,7 +48,7 @@ export const NavigationBar = () => {
     <Styles>
       <Row className="navbar">
         <Col lg="0">
-          <a href="/" style={{ textDecoration: 'none' }}><img className="logo" src={Logo2} /></a>
+          <a href="/" style={{ textDecoration: 'none' }}><img className="logo" src={Logo} /></a>
         </Col>
         <Col >
           <a href="/" style={{ textDecoration: 'none' }}><span className="headline">HummusNG</span></a>
