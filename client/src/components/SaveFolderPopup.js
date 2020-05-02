@@ -52,8 +52,7 @@ class SaveFolderPopup extends React.Component {
         this.state = {
             isOpen: false,
             parentPath: props.parentPath,
-            scenarioData: props.scenarioData,
-            folderHierarchy: {}
+            scenarioData: props.scenarioData
         }
         this.newFolderName = '';
         this.onCloseCallback = props.onClose;
@@ -63,7 +62,6 @@ class SaveFolderPopup extends React.Component {
 
     UNSAFE_componentWillReceiveProps(newProps) {
         this.state.isOpen = JSON.parse(newProps.isOpen);
-        this.state.folderHierarchy = this.context.data.scenariosHierarchy;
         this.state.parentPath = newProps.parentPath;
         this.setState(this.state);
     }
@@ -137,14 +135,14 @@ class SaveFolderPopup extends React.Component {
                 >
 
                     <div>
-                        <Row style={{ marginLeft: 0, marginTop: 7, marginBottom: 20 }}>
-                            <Col lg="5">
+                        <div style={{ marginLeft: 0, marginTop: 7, marginBottom: 30 }}>
+                            <div style={{position:'absolute', left:0}}>
                                 <i className="far fa-save fa-3x" onClick={() => this.save()}></i>
-                            </Col>
-                            <Col>
+                            </div>
+                            <center>
                                 <Form.Label style={{ fontSize: 30, color: '#424242', marginBottom: 1 }}>תקיה חדשה</Form.Label>
-                            </Col>
-                        </Row>
+                            </center>
+                        </div>
 
                         <div style={{marginBottom:70, marginRight:30}}>
                             
