@@ -18,8 +18,8 @@ const Styles = styled.div`
   .headline {
     font-size: 3.5em;
     color: #000000;
-    font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
-    font-style: normal; font-variant: normal; font-weight: 530; line-height: 26.4px;
+    font-family:Verdana;
+    
 
     &:hover { color: #000000; }
   }
