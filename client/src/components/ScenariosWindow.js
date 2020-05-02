@@ -419,6 +419,7 @@ class ScenariosWindow extends React.Component {
           <SaveFolderPopup
             onClose={() => this.closePopup()}
             folderHierarchy={this.context.scenariosHierarchy}
+            parentPath={this.state.currPath}
             isOpen={this.state.isSavePopupOpen} />
         </div>
       </SlidingPanel>

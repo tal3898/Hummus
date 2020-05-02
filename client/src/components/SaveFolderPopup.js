@@ -51,6 +51,7 @@ class SaveFolderPopup extends React.Component {
         super(props)
         this.state = {
             isOpen: false,
+            parentPath: props.parentPath,
             scenarioData: props.scenarioData,
             folderHierarchy: {}
         }
@@ -63,6 +64,7 @@ class SaveFolderPopup extends React.Component {
     UNSAFE_componentWillReceiveProps(newProps) {
         this.state.isOpen = JSON.parse(newProps.isOpen);
         this.state.folderHierarchy = this.context.data.scenariosHierarchy;
+        this.state.parentPath = newProps.parentPath;
         this.setState(this.state);
     }
 
@@ -82,11 +84,10 @@ class SaveFolderPopup extends React.Component {
         if (!isInputValid(this.newFolderName)) {
             toast.error("Scenario name cannot be empty, or contain one of these characters: " + blackList.join(' '), toastProperties);
         } else {
-            var folderPath = this.jsonViewerNode.current.getSelectedPath();
-            if (folderPath == false) {
-                toast.error("Please select a folder.", toastProperties);
+            if (this.state.parentPath == '') {
+                toast.error("You cant create folder in root.", toastProperties);
             } else {
-                var newFolderFullPath = folderPath + '/' + this.newFolderName;
+                var newFolderFullPath = this.state.parentPath + '/' + this.newFolderName;
     
                 var requestBody = {
                     path: newFolderFullPath,
@@ -156,14 +157,6 @@ class SaveFolderPopup extends React.Component {
 
                         </div>
 
-                        <p style={{color: '#424242', float:'right', marginRight:30}}>מיקום תקיה חדשה</p>
-                        <br/><br/>
-                        <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
-                            <JsonViewer
-                                json={this.state.folderHierarchy}
-                                ref={this.jsonViewerNode}
-                            />
-                        </div>
                     </div>
                 </Popup>
 
