@@ -263,15 +263,15 @@ class Scenario extends React.Component {
             pauseOnFocusLoss: false
         };
 
-        toast.warn("Sending", toastProperties);
+        var toastId = toast.warn("Sending", toastProperties);
 
         fetch('https://reqres.in/api/users', requestOptions)
             .then(response => response.json())
             .then(data => {
-                toast.success("Sent successfully", toastProperties);
+                toast.update(toastId,  {render:"Sent step " + stepIndex + " successfully", type: toast.TYPE.SUCCESS, autoClose: 2000 });
                 console.log("NG response: " + JSON.stringify(data));
             }).catch(error => {
-                toast.error("Error sending write request", toastProperties);
+                toast.update(toastId,  {render:"Error sending step " + stepIndex, type: toast.TYPE.ERROR, autoClose: 2000 });
                 console.error("NG error: ", error)
             });
 
