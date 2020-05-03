@@ -96,25 +96,26 @@ class SaveFolderPopup extends React.Component {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestBody)
                 };
+                var toastId = toast.warning("saving...", toastProperties);
     
                 fetch('/folder', requestOptions)
                     .then(response => response.json())
                     .then(data => {
                         console.log("db response: " + JSON.stringify(data));
-                        toast.success("Folder saved successfully", toastProperties);
+                        toast.update(toastId,  {render:"Folder saved successfully", type: toast.TYPE.SUCCESS, autoClose: 2000 });
                         this.context.loadFolderHiierarchy((data) => {
                             this.context.data.scenariosHierarchy = data;
                             this.context.updateData(this.context);
                         });
                     }).catch(error => {
                         console.error("db error: ", error);
-                        toast.success("error occured while saving", toastProperties);
+                        toast.update(toastId,  {render:"Error occured while saving", type: toast.TYPE.ERROR, autoClose: 2000 });
                     });
     
                 console.log('data to save into ' + JSON.stringify(this.state.scenarioData));
     
                 this.close();
-                toast.warning("saving...", toastProperties);
+                
             }
         }
         
