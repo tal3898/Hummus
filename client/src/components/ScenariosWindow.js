@@ -311,6 +311,13 @@ class ScenariosWindow extends React.Component {
       body: JSON.stringify({ path: filePath })
     };
 
+    const toastProperties = {
+      autoClose: 2000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+      pauseOnFocusLoss: false
+    };
+
+
     fetch('/scenarioFile', requestOptions)
       .then(response => response.json())
       .then(data => {
@@ -322,7 +329,7 @@ class ScenariosWindow extends React.Component {
         this.closePanel();
 
       }).catch(error => {
-        console.log(' error while getting scenarios')
+        toast.error("Could not load scenario", toastProperties);
       });
   }
 
