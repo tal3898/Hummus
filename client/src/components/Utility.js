@@ -16,7 +16,11 @@ const getFieldFinalValue = (key, fieldValue, activateFunctionFields) => {
 
     if (fieldValue == '{iso}' && activateFunctionFields) {
         finalValue = new Date().toISOString();;
-    } else if (fieldValue.includes('{text}') && activateFunctionFields) {
+    } else if (fieldType == "number" || fieldType == "enum") {
+        finalValue = parseInt(fieldValue); // If enum, and looks like this : "50 - ABC", it will parse only the 50 to int
+    } else if (fieldType == "float") {
+        finalValue = parseFloat(fieldValue);
+    } else if (typeof fieldValue == typeof "-" && fieldValue.includes('{text}') && activateFunctionFields) {
         var randomString = "";
         for (let step = 0; step < 5; step++) {
             var randomLetter = "abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random() * 1000) % 26];
@@ -24,11 +28,7 @@ const getFieldFinalValue = (key, fieldValue, activateFunctionFields) => {
         }
         finalValue = fieldValue.replace('{text}',randomString);
         
-    } else if (fieldType == "number" || fieldType == "enum") {
-        finalValue = parseInt(fieldValue); // If enum, and looks like this : "50 - ABC", it will parse only the 50 to int
-    } else if (fieldType == "float") {
-        finalValue = parseFloat(fieldValue);
-    }
+    } 
 
     return finalValue;
 }
