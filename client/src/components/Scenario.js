@@ -11,6 +11,7 @@ import Popup from "reactjs-popup";
 import { convertJsonTemplateToActualJson } from './Utility'
 
 import EntityMap from '../globals/EntityMap.json'
+import {FullEntitiesMap} from '../globals/FullEntitiesMap.js'
 import RealityMap from '../globals/RealityMap.json'
 import SystemMap from '../globals/SystemMap.json'
 import english_2 from '../jsonFormats/english_2.json'
@@ -354,38 +355,7 @@ class Scenario extends React.Component {
 
         var step = {
             "name": "צעד",
-            "jsonMap": {
-                "English": {
-                    "2": {
-                        data: JSON.stringify(english_2),
-                        disabledFields: []
-                    },
-                    "X": {
-                        data: JSON.stringify(english_x),
-                        disabledFields: []
-                    }
-                },
-                "Math": {
-                    "2": {
-                        data: JSON.stringify(math_2),
-                        disabledFields: []
-                    },
-                    "X": {
-                        data: JSON.stringify(math_x),
-                        disabledFields: []
-                    }
-                },
-                "Chemistry": {
-                    "2": {
-                        data: JSON.stringify(chemistry_2),
-                        disabledFields: []
-                    },
-                    "X": {
-                        data: JSON.stringify(chemistry_x),
-                        disabledFields: []
-                    }
-                }
-            },
+            "jsonMap": FullEntitiesMap,
             "entity": "English",
             "system": "Tal",
             "reality": "0",
