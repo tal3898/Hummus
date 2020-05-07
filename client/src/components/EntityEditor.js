@@ -584,7 +584,7 @@ class EntityEditor extends React.Component {
     }
 
 
-    getObjectFieldJSX(key) {
+    getObjectFieldJSX(key, children) {
         var keyName = key.split('|')[0];
         var keyRequiredValue = key.split('|')[1];
         var keyFullPath = this.getKeyFullPath(key);
@@ -642,15 +642,7 @@ class EntityEditor extends React.Component {
                 </Row>
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor
-                        parentPath={keyPath}
-                        expandAll={this.state.expandAll}
-                        onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
-                        name={key}
-                        ref={this.children[key]}
-                        level={this.state.level + 1}
-                        fullJson={JSON.stringify(this.state.fullJson[key])}
-                        jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
+                    {children}
                 </Collapse>
             </div>
         )
@@ -730,7 +722,68 @@ class EntityEditor extends React.Component {
         return items
     }
 
+    setValue(obj, path, value) {
+        var i;
+        path = path.split('/');
+        path.splice(0, 1);
+        for (i = 0; i < path.length - 1; i++)
+            obj = obj[path[i]];
+
+        obj[path[i]] = value;
+    }
+
+    getValue(obj, path) {
+        var i;
+        path = path.split('/');
+        path.splice(0, 1);
+        for (i = 0; i < path.length - 1; i++)
+            obj = obj[path[i]];
+
+        return obj[path[i]];
+    }
+
+    areChildrenRendered(parentPath, rendersResult) {
+        return Object.keys(rendersResult).some(renderedPath => renderedPath.includes(parentPath + '/'));
+    }
+    
     render() {
+
+            var stack = [];
+            var rendersResult = {}
+    
+            for (var key in this.state.json) {
+                stack.push('/' + key);            
+            }
+    
+            while (stack.length != 0) {
+                var keyPath = stack.pop(); 
+                var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
+                var keyValue = this.getValue(this.state.json, keyPath);
+
+                if (typeof keyValue != typeof {}) {
+                    rendersResult[keyPath] = this.getSingleFieldJSX(keyName);
+                } else if (!this.areChildrenRendered(keyPath, rendersResult)){
+                    stack.push(keyPath);
+                    Object.keys(keyValue).forEach(childKey => stack.push(keyPath + '/' + childKey));
+                } else {
+                    var keyChildren = Object.keys(rendersResult)
+                        .filter(renderedKey => renderedKey.includes(keyPath + '/') && renderedKey.split('/').length == keyPath.split('/').length + 1)
+                        .map(renderedKey => rendersResult[renderedKey])
+                    rendersResult[keyPath] = this.getObjectFieldJSX(keyName, keyChildren)
+                }
+            }
+
+            var items = Object.keys(rendersResult)
+                .filter(key => key.split('/').length == 2)
+                .map(key => rendersResult[key]);
+            
+    
+            return (
+                <Styles dir='ltr'>
+                    {items}
+                </Styles>
+            );
+/*
         let items = []
 
         for (let key in this.state.json) {
@@ -756,6 +809,7 @@ class EntityEditor extends React.Component {
                 {items}
             </Styles>
         );
+        */
     }
     //#endregion    
 }
