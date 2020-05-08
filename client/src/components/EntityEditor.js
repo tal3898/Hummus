@@ -124,45 +124,6 @@ class EntityEditor extends React.Component {
 
         this.initArrayFieldsObjectTemplate();
 
-        
-        var stack = [];
-        var rendersResult = {}
-
-        for (var key in this.state.json) {
-            stack.push({
-                path: '/' + key,
-                level: 0
-            });            
-        }
-
-        while (stack.length != 0) {
-            var currElement = stack.pop();  
-            var keyPath = currElement.path; 
-            var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
-            var keyValue = this.getValue(this.state.json, keyPath);
-            var keyLevel = currElement.level;
-
-            if (typeof keyValue != typeof {}) {
-                rendersResult[keyPath] = this.getSingleFieldJSX(keyName, keyLevel);
-            } else if (!this.areChildrenRendered(keyPath, rendersResult)){
-                stack.push(currElement);
-                Object.keys(keyValue).forEach(childKey => stack.push({path: keyPath + '/' + childKey, level: keyLevel + 1}));
-            } else {
-                var keyChildren = Object.keys(rendersResult)
-                    .filter(renderedKey => renderedKey.includes(keyPath + '/') && renderedKey.split('/').length == keyPath.split('/').length + 1)
-                    .map(renderedKey => rendersResult[renderedKey])
-
-                if (Array.isArray(keyValue)) {
-                    rendersResult[keyPath] = this.getArrayFieldJSX(keyName, keyLevel, keyChildren);
-                } else {
-                    rendersResult[keyPath] = this.getObjectFieldJSX(keyName, keyLevel, keyChildren);
-                }
-            }
-        }
-
-        this.finalRender = Object.keys(rendersResult)
-            .filter(key => key.split('/').length == 2)
-            .map(key => rendersResult[key]);
     }
 
     initArrayFieldsObjectTemplate() {
@@ -212,17 +173,30 @@ class EntityEditor extends React.Component {
     }
 
     initCollapsableFields(isExpandAll) {
+        this.state.objectFieldsOpen = {};
+        var stack = [];
+
         for (var key in this.state.json) {
             if (typeof this.state.json[key] == 'object') {
-                this.state.objectFieldsOpen[key] = isExpandAll;
+                stack.push('/' + key);
+            }
+        }
+
+        while(stack.length != 0) {
+            var keyPath = stack.pop();
+            var keyValue = this.getValue(this.state.json, keyPath);
+
+            if (typeof keyValue == typeof {}) {
+                this.state.objectFieldsOpen[keyPath] = isExpandAll;
+                Object.keys(keyValue).forEach(child => stack.push(keyPath + '/' + child));
             }
         }
     }
 
     //#endregion
 
-    collapseEntityEditor(key) {
-        this.state.objectFieldsOpen[key] = !this.state.objectFieldsOpen[key];
+    collapseEntityEditor(keyPath) {
+        this.state.objectFieldsOpen[keyPath] = !this.state.objectFieldsOpen[keyPath];
         this.setState(this.state)
     }
 
@@ -626,19 +600,11 @@ class EntityEditor extends React.Component {
     }
 
 
-    getObjectFieldJSX(key, level, children) {
+    getObjectFieldJSX(key, keyPath, level, children) {
         var keyParts = key.split('|');
         var keyName = keyParts[0];
         var keyRequiredValue = keyParts[1];
         var keyFullPath = this.getKeyFullPath(key);
-        var keyPath = '';
-        
-        if (this.isCurrentJsonIsAnElementInArray()){
-            keyPath = this.state.parentPath + '/' + parseInt(key);
-        } else {
-            keyPath = this.state.parentPath + '/' + key;
-        }
-        
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
 
@@ -646,7 +612,7 @@ class EntityEditor extends React.Component {
 
         return (
             <div key={key}>
-                <Row className="field mb-1" style={{ paddingLeft: this.state.indent*level }} onClick={() => this.collapseEntityEditor(key)}>
+                <Row className="field mb-1" style={{ paddingLeft: this.state.indent*level }} onClick={() => this.collapseEntityEditor(keyPath)}>
 
                     <div className="field-component">
                         {this.state.objectFieldsOpen[key] ?
@@ -684,14 +650,14 @@ class EntityEditor extends React.Component {
 
                 </Row>
 
-                <Collapse isOpen={this.state.objectFieldsOpen[key]}>
+                <Collapse isOpen={this.state.objectFieldsOpen[keyPath]}>
                     {children}
                 </Collapse>
             </div>
         )
     }
 
-    getArrayFieldJSX(key, level, children) {
+    getArrayFieldJSX(key, keyPath, level, children) {
         var keyParts = key.split('|');
         var keyName = keyParts[0];
         var keyRequiredValue = keyParts[1];
@@ -705,7 +671,7 @@ class EntityEditor extends React.Component {
         items.push(
 
             <div key={key}>
-                <Row className='field mb-1' style={{marginLeft:'0.001em', paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(key)} >
+                <Row className='field mb-1' style={{marginLeft:'0.001em', paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)} >
                     <div className="field-component">
                         {this.state.objectFieldsOpen[key] ?
                             <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
@@ -744,7 +710,7 @@ class EntityEditor extends React.Component {
         )
 
         items.push(
-            <Collapse key={key} isOpen={this.state.objectFieldsOpen[key]}>
+            <Collapse key={key} isOpen={this.state.objectFieldsOpen[keyPath]}>
                 {children}
             </Collapse>
         )
@@ -781,8 +747,58 @@ class EntityEditor extends React.Component {
         return true;
     }
 
+    isAllParentsExpanded(keyPath) {
+        return !Object.keys(this.state.objectFieldsOpen)
+            .some(path => keyPath.includes(path + '/') && !this.state.objectFieldsOpen[path] )
+    }
+
     render() {
 
+        
+        var stack = [];
+        var rendersResult = {}
+
+        for (var key in this.state.json) {
+            stack.push({
+                path: '/' + key,
+                level: 0
+            });            
+        }
+
+        while (stack.length != 0) {
+            var currElement = stack.pop();  
+            var keyPath = currElement.path; 
+            var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
+            var keyValue = this.getValue(this.state.json, keyPath);
+            var keyLevel = currElement.level;
+
+            if (this.isAllParentsExpanded(keyPath)) {
+                if (typeof keyValue != typeof {}) {
+                    rendersResult[keyPath] = this.getSingleFieldJSX(keyName, keyLevel);
+                } else if (!this.areChildrenRendered(keyPath, rendersResult) && this.state.objectFieldsOpen[keyPath]){
+                    stack.push(currElement);
+                    Object.keys(keyValue).forEach(childKey => stack.push({path: keyPath + '/' + childKey, level: keyLevel + 1}));
+                } else {
+                    var keyChildren = Object.keys(rendersResult)
+                        .filter(renderedKey => renderedKey.includes(keyPath + '/') && renderedKey.split('/').length == keyPath.split('/').length + 1)
+                        .map(renderedKey => rendersResult[renderedKey])
+    
+                    if (Array.isArray(keyValue)) {
+                        rendersResult[keyPath] = this.getArrayFieldJSX(keyName, keyPath, keyLevel, keyChildren);
+                    } else {
+                        rendersResult[keyPath] = this.getObjectFieldJSX(keyName, keyPath, keyLevel, keyChildren);
+                    }
+                }
+            } else {
+
+            }
+
+            
+        }
+
+        this.finalRender = Object.keys(rendersResult)
+            .filter(key => key.split('/').length == 2)
+            .map(key => rendersResult[key]);
             
     
             return (
