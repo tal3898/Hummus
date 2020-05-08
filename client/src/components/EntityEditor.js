@@ -98,6 +98,7 @@ class EntityEditor extends React.Component {
             "enum": "text"
         }
         this.init(props);
+
     }
 
     init(props) {
@@ -122,6 +123,46 @@ class EntityEditor extends React.Component {
         this.initChildrenEntityEditors();
 
         this.initArrayFieldsObjectTemplate();
+
+        
+        var stack = [];
+        var rendersResult = {}
+
+        for (var key in this.state.json) {
+            stack.push({
+                path: '/' + key,
+                level: 0
+            });            
+        }
+
+        while (stack.length != 0) {
+            var currElement = stack.pop();  
+            var keyPath = currElement.path; 
+            var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
+            var keyValue = this.getValue(this.state.json, keyPath);
+            var keyLevel = currElement.level;
+
+            if (typeof keyValue != typeof {}) {
+                rendersResult[keyPath] = this.getSingleFieldJSX(keyName, keyLevel);
+            } else if (!this.areChildrenRendered(keyPath, rendersResult)){
+                stack.push(currElement);
+                Object.keys(keyValue).forEach(childKey => stack.push({path: keyPath + '/' + childKey, level: keyLevel + 1}));
+            } else {
+                var keyChildren = Object.keys(rendersResult)
+                    .filter(renderedKey => renderedKey.includes(keyPath + '/') && renderedKey.split('/').length == keyPath.split('/').length + 1)
+                    .map(renderedKey => rendersResult[renderedKey])
+
+                if (Array.isArray(keyValue)) {
+                    rendersResult[keyPath] = this.getArrayFieldJSX(keyName, keyLevel, keyChildren);
+                } else {
+                    rendersResult[keyPath] = this.getObjectFieldJSX(keyName, keyLevel, keyChildren);
+                }
+            }
+        }
+
+        this.finalRender = Object.keys(rendersResult)
+            .filter(key => key.split('/').length == 2)
+            .map(key => rendersResult[key]);
     }
 
     initArrayFieldsObjectTemplate() {
@@ -469,9 +510,10 @@ class EntityEditor extends React.Component {
 
     //#region rendering json fields
     getSingleFieldJSX(key, level) {
-        var keyName = key.split('|')[0];
-        var keyType = key.split('|')[1];
-        var keyRequiredValue = key.split('|')[2];
+        var keyParts = key.split('|'); 
+        var keyName = keyParts[0];
+        var keyType = keyParts[1];
+        var keyRequiredValue = keyParts[2];
 
         if (this.isKeyLinkTo(key)) {
             this.state.json[key] = "{link}";
@@ -482,7 +524,7 @@ class EntityEditor extends React.Component {
 
         var enumValuesItem = []
         if (keyType == "enum") {
-            var optionalValues = JSON.parse(key.split('|')[3]);
+            var optionalValues = JSON.parse(keyParts[3]);
             for (var index in optionalValues) {
                 enumValuesItem.push(
                     <option value={parseInt(optionalValues[index])} key={optionalValues[index]}>{optionalValues[index]}</option>
@@ -585,8 +627,9 @@ class EntityEditor extends React.Component {
 
 
     getObjectFieldJSX(key, level, children) {
-        var keyName = key.split('|')[0];
-        var keyRequiredValue = key.split('|')[1];
+        var keyParts = key.split('|');
+        var keyName = keyParts[0];
+        var keyRequiredValue = keyParts[1];
         var keyFullPath = this.getKeyFullPath(key);
         var keyPath = '';
         
@@ -649,8 +692,9 @@ class EntityEditor extends React.Component {
     }
 
     getArrayFieldJSX(key, level, children) {
-        var keyName = key.split('|')[0];
-        var keyRequiredValue = key.split('|')[1];
+        var keyParts = key.split('|');
+        var keyName = keyParts[0];
+        var keyRequiredValue = keyParts[1];
         var keyFullPath = this.getKeyFullPath(key);
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
@@ -739,49 +783,11 @@ class EntityEditor extends React.Component {
 
     render() {
 
-            var stack = [];
-            var rendersResult = {}
-    
-            for (var key in this.state.json) {
-                stack.push({
-                    path: '/' + key,
-                    level: 0
-                });            
-            }
-    
-            while (stack.length != 0) {
-                var currElement = stack.pop();  
-                var keyPath = currElement.path; 
-                var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
-                var keyValue = this.getValue(this.state.json, keyPath);
-                var keyLevel = currElement.level;
-
-                if (typeof keyValue != typeof {}) {
-                    rendersResult[keyPath] = this.getSingleFieldJSX(keyName, keyLevel);
-                } else if (!this.areChildrenRendered(keyPath, rendersResult)){
-                    stack.push(currElement);
-                    Object.keys(keyValue).forEach(childKey => stack.push({path: keyPath + '/' + childKey, level: keyLevel + 1}));
-                } else {
-                    var keyChildren = Object.keys(rendersResult)
-                        .filter(renderedKey => renderedKey.includes(keyPath + '/') && renderedKey.split('/').length == keyPath.split('/').length + 1)
-                        .map(renderedKey => rendersResult[renderedKey])
-
-                    if (Array.isArray(keyValue)) {
-                        rendersResult[keyPath] = this.getArrayFieldJSX(keyName, keyLevel, keyChildren);
-                    } else {
-                        rendersResult[keyPath] = this.getObjectFieldJSX(keyName, keyLevel, keyChildren);
-                    }
-                }
-            }
-
-            var items = Object.keys(rendersResult)
-                .filter(key => key.split('/').length == 2)
-                .map(key => rendersResult[key]);
             
     
             return (
                 <Styles dir='ltr'>
-                    {items}
+                    {this.finalRender}
                 </Styles>
             );
 /*
