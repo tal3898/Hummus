@@ -499,7 +499,7 @@ class Scenario extends React.Component {
                                                 on="hover"
                                                 trigger={
                                                     <a className="action-btn" variant="outline-info" onClick={() => this.sendAllStepsToNg()}>
-                                                        <i className="fas fa-paper-plane fa-flip-horizontal"></i>
+                                                        <i className="fas fa-broom fa-flip-horizontal"></i>
                                                     </a>}
                                             >
                                                 <center>

@@ -54,11 +54,8 @@ export const NavigationBar = () => {
           <a href="/" style={{ textDecoration: 'none' }}><span className="headline">HummusNG</span></a>
         </Col>
 
-        <p className="nav-button" style={{ fontSize: 20, cursor: 'pointer', marginRight: 30, marginTop: 10 }}>
-          כניסה (בקרוב)
-        </p>
 
-        <i onClick={() => setIsShortcutPopupOpen(true)} className="nav-button fas fa-cog fa-3x"></i>
+        <i onClick={() => setIsShortcutPopupOpen(true)} className="nav-button fas fa-dragon fa-3x"></i>
 
         <i id="scenariosListBtn" onClick={() => setIsOpen(true)} className="nav-button fas fa-align-justify fa-3x"></i>
 
