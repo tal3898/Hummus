@@ -2,12 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { Form, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Collapse} from 'reactstrap';
+import { Collapse } from 'reactstrap';
 import Popup from "reactjs-popup";
 import Select from 'react-select';
 import { convertJsonTemplateToActualJson } from './Utility'
 import HummusContext from './HummusContext'
 
+import FieldInJson from './FieldInJson'
+import { FixedSizeList as List } from 'react-window'
 
 const Styles = styled.div`
     .field {
@@ -80,6 +82,8 @@ const Styles = styled.div`
         cursor: arrow;
     }
 `;
+
+
 
 class EntityEditor extends React.Component {
 
@@ -182,7 +186,7 @@ class EntityEditor extends React.Component {
             }
         }
 
-        while(stack.length != 0) {
+        while (stack.length != 0) {
             var keyPath = stack.pop();
             var keyValue = this.getValue(this.state.json, keyPath);
 
@@ -273,8 +277,8 @@ class EntityEditor extends React.Component {
             var links = this.context.data.currScenario.steps[stepIndex].links;
 
             for (var index = 0; index < links.length; index++) {
-                if ((links[index].fromPath.includes(keyFullPath + '/') || links[index].fromPath == keyFullPath) && 
-                        links[index].fromStep == this.context.data.currOpenStep) {
+                if ((links[index].fromPath.includes(keyFullPath + '/') || links[index].fromPath == keyFullPath) &&
+                    links[index].fromStep == this.context.data.currOpenStep) {
                     links.splice(index, 1);
                     index--;
                 }
@@ -407,7 +411,7 @@ class EntityEditor extends React.Component {
     getKeyFullPath(key) {
         if (this.isCurrentJsonIsAnElementInArray()) {
             key = parseInt(key);
-        } 
+        }
 
         var keyFullPath = this.state.parentPath + '/' + key
         var keyCleanFullPath = keyFullPath.split('/')
@@ -484,7 +488,7 @@ class EntityEditor extends React.Component {
 
     //#region rendering json fields
     getSingleFieldJSX(key, level) {
-        var keyParts = key.split('|'); 
+        var keyParts = key.split('|');
         var keyName = keyParts[0];
         var keyType = keyParts[1];
         var keyRequiredValue = keyParts[2];
@@ -512,90 +516,90 @@ class EntityEditor extends React.Component {
 
 
         return (
-
-            <Row key={key} className="field mb-1" style={{ paddingLeft: this.state.indent * level }}>
-                <div className="field-component">
-                    {disabledFields.includes(keyFullPath) &&
-                        <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
-                    }
-                    {!disabledFields.includes(keyFullPath) &&
-                        <Form.Label >{keyName}</Form.Label>
-                    }
-
-
-                </div>
-
-                <div className="field-component">
-                    <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
-                </div>
-
-                <div className="field-component" style={{ marginTop: 3 }}>
-
-                    {/* If current field is enum, create select input */}
-                    {keyType == 'enum' &&
-                        <Form.Control
-                            as="select"
-                            ref={(ref) => this.fieldsInput[key] = ref}
-                            name={key}
-                            size="sm"
-                            value={defaultValue}
-                            onChange={(event) => this.changeField(key, event.target.value)}
-                            type={this.inputTypesMap[keyType]}
-                            width="20px">
-
-                            {enumValuesItem}
-                        </Form.Control>
-                    }
-
-                    {/* If current field is enum, create select input */}
-                    {keyType == 'array' &&
-                        <Select
-                            isMulti
-                            isClearable
-                            isSearchable
-                            options={JSON.parse(defaultValue)}
-                        />
-                    }
-
-                    {/* Else, If current field is int/string, create regular input */}
-                    {keyType != 'enum' && keyType != 'array' &&
-                        <Form.Control
-                            ref={(ref) => this.fieldsInput[key] = ref}
-                            name={key}
-                            disabled={defaultValue == '{link}'}
-                            onChange={(event) => this.changeField(key, event.target.value)}
-                            value={defaultValue}
-                            size="sm"
-                            type={this.inputTypesMap[keyType]}
-                            width="20px" />
-
-                    }
-                </div>
-
-                <div className="field-component" >
-                    {keyType == "time" &&
-                        <i className="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(key)} ></i>
-                    }
-
-                    {keyType == "string" &&
-                        <i className="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
-                    }
-                </div>
+            <FieldInJson>
+                <Row key={key} className="field mb-1" style={{ paddingLeft: this.state.indent * level }}>
+                    <div className="field-component">
+                        {disabledFields.includes(keyFullPath) &&
+                            <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
+                        }
+                        {!disabledFields.includes(keyFullPath) &&
+                            <Form.Label >{keyName}</Form.Label>
+                        }
 
 
+                    </div>
 
-                <div className="field-component">
-                    <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
-                </div>
+                    <div className="field-component">
+                        <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
+                    </div>
 
-                {this.createInfoPopup(key, 3)}
+                    <div className="field-component" style={{ marginTop: 3 }}>
 
-                <div className="field-component">
-                    <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
-                </div>
+                        {/* If current field is enum, create select input */}
+                        {keyType == 'enum' &&
+                            <Form.Control
+                                as="select"
+                                ref={(ref) => this.fieldsInput[key] = ref}
+                                name={key}
+                                size="sm"
+                                value={defaultValue}
+                                onChange={(event) => this.changeField(key, event.target.value)}
+                                type={this.inputTypesMap[keyType]}
+                                width="20px">
 
-            </Row>
+                                {enumValuesItem}
+                            </Form.Control>
+                        }
 
+                        {/* If current field is enum, create select input */}
+                        {keyType == 'array' &&
+                            <Select
+                                isMulti
+                                isClearable
+                                isSearchable
+                                options={JSON.parse(defaultValue)}
+                            />
+                        }
+
+                        {/* Else, If current field is int/string, create regular input */}
+                        {keyType != 'enum' && keyType != 'array' &&
+                            <Form.Control
+                                ref={(ref) => this.fieldsInput[key] = ref}
+                                name={key}
+                                disabled={defaultValue == '{link}'}
+                                onChange={(event) => this.changeField(key, event.target.value)}
+                                value={defaultValue}
+                                size="sm"
+                                type={this.inputTypesMap[keyType]}
+                                width="20px" />
+
+                        }
+                    </div>
+
+                    <div className="field-component" >
+                        {keyType == "time" &&
+                            <i className="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(key)} ></i>
+                        }
+
+                        {keyType == "string" &&
+                            <i className="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
+                        }
+                    </div>
+
+
+
+                    <div className="field-component">
+                        <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
+                    </div>
+
+                    {this.createInfoPopup(key, 3)}
+
+                    <div className="field-component">
+                        <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
+                    </div>
+
+                </Row>
+            </FieldInJson>
         );
     }
 
@@ -608,52 +612,51 @@ class EntityEditor extends React.Component {
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
 
-        
+
 
         return (
-            <div key={key}>
-                <Row className="field mb-1" style={{ paddingLeft: this.state.indent*level }} onClick={() => this.collapseEntityEditor(keyPath)}>
+            <FieldInJson>
+                <div key={key}>
+                    <Row className="field mb-1" style={{ paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)}>
 
-                    <div className="field-component">
-                        {this.state.objectFieldsOpen[key] ?
-                            <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
-                            <i className="fas fa-angle-right" style={{ width: 18 }}></i>
-                        }
-                    </div>
+                        <div className="field-component">
+                            {this.state.objectFieldsOpen[key] ?
+                                <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
+                                <i className="fas fa-angle-right" style={{ width: 18 }}></i>
+                            }
+                        </div>
 
-                    <div className="field-component">
-                        {disabledFields.includes(keyFullPath) &&
-                            <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
-                        }
-                        {!disabledFields.includes(keyFullPath) &&
-                            <Form.Label >{keyName}</Form.Label>
-                        }
-                    </div>
-
-
-
-                    <div className="field-component">
-                        <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
-                    </div>
-
-                    <div className="field-component">
-                        <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
-                    </div>
+                        <div className="field-component">
+                            {disabledFields.includes(keyFullPath) &&
+                                <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
+                            }
+                            {!disabledFields.includes(keyFullPath) &&
+                                <Form.Label >{keyName}</Form.Label>
+                            }
+                        </div>
 
 
-                    {this.createInfoPopup(key, 2)}
 
-                    <div className="field-component">
-                        <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
-                    </div>
+                        <div className="field-component">
+                            <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
+                        </div>
+
+                        <div className="field-component">
+                            <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
+                        </div>
 
 
-                </Row>
+                        {this.createInfoPopup(key, 2)}
 
-                <Collapse isOpen={this.state.objectFieldsOpen[keyPath]}>
-                    {children}
-                </Collapse>
-            </div>
+                        <div className="field-component">
+                            <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
+                        </div>
+
+
+                    </Row>
+
+                </div>
+            </FieldInJson>
         )
     }
 
@@ -669,54 +672,49 @@ class EntityEditor extends React.Component {
 
         // create the array field itself, with collapseEntityEditor button
         items.push(
+            <FieldInJson>
+                <div key={key}>
+                    <Row className='field mb-1' style={{ marginLeft: '0.001em', paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)} >
+                        <div className="field-component">
+                            {this.state.objectFieldsOpen[key] ?
+                                <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
+                                <i className="fas fa-angle-right" style={{ width: 18 }}></i>
+                            }
+                        </div>
 
-            <div key={key}>
-                <Row className='field mb-1' style={{marginLeft:'0.001em', paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)} >
-                    <div className="field-component">
-                        {this.state.objectFieldsOpen[key] ?
-                            <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
-                            <i className="fas fa-angle-right" style={{ width: 18 }}></i>
-                        }
-                    </div>
+                        <div className="field-component">
+                            {disabledFields.includes(keyFullPath) &&
+                                <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
+                            }
+                            {!disabledFields.includes(keyFullPath) &&
+                                <Form.Label >{keyName}</Form.Label>
+                            }
+                        </div>
 
-                    <div className="field-component">
-                        {disabledFields.includes(keyFullPath) &&
-                            <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
-                        }
-                        {!disabledFields.includes(keyFullPath) &&
-                            <Form.Label >{keyName}</Form.Label>
-                        }
-                    </div>
+                        <div className="field-component">
+                            <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
+                        </div>
 
-                    <div className="field-component">
-                        <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
-                    </div>
+                        <div className="field-component">
+                            <i className=" fas fa-plus field-action mt-1" onClick={(event) => this.addField(key, event)}></i>
+                        </div>
 
-                    <div className="field-component">
-                        <i className=" fas fa-plus field-action mt-1" onClick={(event) => this.addField(key, event)}></i>
-                    </div>
+                        <div className="field-component">
+                            <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
+                        </div>
 
-                    <div className="field-component">
-                        <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
-                    </div>
+                        {this.createInfoPopup(key, 3)}
 
-                    {this.createInfoPopup(key, 3)}
-
-                    <div className="field-component">
-                        <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
-                    </div>
-                </Row>
-            </div>
+                        <div className="field-component">
+                            <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
+                        </div>
+                    </Row>
+                </div>
+            </FieldInJson>
         )
 
-        items.push(
-            <Collapse key={key} isOpen={this.state.objectFieldsOpen[keyPath]}>
-                {children}
-            </Collapse>
-        )
-        
 
-        return items
+        return items[0];
     }
 
     setValue(obj, path, value) {
@@ -742,19 +740,19 @@ class EntityEditor extends React.Component {
     areChildrenRendered(parentPath, rendersResult) {
         return Object.keys(rendersResult).some(renderedPath => renderedPath.includes(parentPath + '/'));
     }
-    
+
     shouldComponentUpdate(nextProps, nextState) {
         return true;
     }
 
     isAllParentsExpanded(keyPath) {
         return !Object.keys(this.state.objectFieldsOpen)
-            .some(path => keyPath.includes(path + '/') && !this.state.objectFieldsOpen[path] )
+            .some(path => keyPath.includes(path + '/') && !this.state.objectFieldsOpen[path])
     }
 
     render() {
 
-        
+
         var stack = [];
         var rendersResult = {}
 
@@ -762,77 +760,86 @@ class EntityEditor extends React.Component {
             stack.push({
                 path: '/' + key,
                 level: 0
-            });            
+            });
         }
 
         while (stack.length != 0) {
-            var currElement = stack.pop();  
-            var keyPath = currElement.path; 
+            var currElement = stack.pop();
+            var keyPath = currElement.path;
             var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
             var keyValue = this.getValue(this.state.json, keyPath);
             var keyLevel = currElement.level;
 
-            if (this.isAllParentsExpanded(keyPath)) {
-                if (typeof keyValue != typeof {}) {
-                    rendersResult[keyPath] = this.getSingleFieldJSX(keyName, keyLevel);
-                } else if (!this.areChildrenRendered(keyPath, rendersResult) && this.state.objectFieldsOpen[keyPath]){
-                    stack.push(currElement);
-                    Object.keys(keyValue).forEach(childKey => stack.push({path: keyPath + '/' + childKey, level: keyLevel + 1}));
-                } else {
-                    var keyChildren = Object.keys(rendersResult)
-                        .filter(renderedKey => renderedKey.includes(keyPath + '/') && renderedKey.split('/').length == keyPath.split('/').length + 1)
-                        .map(renderedKey => rendersResult[renderedKey])
-    
-                    if (Array.isArray(keyValue)) {
-                        rendersResult[keyPath] = this.getArrayFieldJSX(keyName, keyPath, keyLevel, keyChildren);
-                    } else {
-                        rendersResult[keyPath] = this.getObjectFieldJSX(keyName, keyPath, keyLevel, keyChildren);
-                    }
-                }
-            } else {
 
+            if (typeof keyValue != typeof {}) {
+                rendersResult[keyPath] = this.getSingleFieldJSX(keyName, keyLevel);
+            } else if (!this.areChildrenRendered(keyPath, rendersResult)) {
+                stack.push(currElement);
+                Object.keys(keyValue).forEach(childKey => stack.push({ path: keyPath + '/' + childKey, level: keyLevel + 1 }));
+            } else {
+                var keyChildren = Object.keys(rendersResult)
+                    .filter(renderedKey => renderedKey.includes(keyPath + '/') && renderedKey.split('/').length == keyPath.split('/').length + 1)
+                    .map(renderedKey => rendersResult[renderedKey])
+
+                if (Array.isArray(keyValue)) {
+                     rendersResult[keyPath] = this.getArrayFieldJSX(keyName, keyPath, keyLevel, keyChildren);
+                } else {
+                     rendersResult[keyPath] = this.getObjectFieldJSX(keyName, keyPath, keyLevel, keyChildren);
+                }
             }
 
-            
+
+
         }
 
         this.finalRender = Object.keys(rendersResult)
-            .filter(key => key.split('/').length == 2)
             .map(key => rendersResult[key]);
-            
-    
-            return (
-                <Styles dir='ltr'>
-                    {this.finalRender}
-                </Styles>
-            );
-/*
-        let items = []
-
-        for (let key in this.state.json) {
-            // If regular field
-            if (typeof this.state.json[key] != 'object') {
-                items.push(
-                    this.getSingleFieldJSX(key)
-                )
-                // If Object field
-            } else if (!Array.isArray(this.state.json[key])) {
-                items.push(
-                    this.getObjectFieldJSX(key)
-                )
-                // If Array field
-            } else {
-                items = items.concat(this.getArrayFieldJSX(key))
-            }
-        }
 
 
         return (
             <Styles dir='ltr'>
-                {items}
+                <List
+                    height={500}
+                    width='100%'
+                    className="List"
+                    itemCount={this.finalRender.length}
+                    itemSize={50}>
+
+                    {({ index, style }) => this.finalRender[index]}
+
+                </List>
+
+
+
             </Styles>
         );
-        */
+        /*
+                let items = []
+        
+                for (let key in this.state.json) {
+                    // If regular field
+                    if (typeof this.state.json[key] != 'object') {
+                        items.push(
+                            this.getSingleFieldJSX(key)
+                        )
+                        // If Object field
+                    } else if (!Array.isArray(this.state.json[key])) {
+                        items.push(
+                            this.getObjectFieldJSX(key)
+                        )
+                        // If Array field
+                    } else {
+                        items = items.concat(this.getArrayFieldJSX(key))
+                    }
+                }
+        
+        
+                return (
+                    <Styles dir='ltr'>
+                        {items}
+                    </Styles>
+                );
+                */
     }
     //#endregion    
 }
