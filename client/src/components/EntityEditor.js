@@ -114,7 +114,8 @@ class EntityEditor extends React.Component {
             objectFieldsOpen: {}, // for each field in the current json scope, set true/false, if the field is collapsed or not.
             jsonContainerElement: null
         }
-
+        this.state.jsonContainerElement = document.getElementById("json-container");
+        
         this.fieldsInput = {};
 
         this.onInnerFieldChangedCallback = props.onInnerFieldChanged;
@@ -126,14 +127,10 @@ class EntityEditor extends React.Component {
         this.initArrayFieldsObjectTemplate();
 
     }
-    
+
     componentDidMount() {
-        this.setState(() => {
-          return {
-            jsonContainerElement: document.getElementById("json-container")
-          };
-        });
-      }
+        this.state.jsonContainerElement = document.getElementById("json-container");
+    }
 
     initArrayFieldsObjectTemplate() {
         // This json contains json templates for each array field in 
@@ -518,6 +515,9 @@ class EntityEditor extends React.Component {
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
 
+        var containmentDOMRect = this.state.jsonContainerElement
+            ? this.state.jsonContainerElement
+            : null;
 
 
         return (
@@ -812,7 +812,7 @@ class EntityEditor extends React.Component {
 
         return (
             <Styles dir='ltr'>
-                <div id="json-container" style={{maxHeight:300, overflowY: "scroll"}}>
+                <div id="json-container" style={{ maxHeight: 300, overflowY: "scroll" }}>
                     {this.finalRender}
                 </div>
             </Styles>
