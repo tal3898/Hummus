@@ -5,6 +5,10 @@
     width:110%;
 }
 
+.info-popup-text {
+    overflow-wrap: break-word;
+}
+
 .json-field:hover {
     background: #bbdefb; 
 }

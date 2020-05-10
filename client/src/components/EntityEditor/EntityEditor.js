@@ -354,7 +354,7 @@ class EntityEditor extends React.Component {
                     trigger={
                         <i className="fas fa-info-circle field-action mt-1"></i>}
                 >
-                    <div>
+                    <div className="info-popup-text">
                         <center className="info-txt">
                             {this.hasInfo(key, infoIndex) &&
                                 key.split('|')[infoIndex]}

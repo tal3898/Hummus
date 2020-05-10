@@ -6,9 +6,19 @@
 		},
 		"Data|[0]": {
 			"Location|[1]": {
-				"a": {
-					"b": {
-						"c|string|[1]|תיאור מאוד ארוך ארוך ארוך של שדה מסוים שיכול להיות עם מלא דברים ובגלל זה התיאור מאוד מאוד ארוך": "stam"
+				"Aasdfsadf": {
+					"Basdfasdf": {
+						"Casdfsad": {
+							"Dasdfsda": {
+								"Easdfasdf": {
+									"Fasdfsdf": {
+										"Gasdfasdfasd": {
+											"Hasdfasdf|string|[1]|תיאור מאוד ארוך ארוך ארוך של שדה מסוים שיכול להיות עם מלא דברים ובגלל זה התיאור מאוד מאוד ארוך": "stam"
+										}
+									}
+								}
+							}
+						}
 					}
 				},
 				"Street|string|[1]": "Agadati",
