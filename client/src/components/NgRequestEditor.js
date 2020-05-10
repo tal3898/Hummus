@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button, Form, Col, Row } from 'react-bootstrap';
-import EntityEditor from './EntityEditor';
+import EntityEditor from './EntityEditor/EntityEditor';
 import HummusContext, { HummusConsumer } from './HummusContext'
 import LinkingFieldsPopup from './LinkingFieldsPopup'
 import EntityMap from '../globals/EntityMap.json'

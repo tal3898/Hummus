@@ -1,85 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
+import './EntityEditor.css'
+
 import { Form, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Collapse} from 'reactstrap';
 import Popup from "reactjs-popup";
 import Select from 'react-select';
-import { convertJsonTemplateToActualJson } from './Utility'
-import HummusContext from './HummusContext'
+import { convertJsonTemplateToActualJson } from '../Utility'
+import HummusContext from '../HummusContext'
 
 
-const Styles = styled.div`
-    .field {
-        font-size: 18px;
-        height: 36px; 
-        margin-top : 5px;
-        width:110%;
-        &:hover { background: #bbdefb; }
-    }
-
-    .collapse {
-        padding-top: 0.01%;
-        padding-bottom:1px;
-    }
-
-    .field-component {
-        margin-right: 6px;
-    }
-
-    .color-hover {
-        &:hover { background: #bbdefb; }
-    }
-
-    .field-action {
-        padding: 3px;
-        margin-left:7px;
-        display: none;
-        cursor: pointer;
-    }
-
-    .field:hover .field-action {
-        display: block;
-    }
-
-    .info-txt {
-        font-size:13px;
-    }
-
-    .info-field-path-txt {
-        font-size:12px;
-    }
-
-    .fa-trash {
-        
-        
-    }
-
-    .fa-trash:hover {
-        color: #d32f2f;
-    }
-
-    .fa-times:hover {
-        color: #d32f2f;
-    }
-    
-    .fa-dice:hover {
-        color: #388e3c;
-    }
-
-    .fa-clock:hover {
-        color: #2196f3;
-    }
-
-    .fa-plus:hover {
-        color: #66bb6a;
-    }
-
-    .fa-info-circle:hover {
-        color: #2196f3;
-        cursor: arrow;
-    }
-`;
 
 class EntityEditor extends React.Component {
 
@@ -497,7 +427,7 @@ class EntityEditor extends React.Component {
 
         return (
 
-            <Row key={key} className="field mb-1" style={{ paddingLeft: this.state.indent }}>
+            <Row key={key} className="json-field mb-1" style={{ paddingLeft: this.state.indent }}>
                 <div className="field-component">
                     {disabledFields.includes(keyFullPath) &&
                         <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
@@ -603,7 +533,7 @@ class EntityEditor extends React.Component {
 
         return (
             <div key={key}>
-                <Row className="field mb-1" style={{ paddingLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)}>
+                <Row className="json-field mb-1" style={{ paddingLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)}>
 
                     <div className="field-component">
                         {this.state.objectFieldsOpen[key] ?
@@ -669,7 +599,7 @@ class EntityEditor extends React.Component {
         items.push(
 
             <div key={key}>
-                <Row className='field mb-1' style={{marginLeft:'0.001em', paddingLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
+                <Row className='json-field mb-1' style={{marginLeft:'0.001em', paddingLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
                     <div className="field-component">
                         {this.state.objectFieldsOpen[key] ?
                             <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
@@ -752,9 +682,9 @@ class EntityEditor extends React.Component {
 
 
         return (
-            <Styles dir='ltr'>
+            <div dir='ltr'>
                 {items}
-            </Styles>
+            </div>
         );
     }
     //#endregion    

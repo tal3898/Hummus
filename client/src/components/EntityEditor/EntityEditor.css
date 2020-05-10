@@ -1,0 +1,68 @@
+.json-field {
+    font-size: 18px;
+    height: 36px; 
+    margin-top : 5px;
+    width:110%;
+}
+
+.json-field:hover {
+    background: #bbdefb; 
+}
+
+.collapse {
+    padding-top: 0.01%;
+    padding-bottom:1px;
+}
+
+.field-component {
+    margin-right: 6px;
+}
+
+.color-hover:hover {
+    background: #bbdefb; 
+}
+
+.field-action {
+    padding: 3px;
+    margin-left:7px;
+    display: none;
+    cursor: pointer;
+}
+
+.json-field:hover .field-action {
+    display: block;
+}
+
+.info-txt {
+    font-size:13px;
+}
+
+.info-field-path-txt {
+    font-size:12px;
+}
+
+
+.fa-trash:hover {
+    color: #d32f2f;
+}
+
+.fa-times:hover {
+    color: #d32f2f;
+}
+
+.fa-dice:hover {
+    color: #388e3c;
+}
+
+.fa-clock:hover {
+    color: #2196f3;
+}
+
+.fa-plus:hover {
+    color: #66bb6a;
+}
+
+.fa-info-circle:hover {
+    color: #2196f3;
+    cursor: arrow;
+}
