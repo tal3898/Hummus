@@ -417,7 +417,7 @@ class Scenario extends React.Component {
 
                             <ToastContainer />
                             <JsonPopup
-                                json={JSON.stringify(this.state.json)}
+                                json={JSON.stringify(english_x)}
                                 bombaJson={JSON.stringify(this.state.bombaJson)}
                                 onClose={() => this.close()}
                                 isOpen={this.state.isJsonPopupOpen} />

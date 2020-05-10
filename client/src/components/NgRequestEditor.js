@@ -269,7 +269,7 @@ class NgRequestEditor extends React.Component {
 
                                     <EntityEditor
                                         parentPath=''
-                                        expandAll={this.state.expandAll}
+                                        expandAll={true}
                                         ref={this.entidyEditorChild}
                                         level={0}
                                         fullJson={this.getChosenEntityFullJson()}

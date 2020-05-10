@@ -8,6 +8,8 @@ import Select from 'react-select';
 import { convertJsonTemplateToActualJson } from './Utility'
 import HummusContext from './HummusContext'
 
+import VisibilitySensor from "react-visibility-sensor";
+
 
 const Styles = styled.div`
     .field {
@@ -115,7 +117,7 @@ class EntityEditor extends React.Component {
             jsonContainerElement: null
         }
         this.state.jsonContainerElement = document.getElementById("json-container");
-        
+
         this.fieldsInput = {};
 
         this.onInnerFieldChangedCallback = props.onInnerFieldChanged;
@@ -489,7 +491,7 @@ class EntityEditor extends React.Component {
     }
 
     //#region rendering json fields
-    getSingleFieldJSX(key, level) {
+    getSingleFieldJSX(key, keyPath, level) {
         var keyParts = key.split('|');
         var keyName = keyParts[0];
         var keyType = keyParts[1];
@@ -521,90 +523,101 @@ class EntityEditor extends React.Component {
 
 
         return (
-
-            <Row key={key} className="field mb-1" style={{ paddingLeft: this.state.indent * level }}>
-                <div className="field-component">
-                    {disabledFields.includes(keyFullPath) &&
-                        <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
-                    }
-                    {!disabledFields.includes(keyFullPath) &&
-                        <Form.Label >{keyName}</Form.Label>
-                    }
-
-
-                </div>
-
-                <div className="field-component">
-                    <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
-                </div>
-
-                <div className="field-component" style={{ marginTop: 3 }}>
-
-                    {/* If current field is enum, create select input */}
-                    {keyType == 'enum' &&
-                        <Form.Control
-                            as="select"
-                            ref={(ref) => this.fieldsInput[key] = ref}
-                            name={key}
-                            size="sm"
-                            value={defaultValue}
-                            onChange={(event) => this.changeField(key, event.target.value)}
-                            type={this.inputTypesMap[keyType]}
-                            width="20px">
-
-                            {enumValuesItem}
-                        </Form.Control>
-                    }
-
-                    {/* If current field is enum, create select input */}
-                    {keyType == 'array' &&
-                        <Select
-                            isMulti
-                            isClearable
-                            isSearchable
-                            options={JSON.parse(defaultValue)}
-                        />
-                    }
-
-                    {/* Else, If current field is int/string, create regular input */}
-                    {keyType != 'enum' && keyType != 'array' &&
-                        <Form.Control
-                            ref={(ref) => this.fieldsInput[key] = ref}
-                            name={key}
-                            disabled={defaultValue == '{link}'}
-                            onChange={(event) => this.changeField(key, event.target.value)}
-                            value={defaultValue}
-                            size="sm"
-                            type={this.inputTypesMap[keyType]}
-                            width="20px" />
-
-                    }
-                </div>
-
-                <div className="field-component" >
-                    {keyType == "time" &&
-                        <i className="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(key)} ></i>
-                    }
-
-                    {keyType == "string" &&
-                        <i className="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
-                    }
-                </div>
+            <VisibilitySensor 
+                key={keyPath} 
+                onChange={ (isv) => console.log("change for " + keyPath + " visible " + isv)} 
+                containment={containmentDOMRect}
+                scrollCheck>
+                    
+                {({ isVisible }) => {
+                    console.log("this path  "  + keyPath + " is visible " + isVisible)
+                    return (
+                        <Row  className="field mb-1" style={{paddingLeft: this.state.indent * level }}>
+                            <div className="field-component">
+                                {disabledFields.includes(keyFullPath) &&
+                                    <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
+                                }
+                                {!disabledFields.includes(keyFullPath) &&
+                                    <Form.Label >{keyName}</Form.Label>
+                                }
 
 
+                            </div>
 
-                <div className="field-component">
-                    <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
-                </div>
+                            <div className="field-component">
+                                <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
+                            </div>
 
-                {this.createInfoPopup(key, 3)}
+                            <div className="field-component" style={{ marginTop: 3 }}>
 
-                <div className="field-component">
-                    <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
-                </div>
+                                {/* If current field is enum, create select input */}
+                                {keyType == 'enum' &&
+                                    <Form.Control
+                                        as="select"
+                                        ref={(ref) => this.fieldsInput[key] = ref}
+                                        name={key}
+                                        size="sm"
+                                        value={defaultValue}
+                                        onChange={(event) => this.changeField(key, event.target.value)}
+                                        type={this.inputTypesMap[keyType]}
+                                        width="20px">
 
-            </Row>
+                                        {enumValuesItem}
+                                    </Form.Control>
+                                }
 
+                                {/* If current field is enum, create select input */}
+                                {keyType == 'array' &&
+                                    <Select
+                                        isMulti
+                                        isClearable
+                                        isSearchable
+                                        options={JSON.parse(defaultValue)}
+                                    />
+                                }
+
+                                {/* Else, If current field is int/string, create regular input */}
+                                {keyType != 'enum' && keyType != 'array' &&
+                                    <Form.Control
+                                        ref={(ref) => this.fieldsInput[key] = ref}
+                                        name={key}
+                                        disabled={defaultValue == '{link}'}
+                                        onChange={(event) => this.changeField(key, event.target.value)}
+                                        value={defaultValue}
+                                        size="sm"
+                                        type={this.inputTypesMap[keyType]}
+                                        width="20px" />
+
+                                }
+                            </div>
+
+                            <div className="field-component" >
+                                {keyType == "time" &&
+                                    <i className="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(key)} ></i>
+                                }
+
+                                {keyType == "string" &&
+                                    <i className="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
+                                }
+                            </div>
+
+
+
+                            <div className="field-component">
+                                <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
+                            </div>
+
+                            {this.createInfoPopup(key, 3)}
+
+                            <div className="field-component">
+                                <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
+                            </div>
+
+                        </Row>
+                    );
+                }}
+
+            </VisibilitySensor>
         );
     }
 
@@ -620,7 +633,7 @@ class EntityEditor extends React.Component {
 
 
         return (
-            <div key={key}>
+            <div key={keyPath}>
                 <Row className="field mb-1" style={{ paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)}>
 
                     <div className="field-component">
@@ -679,7 +692,7 @@ class EntityEditor extends React.Component {
         // create the array field itself, with collapseEntityEditor button
         items.push(
 
-            <div key={key}>
+            <div key={keyPath}>
                 <Row className='field mb-1' style={{ marginLeft: '0.001em', paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)} >
                     <div className="field-component">
                         {this.state.objectFieldsOpen[key] ?
@@ -783,7 +796,7 @@ class EntityEditor extends React.Component {
 
             if (this.isAllParentsExpanded(keyPath)) {
                 if (typeof keyValue != typeof {}) {
-                    rendersResult[keyPath] = this.getSingleFieldJSX(keyName, keyLevel);
+                    rendersResult[keyPath] = this.getSingleFieldJSX(keyName, keyPath, keyLevel);
                 } else if (!this.areChildrenRendered(keyPath, rendersResult) && this.state.objectFieldsOpen[keyPath]) {
                     stack.push(currElement);
                     Object.keys(keyValue).forEach(childKey => stack.push({ path: keyPath + '/' + childKey, level: keyLevel + 1 }));
