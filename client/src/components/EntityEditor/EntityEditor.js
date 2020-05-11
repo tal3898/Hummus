@@ -471,8 +471,17 @@ class EntityEditor extends React.Component {
                         />
                     }
 
+                    {/* If current field is boolean, create checkbox */}
+                    {keyType == 'boolean' &&
+                        <Form.Check 
+                        type="checkbox"
+                        checked={defaultValue}
+                        onChange={(event) => this.changeField(key, event.target.checked) }
+                        />
+                    }
+
                     {/* Else, If current field is int/string, create regular input */}
-                    {keyType != 'enum' && keyType != 'array' &&
+                    {keyType != 'enum' && keyType != 'array' && keyType != 'boolean' &&
                         <Form.Control
                             ref={(ref) => this.fieldsInput[key] = ref}
                             name={key}

@@ -1,6 +1,7 @@
 {
 	"English": [{
 		"Ids|[1]|מזהה ישות": {
+			"isComponent|boolean|[0]": false,
 			"name|string|[0]|שם ישות": "{text}",
 			"code|number|[1]|קוד ישות": "0"
 		},
