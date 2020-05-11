@@ -2,6 +2,8 @@ import React from 'react';
 import './EntityEditor.css'
 
 import { Form, Row } from 'react-bootstrap';
+import BootstrapSwitchButton from 'bootstrap-switch-button-react'
+
 import 'bootstrap/dist/css/bootstrap.css';
 import { Collapse} from 'reactstrap';
 import Popup from "reactjs-popup";
@@ -473,11 +475,14 @@ class EntityEditor extends React.Component {
 
                     {/* If current field is boolean, create checkbox */}
                     {keyType == 'boolean' &&
-                        <Form.Check 
-                        type="checkbox"
-                        checked={defaultValue}
-                        onChange={(event) => this.changeField(key, event.target.checked) }
-                        />
+
+                        <BootstrapSwitchButton 
+                            onlabel="true" 
+                            offlabel="false" 
+                            checked={defaultValue} 
+                            onChange={(value) => this.changeField(key, value)}
+                            size="sm" />
+
                     }
 
                     {/* Else, If current field is int/string, create regular input */}
