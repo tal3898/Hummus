@@ -635,7 +635,7 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        <i className=" fas fa-plus field-action mt-1" onClick={(event) => this.addField(key, event)}></i>
+                        <i className=" fas fa-plus field-action mt-1 plus-button" onClick={(event) => this.addField(key, event)}></i>
                     </div>
 
                     <div className="field-component">
