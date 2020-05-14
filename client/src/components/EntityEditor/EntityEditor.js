@@ -5,7 +5,7 @@ import { Form, Row } from 'react-bootstrap';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Collapse} from 'reactstrap';
+import { Collapse } from 'reactstrap';
 import Popup from "reactjs-popup";
 import Select from 'react-select';
 import { convertJsonTemplateToActualJson } from '../Utility'
@@ -168,7 +168,7 @@ class EntityEditor extends React.Component {
         } else {
             this.state.json[key] = value;
         }
-        
+
         this.updateJson('change');
     }
 
@@ -195,8 +195,8 @@ class EntityEditor extends React.Component {
             var links = this.context.data.currScenario.steps[stepIndex].links;
 
             for (var index = 0; index < links.length; index++) {
-                if ((links[index].fromPath.includes(keyFullPath + '/') || links[index].fromPath == keyFullPath) && 
-                        links[index].fromStep == this.context.data.currOpenStep) {
+                if ((links[index].fromPath.includes(keyFullPath + '/') || links[index].fromPath == keyFullPath) &&
+                    links[index].fromStep == this.context.data.currOpenStep) {
                     links.splice(index, 1);
                     index--;
                 }
@@ -329,7 +329,7 @@ class EntityEditor extends React.Component {
     getKeyFullPath(key) {
         if (this.isCurrentJsonIsAnElementInArray()) {
             key = parseInt(key);
-        } 
+        }
 
         var keyFullPath = this.state.parentPath + '/' + key
         var keyCleanFullPath = keyFullPath.split('/')
@@ -486,10 +486,10 @@ class EntityEditor extends React.Component {
                     {/* If current field is boolean, create checkbox */}
                     {keyType == 'boolean' &&
 
-                        <BootstrapSwitchButton 
-                            onlabel="true" 
-                            offlabel="false" 
-                            checked={defaultValue} 
+                        <BootstrapSwitchButton
+                            onlabel="true"
+                            offlabel="false"
+                            checked={defaultValue}
                             onChange={(value) => this.changeField(key, value)}
                             size="sm" />
 
@@ -543,17 +543,17 @@ class EntityEditor extends React.Component {
         var keyRequiredValue = key.split('|')[1];
         var keyFullPath = this.getKeyFullPath(key);
         var keyPath = '';
-        
-        if (this.isCurrentJsonIsAnElementInArray()){
+
+        if (this.isCurrentJsonIsAnElementInArray()) {
             keyPath = this.state.parentPath + '/' + parseInt(key);
         } else {
             keyPath = this.state.parentPath + '/' + key;
         }
-        
+
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
 
-        
+
 
         return (
             <div key={key}>
@@ -596,15 +596,18 @@ class EntityEditor extends React.Component {
                 </Row>
 
                 <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor
-                        parentPath={keyPath}
-                        expandAll={this.state.expandAll}
-                        onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
-                        name={key}
-                        ref={this.children[key]}
-                        level={this.state.level + 1}
-                        fullJson={JSON.stringify(this.state.fullJson[key])}
-                        jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
+                    {this.state.objectFieldsOpen[key] &&
+                        <EntityEditor
+                            parentPath={keyPath}
+                            expandAll={this.state.expandAll}
+                            onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
+                            name={key}
+                            ref={this.children[key]}
+                            level={this.state.level + 1}
+                            fullJson={JSON.stringify(this.state.fullJson[key])}
+                            jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
+                    }
+
                 </Collapse>
             </div>
         )
@@ -623,7 +626,7 @@ class EntityEditor extends React.Component {
         items.push(
 
             <div key={key}>
-                <Row className='json-field mb-1' style={{marginLeft:'0.001em', paddingLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
+                <Row className='json-field mb-1' style={{ marginLeft: '0.001em', paddingLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
                     <div className="field-component">
                         {this.state.objectFieldsOpen[key] ?
                             <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
@@ -668,15 +671,18 @@ class EntityEditor extends React.Component {
             const currFullJson = '{"' + step + '.":' + JSON.stringify(this.state.fullJson[key][0]) + "}"
             items.push(
                 <Collapse key={key + '/' + step} isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor
-                        parentPath={this.state.parentPath + "/" + key}
-                        expandAll={this.state.expandAll}
-                        name={key + '/' + step}
-                        onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
-                        ref={this.children[key][step]}
-                        level={this.state.level + 1}
-                        fullJson={currFullJson}
-                        jsondata={currJson}></EntityEditor>
+                    {this.state.objectFieldsOpen[key] &&
+                        <EntityEditor
+                            parentPath={this.state.parentPath + "/" + key}
+                            expandAll={this.state.expandAll}
+                            name={key + '/' + step}
+                            onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
+                            ref={this.children[key][step]}
+                            level={this.state.level + 1}
+                            fullJson={currFullJson}
+                            jsondata={currJson}></EntityEditor>
+                    }
+
                 </Collapse>
             )
         }
