@@ -198,7 +198,7 @@ class ScenariosWindow extends React.Component {
 
   removeFolder(folderName) {
 
-this.closePanel();
+    this.closePanel();
     confirmAlert({
       title: 'Confirm to submit',
       message: 'Are you sure you want to delete?',
@@ -240,7 +240,7 @@ this.closePanel();
         },
         {
           label: 'No',
-          onClick: () => {}
+          onClick: () => { }
         }
       ]
     });
@@ -249,36 +249,53 @@ this.closePanel();
   }
 
   removeFile(fileName) {
-    var fullPath = this.state.currPath + "/" + fileName;
-    var body = {
-      path: fullPath
-    }
 
-    const requestOptions = {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    };
+    this.closePanel();
+    confirmAlert({
+      title: 'Confirm to submit',
+      message: 'Are you sure you want to delete?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => {
+            var fullPath = this.state.currPath + "/" + fileName;
+            var body = {
+              path: fullPath
+            }
 
-    const toastProperties = {
-      autoClose: 2000,
-      position: toast.POSITION.BOTTOM_RIGHT,
-      pauseOnFocusLoss: false
-    };
+            const requestOptions = {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body)
+            };
 
-    fetch('/scenarioFile', requestOptions)
-      .then(response => response.json())
-      .then(data => {
-        toast.success("Deleted successfully", toastProperties);
+            const toastProperties = {
+              autoClose: 2000,
+              position: toast.POSITION.BOTTOM_RIGHT,
+              pauseOnFocusLoss: false
+            };
 
-        this.context.loadFolderHiierarchy((data) => {
-          this.context.data.scenariosHierarchy = data;
-          this.context.updateData(this.context);
-        });
+            fetch('/scenarioFile', requestOptions)
+              .then(response => response.json())
+              .then(data => {
+                toast.success("Deleted successfully", toastProperties);
 
-      }).catch(error => {
-        toast.error("Error occurred while deleting", toastProperties);
-      });
+                this.context.loadFolderHiierarchy((data) => {
+                  this.context.data.scenariosHierarchy = data;
+                  this.context.updateData(this.context);
+                });
+
+              }).catch(error => {
+                toast.error("Error occurred while deleting", toastProperties);
+              });
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => { }
+        }
+      ]
+    });
   }
 
   //#region content rendering
