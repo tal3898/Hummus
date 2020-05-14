@@ -600,7 +600,7 @@ class EntityEditor extends React.Component {
     }
 
 
-    getObjectFieldJSX(key, keyPath, level, children) {
+    getObjectFieldJSX(key, keyPath, level) {
         var keyParts = key.split('|');
         var keyName = keyParts[0];
         var keyRequiredValue = keyParts[1];
@@ -650,14 +650,11 @@ class EntityEditor extends React.Component {
 
                 </Row>
 
-                <Collapse isOpen={this.state.objectFieldsOpen[keyPath]}>
-                    {children}
-                </Collapse>
             </div>
         )
     }
 
-    getArrayFieldJSX(key, keyPath, level, children) {
+    getArrayFieldJSX(key, keyPath, level) {
         var keyParts = key.split('|');
         var keyName = keyParts[0];
         var keyRequiredValue = keyParts[1];
@@ -708,12 +705,6 @@ class EntityEditor extends React.Component {
                 </Row>
             </div>
         )
-
-        items.push(
-            <Collapse key={key} isOpen={this.state.objectFieldsOpen[keyPath]}>
-                {children}
-            </Collapse>
-        )
         
 
         return items
@@ -740,7 +731,7 @@ class EntityEditor extends React.Component {
     }
 
     areChildrenRendered(parentPath, rendersResult) {
-        return Object.keys(rendersResult).some(renderedPath => renderedPath.includes(parentPath + '/'));
+        return rendersResult.some(renderedPath => renderedPath.includes(parentPath + '/'));
     }
     
     shouldComponentUpdate(nextProps, nextState) {
@@ -756,54 +747,42 @@ class EntityEditor extends React.Component {
 
         
         var stack = [];
-        var rendersResult = {}
+        var rendersResult = [];
 
         for (var key in this.state.json) {
-            stack.push({
-                path: '/' + key,
-                level: 0
-            });            
+            stack.push('/' + key);            
         }
 
         while (stack.length != 0) {
             var currElement = stack.pop();  
-            var keyPath = currElement.path; 
+            var keyPath = currElement; 
             var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
             var keyValue = this.getValue(this.state.json, keyPath);
-            var keyLevel = currElement.level;
 
-            if (this.isAllParentsExpanded(keyPath)) {
-                if (typeof keyValue != typeof {}) {
-                    rendersResult[keyPath] = this.getSingleFieldJSX(keyName, keyLevel);
-                } else if (!this.areChildrenRendered(keyPath, rendersResult) && this.state.objectFieldsOpen[keyPath]){
-                    stack.push(currElement);
-                    Object.keys(keyValue).forEach(childKey => stack.push({path: keyPath + '/' + childKey, level: keyLevel + 1}));
-                } else {
-                    var keyChildren = Object.keys(rendersResult)
-                        .filter(renderedKey => renderedKey.includes(keyPath + '/') && renderedKey.split('/').length == keyPath.split('/').length + 1)
-                        .map(renderedKey => rendersResult[renderedKey])
-    
-                    if (Array.isArray(keyValue)) {
-                        rendersResult[keyPath] = this.getArrayFieldJSX(keyName, keyPath, keyLevel, keyChildren);
-                    } else {
-                        rendersResult[keyPath] = this.getObjectFieldJSX(keyName, keyPath, keyLevel, keyChildren);
-                    }
+            if (!rendersResult.includes(keyPath)) {
+                rendersResult.push(keyPath);
+
+                if (typeof keyValue == typeof {}) {
+                    
+                    var children = Object.keys(keyValue)
+                        .map(child => keyPath + '/' + child);
+             
+                    stack = stack.concat(children);
                 }
-            } else {
-
             }
+            
+
 
             
         }
 
         this.finalRender = Object.keys(rendersResult)
-            .filter(key => key.split('/').length == 2)
             .map(key => rendersResult[key]);
             
     
             return (
                 <Styles dir='ltr'>
-                    {this.finalRender}
+                    {"dd"}
                 </Styles>
             );
 /*
