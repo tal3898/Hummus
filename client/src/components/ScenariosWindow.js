@@ -201,7 +201,7 @@ class ScenariosWindow extends React.Component {
     this.closePanel();
     confirmAlert({
       title: 'Confirm to submit',
-      message: 'Are you sure you want to delete?',
+      message: 'Are you sure you want to delete the folder "' + folderName + '" ?',
       buttons: [
         {
           label: 'Yes',
@@ -253,7 +253,7 @@ class ScenariosWindow extends React.Component {
     this.closePanel();
     confirmAlert({
       title: 'Confirm to submit',
-      message: 'Are you sure you want to delete?',
+      message: 'Are you sure you want to delete the scenario "' + fileName + '" ?',
       buttons: [
         {
           label: 'Yes',
