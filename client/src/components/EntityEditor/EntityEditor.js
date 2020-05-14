@@ -166,14 +166,12 @@ class EntityEditor extends React.Component {
 
     // TODO: check if still need the fieldsInput
 
-    insertTimeNowToField(key) {
-        this.fieldsInput[key].value = '{iso}'
-        this.changeField(key, '{iso}');
+    insertTimeNowToField(keyPath) {
+        this.changeField(keyPath, '{iso}');
     }
 
-    insertGenerateWordToField(key) {
-        this.fieldsInput[key].value = '{text}'
-        this.changeField(key, '{text}');
+    insertGenerateWordToField(keyPath) {
+        this.changeField(keyPath, '{text}');
     }
 
     //#region data changed functions
@@ -191,11 +189,11 @@ class EntityEditor extends React.Component {
         event.stopPropagation();
     }
 
-    changeField(key, value, valueType) {
+    changeField(keyPath, value, valueType) {
         if (valueType == "number") {
-            this.state.json[key] = parseInt(value);
+            this.setValue(this.state.json, keyPath, parseInt(value));
         } else {
-            this.state.json[key] = value;
+            this.setValue(this.state.json, keyPath, value);
         }
 
         this.updateJson('change');
@@ -374,13 +372,11 @@ class EntityEditor extends React.Component {
         return key.split('|').length >= infoIndex + 1;
     }
 
-    createInfoPopup(key, infoIndex) {
-        var parentCleanPath = this.state.parentPath.split('/').map(subKey => subKey.split('|')[0]).join('/');
-        var fieldName = key.split('|')[0];
-        var fullPath = parentCleanPath + '/' + fieldName;
+    createInfoPopup(keyPath, infoIndex) {
+        var key = keyPath.split('/')[keyPath.split('/').length - 1];
 
         // Because the path starts with /Target/0, and we dont want it, we will remove it
-        fullPath = '/' + fullPath.split('/').slice(3).map(subKey => subKey.split('|')[0]).join('/');
+        var fullPath = '/' + keyPath.split('/').slice(3).map(subKey => subKey.split('|')[0]).join('/');
 
         return (
             <div className="field-component info-popup-div">
@@ -467,7 +463,7 @@ class EntityEditor extends React.Component {
             this.state.json[key] = "{link}";
         }
 
-        var defaultValue = this.state.json[key];
+        var defaultValue = this.getValue(this.state.json, keyPath);
         var keyFullPath = this.getKeyFullPath(key);
 
         if (key.split('|')[1] == "" || key.split('|')[1] == undefined) {
@@ -518,7 +514,7 @@ class EntityEditor extends React.Component {
                             name={key}
                             size="sm"
                             value={defaultValue}
-                            onChange={(event) => this.changeField(key, event.target.value)}
+                            onChange={(event) => this.changeField(keyPath, event.target.value)}
                             type={this.inputTypesMap[keyType]}
                             width="20px">
 
@@ -543,7 +539,7 @@ class EntityEditor extends React.Component {
                             onlabel="true"
                             offlabel="false"
                             checked={defaultValue}
-                            onChange={(value) => this.changeField(key, value)}
+                            onChange={(value) => this.changeField(keyPath, value)}
                             size="sm" />
 
                     }
@@ -554,7 +550,7 @@ class EntityEditor extends React.Component {
                             ref={(ref) => this.fieldsInput[key] = ref}
                             name={key}
                             disabled={defaultValue == '{link}'}
-                            onChange={(event) => this.changeField(key, event.target.value, keyType)}
+                            onChange={(event) => this.changeField(keyPath, event.target.value, keyType)}
                             value={defaultValue}
                             size="sm"
                             type={this.inputTypesMap[keyType]}
@@ -565,24 +561,24 @@ class EntityEditor extends React.Component {
 
                 <div className="field-component" >
                     {keyType == "time" &&
-                        <i className="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(key)} ></i>
+                        <i className="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(keyPath)} ></i>
                     }
 
                     {keyType == "string" &&
-                        <i className="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
+                        <i className="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(keyPath)} ></i>
                     }
                 </div>
 
 
 
                 <div className="field-component">
-                    <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
+                    <i onClick={(event) => this.disableField(event, keyPath)} className="fas fa-times field-action mt-1"></i>
                 </div>
 
-                {this.createInfoPopup(key, 3)}
+                {this.createInfoPopup(keyPath, 3)}
 
                 <div className="field-component">
-                    <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
+                    <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(keyPath)}></i>
                 </div>
 
             </Row>
