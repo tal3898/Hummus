@@ -84,6 +84,7 @@ class EntityEditor extends React.Component {
         }
     }
 
+    
     initArrayFieldsObjectTemplate() {
         // This json contains json templates for each array field in 
         // the current json, so when adding another json to the array, it will
@@ -727,8 +728,8 @@ class EntityEditor extends React.Component {
             <div dir='ltr'>
                 <List
                     rowCount={this.jsonFieldsPathList.length}
-                    width={600}
-                    height={600}
+                    width={window.innerWidth  * 0.67}
+                    height={window.innerHeight - 50}
                     rowHeight={40}
                     rowRenderer={this.listRowRender.bind(this)}
                     overscanRowCount={15}

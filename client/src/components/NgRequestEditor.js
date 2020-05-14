@@ -16,7 +16,7 @@ const Styles = styled.div`
 
 .entity-editor-window {
     height: 97vh;
-    overflow-y: scroll;
+    overflow-y: hidden;
     margin-top: 10px;
     padding: 10px;
     background: #f5f5f5;   
