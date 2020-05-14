@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { Form, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Collapse} from 'reactstrap';
+import { Collapse } from 'reactstrap';
 import Popup from "reactjs-popup";
 import Select from 'react-select';
 import { convertJsonTemplateToActualJson } from './Utility'
 import HummusContext from './HummusContext'
 
+import { List } from 'react-virtualized';
 
 const Styles = styled.div`
     .field {
@@ -124,6 +125,33 @@ class EntityEditor extends React.Component {
 
         this.initArrayFieldsObjectTemplate();
 
+
+        var stack = [];
+        this.jsonFieldsPathList = [];
+
+        for (var key in this.state.json) {
+            stack.push('/' + key);
+        }
+
+        while (stack.length != 0) {
+            var currElement = stack.pop();
+            var keyPath = currElement;
+            var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
+            var keyValue = this.getValue(this.state.json, keyPath);
+
+            if (!this.jsonFieldsPathList.includes(keyPath)) {
+                this.jsonFieldsPathList.push(keyPath);
+
+                if (typeof keyValue == typeof {}) {
+
+                    var children = Object.keys(keyValue)
+                        .map(child => keyPath + '/' + child);
+
+                    stack = stack.concat(children);
+                }
+            }
+        }
+
     }
 
     initArrayFieldsObjectTemplate() {
@@ -182,7 +210,7 @@ class EntityEditor extends React.Component {
             }
         }
 
-        while(stack.length != 0) {
+        while (stack.length != 0) {
             var keyPath = stack.pop();
             var keyValue = this.getValue(this.state.json, keyPath);
 
@@ -273,8 +301,8 @@ class EntityEditor extends React.Component {
             var links = this.context.data.currScenario.steps[stepIndex].links;
 
             for (var index = 0; index < links.length; index++) {
-                if ((links[index].fromPath.includes(keyFullPath + '/') || links[index].fromPath == keyFullPath) && 
-                        links[index].fromStep == this.context.data.currOpenStep) {
+                if ((links[index].fromPath.includes(keyFullPath + '/') || links[index].fromPath == keyFullPath) &&
+                    links[index].fromStep == this.context.data.currOpenStep) {
                     links.splice(index, 1);
                     index--;
                 }
@@ -407,7 +435,7 @@ class EntityEditor extends React.Component {
     getKeyFullPath(key) {
         if (this.isCurrentJsonIsAnElementInArray()) {
             key = parseInt(key);
-        } 
+        }
 
         var keyFullPath = this.state.parentPath + '/' + key
         var keyCleanFullPath = keyFullPath.split('/')
@@ -483,11 +511,35 @@ class EntityEditor extends React.Component {
     }
 
     //#region rendering json fields
-    getSingleFieldJSX(key, level) {
-        var keyParts = key.split('|'); 
+
+    listRowRender(index, isScrolling, key, style) {
+        var currRowField = this.jsonFieldsPathList[index.index];
+        var fieldValue = this.getValue(this.state.json, currRowField);
+        var fieldRender;
+
+        if (typeof fieldValue != typeof {}) {
+            fieldRender = this.getSingleFieldJSX(currRowField);
+        } else if (Array.isArray(fieldValue)) {
+            fieldRender = this.getArrayFieldJSX(currRowField);
+        } else {
+            fieldRender = this.getObjectFieldJSX(currRowField);
+        }
+
+        return (
+            <div key={index.key} style={index.style}>
+                {fieldRender}
+
+            </div>
+        );
+    }
+
+    getSingleFieldJSX(keyPath) {
+        var key = keyPath.split('/')[keyPath.split('/').length - 1];
+        var keyParts = key.split('|');
         var keyName = keyParts[0];
         var keyType = keyParts[1];
         var keyRequiredValue = keyParts[2];
+        var level = keyPath.split('/').length;
 
         if (this.isKeyLinkTo(key)) {
             this.state.json[key] = "{link}";
@@ -600,19 +652,21 @@ class EntityEditor extends React.Component {
     }
 
 
-    getObjectFieldJSX(key, keyPath, level) {
+    getObjectFieldJSX(keyPath) {
+        var key = keyPath.split('/')[keyPath.split('/').length - 1];
         var keyParts = key.split('|');
         var keyName = keyParts[0];
         var keyRequiredValue = keyParts[1];
         var keyFullPath = this.getKeyFullPath(key);
+        var level = keyPath.split('/').length;
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
 
-        
+
 
         return (
             <div key={key}>
-                <Row className="field mb-1" style={{ paddingLeft: this.state.indent*level }} onClick={() => this.collapseEntityEditor(keyPath)}>
+                <Row className="field mb-1" style={{ paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)}>
 
                     <div className="field-component">
                         {this.state.objectFieldsOpen[key] ?
@@ -654,11 +708,13 @@ class EntityEditor extends React.Component {
         )
     }
 
-    getArrayFieldJSX(key, keyPath, level) {
+    getArrayFieldJSX(keyPath) {
+        var key = keyPath.split('/')[keyPath.split('/').length - 1];
         var keyParts = key.split('|');
         var keyName = keyParts[0];
         var keyRequiredValue = keyParts[1];
         var keyFullPath = this.getKeyFullPath(key);
+        var level = keyPath.split('/').length;
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
 
@@ -668,7 +724,7 @@ class EntityEditor extends React.Component {
         items.push(
 
             <div key={key}>
-                <Row className='field mb-1' style={{marginLeft:'0.001em', paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)} >
+                <Row className='field mb-1' style={{ marginLeft: '0.001em', paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)} >
                     <div className="field-component">
                         {this.state.objectFieldsOpen[key] ?
                             <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
@@ -705,7 +761,7 @@ class EntityEditor extends React.Component {
                 </Row>
             </div>
         )
-        
+
 
         return items
     }
@@ -730,88 +786,64 @@ class EntityEditor extends React.Component {
         return obj[path[i]];
     }
 
-    areChildrenRendered(parentPath, rendersResult) {
-        return rendersResult.some(renderedPath => renderedPath.includes(parentPath + '/'));
+    areChildrenRendered(parentPath, jsonFieldsPathList) {
+        return jsonFieldsPathList.some(renderedPath => renderedPath.includes(parentPath + '/'));
     }
-    
+
     shouldComponentUpdate(nextProps, nextState) {
         return true;
     }
 
     isAllParentsExpanded(keyPath) {
         return !Object.keys(this.state.objectFieldsOpen)
-            .some(path => keyPath.includes(path + '/') && !this.state.objectFieldsOpen[path] )
+            .some(path => keyPath.includes(path + '/') && !this.state.objectFieldsOpen[path])
     }
 
     render() {
 
-        
-        var stack = [];
-        var rendersResult = [];
-
-        for (var key in this.state.json) {
-            stack.push('/' + key);            
-        }
-
-        while (stack.length != 0) {
-            var currElement = stack.pop();  
-            var keyPath = currElement; 
-            var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
-            var keyValue = this.getValue(this.state.json, keyPath);
-
-            if (!rendersResult.includes(keyPath)) {
-                rendersResult.push(keyPath);
-
-                if (typeof keyValue == typeof {}) {
-                    
-                    var children = Object.keys(keyValue)
-                        .map(child => keyPath + '/' + child);
-             
-                    stack = stack.concat(children);
-                }
-            }
-            
 
 
-            
-        }
-
-        this.finalRender = Object.keys(rendersResult)
-            .map(key => rendersResult[key]);
-            
-    
-            return (
-                <Styles dir='ltr'>
-                    {"dd"}
-                </Styles>
-            );
-/*
-        let items = []
-
-        for (let key in this.state.json) {
-            // If regular field
-            if (typeof this.state.json[key] != 'object') {
-                items.push(
-                    this.getSingleFieldJSX(key)
-                )
-                // If Object field
-            } else if (!Array.isArray(this.state.json[key])) {
-                items.push(
-                    this.getObjectFieldJSX(key)
-                )
-                // If Array field
-            } else {
-                items = items.concat(this.getArrayFieldJSX(key))
-            }
-        }
 
 
         return (
             <Styles dir='ltr'>
-                {items}
+                <List
+                    rowCount={this.jsonFieldsPathList.length}
+                    width={600}
+                    height={600}
+                    rowHeight={40}
+                    rowRenderer={this.listRowRender.bind(this)}
+                    overscanRowCount={3}
+                />
             </Styles>
         );
-        */
+        /*
+                let items = []
+        
+                for (let key in this.state.json) {
+                    // If regular field
+                    if (typeof this.state.json[key] != 'object') {
+                        items.push(
+                            this.getSingleFieldJSX(key)
+                        )
+                        // If Object field
+                    } else if (!Array.isArray(this.state.json[key])) {
+                        items.push(
+                            this.getObjectFieldJSX(key)
+                        )
+                        // If Array field
+                    } else {
+                        items = items.concat(this.getArrayFieldJSX(key))
+                    }
+                }
+        
+        
+                return (
+                    <Styles dir='ltr'>
+                        {items}
+                    </Styles>
+                );
+                */
     }
     //#endregion    
 }
