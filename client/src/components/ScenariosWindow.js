@@ -7,6 +7,9 @@ import SlidingPanel from 'react-sliding-side-panel';
 import Logo from './logo.png'
 import { toast } from 'react-toastify';
 
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
 const Styles = styled.div`
 .panel-container {
   height: 100%;
@@ -192,37 +195,57 @@ class ScenariosWindow extends React.Component {
   }
   //#endregion
 
+
   removeFolder(folderName) {
-    var fullPath = this.state.currPath + "/" + folderName;
-    var body = {
-      path: fullPath
-    }
 
-    const requestOptions = {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    };
+this.closePanel();
+    confirmAlert({
+      title: 'Confirm to submit',
+      message: 'Are you sure you want to delete?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => {
+            var fullPath = this.state.currPath + "/" + folderName;
+            var body = {
+              path: fullPath
+            }
 
-    const toastProperties = {
-      autoClose: 2000,
-      position: toast.POSITION.BOTTOM_RIGHT,
-      pauseOnFocusLoss: false
-    };
+            const requestOptions = {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body)
+            };
 
-    fetch('/folder', requestOptions)
-      .then(response => response.json())
-      .then(data => {
-        toast.success("Deleted successfully", toastProperties);
+            const toastProperties = {
+              autoClose: 2000,
+              position: toast.POSITION.BOTTOM_RIGHT,
+              pauseOnFocusLoss: false
+            };
 
-        this.context.loadFolderHiierarchy((data) => {
-          this.context.data.scenariosHierarchy = data;
-          this.context.updateData(this.context);
-        });
+            fetch('/folder', requestOptions)
+              .then(response => response.json())
+              .then(data => {
+                toast.success("Deleted successfully", toastProperties);
 
-      }).catch(error => {
-        toast.error("Error occurred while deleting", toastProperties);
-      });
+                this.context.loadFolderHiierarchy((data) => {
+                  this.context.data.scenariosHierarchy = data;
+                  this.context.updateData(this.context);
+                });
+
+              }).catch(error => {
+                toast.error("Error occurred while deleting", toastProperties);
+              });
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => {}
+        }
+      ]
+    });
+
+
   }
 
   removeFile(fileName) {
@@ -261,10 +284,10 @@ class ScenariosWindow extends React.Component {
   //#region content rendering
   createFolderRow(folderName) {
     return (
-      <Row onClick={() => this.openFolder(this.state.currPath + '/' + folderName)} className='field' dir="rtl" style={{marginRight:0, paddingRight:0}}>
+      <Row onClick={() => this.openFolder(this.state.currPath + '/' + folderName)} className='field' dir="rtl" style={{ marginRight: 0, paddingRight: 0 }}>
         <Col lg="2">
           <center>
-            <i style={{ marginTop: 5, color: 'white', fontSize:'30px' }} className="action fas fa-folder-open"></i>
+            <i style={{ marginTop: 5, color: 'white', fontSize: '30px' }} className="action fas fa-folder-open"></i>
           </center>
         </Col>
         <Col lg="7" >
@@ -288,7 +311,7 @@ class ScenariosWindow extends React.Component {
       <Row className='field' onClick={() => this.openFile(this.state.currPath + '/' + fileName)} dir="rtl">
         <Col lg="2">
           <center>
-            <i style={{ marginTop: 5, color: 'white', fontSize:'30px' }} className="action fas fa-file"></i>
+            <i style={{ marginTop: 5, color: 'white', fontSize: '30px' }} className="action fas fa-file"></i>
           </center>
         </Col>
         <Col lg="7">
@@ -397,10 +420,10 @@ class ScenariosWindow extends React.Component {
 
           <div style={{ paddingBottom: 10, background: '#1a80df', paddingTop: 10 }}>
             <div >
-              
-                {/**<img className="logo" src={Logo} />**/}
-                <h2 style={{paddingLeft:20, color:'white'}}>Scenarios</h2>
-              
+
+              {/**<img className="logo" src={Logo} />**/}
+              <h2 style={{ paddingLeft: 20, color: 'white' }}>Scenarios</h2>
+
             </div>
 
 
@@ -412,12 +435,12 @@ class ScenariosWindow extends React.Component {
               </div>
             </div>
           </div>
- 
-            <HummusConsumer>
-              {(value) =>
-                this.getWindowContent(value)
-              }
-            </HummusConsumer>
+
+          <HummusConsumer>
+            {(value) =>
+              this.getWindowContent(value)
+            }
+          </HummusConsumer>
 
           <i
             className="fas fa-plus"

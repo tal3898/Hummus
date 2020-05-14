@@ -17,6 +17,7 @@
     "bootstrap-switch-button-react": "^1.2.0",
     "concurrently": "^3.5.1",
     "express": "^4.17.1",
-    "mongodb": "^3.5.5"
+    "mongodb": "^3.5.5",
+    "react-confirm-alert": "^2.6.1"
   }
 }
