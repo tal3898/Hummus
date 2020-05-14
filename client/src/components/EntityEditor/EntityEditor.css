@@ -9,6 +9,10 @@
     overflow-wrap: break-word;
 }
 
+.info-popup-div {
+    z-index: 10;
+}
+
 .json-field:hover {
     background: #bbdefb; 
 }

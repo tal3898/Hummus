@@ -354,7 +354,7 @@ class EntityEditor extends React.Component {
         fullPath = '/' + fullPath.split('/').slice(3).map(subKey => subKey.split('|')[0]).join('/');
 
         return (
-            <div className="field-component">
+            <div className="field-component info-popup-div">
                 <Popup
                     position="right top"
                     on="hover"
