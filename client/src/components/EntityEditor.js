@@ -813,7 +813,7 @@ class EntityEditor extends React.Component {
                     height={600}
                     rowHeight={40}
                     rowRenderer={this.listRowRender.bind(this)}
-                    overscanRowCount={3}
+                    overscanRowCount={15}
                 />
             </Styles>
         );
