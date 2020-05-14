@@ -84,6 +84,9 @@ class EntityEditor extends React.Component {
         }
     }
 
+    componentDidMount() {
+        var a = "@";
+    }
     
     initArrayFieldsObjectTemplate() {
         // This json contains json templates for each array field in 
@@ -231,13 +234,11 @@ class EntityEditor extends React.Component {
         }
     }
 
-    removeField(key) {
-        this.removeRelevantLinks(key);
+    removeField(keyPath) {
+        this.removeRelevantLinks(keyPath);
 
         // remove actual field
-        delete this.state.json[key];
-        delete this.children[key];
-        delete this.fieldsInput[key];
+        this.deleteField(this.state.json, keyPath);
 
         this.updateJson('delete');
     }
@@ -707,6 +708,16 @@ class EntityEditor extends React.Component {
             obj = obj[path[i]];
 
         obj[path[i]] = value;
+    }
+
+    deleteField(obj, path) {
+        var i;
+        path = path.split('/');
+        path.splice(0, 1);
+        for (i = 0; i < path.length - 1; i++)
+            obj = obj[path[i]];
+
+        delete obj[path[i]];
     }
 
     getValue(obj, path) {
