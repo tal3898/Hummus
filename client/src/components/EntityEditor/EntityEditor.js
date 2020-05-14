@@ -162,8 +162,13 @@ class EntityEditor extends React.Component {
         event.stopPropagation();
     }
 
-    changeField(key, value) {
-        this.state.json[key] = value;
+    changeField(key, value, valueType) {
+        if (valueType == "number") {
+            this.state.json[key] = parseInt(value);
+        } else {
+            this.state.json[key] = value;
+        }
+        
         this.updateJson('change');
     }
 
@@ -412,6 +417,11 @@ class EntityEditor extends React.Component {
         var defaultValue = this.state.json[key];
         var keyFullPath = this.getKeyFullPath(key);
 
+        if (key.split('|')[1] == "" || key.split('|')[1] == undefined) {
+            keyType = typeof defaultValue;
+        }
+
+
         var enumValuesItem = []
         if (keyType == "enum") {
             var optionalValues = JSON.parse(key.split('|')[3]);
@@ -491,7 +501,7 @@ class EntityEditor extends React.Component {
                             ref={(ref) => this.fieldsInput[key] = ref}
                             name={key}
                             disabled={defaultValue == '{link}'}
-                            onChange={(event) => this.changeField(key, event.target.value)}
+                            onChange={(event) => this.changeField(key, event.target.value, keyType)}
                             value={defaultValue}
                             size="sm"
                             type={this.inputTypesMap[keyType]}

@@ -1,9 +1,10 @@
 {
 	"English": [{
 		"Ids|[1]|מזהה ישות": {
-			"isComponent|boolean|[0]": true,
-			"name|string|[0]|שם ישות": "{text}",
-			"code|number|[1]|קוד ישות": "0"
+			"isComponent||[0]": true,
+			"name||[0]|שם ישות": "{text}",
+			"code||[1]|קוד ישות": 
+				0
 		},
 		"Data|[0]": {
 			"Location|[1]": {
@@ -14,7 +15,7 @@
 								"Easdfasdf": {
 									"Fasdfsdf": {
 										"Gasdfasdfasd": {
-											"Hasdfasdf|string|[1]|תיאור מאוד ארוך ארוך ארוך של שדה מסוים שיכול להיות עם מלא דברים ובגלל זה התיאור מאוד מאוד ארוך": "stam"
+											"Hasdfasdf||[1]|תיאור מאוד ארוך ארוך ארוך של שדה מסוים שיכול להיות עם מלא דברים ובגלל זה התיאור מאוד מאוד ארוך": "stam"
 										}
 									}
 								}
@@ -22,29 +23,29 @@
 						}
 					}
 				},
-				"Street|string|[1]": "Agadati",
-				"number|number|[1]": "30"
+				"Street||[1]": "Agadati",
+				"number||[1]": 30
 			},
 			"Type|enum|[0]|[\"20 - paris\", \"30 - italy\"]": "20",
-			"Info|string|[0]": "{text}"
+			"Info||[0]": "{text}"
 		},
 		"PrevLesson|[0]|קישור לשיעור הקודם": {
 			"Ids|[1]": {
-				"code|number|[1]|קוד ישות": "0",
-				"name|string|[0]|שם ישות": ""
+				"code||[1]|קוד ישות": "0",
+				"name||[0]|שם ישות": ""
 			},
-			"BreakDuration|number|[1]|זמן הפסקה בין השיעורים": "15"	
+			"BreakDuration||[1]|זמן הפסקה בין השיעורים": "15"	
 		},
 		"Planning|[0..1]": [{
-			"Goal|string|[1]": "learn piano",
+			"Goal||[1]": "learn piano",
 			"Time|time|[1]": "{iso}"
 		},{
 			"Goal|string|[1]": "learn piano",
 			"Time|time|[1]": "{iso}"
 		}],
 		"Homworks|[0..1]": [{
-			"Pages|string|[1]": "{text}",
-			"Bool|string|[1]": "{text}"
+			"Pages||[1]": "{text}",
+			"Bool||[1]": "{text}"
 		}]
 		
 	
