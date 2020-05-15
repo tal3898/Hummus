@@ -736,7 +736,11 @@ class EntityEditor extends React.Component {
         for (i = 0; i < path.length - 1; i++)
             obj = obj[path[i]];
 
-        delete obj[path[i]];
+        if (Array.isArray(obj)) {
+            obj.splice(path[i], 1);
+        } else {
+            delete obj[path[i]];
+        }
     }
 
     getValue(obj, path) {
