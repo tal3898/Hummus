@@ -79,7 +79,8 @@ class EntityEditor extends React.Component {
                 if (typeof keyValue == typeof {}) {
 
                     var children = Object.keys(keyValue)
-                        .map(child => keyPath + '/' + child);
+                        .map(child => keyPath + '/' + child)
+                        .reverse();
 
                     stack = stack.concat(children);
                 }
