@@ -814,6 +814,7 @@ class EntityEditor extends React.Component {
                     rowHeight={40}
                     rowRenderer={this.listRowRender.bind(this)}
                     overscanRowCount={15}
+                    style={{outline: 'none'}}
                 />
             </div>
         );
