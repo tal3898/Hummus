@@ -16,7 +16,7 @@ const Styles = styled.div`
 
 .entity-editor-window {
     height: 97vh;
-    overflow-y: scroll;
+    overflow-y: hidden;
     margin-top: 10px;
     padding: 10px;
     background: #f5f5f5;   
@@ -252,7 +252,7 @@ class NgRequestEditor extends React.Component {
                             <Row dir='rtl' style={{ marginBottom: 10 }}>
 
                                 <Col lg='10' className='entity-editor-window'>
-                                    <Button id="expandAllBtn" style={{ top: 20, right: 20, position: 'absolute' }} variant="info" onClick={() => this.expendAll()}>
+                                    <Button id="expandAllBtn" style={{zIndex:10, top: 20, right: 20, position: 'absolute' }} variant="info" onClick={() => this.expendAll()}>
                                         {
                                             this.state.expandAll &&
                                             <i className="fas fa-compress-alt"></i>
@@ -262,7 +262,7 @@ class NgRequestEditor extends React.Component {
                                         }
                                     </Button>
 
-                                    <Button style={{ top: 20, right: 60, position: 'absolute' }} variant="info"
+                                    <Button style={{zIndex:10, top: 20, right: 60, position: 'absolute' }} variant="info"
                                         onClick={() => this.openLinkPopup()}>
                                         {<i className="fas fa-sitemap"></i>}
                                     </Button>

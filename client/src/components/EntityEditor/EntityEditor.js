@@ -11,6 +11,8 @@ import Select from 'react-select';
 import { convertJsonTemplateToActualJson } from '../Utility'
 import HummusContext from '../HummusContext'
 
+import { List } from 'react-virtualized';
+
 
 
 class EntityEditor extends React.Component {
@@ -41,7 +43,7 @@ class EntityEditor extends React.Component {
             fullJson: JSON.parse(props.fullJson),
             name: props.name,
             level: props.level,
-            indent: 43 * props.level,
+            indent: 43 ,
             objectFieldsOpen: {} // for each field in the current json scope, set true/false, if the field is collapsed or not.
         }
 
@@ -54,8 +56,42 @@ class EntityEditor extends React.Component {
         this.initChildrenEntityEditors();
 
         this.initArrayFieldsObjectTemplate();
+
     }
 
+    flattenJsonToListOfKeysPath() {
+        var stack = [];
+        this.jsonFieldsPathList = [];
+
+        for (var key in this.state.json) {
+            stack.push('/' + key);
+        }
+
+        while (stack.length != 0) {
+            var currElement = stack.pop();
+            var keyPath = currElement;
+            var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
+            var keyValue = this.getValue(this.state.json, keyPath);
+
+            if (!this.jsonFieldsPathList.includes(keyPath)) {
+                this.jsonFieldsPathList.push(keyPath);
+
+                if (typeof keyValue == typeof {}) {
+
+                    var children = Object.keys(keyValue)
+                        .map(child => keyPath + '/' + child)
+                        .reverse();
+
+                    stack = stack.concat(children);
+                }
+            }
+        }
+    }
+
+    componentDidMount() {
+        var a = "@";
+    }
+    
     initArrayFieldsObjectTemplate() {
         // This json contains json templates for each array field in 
         // the current json, so when adding another json to the array, it will
@@ -103,17 +139,53 @@ class EntityEditor extends React.Component {
     }
 
     initCollapsableFields(isExpandAll) {
-        for (var key in this.state.json) {
-            if (typeof this.state.json[key] == 'object') {
-                this.state.objectFieldsOpen[key] = isExpandAll;
+        this.state.collapsedFieldsMap = {};
+        this.addJsonToCollapseMap(this.state.json, '', isExpandAll);
+        delete this.state.collapsedFieldsMap[''];
+    }
+
+    /**
+     * The function gets a json, and added all the object fields to the collapse fields map, with defalut value false/true.
+     * 
+     * Used in adding json to array element in the json
+     * @param {json} json 
+     * @param {string} jsonParentPath - The parent path of the given json.
+     * @param {boolean} defalutValue 
+     */
+    addJsonToCollapseMap(json, jsonParentPath, defalutValue) {
+        var stack = [];
+        var jsonFieldsPathList = [];
+
+        this.state.collapsedFieldsMap[jsonParentPath] = defalutValue;
+
+        for (var key in json) {
+            stack.push('/' + key);
+        }
+
+        while (stack.length != 0) {
+            var currElement = stack.pop();
+            var keyPath = currElement;
+            var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
+            var keyValue = this.getValue(json, keyPath);
+
+            if (!jsonFieldsPathList.includes(keyPath)) {
+                jsonFieldsPathList.push(keyPath);
+
+                if (typeof keyValue == typeof {}) {
+                    this.state.collapsedFieldsMap[jsonParentPath + keyPath] = defalutValue;
+                    var children = Object.keys(keyValue)
+                        .map(child => keyPath + '/' + child);
+
+                    stack = stack.concat(children);
+                }
             }
         }
     }
 
     //#endregion
 
-    collapseEntityEditor(key) {
-        this.state.objectFieldsOpen[key] = !this.state.objectFieldsOpen[key];
+    collapseEntityEditor(keyPath) {
+        this.state.collapsedFieldsMap[keyPath] = !this.state.collapsedFieldsMap[keyPath];
         this.setState(this.state)
     }
 
@@ -137,36 +209,33 @@ class EntityEditor extends React.Component {
 
     // TODO: check if still need the fieldsInput
 
-    insertTimeNowToField(key) {
-        this.fieldsInput[key].value = '{iso}'
-        this.changeField(key, '{iso}');
+    insertTimeNowToField(keyPath) {
+        this.changeField(keyPath, '{iso}');
     }
 
-    insertGenerateWordToField(key) {
-        this.fieldsInput[key].value = '{text}'
-        this.changeField(key, '{text}');
+    insertGenerateWordToField(keyPath) {
+        this.changeField(keyPath, '{text}');
     }
 
     //#region data changed functions
 
-    disableField(event, key) {
-        var keyPath = this.getKeyFullPath(key);
+    disableField(event, keyCleanPath) {
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
-        if (disabledFields.includes(keyPath)) {
-            disabledFields.splice(disabledFields.indexOf(keyPath), 1);
+        if (disabledFields.includes(keyCleanPath)) {
+            disabledFields.splice(disabledFields.indexOf(keyCleanPath), 1);
         } else {
-            disabledFields.push(keyPath);
+            disabledFields.push(keyCleanPath);
         }
         this.setState(this.state);
         event.stopPropagation();
     }
 
-    changeField(key, value, valueType) {
+    changeField(keyPath, value, valueType) {
         if (valueType == "number") {
-            this.state.json[key] = parseInt(value);
+            this.setValue(this.state.json, keyPath, parseInt(value));
         } else {
-            this.state.json[key] = value;
+            this.setValue(this.state.json, keyPath, value);
         }
 
         this.updateJson('change');
@@ -204,25 +273,32 @@ class EntityEditor extends React.Component {
         }
     }
 
-    removeField(key) {
-        this.removeRelevantLinks(key);
+    removeField(keyPath) {
+        this.removeRelevantLinks(keyPath);
 
         // remove actual field
-        delete this.state.json[key];
-        delete this.children[key];
-        delete this.fieldsInput[key];
+        this.deleteField(this.state.json, keyPath);
 
         this.updateJson('delete');
     }
 
-    addField(key, event) {
-        this.state.json[key].push(JSON.parse(JSON.stringify(this.arrayFieldsObjectTemplate[key])));
-        this.children[key].push(React.createRef());
+    addField(keyPath, event) {
+        var keyPathInFullJson = keyPath.split('/')
+            .map(field => isNaN(field) || field == "" ? field : 0)
+            .join('/') + 
+            "/0";
+
+        var newElement = JSON.parse(JSON.stringify(this.getValue(this.state.fullJson, keyPathInFullJson))); 
+        this.addValue(this.state.json, keyPath, newElement);
+        var newElementIndex = this.getValue(this.state.json, keyPath).length - 1;
+
+        this.addJsonToCollapseMap(newElement, keyPath + '/' + newElementIndex, false);
 
         this.updateJson('add');
 
         event.stopPropagation();
     }
+
 
     updateJson(updateType) {
         this.setState(this.state);
@@ -326,13 +402,8 @@ class EntityEditor extends React.Component {
         return false;
     }
 
-    getKeyFullPath(key) {
-        if (this.isCurrentJsonIsAnElementInArray()) {
-            key = parseInt(key);
-        }
-
-        var keyFullPath = this.state.parentPath + '/' + key
-        var keyCleanFullPath = keyFullPath.split('/')
+    getKeyFullPath(keyPath) {
+        var keyCleanFullPath = keyPath.split('/')
             .map(subKey => subKey.split('|')[0])
             .join('/');
 
@@ -345,13 +416,11 @@ class EntityEditor extends React.Component {
         return key.split('|').length >= infoIndex + 1;
     }
 
-    createInfoPopup(key, infoIndex) {
-        var parentCleanPath = this.state.parentPath.split('/').map(subKey => subKey.split('|')[0]).join('/');
-        var fieldName = key.split('|')[0];
-        var fullPath = parentCleanPath + '/' + fieldName;
+    createInfoPopup(keyPath, infoIndex) {
+        var key = keyPath.split('/')[keyPath.split('/').length - 1];
 
         // Because the path starts with /Target/0, and we dont want it, we will remove it
-        fullPath = '/' + fullPath.split('/').slice(3).map(subKey => subKey.split('|')[0]).join('/');
+        var fullPath = '/' + keyPath.split('/').slice(3).map(subKey => subKey.split('|')[0]).join('/');
 
         return (
             <div className="field-component info-popup-div">
@@ -380,11 +449,10 @@ class EntityEditor extends React.Component {
 
     //#endregion
 
-    isKeyLinkTo(key) {
-        var keyFullPath = this.getKeyFullPath(key);
+    isKeyLinkTo(keyPath) {
         var links = this.context.data.currScenario.steps[this.context.data.currOpenStep].links;
         for (var index in links) {
-            if (links[index].toPath == keyFullPath) {
+            if (links[index].toPath == keyPath) {
                 return true;
             }
         }
@@ -405,17 +473,41 @@ class EntityEditor extends React.Component {
     }
 
     //#region rendering json fields
-    getSingleFieldJSX(key) {
+    
+    listRowRender(index, isScrolling, key, style) {
+        var currRowField = this.visibleFields[index.index];
+        var fieldValue = this.getValue(this.state.json, currRowField);
+        var fieldRender;
+
+        if (typeof fieldValue != typeof {}) {
+            fieldRender = this.getSingleFieldJSX(currRowField);
+        } else if (Array.isArray(fieldValue)) {
+            fieldRender = this.getArrayFieldJSX(currRowField);
+        } else {
+            fieldRender = this.getObjectFieldJSX(currRowField);
+        }
+
+        return (
+            <div key={index.key} style={index.style}>
+                {fieldRender}
+
+            </div>
+        );
+    }
+    
+    getSingleFieldJSX(keyPath) {
+        var key = keyPath.split('/')[keyPath.split('/').length - 1];
+        var keyCleanPath = this.getKeyFullPath(keyPath);
         var keyName = key.split('|')[0];
         var keyType = key.split('|')[1];
         var keyRequiredValue = key.split('|')[2];
+        var level = keyPath.split('/').length - 2;
 
-        if (this.isKeyLinkTo(key)) {
-            this.state.json[key] = "{link}";
+        if (this.isKeyLinkTo(keyCleanPath)) {
+            this.setValue(this.state.json, keyPath, "{link}");
         }
 
-        var defaultValue = this.state.json[key];
-        var keyFullPath = this.getKeyFullPath(key);
+        var defaultValue = this.getValue(this.state.json, keyPath);
 
         if (key.split('|')[1] == "" || key.split('|')[1] == undefined) {
             keyType = typeof defaultValue;
@@ -439,12 +531,12 @@ class EntityEditor extends React.Component {
 
         return (
 
-            <Row key={key} className="json-field mb-1" style={{ paddingLeft: this.state.indent }}>
+            <Row key={key} className="json-field mb-1" style={{marginLeft: '0.001em',  paddingLeft: this.state.indent * level }}>
                 <div className="field-component">
-                    {disabledFields.includes(keyFullPath) &&
+                    {disabledFields.includes(keyCleanPath) &&
                         <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
                     }
-                    {!disabledFields.includes(keyFullPath) &&
+                    {!disabledFields.includes(keyCleanPath) &&
                         <Form.Label >{keyName}</Form.Label>
                     }
 
@@ -465,7 +557,7 @@ class EntityEditor extends React.Component {
                             name={key}
                             size="sm"
                             value={defaultValue}
-                            onChange={(event) => this.changeField(key, event.target.value)}
+                            onChange={(event) => this.changeField(keyPath, event.target.value)}
                             type={this.inputTypesMap[keyType]}
                             width="20px">
 
@@ -490,7 +582,7 @@ class EntityEditor extends React.Component {
                             onlabel="true"
                             offlabel="false"
                             checked={defaultValue}
-                            onChange={(value) => this.changeField(key, value)}
+                            onChange={(value) => this.changeField(keyPath, value)}
                             size="sm" />
 
                     }
@@ -501,7 +593,7 @@ class EntityEditor extends React.Component {
                             ref={(ref) => this.fieldsInput[key] = ref}
                             name={key}
                             disabled={defaultValue == '{link}'}
-                            onChange={(event) => this.changeField(key, event.target.value, keyType)}
+                            onChange={(event) => this.changeField(keyPath, event.target.value, keyType)}
                             value={defaultValue}
                             size="sm"
                             type={this.inputTypesMap[keyType]}
@@ -512,24 +604,24 @@ class EntityEditor extends React.Component {
 
                 <div className="field-component" >
                     {keyType == "time" &&
-                        <i className="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(key)} ></i>
+                        <i className="far fa-clock field-action mt-1" onClick={() => this.insertTimeNowToField(keyPath)} ></i>
                     }
 
                     {keyType == "string" &&
-                        <i className="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(key)} ></i>
+                        <i className="fas fa-dice field-action mt-1" onClick={() => this.insertGenerateWordToField(keyPath)} ></i>
                     }
                 </div>
 
 
 
                 <div className="field-component">
-                    <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
+                    <i onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
                 </div>
 
-                {this.createInfoPopup(key, 3)}
+                {this.createInfoPopup(keyPath, 3)}
 
                 <div className="field-component">
-                    <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
+                    <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(keyPath)}></i>
                 </div>
 
             </Row>
@@ -538,17 +630,13 @@ class EntityEditor extends React.Component {
     }
 
 
-    getObjectFieldJSX(key) {
+    getObjectFieldJSX(keyPath) {
+        var key = keyPath.split('/')[keyPath.split('/').length - 1];
         var keyName = key.split('|')[0];
         var keyRequiredValue = key.split('|')[1];
-        var keyFullPath = this.getKeyFullPath(key);
-        var keyPath = '';
+        var keyCleanPath = this.getKeyFullPath(keyPath);
+        var level = keyPath.split('/').length - 2;
 
-        if (this.isCurrentJsonIsAnElementInArray()) {
-            keyPath = this.state.parentPath + '/' + parseInt(key);
-        } else {
-            keyPath = this.state.parentPath + '/' + key;
-        }
 
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
@@ -557,20 +645,20 @@ class EntityEditor extends React.Component {
 
         return (
             <div key={key}>
-                <Row className="json-field mb-1" style={{ paddingLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)}>
+                <Row className="json-field mb-1" style={{marginLeft: '0.001em',  paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)}>
 
                     <div className="field-component">
-                        {this.state.objectFieldsOpen[key] ?
+                        {this.state.collapsedFieldsMap[keyPath] ?
                             <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
                             <i className="fas fa-angle-right" style={{ width: 18 }}></i>
                         }
                     </div>
 
                     <div className="field-component">
-                        {disabledFields.includes(keyFullPath) &&
+                        {disabledFields.includes(keyCleanPath) &&
                             <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
                         }
-                        {!disabledFields.includes(keyFullPath) &&
+                        {!disabledFields.includes(keyCleanPath) &&
                             <Form.Label >{keyName}</Form.Label>
                         }
                     </div>
@@ -582,41 +670,28 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
+                        <i onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
                     </div>
 
 
                     {this.createInfoPopup(key, 2)}
 
                     <div className="field-component">
-                        <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
+                        <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(keyPath)}></i>
                     </div>
 
 
                 </Row>
-
-                <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    {this.state.objectFieldsOpen[key] &&
-                        <EntityEditor
-                            parentPath={keyPath}
-                            expandAll={this.state.expandAll}
-                            onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
-                            name={key}
-                            ref={this.children[key]}
-                            level={this.state.level + 1}
-                            fullJson={JSON.stringify(this.state.fullJson[key])}
-                            jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
-                    }
-
-                </Collapse>
             </div>
         )
     }
 
-    getArrayFieldJSX(key) {
+    getArrayFieldJSX(keyPath) {
+        var key = keyPath.split('/')[keyPath.split('/').length - 1];
         var keyName = key.split('|')[0];
         var keyRequiredValue = key.split('|')[1];
-        var keyFullPath = this.getKeyFullPath(key);
+        var keyCleanPath = this.getKeyFullPath(keyPath);
+        var level = keyPath.split('/').length - 2;
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
 
@@ -626,19 +701,19 @@ class EntityEditor extends React.Component {
         items.push(
 
             <div key={key}>
-                <Row className='json-field mb-1' style={{ marginLeft: '0.001em', paddingLeft: this.state.indent }} onClick={() => this.collapseEntityEditor(key)} >
+                <Row className='json-field mb-1' style={{ marginLeft: '0.001em', paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)} >
                     <div className="field-component">
-                        {this.state.objectFieldsOpen[key] ?
+                        {this.state.collapsedFieldsMap[keyPath] ?
                             <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
                             <i className="fas fa-angle-right" style={{ width: 18 }}></i>
                         }
                     </div>
 
                     <div className="field-component">
-                        {disabledFields.includes(keyFullPath) &&
+                        {disabledFields.includes(keyCleanPath) &&
                             <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
                         }
-                        {!disabledFields.includes(keyFullPath) &&
+                        {!disabledFields.includes(keyCleanPath) &&
                             <Form.Label >{keyName}</Form.Label>
                         }
                     </div>
@@ -648,72 +723,99 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        <i className=" fas fa-plus field-action mt-1 plus-button" onClick={(event) => this.addField(key, event)}></i>
+                        <i className=" fas fa-plus field-action mt-1 plus-button" onClick={(event) => this.addField(keyPath, event)}></i>
                     </div>
 
                     <div className="field-component">
-                        <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
+                        <i onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
                     </div>
 
                     {this.createInfoPopup(key, 3)}
 
                     <div className="field-component">
-                        <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
+                        <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(keyPath)}></i>
                     </div>
                 </Row>
             </div>
         )
 
-        // For each element in the array -> create a new json which looks like this { "1.": {...}}, and create element with
-        // this json
-        for (let step = 0; step < this.state.json[key].length; step++) {
-            const currJson = '{"' + step + '.":' + JSON.stringify(this.state.json[key][step]) + "}"
-            const currFullJson = '{"' + step + '.":' + JSON.stringify(this.state.fullJson[key][0]) + "}"
-            items.push(
-                <Collapse key={key + '/' + step} isOpen={this.state.objectFieldsOpen[key]}>
-                    {this.state.objectFieldsOpen[key] &&
-                        <EntityEditor
-                            parentPath={this.state.parentPath + "/" + key}
-                            expandAll={this.state.expandAll}
-                            name={key + '/' + step}
-                            onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
-                            ref={this.children[key][step]}
-                            level={this.state.level + 1}
-                            fullJson={currFullJson}
-                            jsondata={currJson}></EntityEditor>
-                    }
-
-                </Collapse>
-            )
-        }
-
         return items
     }
 
-    render() {
-        let items = []
+    setValue(obj, path, value) {
+        var i;
+        path = path.split('/');
+        path.splice(0, 1);
+        for (i = 0; i < path.length - 1; i++)
+            obj = obj[path[i]];
 
-        for (let key in this.state.json) {
-            // If regular field
-            if (typeof this.state.json[key] != 'object') {
-                items.push(
-                    this.getSingleFieldJSX(key)
-                )
-                // If Object field
-            } else if (!Array.isArray(this.state.json[key])) {
-                items.push(
-                    this.getObjectFieldJSX(key)
-                )
-                // If Array field
-            } else {
-                items = items.concat(this.getArrayFieldJSX(key))
-            }
+        obj[path[i]] = value;
+    }
+
+    /**
+     *  The method push the an array in json path, a new element
+     * @param {json} obj 
+     * @param {string} path 
+     * @param {json} value 
+     */
+    addValue(obj,path,value) {
+        var i;
+        path = path.split('/');
+        path.splice(0, 1);
+        for (i = 0; i < path.length - 1; i++)
+            obj = obj[path[i]];
+
+        obj[path[i]].push(value);
+    }
+
+    deleteField(obj, path) {
+        var i;
+        path = path.split('/');
+        path.splice(0, 1);
+        for (i = 0; i < path.length - 1; i++)
+            obj = obj[path[i]];
+
+        if (Array.isArray(obj)) {
+            obj.splice(path[i], 1);
+        } else {
+            delete obj[path[i]];
         }
+    }
 
+    getValue(obj, path) {
+        var i;
+        path = path.split('/');
+        path.splice(0, 1);
+        for (i = 0; i < path.length - 1; i++)
+            obj = obj[path[i]];
+
+        return obj[path[i]];
+    }
+
+    isAllParentsExpanded(keyPath) {
+        return !Object.keys(this.state.collapsedFieldsMap)
+            .some(path => keyPath.includes(path + '/') && !this.state.collapsedFieldsMap[path])
+    }
+
+    render() {
+
+        this.flattenJsonToListOfKeysPath();
+
+        this.visibleFields = this.jsonFieldsPathList
+            .filter(path => this.isAllParentsExpanded(path));
+        
 
         return (
             <div dir='ltr'>
-                {items}
+                <List
+                    rowCount={this.visibleFields.length}
+                    width={window.innerWidth  * 0.67}
+                    height={window.innerHeight - 50}
+                    rowHeight={40}
+                    rowRenderer={this.listRowRender.bind(this)}
+                    overscanRowCount={15}
+                    style={{outline: 'none'}}
+                />
             </div>
         );
     }
