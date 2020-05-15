@@ -204,14 +204,13 @@ class EntityEditor extends React.Component {
 
     //#region data changed functions
 
-    disableField(event, key) {
-        var keyPath = this.getKeyFullPath(key);
+    disableField(event, keyCleanPath) {
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
-        if (disabledFields.includes(keyPath)) {
-            disabledFields.splice(disabledFields.indexOf(keyPath), 1);
+        if (disabledFields.includes(keyCleanPath)) {
+            disabledFields.splice(disabledFields.indexOf(keyCleanPath), 1);
         } else {
-            disabledFields.push(keyPath);
+            disabledFields.push(keyCleanPath);
         }
         this.setState(this.state);
         event.stopPropagation();
@@ -379,13 +378,8 @@ class EntityEditor extends React.Component {
         return false;
     }
 
-    getKeyFullPath(key) {
-        if (this.isCurrentJsonIsAnElementInArray()) {
-            key = parseInt(key);
-        }
-
-        var keyFullPath = this.state.parentPath + '/' + key
-        var keyCleanFullPath = keyFullPath.split('/')
+    getKeyFullPath(keyPath) {
+        var keyCleanFullPath = keyPath.split('/')
             .map(subKey => subKey.split('|')[0])
             .join('/');
 
@@ -490,7 +484,7 @@ class EntityEditor extends React.Component {
         }
 
         var defaultValue = this.getValue(this.state.json, keyPath);
-        var keyFullPath = this.getKeyFullPath(key);
+        var keyCleanPath = this.getKeyFullPath(keyPath);
 
         if (key.split('|')[1] == "" || key.split('|')[1] == undefined) {
             keyType = typeof defaultValue;
@@ -516,10 +510,10 @@ class EntityEditor extends React.Component {
 
             <Row key={key} className="json-field mb-1" style={{marginLeft: '0.001em',  paddingLeft: this.state.indent * level }}>
                 <div className="field-component">
-                    {disabledFields.includes(keyFullPath) &&
+                    {disabledFields.includes(keyCleanPath) &&
                         <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
                     }
-                    {!disabledFields.includes(keyFullPath) &&
+                    {!disabledFields.includes(keyCleanPath) &&
                         <Form.Label >{keyName}</Form.Label>
                     }
 
@@ -598,7 +592,7 @@ class EntityEditor extends React.Component {
 
 
                 <div className="field-component">
-                    <i onClick={(event) => this.disableField(event, keyPath)} className="fas fa-times field-action mt-1"></i>
+                    <i onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
                 </div>
 
                 {this.createInfoPopup(keyPath, 3)}
@@ -617,7 +611,7 @@ class EntityEditor extends React.Component {
         var key = keyPath.split('/')[keyPath.split('/').length - 1];
         var keyName = key.split('|')[0];
         var keyRequiredValue = key.split('|')[1];
-        var keyFullPath = this.getKeyFullPath(key);
+        var keyCleanPath = this.getKeyFullPath(keyPath);
         var level = keyPath.split('/').length - 2;
 
 
@@ -638,10 +632,10 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        {disabledFields.includes(keyFullPath) &&
+                        {disabledFields.includes(keyCleanPath) &&
                             <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
                         }
-                        {!disabledFields.includes(keyFullPath) &&
+                        {!disabledFields.includes(keyCleanPath) &&
                             <Form.Label >{keyName}</Form.Label>
                         }
                     </div>
@@ -653,7 +647,7 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
+                        <i onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
                     </div>
 
 
@@ -673,7 +667,7 @@ class EntityEditor extends React.Component {
         var key = keyPath.split('/')[keyPath.split('/').length - 1];
         var keyName = key.split('|')[0];
         var keyRequiredValue = key.split('|')[1];
-        var keyFullPath = this.getKeyFullPath(key);
+        var keyCleanPath = this.getKeyFullPath(keyPath);
         var level = keyPath.split('/').length - 2;
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
@@ -693,10 +687,10 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        {disabledFields.includes(keyFullPath) &&
+                        {disabledFields.includes(keyCleanPath) &&
                             <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
                         }
-                        {!disabledFields.includes(keyFullPath) &&
+                        {!disabledFields.includes(keyCleanPath) &&
                             <Form.Label >{keyName}</Form.Label>
                         }
                     </div>
@@ -710,7 +704,7 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
+                        <i onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
                     </div>
 
                     {this.createInfoPopup(key, 3)}
