@@ -57,9 +57,13 @@ class EntityEditor extends React.Component {
 
         this.initArrayFieldsObjectTemplate();
 
+        this.flattenJsonToListOfKeysPath();
+
+    }
+
+    flattenJsonToListOfKeysPath() {
         var stack = [];
         this.jsonFieldsPathList = [];
-        this.state.collapsedFieldsMap = {};
 
         for (var key in this.state.json) {
             stack.push('/' + key);
@@ -75,7 +79,6 @@ class EntityEditor extends React.Component {
                 this.jsonFieldsPathList.push(keyPath);
 
                 if (typeof keyValue == typeof {}) {
-                    this.state.collapsedFieldsMap[keyPath] = true;
 
                     var children = Object.keys(keyValue)
                         .map(child => keyPath + '/' + child);
@@ -137,9 +140,30 @@ class EntityEditor extends React.Component {
     }
 
     initCollapsableFields(isExpandAll) {
+        var stack = [];
+        var jsonFieldsPathList = [];
+        this.state.collapsedFieldsMap = {};
+
         for (var key in this.state.json) {
-            if (typeof this.state.json[key] == 'object') {
-                this.state.objectFieldsOpen[key] = isExpandAll;
+            stack.push('/' + key);
+        }
+
+        while (stack.length != 0) {
+            var currElement = stack.pop();
+            var keyPath = currElement;
+            var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
+            var keyValue = this.getValue(this.state.json, keyPath);
+
+            if (!jsonFieldsPathList.includes(keyPath)) {
+                jsonFieldsPathList.push(keyPath);
+
+                if (typeof keyValue == typeof {}) {
+                    this.state.collapsedFieldsMap[keyPath] = isExpandAll;
+                    var children = Object.keys(keyValue)
+                        .map(child => keyPath + '/' + child);
+
+                    stack = stack.concat(children);
+                }
             }
         }
     }
