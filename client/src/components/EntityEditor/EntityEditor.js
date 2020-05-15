@@ -139,32 +139,9 @@ class EntityEditor extends React.Component {
     }
 
     initCollapsableFields(isExpandAll) {
-        var stack = [];
-        var jsonFieldsPathList = [];
         this.state.collapsedFieldsMap = {};
-
-        for (var key in this.state.json) {
-            stack.push('/' + key);
-        }
-
-        while (stack.length != 0) {
-            var currElement = stack.pop();
-            var keyPath = currElement;
-            var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
-            var keyValue = this.getValue(this.state.json, keyPath);
-
-            if (!jsonFieldsPathList.includes(keyPath)) {
-                jsonFieldsPathList.push(keyPath);
-
-                if (typeof keyValue == typeof {}) {
-                    this.state.collapsedFieldsMap[keyPath] = isExpandAll;
-                    var children = Object.keys(keyValue)
-                        .map(child => keyPath + '/' + child);
-
-                    stack = stack.concat(children);
-                }
-            }
-        }
+        this.addJsonToCollapseMap(this.state.json, '', isExpandAll);
+        delete this.state.collapsedFieldsMap[''];
     }
 
     /**
