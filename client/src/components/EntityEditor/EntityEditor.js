@@ -59,6 +59,7 @@ class EntityEditor extends React.Component {
 
         var stack = [];
         this.jsonFieldsPathList = [];
+        this.state.collapsedFieldsMap = {};
 
         for (var key in this.state.json) {
             stack.push('/' + key);
@@ -74,6 +75,7 @@ class EntityEditor extends React.Component {
                 this.jsonFieldsPathList.push(keyPath);
 
                 if (typeof keyValue == typeof {}) {
+                    this.state.collapsedFieldsMap[keyPath] = true;
 
                     var children = Object.keys(keyValue)
                         .map(child => keyPath + '/' + child);
@@ -144,8 +146,8 @@ class EntityEditor extends React.Component {
 
     //#endregion
 
-    collapseEntityEditor(key) {
-        this.state.objectFieldsOpen[key] = !this.state.objectFieldsOpen[key];
+    collapseEntityEditor(keyPath) {
+        this.state.collapsedFieldsMap[keyPath] = !this.state.collapsedFieldsMap[keyPath];
         this.setState(this.state)
     }
 
@@ -433,7 +435,7 @@ class EntityEditor extends React.Component {
     //#region rendering json fields
     
     listRowRender(index, isScrolling, key, style) {
-        var currRowField = this.jsonFieldsPathList[index.index];
+        var currRowField = this.visibleFields[index.index];
         var fieldValue = this.getValue(this.state.json, currRowField);
         var fieldRender;
 
@@ -603,10 +605,10 @@ class EntityEditor extends React.Component {
 
         return (
             <div key={key}>
-                <Row className="json-field mb-1" style={{ paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(key)}>
+                <Row className="json-field mb-1" style={{ paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)}>
 
                     <div className="field-component">
-                        {this.state.objectFieldsOpen[key] ?
+                        {this.state.collapsedFieldsMap[keyPath] ?
                             <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
                             <i className="fas fa-angle-right" style={{ width: 18 }}></i>
                         }
@@ -659,9 +661,9 @@ class EntityEditor extends React.Component {
         items.push(
 
             <div key={key}>
-                <Row className='json-field mb-1' style={{ marginLeft: '0.001em', paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(key)} >
+                <Row className='json-field mb-1' style={{ marginLeft: '0.001em', paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)} >
                     <div className="field-component">
-                        {this.state.objectFieldsOpen[key] ?
+                        {this.state.collapsedFieldsMap[keyPath] ?
                             <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
                             <i className="fas fa-angle-right" style={{ width: 18 }}></i>
                         }
@@ -730,11 +732,21 @@ class EntityEditor extends React.Component {
         return obj[path[i]];
     }
 
+    isAllParentsExpanded(keyPath) {
+        return !Object.keys(this.state.collapsedFieldsMap)
+            .some(path => keyPath.includes(path + '/') && !this.state.collapsedFieldsMap[path])
+    }
+
     render() {
+
+        this.visibleFields = this.jsonFieldsPathList
+            .filter(path => this.isAllParentsExpanded(path));
+        
+
         return (
             <div dir='ltr'>
                 <List
-                    rowCount={this.jsonFieldsPathList.length}
+                    rowCount={this.visibleFields.length}
                     width={window.innerWidth  * 0.67}
                     height={window.innerHeight - 50}
                     rowHeight={40}
