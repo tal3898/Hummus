@@ -514,7 +514,7 @@ class EntityEditor extends React.Component {
 
         return (
 
-            <Row key={key} className="json-field mb-1" style={{ paddingLeft: this.state.indent * level }}>
+            <Row key={key} className="json-field mb-1" style={{marginLeft: '0.001em',  paddingLeft: this.state.indent * level }}>
                 <div className="field-component">
                     {disabledFields.includes(keyFullPath) &&
                         <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
@@ -628,7 +628,7 @@ class EntityEditor extends React.Component {
 
         return (
             <div key={key}>
-                <Row className="json-field mb-1" style={{ paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)}>
+                <Row className="json-field mb-1" style={{marginLeft: '0.001em',  paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)}>
 
                     <div className="field-component">
                         {this.state.collapsedFieldsMap[keyPath] ?
