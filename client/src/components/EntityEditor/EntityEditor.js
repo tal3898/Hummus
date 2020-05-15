@@ -57,8 +57,6 @@ class EntityEditor extends React.Component {
 
         this.initArrayFieldsObjectTemplate();
 
-        this.flattenJsonToListOfKeysPath();
-
     }
 
     flattenJsonToListOfKeysPath() {
@@ -661,7 +659,7 @@ class EntityEditor extends React.Component {
                     {this.createInfoPopup(key, 2)}
 
                     <div className="field-component">
-                        <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
+                        <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(keyPath)}></i>
                     </div>
 
 
@@ -717,7 +715,7 @@ class EntityEditor extends React.Component {
                     {this.createInfoPopup(key, 3)}
 
                     <div className="field-component">
-                        <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
+                        <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(keyPath)}></i>
                     </div>
                 </Row>
             </div>
@@ -762,6 +760,8 @@ class EntityEditor extends React.Component {
     }
 
     render() {
+
+        this.flattenJsonToListOfKeysPath();
 
         this.visibleFields = this.jsonFieldsPathList
             .filter(path => this.isAllParentsExpanded(path));
