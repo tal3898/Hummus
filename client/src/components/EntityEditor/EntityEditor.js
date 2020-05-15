@@ -167,6 +167,44 @@ class EntityEditor extends React.Component {
         }
     }
 
+    /**
+     * The function gets a json, and added all the object fields to the collapse fields map, with defalut value false/true.
+     * 
+     * Used in adding json to array element in the json
+     * @param {json} json 
+     * @param {string} jsonParentPath - The parent path of the given json.
+     * @param {boolean} defalutValue 
+     */
+    addJsonToCollapseMap(json, jsonParentPath, defalutValue) {
+        var stack = [];
+        var jsonFieldsPathList = [];
+
+        this.state.collapsedFieldsMap[jsonParentPath] = defalutValue;
+
+        for (var key in json) {
+            stack.push('/' + key);
+        }
+
+        while (stack.length != 0) {
+            var currElement = stack.pop();
+            var keyPath = currElement;
+            var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
+            var keyValue = this.getValue(json, keyPath);
+
+            if (!jsonFieldsPathList.includes(keyPath)) {
+                jsonFieldsPathList.push(keyPath);
+
+                if (typeof keyValue == typeof {}) {
+                    this.state.collapsedFieldsMap[jsonParentPath + keyPath] = defalutValue;
+                    var children = Object.keys(keyValue)
+                        .map(child => keyPath + '/' + child);
+
+                    stack = stack.concat(children);
+                }
+            }
+        }
+    }
+
     //#endregion
 
     collapseEntityEditor(keyPath) {
@@ -267,14 +305,23 @@ class EntityEditor extends React.Component {
         this.updateJson('delete');
     }
 
-    addField(key, event) {
-        this.state.json[key].push(JSON.parse(JSON.stringify(this.arrayFieldsObjectTemplate[key])));
-        this.children[key].push(React.createRef());
+    addField(keyPath, event) {
+        var keyPathInFullJson = keyPath.split('/')
+            .map(field => isNaN(field) || field == "" ? field : 0)
+            .join('/') + 
+            "/0";
+
+        var newElement = JSON.parse(JSON.stringify(this.getValue(this.state.fullJson, keyPathInFullJson))); 
+        this.addValue(this.state.json, keyPath, newElement);
+        var newElementIndex = this.getValue(this.state.json, keyPath).length - 1;
+
+        this.addJsonToCollapseMap(newElement, keyPath + '/' + newElementIndex, false);
 
         this.updateJson('add');
 
         event.stopPropagation();
     }
+
 
     updateJson(updateType) {
         this.setState(this.state);
@@ -425,11 +472,10 @@ class EntityEditor extends React.Component {
 
     //#endregion
 
-    isKeyLinkTo(key) {
-        var keyFullPath = this.getKeyFullPath(key);
+    isKeyLinkTo(keyPath) {
         var links = this.context.data.currScenario.steps[this.context.data.currOpenStep].links;
         for (var index in links) {
-            if (links[index].toPath == keyFullPath) {
+            if (links[index].toPath == keyPath) {
                 return true;
             }
         }
@@ -474,17 +520,17 @@ class EntityEditor extends React.Component {
     
     getSingleFieldJSX(keyPath) {
         var key = keyPath.split('/')[keyPath.split('/').length - 1];
+        var keyCleanPath = this.getKeyFullPath(keyPath);
         var keyName = key.split('|')[0];
         var keyType = key.split('|')[1];
         var keyRequiredValue = key.split('|')[2];
         var level = keyPath.split('/').length - 2;
 
-        if (this.isKeyLinkTo(key)) {
-            this.state.json[key] = "{link}";
+        if (this.isKeyLinkTo(keyCleanPath)) {
+            this.setValue(this.state.json, keyPath, "{link}");
         }
 
         var defaultValue = this.getValue(this.state.json, keyPath);
-        var keyCleanPath = this.getKeyFullPath(keyPath);
 
         if (key.split('|')[1] == "" || key.split('|')[1] == undefined) {
             keyType = typeof defaultValue;
@@ -700,7 +746,7 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        <i className=" fas fa-plus field-action mt-1 plus-button" onClick={(event) => this.addField(key, event)}></i>
+                        <i className=" fas fa-plus field-action mt-1 plus-button" onClick={(event) => this.addField(keyPath, event)}></i>
                     </div>
 
                     <div className="field-component">
@@ -727,6 +773,22 @@ class EntityEditor extends React.Component {
             obj = obj[path[i]];
 
         obj[path[i]] = value;
+    }
+
+    /**
+     *  The method push the an array in json path, a new element
+     * @param {json} obj 
+     * @param {string} path 
+     * @param {json} value 
+     */
+    addValue(obj,path,value) {
+        var i;
+        path = path.split('/');
+        path.splice(0, 1);
+        for (i = 0; i < path.length - 1; i++)
+            obj = obj[path[i]];
+
+        obj[path[i]].push(value);
     }
 
     deleteField(obj, path) {
