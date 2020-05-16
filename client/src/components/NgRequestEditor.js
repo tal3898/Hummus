@@ -245,7 +245,7 @@ class NgRequestEditor extends React.Component {
                                 {/**
                      <span style={{ marginTop: 0, fontSize: 10, float: 'right', marginBottom: 1, padding: 0 }}>*שים לב, שינוי ישות או תקן יאפס את כל המידע</span>
                                 <br />
-                     */}}
+                     */}
 
                             </div>
 
