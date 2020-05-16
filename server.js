@@ -2,6 +2,7 @@ const express = require('express');
 const mongo = require('mongodb');
 var MongoClient = mongo.MongoClient;
 const dbUrl = "mongodb://localhost:27017/";
+const dbName = "HummusDB";
 
 var bodyParser = require('body-parser')
 
@@ -17,7 +18,7 @@ const port = 5000;
 app.get('/folder', async (req, res) => {
 
 	var db = await MongoClient.connect(dbUrl);
-	var dbo = db.db("HummusDB");
+	var dbo = db.db(dbName);
 	var result = await dbo.collection("scenario").findOne({}, { _id: 0 });
 
 	console.log('restult is ' + JSON.stringify(result))
@@ -29,7 +30,7 @@ app.get('/folder', async (req, res) => {
 app.post('/folder', async (req, res) => {
 
 	var db = await MongoClient.connect(dbUrl);
-	var dbo = db.db("HummusDB");
+	var dbo = db.db(dbName);
 
 	// Insert the folder to the folder hirechical
 	var pathWithDots = req.body.path.replace('/', '').split('/').join('.');
@@ -45,7 +46,7 @@ app.post('/folder', async (req, res) => {
 
 app.delete('/folder', async (req, res) => {
 	var db = await MongoClient.connect(dbUrl);
-	var dbo = db.db("HummusDB");
+	var dbo = db.db(dbName);
 
 	// Remove the folder from the hierarchy
 	var pathWithDots = req.body.path.replace('/', '').split('/').join('.');
@@ -69,7 +70,7 @@ app.post('/scenario', async (req, res) => {
 	var scenarioDocument = req.body;
 
 	var db = await MongoClient.connect(dbUrl);
-	var dbo = db.db("HummusDB");
+	var dbo = db.db(dbName);
 
 	// If scenario already exists, remove it.
 	var scenarioPath = scenarioDocument.path;
@@ -99,7 +100,7 @@ app.post('/scenarioFile', async (req, res) => {
 	var wantedScenarioPath = req.body.path;
 
 	var db = await MongoClient.connect(dbUrl);
-	var dbo = db.db("HummusDB");
+	var dbo = db.db(dbName);
 
 
 	var result = await dbo.collection("scenarioFiles").findOne({ path: wantedScenarioPath }, { _id: 0 });
@@ -116,7 +117,7 @@ app.delete('/scenarioFile', async (req, res) => {
 	var wantedScenarioPath = req.body.path;
 
 	var db = await MongoClient.connect(dbUrl);
-	var dbo = db.db("HummusDB");
+	var dbo = db.db(dbName);
 
 	// remove from the scenarioFiles collection
 	var result = await dbo.collection("scenarioFiles").remove({ path: wantedScenarioPath });

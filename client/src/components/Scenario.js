@@ -77,6 +77,8 @@ const Styles = styled.div`
 
 `;
 
+const NgUrl = "https://reqres.in/api/users";
+
 class Scenario extends React.Component {
 
     static contextType = HummusContext;
@@ -266,7 +268,7 @@ class Scenario extends React.Component {
 
         var toastId = toast.warn("Sending", toastProperties);
 
-        fetch('https://reqres.in/api/users', requestOptions)
+        fetch(NgUrl, requestOptions)
             .then(response => response.json())
             .then(data => {
                 toast.update(toastId,  {render:"Sent step " + stepIndex + " successfully", type: toast.TYPE.SUCCESS, autoClose: 2000 });
@@ -313,7 +315,7 @@ class Scenario extends React.Component {
 
             toast.warn("Sending", toastProperties);
 
-            fetch('https://reqres.in/api/users', requestOptions)
+            fetch(NgUrl, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     toast.success("Sent successfully", toastProperties);
