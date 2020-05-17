@@ -5,6 +5,7 @@ import Logo from './logo.png'
 import Logo2 from './logo2.png'
 import ScenariosWindow from './ScenariosWindow';
 import ShortcutsPopup from './ShortcutsPopup'
+import Popup from "reactjs-popup";
 
 const Styles = styled.div`
   .navbar { 
@@ -43,12 +44,13 @@ const Styles = styled.div`
 export const NavigationBar = () => {
   const [isScenarioWindowOpen, setIsOpen] = React.useState(false);
   const [isShortcutPopupOpen, setIsShortcutPopupOpen] = React.useState(false);
+  const [isEasterOpenPopupOpen, setIsEasterOpenPopupOpen] = React.useState(false);
 
   return (
     <Styles>
       <Row className="navbar">
         <Col lg="0">
-          <a href="/" style={{ textDecoration: 'none' }}><img className="logo" src={Logo} /></a>
+          <a style={{ textDecoration: 'none' }} onClick={() => setIsEasterOpenPopupOpen(true)} ><img className="logo" src={Logo} /></a>
         </Col>
         <Col >
           <a href="/" style={{ textDecoration: 'none' }}><span className="headline">HummusNG</span></a>
@@ -60,6 +62,15 @@ export const NavigationBar = () => {
         <i id="scenariosListBtn" onClick={() => setIsOpen(true)} className="nav-button fas fa-align-justify fa-3x"></i>
 
 
+        <Popup
+          open={isEasterOpenPopupOpen}
+          onClose={() => setIsEasterOpenPopupOpen(false)}
+          modal
+          closeOnDocumentClick
+        >
+
+          <img style={{width:'100%'}} src="giphy.gif" alt="animated" />
+        </Popup>
 
         <ShortcutsPopup isOpen={isShortcutPopupOpen} onClose={() => setIsShortcutPopupOpen(false)} />
 
