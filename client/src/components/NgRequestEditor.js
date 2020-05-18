@@ -169,9 +169,10 @@ class NgRequestEditor extends React.Component {
                                             value={context.data.currScenario.steps[this.state.openStepIndex].entity}
                                             ref={(ref) => this.entityNode = ref}
                                             as="select">
-                                            <option value="English">אנגלית</option>
-                                            <option value="Math">חשבון</option>
-                                            <option value="Chemistry">כמיה</option>
+                                            {Object.entries(EntityMap)
+                                                .map(entry =>
+                                                    <option value={entry[1]}>{entry[0]}</option>
+                                                )}
                                         </Form.Control>
                                     </Col>
 
@@ -252,7 +253,7 @@ class NgRequestEditor extends React.Component {
                             <Row dir='rtl' style={{ marginBottom: 10 }}>
 
                                 <Col lg='10' className='entity-editor-window'>
-                                    <Button id="expandAllBtn" style={{zIndex:10, top: 20, right: 20, position: 'absolute' }} variant="info" onClick={() => this.expendAll()}>
+                                    <Button id="expandAllBtn" style={{ zIndex: 10, top: 20, right: 20, position: 'absolute' }} variant="info" onClick={() => this.expendAll()}>
                                         {
                                             this.state.expandAll &&
                                             <i className="fas fa-compress-alt"></i>
@@ -262,7 +263,7 @@ class NgRequestEditor extends React.Component {
                                         }
                                     </Button>
 
-                                    <Button style={{zIndex:10, top: 20, right: 70, position: 'absolute' }} variant="info"
+                                    <Button style={{ zIndex: 10, top: 20, right: 70, position: 'absolute' }} variant="info"
                                         onClick={() => this.openLinkPopup()}>
                                         {<i className="fas fa-sitemap"></i>}
                                     </Button>
