@@ -47,6 +47,7 @@ class NgRequestEditor extends React.Component {
             isLinkPopupOpen: false
         }
         this.entidyEditorChild = React.createRef();
+
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
@@ -203,9 +204,10 @@ class NgRequestEditor extends React.Component {
                                             value={context.data.currScenario.steps[this.state.openStepIndex].system}
                                             ref={(ref) => this.systemNode = ref}
                                             as="select">
-                                            {Object.entries(SystemMap)
-                                                .map(entry =>
-                                                    <option value={entry[1]}>{entry[0]}</option>
+                                            {Object.keys(SystemMap)
+                                                .sort()
+                                                .map(key =>
+                                                    <option value={SystemMap[key]}>{key}</option>
                                                 )}
                                         </Form.Control>
                                     </Col>
