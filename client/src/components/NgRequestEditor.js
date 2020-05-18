@@ -262,7 +262,7 @@ class NgRequestEditor extends React.Component {
                                         }
                                     </Button>
 
-                                    <Button style={{zIndex:10, top: 20, right: 60, position: 'absolute' }} variant="info"
+                                    <Button style={{zIndex:10, top: 20, right: 70, position: 'absolute' }} variant="info"
                                         onClick={() => this.openLinkPopup()}>
                                         {<i className="fas fa-sitemap"></i>}
                                     </Button>
