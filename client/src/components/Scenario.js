@@ -54,7 +54,8 @@ const Styles = styled.div`
 
 /* Large rounded green border */
 .seperator {
-    width: 80%;
+    width: 84%;
+    margin-right:0px;
     border: 0.05em solid grey;
     border-radius: 5px;
 }
