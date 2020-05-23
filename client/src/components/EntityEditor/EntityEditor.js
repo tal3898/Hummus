@@ -674,7 +674,7 @@ class EntityEditor extends React.Component {
                     </div>
 
 
-                    {this.createInfoPopup(key, 2)}
+                    {this.createInfoPopup(keyPath, 2)}
 
                     <div className="field-component">
                         <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(keyPath)}></i>
