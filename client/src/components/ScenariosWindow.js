@@ -312,9 +312,12 @@ class ScenariosWindow extends React.Component {
             {folderName}
           </div>
         </Col>
-        <Col>
-          <i onClick={(event) => { this.removeFolder(folderName); event.stopPropagation(); }} class="fas fa-trash"></i>
-        </Col>
+        {this.state.currPath != '' &&
+          <Col>
+            <i onClick={(event) => { this.removeFolder(folderName); event.stopPropagation(); }} class="fas fa-trash"></i>
+          </Col>
+        }
+
       </Row>
     )
   }
