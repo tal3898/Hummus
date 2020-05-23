@@ -181,4 +181,23 @@ function sleep(ms) {
 	})
 }
 
+// Allowed files extensions list.
+const allowedExt = [
+    '.js', '.ico', '.css', '.png', '.jpg',
+    '.woff2', '.woff', '.ttf', '.svg',
+];
+
+function isFileAllow(reqUrl) {
+    return (allowedExt.filter(ext => reqUrl.indexOf(ext) > 0).length > 0);
+}
+
+// Redirect angular requests back to client side.
+app.get('/*', (req, res) => {
+    let buildFolder = 'client/build/';
+    let file = isFileAllow(req.url) ? req.url : 'index.html';
+    let filePath = path.resolve(buildFolder + file);
+
+    res.sendFile(filePath);
+});
+
 app.listen(port, () => console.log('server started on port ' + port));
