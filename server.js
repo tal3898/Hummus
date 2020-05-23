@@ -167,7 +167,7 @@ app.post('/NgRequest', async (req, res) => {
 			});
 		}
 
-		await sleep(1000);
+	//	await sleep(1000);
 
 
 	}

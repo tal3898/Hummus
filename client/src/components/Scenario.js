@@ -288,6 +288,7 @@ class Scenario extends React.Component {
 
     sendAllStepsToNg() {
         var generatedSteps = [];
+        var entitiesToRequest = [];
         for (var stepIndex in this.context.data.currScenario.steps) {
             var currStep = this.context.data.currScenario.steps[stepIndex];
             var currStepRequest = this.getStepNgRequest(stepIndex);
@@ -300,37 +301,46 @@ class Scenario extends React.Component {
 
             console.log('sending json to ng ' + JSON.stringify(currStepRequest));
 
-            var bodyJ = JSON.stringify({
+            var bodyJ = {
                 nameA: "paul rudd",
                 moviesA: ["I Love You Man", "Role Models"]
-            });
+            };
 
             var requestMethod = currStep.action;
-
-            const requestOptions = {
+            var entityType = currStep.entity;
+            entitiesToRequest.push({
                 method: requestMethod,
-                headers: { 'Content-Type': 'application/json' },
-                body: bodyJ
-            };
-
-            const toastProperties = {
-                autoClose: 2000,
-                position: toast.POSITION.BOTTOM_RIGHT,
-                pauseOnFocusLoss: false
-            };
-
-            toast.warn("Sending", toastProperties);
-
-            fetch(NgUrl, requestOptions)
-                .then(response => response.json())
-                .then(data => {
-                    toast.success("Sent successfully", toastProperties);
-                    console.log("NG response: " + JSON.stringify(data));
-                }).catch(error => {
-                    toast.error("Error sending write request", toastProperties);
-                    console.error("NG error: ", error)
-                });
+                entity: entityType,
+                data: bodyJ //currStepRequest
+            })
+            
         }
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                entities: entitiesToRequest
+            })
+        };
+
+        const toastProperties = {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_RIGHT,
+            pauseOnFocusLoss: false
+        };
+
+        toast.warn("Sending", toastProperties);
+
+        fetch('/NgRequest', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                toast.success("Sent successfully", toastProperties);
+                console.log("NG response: " + JSON.stringify(data));
+            }).catch(error => {
+                toast.error("Error sending write request", toastProperties);
+                console.error("NG error: ", error)
+            });
     }
 
     close() {
