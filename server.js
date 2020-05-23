@@ -1,10 +1,13 @@
 const express = require('express');
 const mongo = require('mongodb');
+var bodyParser = require('body-parser')
+var request = require('request');
+
 var MongoClient = mongo.MongoClient;
 const dbUrl = "mongodb://localhost:27017/";
 const dbName = "HummusDB";
 
-var bodyParser = require('body-parser')
+var NgUrl = "https://reqres.in/api/users"
 
 const app = express();
 
@@ -134,5 +137,48 @@ app.delete('/scenarioFile', async (req, res) => {
 	db.close();
 });
 
+app.post('/NgRequest', async (req, res) => {
+	var requestsList = req.body.entities;
+	process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+	for (var index in requestsList) {
+		var requestData = requestsList[index];
+		var body = '';
+
+		if (requestData.method == 'POST') {
+			body = await request.post(NgUrl + '/' + requestData.entity, {
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(requestData.data)
+			});
+		} else if (requestData.method == 'PUT') {
+			body = await request.put(NgUrl + '/' + requestData.entity, {
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(requestData.data)
+			});
+		} else if (requestData.method == 'DELETE') {
+			body = await request.delete(NgUrl + '/' + requestData.entity, {
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(requestData.data)
+			});
+		}
+
+		await sleep(1000);
+
+
+	}
+
+	res.json({ 'message': 'Sent to NG'})
+})
+
+function sleep(ms) {
+	return new Promis ((resolve) => {
+		setTimeout(resolve, ms);
+	})
+}
 
 app.listen(port, () => console.log('server started on port ' + port));

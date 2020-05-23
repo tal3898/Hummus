@@ -147,11 +147,10 @@ class Scenario extends React.Component {
         var entityType = this.context.data.currScenario.steps[stepNumber].entity;
 
         var fullRequestJson = {
-            "Entity": entityType,
             "SendingTime": new Date().toISOString(),
-            "Reality": this.context.data.currScenario.steps[stepNumber].reality,
-            "Version": this.context.data.currScenario.steps[stepNumber].version,
-            "System": this.context.data.currScenario.steps[stepNumber].system,
+            "RealityId": this.context.data.currScenario.steps[stepNumber].reality,
+            "VersionId": this.context.data.currScenario.steps[stepNumber].version,
+            "SendingSystem": this.context.data.currScenario.steps[stepNumber].system,
             "Entities": entityJson[entityType]
         }
 
@@ -248,17 +247,23 @@ class Scenario extends React.Component {
 
         console.log('sending json to ng ' + JSON.stringify(currStepRequest));
 
-        var bodyJ = JSON.stringify({
+        var bodyJ = {
             nameA: "paul rudd",
             moviesA: ["I Love You Man", "Role Models"]
-        });
+        };
 
         var requestMethod = currStep.action;
-
+        var entityType = currStep.entity;
         const requestOptions = {
-            method: requestMethod,
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: bodyJ
+            body: JSON.stringify({
+                entities: [{
+                    method: requestMethod,
+                    entity: entityType,
+                    data: bodyJ
+                }]
+            })
         };
 
         const toastProperties = {
@@ -269,7 +274,7 @@ class Scenario extends React.Component {
 
         var toastId = toast.warn("Sending", toastProperties);
 
-        fetch(NgUrl, requestOptions)
+        fetch('/NgRequest', requestOptions)
             .then(response => response.json())
             .then(data => {
                 toast.update(toastId,  {render:"Sent step " + stepIndex + " successfully", type: toast.TYPE.SUCCESS, autoClose: 2000 });
@@ -365,7 +370,7 @@ class Scenario extends React.Component {
             "action": "POST",
             "version": "2",
 
-            "jsonToEdit": JSON.stringify(english_2),
+            "jsonToEdit": FullEntitiesMap["English"]["2"].data,
             "links": [],
             "disabledFields": []
         }
@@ -378,6 +383,7 @@ class Scenario extends React.Component {
     componentDidMount() {
         this.context.data.currScenario.steps = [];
         this.context.data.currScenario.steps.push(this.createStepTemplate());
+        this.context.updateData(this.context);
     }
 
     addStep() {
