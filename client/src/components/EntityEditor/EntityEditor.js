@@ -44,7 +44,12 @@ class EntityEditor extends React.Component {
             name: props.name,
             level: props.level,
             indent: 43,
-            objectFieldsOpen: {} // for each field in the current json scope, set true/false, if the field is collapsed or not.
+            objectFieldsOpen: {}, // for each field in the current json scope, set true/false, if the field is collapsed or not.
+            filterData: {
+                userFilter: '',
+                scrollTo: 0,
+                filterResult: []
+            }
         }
 
         this.fieldsInput = {};
@@ -56,7 +61,6 @@ class EntityEditor extends React.Component {
         this.initChildrenEntityEditors();
 
         this.initArrayFieldsObjectTemplate();
-
     }
 
     flattenJsonToListOfKeysPath() {
@@ -527,18 +531,21 @@ class EntityEditor extends React.Component {
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
 
-
+        var keyStyle= {};
+        if (disabledFields.includes(keyCleanPath)) {
+            keyStyle.textDecoration = 'line-through';
+        }
+        if (this.state.filterData.userFilter != "" && key.toLowerCase().includes(this.state.filterData.userFilter.toLowerCase())) {
+            keyStyle.background='red';
+        }        
 
         return (
 
             <Row key={key} className="json-field mb-1" style={{ marginLeft: '0.001em', paddingLeft: this.state.indent * level }}>
                 <div className="field-component">
-                    {disabledFields.includes(keyCleanPath) &&
-                        <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
-                    }
-                    {!disabledFields.includes(keyCleanPath) &&
-                        <Form.Label >{keyName}</Form.Label>
-                    }
+                    <Form.Label style={keyStyle}>{keyName}</Form.Label>
+                    
+
 
 
                 </div>
@@ -570,10 +577,10 @@ class EntityEditor extends React.Component {
                         <Multiselect
                             style={{
                                 searchBox: { width: 500, height: 30, background: 'white' },
-                                chips: {background: 'red', width: 200, height: 10, top:0},
+                                chips: { background: 'red', width: 200, height: 10, top: 0 },
                                 inputField: { marginTop: 0, marginLeft: 10 }
                             }}
-                            options={[{ name: 'Sriaaagar', id: 1 }, { name: 'Sam', id: 2 }, { name: 'Srbbigar', id: 4 }, { name: 'Srvvigar', id: 5  }]}
+                            options={[{ name: 'Sriaaagar', id: 1 }, { name: 'Sam', id: 2 }, { name: 'Srbbigar', id: 4 }, { name: 'Srvvigar', id: 5 }]}
                             selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
                             onSelect={this.onSelect} // Function will trigger on select event
                             onRemove={this.onRemove} // Function will trigger on remove event
@@ -811,6 +818,29 @@ class EntityEditor extends React.Component {
             .some(path => keyPath.includes(path + '/') && !this.state.collapsedFieldsMap[path])
     }
 
+
+    searchField(event) {
+        console.log(event.target.value);
+        this.state.filterData.userFilter = event.target.value;
+        var filterResult = [];
+
+        for (var index in this.jsonFieldsPathList) {
+            var keyPath = this.jsonFieldsPathList[index];
+            var keyDescription = keyPath.split('/')[keyPath.split('/').length - 1];
+            if (keyDescription.toLowerCase().includes(this.state.filterData.userFilter.toLowerCase())) {
+                filterResult.push(index);
+            }
+        }
+
+        if (filterResult.length > 0) {
+            this.state.filterData.scrollTo = filterResult[0];
+            this.setState(this.state);
+        }
+        
+
+
+    }
+
     render() {
 
         this.flattenJsonToListOfKeysPath();
@@ -821,11 +851,19 @@ class EntityEditor extends React.Component {
 
         return (
             <div dir='ltr'>
+                <Form.Control
+                    size="sm"
+                    onChange={(event) => this.searchField(event)}
+                    
+                    width="20px" />
+
+
                 <List
                     rowCount={this.visibleFields.length}
                     width={window.innerWidth * 0.67}
                     height={window.innerHeight - 50}
                     rowHeight={40}
+                    scrollToIndex={this.state.filterData.scrollTo}
                     rowRenderer={this.listRowRender.bind(this)}
                     overscanRowCount={15}
                     style={{ outline: 'none' }}
@@ -833,6 +871,9 @@ class EntityEditor extends React.Component {
             </div>
         );
     }
+
+
+
     //#endregion    
 }
 
