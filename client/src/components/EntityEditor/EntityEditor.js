@@ -506,7 +506,8 @@ class EntityEditor extends React.Component {
             keyStyle.textDecoration = 'line-through';
         }
         if (this.state.filterData.userFilter != "" && key.toLowerCase().includes(this.state.filterData.userFilter.toLowerCase())) {
-            keyStyle.background = 'red';
+            keyStyle.background = 'yellow';
+            keyStyle.borderRadius = 5;
         }
 
         return keyStyle;
@@ -842,9 +843,10 @@ class EntityEditor extends React.Component {
 
                 <Form.Control
                     size="sm"
+                    placeholder="search (english/hebrew)"
                     onChange={(event) => this.searchField(event)}
                     onKeyDown={(event) => this.searchKeyDown(event)}
-                    width="20px" />
+                    style={{width: 250, right: 130, top:23, zIndex:10, position: 'absolute', boxShadow: '2px 2px 10px grey'}} />
 
                 <List
                     rowCount={this.visibleFields.length}
