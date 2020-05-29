@@ -23,6 +23,7 @@ class ShortcutsPopup extends React.Component {
             isOpen: props.isOpen,
             shortcutsMap: {
                 "פתיחת חלון תרחישים": "ctrl + q",
+                "לעשות פוקוס על חיפוש שדה": "ctrl + alt + f",
                 "שליחת צעד": "ctrl + alt + d",
                 "שליחת תרחיש": "ctlr + alt + shift + d",
                 "expand/collapse all": "ctrl + b",

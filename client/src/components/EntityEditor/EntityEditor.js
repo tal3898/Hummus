@@ -843,6 +843,7 @@ class EntityEditor extends React.Component {
 
                 <Form.Control
                     size="sm"
+                    id="searchFieldInput"
                     placeholder="search (english/hebrew)"
                     onChange={(event) => this.searchField(event)}
                     onKeyDown={(event) => this.searchKeyDown(event)}

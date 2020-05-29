@@ -25,6 +25,9 @@ document.onkeyup = function (e) {
         } else if (e.ctrlKey && e.altKey && e.which == 68) {
             // ctrl + alt + d
             document.getElementById("sendStepBtn").click();
+        } else if (e.ctrlKey && e.altKey && e.which == 70) {
+            // ctrl + alt + f
+            document.getElementById("searchFieldInput").focus();
         } else if (e.ctrlKey && e.altKey && e.which == 79) {
             // ctrl + alt + o
             document.getElementById("openSavePopupBtn").click();
