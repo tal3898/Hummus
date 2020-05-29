@@ -501,13 +501,13 @@ class EntityEditor extends React.Component {
     }
 
     getKeyNameStyle(key, keyCleanPath, disabledFields) {
-        var keyStyle = {};
+        var keyStyle = {paddingLeft:3, paddingRight: 3};
         if (disabledFields.includes(keyCleanPath)) {
             keyStyle.textDecoration = 'line-through';
         }
         if (this.state.filterData.userFilter != "" && key.toLowerCase().includes(this.state.filterData.userFilter.toLowerCase())) {
-            keyStyle.background = 'yellow';
-            keyStyle.borderRadius = 5;
+            keyStyle.background = '#fff59d';
+            keyStyle.borderRadius = 7;
         }
 
         return keyStyle;
@@ -854,6 +854,7 @@ class EntityEditor extends React.Component {
                 <Form.Control
                     size="sm"
                     id="searchFieldInput"
+                    value={this.state.filterData.userFilter}
                     placeholder="search (english/hebrew)"
                     onChange={(event) => this.searchField(event)}
                     onKeyDown={(event) => this.searchKeyDown(event)}
