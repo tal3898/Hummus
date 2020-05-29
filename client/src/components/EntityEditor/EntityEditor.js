@@ -831,9 +831,11 @@ class EntityEditor extends React.Component {
     }
 
     searchKeyDown(event) {
-        if (event.key == 'Enter') {
+        if (event.key == 'Enter' && this.state.filterData.filterResult.length > 0) {
             this.state.filterData.filterResult.push(this.state.filterData.filterResult.splice(0,1)[0]);
             this.state.filterData.scrollTo = this.state.filterData.filterResult[0];
+            this.openForFieldAllAncestor(this.jsonFieldsPathList[this.state.filterData.filterResult[0]]);
+            
             this.setState(this.state);
         }
     }
