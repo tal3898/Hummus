@@ -803,21 +803,30 @@ class EntityEditor extends React.Component {
     searchField(event) {
         console.log(event.target.value);
         this.state.filterData.userFilter = event.target.value;
-        var filterResult = [];
+        this.state.filterData.filterResult = [];
 
         for (var index in this.jsonFieldsPathList) {
             var keyPath = this.jsonFieldsPathList[index];
             var keyDescription = keyPath.split('/')[keyPath.split('/').length - 1];
             if (keyDescription.toLowerCase().includes(this.state.filterData.userFilter.toLowerCase())) {
-                filterResult.push(index);
+                this.state.filterData.filterResult.push(index);
             }
         }
 
-        if (filterResult.length > 0) {
-            this.state.filterData.scrollTo = filterResult[0];
+        if (this.state.filterData.filterResult.length > 0) {
+            this.state.filterData.scrollTo = this.state.filterData.filterResult[0];
+            this.setState(this.state);
+        } else {
+            this.state.filterData.scrollTo = 0;
+        }
+    }
+
+    searchKeyDown(event) {
+        if (event.key == 'Enter') {
+            this.state.filterData.filterResult.push(this.state.filterData.filterResult.splice(0,1)[0]);
+            this.state.filterData.scrollTo = this.state.filterData.filterResult[0];
             this.setState(this.state);
         }
-
     }
 
     render() {
@@ -834,6 +843,7 @@ class EntityEditor extends React.Component {
                 <Form.Control
                     size="sm"
                     onChange={(event) => this.searchField(event)}
+                    onKeyDown={(event) => this.searchKeyDown(event)}
                     width="20px" />
 
                 <List
