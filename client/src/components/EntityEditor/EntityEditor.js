@@ -811,6 +811,7 @@ class EntityEditor extends React.Component {
             var keyDescription = keyPath.split('/')[keyPath.split('/').length - 1];
             if (keyDescription.toLowerCase().includes(this.state.filterData.userFilter.toLowerCase())) {
                 this.state.filterData.filterResult.push(index);
+                this.openForFieldAllAncestor(this.jsonFieldsPathList[index]);
             }
         }
 
@@ -820,6 +821,13 @@ class EntityEditor extends React.Component {
         } else {
             this.state.filterData.scrollTo = 0;
         }
+    }
+
+    openForFieldAllAncestor(keyPath) {
+        Object.keys(this.state.collapsedFieldsMap)
+            .filter(path => keyPath.includes(path + '/') )
+            .forEach(path => this.state.collapsedFieldsMap[path]=true);
+
     }
 
     searchKeyDown(event) {
