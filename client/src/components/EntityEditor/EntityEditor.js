@@ -501,7 +501,11 @@ class EntityEditor extends React.Component {
     }
 
     getKeyNameStyle(key, keyCleanPath, disabledFields) {
-        var keyStyle = {paddingLeft:3, paddingRight: 3};
+        var keyStyle = {
+            paddingLeft:3, 
+            paddingRight: 3,
+            marginTop: 4
+        };
         if (disabledFields.includes(keyCleanPath)) {
             keyStyle.textDecoration = 'line-through';
         }
@@ -661,8 +665,8 @@ class EntityEditor extends React.Component {
 
                     <div className="field-component">
                         {this.state.collapsedFieldsMap[keyPath] ?
-                            <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
-                            <i className="fas fa-angle-right" style={{ width: 18 }}></i>
+                            <i className="fas fa-angle-down" style={{marginTop:10, width: 18 }}></i> :
+                            <i className="fas fa-angle-right" style={{marginTop:10, width: 18 }}></i>
                         }
                     </div>
 
@@ -713,8 +717,8 @@ class EntityEditor extends React.Component {
                 <Row className='json-field mb-1' style={{ marginLeft: '0.001em', paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)} >
                     <div className="field-component">
                         {this.state.collapsedFieldsMap[keyPath] ?
-                            <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
-                            <i className="fas fa-angle-right" style={{ width: 18 }}></i>
+                            <i className="fas fa-angle-down" style={{marginTop:10, width: 18 }}></i> :
+                            <i className="fas fa-angle-right" style={{marginTop:10, width: 18 }}></i>
                         }
                     </div>
 
