@@ -3,7 +3,7 @@ import './EntityEditor.css'
 
 import { Form, Row } from 'react-bootstrap';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-
+import { Multiselect } from 'multiselect-react-dropdown';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Collapse } from 'reactstrap';
 import Popup from "reactjs-popup";
@@ -43,7 +43,7 @@ class EntityEditor extends React.Component {
             fullJson: JSON.parse(props.fullJson),
             name: props.name,
             level: props.level,
-            indent: 43 ,
+            indent: 43,
             objectFieldsOpen: {} // for each field in the current json scope, set true/false, if the field is collapsed or not.
         }
 
@@ -91,7 +91,7 @@ class EntityEditor extends React.Component {
     componentDidMount() {
         var a = "@";
     }
-    
+
     initArrayFieldsObjectTemplate() {
         // This json contains json templates for each array field in 
         // the current json, so when adding another json to the array, it will
@@ -285,10 +285,10 @@ class EntityEditor extends React.Component {
     addField(keyPath, event) {
         var keyPathInFullJson = keyPath.split('/')
             .map(field => isNaN(field) || field == "" ? field : 0)
-            .join('/') + 
+            .join('/') +
             "/0";
 
-        var newElement = JSON.parse(JSON.stringify(this.getValue(this.state.fullJson, keyPathInFullJson))); 
+        var newElement = JSON.parse(JSON.stringify(this.getValue(this.state.fullJson, keyPathInFullJson)));
         this.addValue(this.state.json, keyPath, newElement);
         var newElementIndex = this.getValue(this.state.json, keyPath).length - 1;
 
@@ -473,7 +473,7 @@ class EntityEditor extends React.Component {
     }
 
     //#region rendering json fields
-    
+
     listRowRender(index, isScrolling, key, style) {
         var currRowField = this.visibleFields[index.index];
         var fieldValue = this.getValue(this.state.json, currRowField);
@@ -494,7 +494,7 @@ class EntityEditor extends React.Component {
             </div>
         );
     }
-    
+
     getSingleFieldJSX(keyPath) {
         var key = keyPath.split('/')[keyPath.split('/').length - 1];
         var keyCleanPath = this.getKeyFullPath(keyPath);
@@ -531,7 +531,7 @@ class EntityEditor extends React.Component {
 
         return (
 
-            <Row key={key} className="json-field mb-1" style={{marginLeft: '0.001em',  paddingLeft: this.state.indent * level }}>
+            <Row key={key} className="json-field mb-1" style={{ marginLeft: '0.001em', paddingLeft: this.state.indent * level }}>
                 <div className="field-component">
                     {disabledFields.includes(keyCleanPath) &&
                         <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
@@ -567,11 +567,17 @@ class EntityEditor extends React.Component {
 
                     {/* If current field is enum, create select input */}
                     {keyType == 'array' &&
-                        <Select
-                            isMulti
-                            isClearable
-                            isSearchable
-                            options={JSON.parse(defaultValue)}
+                        <Multiselect
+                            style={{
+                                searchBox: { width: 500, height: 30, background: 'white' },
+                                chips: {background: 'red', width: 200, height: 10, top:0},
+                                inputField: { marginTop: 0, marginLeft: 10 }
+                            }}
+                            options={[{ name: 'Sriaaagar', id: 1 }, { name: 'Sam', id: 2 }, { name: 'Srbbigar', id: 4 }, { name: 'Srvvigar', id: 5  }]}
+                            selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
+                            onSelect={this.onSelect} // Function will trigger on select event
+                            onRemove={this.onRemove} // Function will trigger on remove event
+                            displayValue="name" // Property name to display in the dropdown options
                         />
                     }
 
@@ -629,6 +635,14 @@ class EntityEditor extends React.Component {
         );
     }
 
+    onSelect(selectedList, selectedItem) {
+
+    }
+
+    onRemove(selectedList, removedItem) {
+
+    }
+
 
     getObjectFieldJSX(keyPath) {
         var key = keyPath.split('/')[keyPath.split('/').length - 1];
@@ -645,7 +659,7 @@ class EntityEditor extends React.Component {
 
         return (
             <div key={key}>
-                <Row className="json-field mb-1" style={{marginLeft: '0.001em',  paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)}>
+                <Row className="json-field mb-1" style={{ marginLeft: '0.001em', paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)}>
 
                     <div className="field-component">
                         {this.state.collapsedFieldsMap[keyPath] ?
@@ -758,7 +772,7 @@ class EntityEditor extends React.Component {
      * @param {string} path 
      * @param {json} value 
      */
-    addValue(obj,path,value) {
+    addValue(obj, path, value) {
         var i;
         path = path.split('/');
         path.splice(0, 1);
@@ -803,18 +817,18 @@ class EntityEditor extends React.Component {
 
         this.visibleFields = this.jsonFieldsPathList
             .filter(path => this.isAllParentsExpanded(path));
-        
+
 
         return (
             <div dir='ltr'>
                 <List
                     rowCount={this.visibleFields.length}
-                    width={window.innerWidth  * 0.67}
+                    width={window.innerWidth * 0.67}
                     height={window.innerHeight - 50}
                     rowHeight={40}
                     rowRenderer={this.listRowRender.bind(this)}
                     overscanRowCount={15}
-                    style={{outline: 'none'}}
+                    style={{ outline: 'none' }}
                 />
             </div>
         );

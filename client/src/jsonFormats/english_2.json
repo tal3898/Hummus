@@ -27,6 +27,7 @@
 				"number||[1]": 30
 			},
 			"Type|enum|[0]|[\"20 - paris\", \"30 - italy\"]": "20",
+			"Case|array|[0]|[\"20 - paris\", \"30 - italy\"]": "20",
 			"Info||[0]": "{text}"
 		},
 		"PrevLesson|[0]|קישור לשיעור הקודם": {
