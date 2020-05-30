@@ -1,7 +1,7 @@
 import React from 'react';
 import './EntityEditor.css'
 
-import { Form, Row } from 'react-bootstrap';
+import { Form, Row, InputGroup } from 'react-bootstrap';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -502,7 +502,7 @@ class EntityEditor extends React.Component {
 
     getKeyNameStyle(key, keyCleanPath, disabledFields) {
         var keyStyle = {
-            paddingLeft:3, 
+            paddingLeft: 3,
             paddingRight: 3,
             marginTop: 4
         };
@@ -665,8 +665,8 @@ class EntityEditor extends React.Component {
 
                     <div className="field-component">
                         {this.state.collapsedFieldsMap[keyPath] ?
-                            <i className="fas fa-angle-down" style={{marginTop:10, width: 18 }}></i> :
-                            <i className="fas fa-angle-right" style={{marginTop:10, width: 18 }}></i>
+                            <i className="fas fa-angle-down" style={{ marginTop: 10, width: 18 }}></i> :
+                            <i className="fas fa-angle-right" style={{ marginTop: 10, width: 18 }}></i>
                         }
                     </div>
 
@@ -717,8 +717,8 @@ class EntityEditor extends React.Component {
                 <Row className='json-field mb-1' style={{ marginLeft: '0.001em', paddingLeft: this.state.indent * level }} onClick={() => this.collapseEntityEditor(keyPath)} >
                     <div className="field-component">
                         {this.state.collapsedFieldsMap[keyPath] ?
-                            <i className="fas fa-angle-down" style={{marginTop:10, width: 18 }}></i> :
-                            <i className="fas fa-angle-right" style={{marginTop:10, width: 18 }}></i>
+                            <i className="fas fa-angle-down" style={{ marginTop: 10, width: 18 }}></i> :
+                            <i className="fas fa-angle-right" style={{ marginTop: 10, width: 18 }}></i>
                         }
                     </div>
 
@@ -830,17 +830,17 @@ class EntityEditor extends React.Component {
 
     openForFieldAllAncestor(keyPath) {
         Object.keys(this.state.collapsedFieldsMap)
-            .filter(path => keyPath.includes(path + '/') )
-            .forEach(path => this.state.collapsedFieldsMap[path]=true);
+            .filter(path => keyPath.includes(path + '/'))
+            .forEach(path => this.state.collapsedFieldsMap[path] = true);
 
     }
 
     searchKeyDown(event) {
         if (event.key == 'Enter' && this.state.filterData.filterResult.length > 0) {
-            this.state.filterData.filterResult.push(this.state.filterData.filterResult.splice(0,1)[0]);
+            this.state.filterData.filterResult.push(this.state.filterData.filterResult.splice(0, 1)[0]);
             this.state.filterData.scrollTo = this.state.filterData.filterResult[0];
             this.openForFieldAllAncestor(this.jsonFieldsPathList[this.state.filterData.filterResult[0]]);
-            
+
             this.setState(this.state);
         }
     }
@@ -856,14 +856,41 @@ class EntityEditor extends React.Component {
         return (
             <div dir='ltr'>
 
-                <Form.Control
-                    size="sm"
-                    id="searchFieldInput"
-                    value={this.state.filterData.userFilter}
-                    placeholder="search (english/hebrew)"
-                    onChange={(event) => this.searchField(event)}
-                    onKeyDown={(event) => this.searchKeyDown(event)}
-                    style={{width: 250, right: 130, top:23, zIndex:10, position: 'absolute', boxShadow: '2px 2px 10px grey'}} />
+
+                <InputGroup size="sm" style={{ width: 250, right: 130, top: 23, zIndex: 10, position: 'absolute', boxShadow: '2px 2px 10px grey' }}>
+                    <InputGroup.Prepend >
+                        <InputGroup.Text id="inputGroupPrepend">
+
+                            <Popup
+                                className="action-btn"
+                                position="bottom center"
+                                on="hover"
+                                trigger={
+                                    <i className="fas fa-info-circle  mt-1"></i>}
+                            >
+                                <div dir="rtl">
+                                    <div style={{marginBottom: 2}}>ניתן לחפש:</div>
+                                                
+                                                1) שם שדה
+                                                <br />
+                                                2) תיאור שדה
+                                                <br />
+                                                3) [0] \ [1] \ [1..0] \ [1..1]
+                                </div>
+                            </Popup>
+
+                        </InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <Form.Control
+                        size="sm"
+                        id="searchFieldInput"
+                        value={this.state.filterData.userFilter}
+                        placeholder="search"
+                        onChange={(event) => this.searchField(event)}
+                        onKeyDown={(event) => this.searchKeyDown(event)}
+                    />
+                </InputGroup>
+
 
                 <List
                     rowCount={this.visibleFields.length}
