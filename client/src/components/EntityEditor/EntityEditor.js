@@ -821,10 +821,11 @@ class EntityEditor extends React.Component {
 
         if (this.state.filterData.filterResult.length > 0) {
             this.state.filterData.scrollTo = this.state.filterData.filterResult[0];
-            this.setState(this.state);
         } else {
             this.state.filterData.scrollTo = 0;
         }
+
+        this.setState(this.state);
     }
 
     openForFieldAllAncestor(keyPath) {
