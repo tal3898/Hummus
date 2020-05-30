@@ -40,7 +40,7 @@
 			"Goal||[1]": "learn piano",
 			"Time|time|[1]": "{iso}"
 		},{
-			"Goal|string|[1]": "learn piano",
+			"Goal||[1]": "learn piano",
 			"Time|time|[1]": "{iso}"
 		}],
 		"Homworks|[0..1]": [{
