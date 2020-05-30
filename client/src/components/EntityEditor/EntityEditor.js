@@ -856,7 +856,7 @@ class EntityEditor extends React.Component {
         return (
             <div dir='ltr'>
 
-
+                {/** Creating the search input, with info popup, that describes what the user can search */}
                 <InputGroup size="sm" style={{ width: 250, right: 130, top: 23, zIndex: 10, position: 'absolute', boxShadow: '2px 2px 10px grey' }}>
                     <InputGroup.Prepend >
                         <InputGroup.Text id="inputGroupPrepend">
@@ -875,7 +875,7 @@ class EntityEditor extends React.Component {
                                                 <br />
                                                 2) תיאור שדה
                                                 <br />
-                                                3) [0] \ [1] \ [1..0] \ [1..1]
+                                                3) [0] / [1] / [1..0] / [1..1]
                                 </div>
                             </Popup>
 
