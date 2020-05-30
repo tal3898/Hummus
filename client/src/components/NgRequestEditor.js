@@ -177,9 +177,8 @@ class NgRequestEditor extends React.Component {
                                         </Form.Control>
                                     </Col>
 
-
-
-
+                                    {/**  <p>{process.env.NODE_ENV} + {"A:" + process.env.REACT_APP_NOT_SECRET_CODE }</p>  */}
+                                                
                                     <Col lg='1' >
                                         <Form.Label >סוג בקשה</Form.Label>
                                     </Col>
