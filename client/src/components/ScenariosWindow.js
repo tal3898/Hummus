@@ -1,5 +1,6 @@
 import React, { useState, Children } from 'react';
 import styled from 'styled-components';
+import colors from '../config/colors';
 import { Form, Col, Row, InputGroup } from 'react-bootstrap';
 import HummusContext, { HummusConsumer } from './HummusContext'
 import SaveFolderPopup from './SaveFolderPopup'
@@ -438,7 +439,7 @@ class ScenariosWindow extends React.Component {
 
         <div className="window-content" style={{ background: '#4b4b4b', height: '100%' }}>
 
-          <div style={{ paddingBottom: 10, background: '#1a80df', paddingTop: 10 }}>
+          <div style={{ paddingBottom: 10, background: colors[process.env.REACT_APP_NG_ENV].scenariosWindowHeader, paddingTop: 10 }}>
             <div >
 
               {/**<img className="logo" src={Logo} />**/}
@@ -447,7 +448,7 @@ class ScenariosWindow extends React.Component {
             </div>
 
 
-            <div style={{ paddingLeft: 10, marginLeft: 15, backgroundColor: '#1a80df', borderRadius: 10, width: '90%' }}>
+            <div style={{ paddingLeft: 10, marginLeft: 15, backgroundColor: colors[process.env.REACT_APP_NG_ENV].scenariosWindowHeader, borderRadius: 10, width: '90%' }}>
               <i id="goBackBtn" onClick={() => this.goBack()} style={{ float: 'left', marginTop: 6, fontSize: 20, marginRight: 12 }} className="back-button fas fa-undo-alt"></i>
               <div className="path-font" style={{ fontSize: 20 }}>
                 {(this.state.currPath.length > 0 && this.state.currPath) ||

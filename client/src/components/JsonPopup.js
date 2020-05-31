@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import colors from '../config/colors'
 import {Col, Row } from 'react-bootstrap';
 import Popup from "reactjs-popup";
 import ReactJson from 'react-json-view'
@@ -37,11 +38,11 @@ const Styles = styled.div`
 
 
 .fa-copy:hover {
-    color: #0091ea;
+    color: ${colors[process.env.REACT_APP_NG_ENV].scenarioActionHover};
 }
 
 .fa-copy:active {
-    color: #01579b;
+    color: ${colors[process.env.REACT_APP_NG_ENV].scenarioActionActive};
 }
 `;
 

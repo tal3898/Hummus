@@ -1,9 +1,9 @@
 import React from 'react';
-import './EntityEditor.css'
+
 
 import { Form, Row, InputGroup } from 'react-bootstrap';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-
+import Styles from './EntityEditorCss'
 import 'bootstrap/dist/css/bootstrap.css';
 import { Collapse } from 'reactstrap';
 import Popup from "reactjs-popup";
@@ -433,7 +433,7 @@ class EntityEditor extends React.Component {
                     position="right top"
                     on="hover"
                     trigger={
-                        <i className="fas fa-info-circle field-action mt-1"></i>}
+                        <i className="fas field-info-popup fa-info-circle field-action mt-1"></i>}
                 >
                     <div className="info-popup-text">
                         <center className="info-txt">
@@ -854,7 +854,7 @@ class EntityEditor extends React.Component {
 
 
         return (
-            <div dir='ltr'>
+            <Styles dir='ltr'>
 
                 {/** Creating the search input, with info popup, that describes what the user can search */}
                 <InputGroup size="sm" style={{ width: 250, right: 130, top: 23, zIndex: 10, position: 'absolute', boxShadow: '2px 2px 10px grey' }}>
@@ -866,7 +866,7 @@ class EntityEditor extends React.Component {
                                 position="bottom center"
                                 on="hover"
                                 trigger={
-                                    <i className="fas fa-info-circle  mt-1"></i>}
+                                    <i className="fas search-info-popup fa-info-circle  mt-1"></i>}
                             >
                                 <div dir="rtl">
                                     <div style={{marginBottom: 2}}>ניתן לחפש:</div>
@@ -902,7 +902,7 @@ class EntityEditor extends React.Component {
                     overscanRowCount={15}
                     style={{ outline: 'none' }}
                 />
-            </div>
+            </Styles>
         );
     }
     //#endregion    

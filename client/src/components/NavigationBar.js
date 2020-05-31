@@ -1,6 +1,7 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import styled from 'styled-components';
+import colors from '../config/colors'
 import Logo from './logo.png'
 import Logo2 from './logo2.png'
 import ScenariosWindow from './ScenariosWindow';
@@ -37,7 +38,7 @@ const Styles = styled.div`
     margin-right: 40px;
     cursor: pointer;
     &:hover {
-      color: #116dff;
+      color: ${colors[process.env.REACT_APP_NG_ENV].navbarButtonHover};
     }
   }
 `;

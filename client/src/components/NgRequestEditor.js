@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import colors from '../config/colors'
 import { Button, Form, Col, Row } from 'react-bootstrap';
 import EntityEditor from './EntityEditor/EntityEditor';
 import HummusContext, { HummusConsumer } from './HummusContext'
@@ -12,8 +13,6 @@ import { FullEntitiesMap } from '../globals/FullEntitiesMap'
 
 const Styles = styled.div`
     
-
-
 .entity-editor-window {
     height: 97vh;
     overflow-y: hidden;
@@ -177,8 +176,6 @@ class NgRequestEditor extends React.Component {
                                         </Form.Control>
                                     </Col>
 
-                                    {/**  <p>{process.env.NODE_ENV} + {"A:" + process.env.REACT_APP_NOT_SECRET_CODE }</p>  */}
-                                                
                                     <Col lg='1' >
                                         <Form.Label >סוג בקשה</Form.Label>
                                     </Col>
@@ -254,7 +251,10 @@ class NgRequestEditor extends React.Component {
                             <Row dir='rtl' style={{ marginBottom: 10 }}>
 
                                 <Col lg='10' className='entity-editor-window'>
-                                    <Button id="expandAllBtn" style={{boxShadow: '2px 2px 10px grey', zIndex: 10, top: 20, right: 20, position: 'absolute' }} variant="info" onClick={() => this.expendAll()}>
+                                    <Button id="expandAllBtn" style={{ boxShadow: '2px 2px 10px grey', zIndex: 10, top: 20, right: 20, position: 'absolute' }}
+                                        variant={colors[process.env.REACT_APP_NG_ENV].entityEditorTopButtons}
+                                        onClick={() => this.expendAll()}>
+
                                         {
                                             this.state.expandAll &&
                                             <i className="fas fa-compress-alt"></i>
@@ -264,8 +264,10 @@ class NgRequestEditor extends React.Component {
                                         }
                                     </Button>
 
-                                    <Button style={{boxShadow: '2px 2px 10px grey', zIndex: 10, top: 20, right: 70, position: 'absolute' }} variant="info"
+                                    <Button style={{ boxShadow: '2px 2px 10px grey', zIndex: 10, top: 20, right: 70, position: 'absolute' }}
+                                        variant={colors[process.env.REACT_APP_NG_ENV].entityEditorTopButtons}
                                         onClick={() => this.openLinkPopup()}>
+
                                         {<i className="fas fa-sitemap"></i>}
                                     </Button>
 

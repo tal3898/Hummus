@@ -1,3 +1,9 @@
+import styled from 'styled-components';
+import colors from '../../config/colors'
+
+const green='green';
+
+const Styles = styled.div`
 .json-field {
     font-size: 18px;
     height: 36px; 
@@ -17,7 +23,7 @@
 }
 
 .json-field:hover {
-    background: #bbdefb; 
+    background: ${colors[process.env.REACT_APP_NG_ENV].entityEditorJsonFieldHover}; 
 }
 
 .collapse {
@@ -73,7 +79,14 @@
     color: #66bb6a;
 }
 
-.fa-info-circle:hover {
+.field-info-popup:hover {
     color: #2196f3;
     cursor: arrow;
 }
+
+.search-info-popup:hover {
+    color: ${colors[process.env.REACT_APP_NG_ENV].searchInfoPopup};
+}
+`;
+
+export default Styles;
