@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import colors from '../config/colors'
 import { Button, Form, Col, Row } from 'react-bootstrap';
 import EntityEditor from './EntityEditor/EntityEditor';
 import HummusContext, { HummusConsumer } from './HummusContext'
@@ -252,7 +251,7 @@ class NgRequestEditor extends React.Component {
 
                                 <Col lg='10' className='entity-editor-window'>
                                     <Button id="expandAllBtn" style={{ boxShadow: '2px 2px 10px grey', zIndex: 10, top: 20, right: 20, position: 'absolute' }}
-                                        variant={colors[process.env.REACT_APP_NG_ENV].entityEditorTopButtons}
+                                        variant={process.env.REACT_APP_entityEditorTopButtons}
                                         onClick={() => this.expendAll()}>
 
                                         {
@@ -265,7 +264,7 @@ class NgRequestEditor extends React.Component {
                                     </Button>
 
                                     <Button style={{ boxShadow: '2px 2px 10px grey', zIndex: 10, top: 20, right: 70, position: 'absolute' }}
-                                        variant={colors[process.env.REACT_APP_NG_ENV].entityEditorTopButtons}
+                                        variant={process.env.REACT_APP_entityEditorTopButtons}
                                         onClick={() => this.openLinkPopup()}>
 
                                         {<i className="fas fa-sitemap"></i>}

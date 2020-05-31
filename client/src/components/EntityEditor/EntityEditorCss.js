@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import colors from '../../config/colors'
 
 const green='green';
 
@@ -23,7 +22,7 @@ const Styles = styled.div`
 }
 
 .json-field:hover {
-    background: ${colors[process.env.REACT_APP_NG_ENV].entityEditorJsonFieldHover}; 
+    background: ${process.env.REACT_APP_entityEditorJsonFieldHover}; 
 }
 
 .collapse {
@@ -85,7 +84,7 @@ const Styles = styled.div`
 }
 
 .search-info-popup:hover {
-    color: ${colors[process.env.REACT_APP_NG_ENV].searchInfoPopup};
+    color: ${process.env.REACT_APP_searchInfoPopup};
 }
 `;
 

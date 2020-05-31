@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import colors from '../config/colors'
 import { Form, Col, Row } from 'react-bootstrap';
 import JsonPopup from './JsonPopup';
 import SaveScenarioPopup from './SaveScenarioPopup';
@@ -46,11 +45,11 @@ const Styles = styled.div`
 }
 
 .action-btn:hover {
-    color: ${colors[process.env.REACT_APP_NG_ENV].scenarioActionHover};
+    color: ${process.env.REACT_APP_scenarioActionHover};
 }
 
 .action-btn:active {
-    color: ${colors[process.env.REACT_APP_NG_ENV].scenarioActionActive};
+    color: ${process.env.REACT_APP_scenarioActionActive};
 }
 
 /* Large rounded green border */

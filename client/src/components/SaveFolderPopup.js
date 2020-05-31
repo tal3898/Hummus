@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import colors from '../config/colors'
 import {Form, Col, Row } from 'react-bootstrap';
 import HummusContext from './HummusContext'
 
@@ -35,11 +34,11 @@ const Styles = styled.div`
 }
 
 .fa-save:active {
-    color: ${colors[process.env.REACT_APP_NG_ENV].scenarioActionHover};
+    color: ${process.env.REACT_APP_scenarioActionHover};
 }
 
 .fa-save:hover {
-    color: ${colors[process.env.REACT_APP_NG_ENV].scenarioActionHover};
+    color: ${process.env.REACT_APP_scenarioActionHover};
 }
 
 

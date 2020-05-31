@@ -891,7 +891,6 @@ class EntityEditor extends React.Component {
                     />
                 </InputGroup>
 
-
                 <List
                     rowCount={this.visibleFields.length}
                     width={window.innerWidth * 0.67}
