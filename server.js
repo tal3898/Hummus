@@ -3,12 +3,16 @@ const mongo = require('mongodb');
 var bodyParser = require('body-parser')
 var request = require('request');
 const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
+
+console.log("PORT: " + process.env.PORT);
 
 var MongoClient = mongo.MongoClient;
-const dbUrl = "mongodb://localhost:27017/";
-const dbName = "HummusDB";
+const dbUrl = process.env.DB_URL;
+const dbName = process.env.DB_NAME;
 
-var NgUrl = "https://reqres.in/api/users"
+var NgUrl = process.env.NG_URL;
 
 const app = express();
 
