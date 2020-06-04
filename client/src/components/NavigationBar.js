@@ -37,7 +37,7 @@ const Styles = styled.div`
     margin-right: 40px;
     cursor: pointer;
     &:hover {
-      color: ${process.env.REACT_APP_scenariosWindowHeader};
+      color: ${process.env.REACT_APP_navbarButtonHover};
     }
   }
 `;
