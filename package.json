@@ -1,26 +1,56 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "server": "node server.js",
-    "client": "npm start --prefix client",
-    "start": "concurrently \"npm run server\" \"npm run client\"",
-    "install-client": "cd client && npm install",
-    "install": "npm run install-client"
-  },
-  "author": "",
-  "license": "ISC",
+  "name": "hummus",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:5000",
   "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
     "body-parser": "^1.19.0",
+    "bootstrap": "^4.4.1",
     "bootstrap-switch-button-react": "^1.2.0",
     "concurrently": "^3.5.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongodb": "^3.5.5",
+    "react": "^16.13.1",
+    "react-bootstrap": "^1.0.0-beta.14",
     "react-confirm-alert": "^2.6.1",
+    "react-dom": "^16.13.1",
+    "react-json-editor-viewer": "^1.0.7",
+    "react-json-view": "^1.19.1",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.4.0",
+    "react-select": "^3.1.0",
+    "react-sliding-side-panel": "^1.0.13",
+    "react-toastify": "^5.5.0",
+    "react-treebeard": "^3.2.4",
     "react-virtualized": "^9.21.2",
-    "request": "^2.88.2"
+    "reactjs-popup": "^1.5.0",
+    "reactstrap": "^8.4.1",
+    "request": "^2.88.2",
+    "styled-components": "^4.3.2"
+  },
+  "scripts": {
+    "start": "concurrently \"node server.js\" \"react-scripts start\"",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

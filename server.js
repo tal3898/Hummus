@@ -145,6 +145,7 @@ app.delete('/scenarioFile', async (req, res) => {
 app.post('/NgRequest', async (req, res) => {
 	var requestsList = req.body.entities;
 	process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+	console.log('sneding to ' + NgUrl)
 	for (var index in requestsList) {
 		var requestData = requestsList[index];
 		var body = '';
