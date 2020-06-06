@@ -142,7 +142,7 @@ class SaveFolderPopup extends React.Component {
                                 <i className="far fa-save fa-3x" onClick={() => this.save()}></i>
                             </div>
                             <center>
-                                <Form.Label style={{ fontSize: 30, color: '#424242', marginBottom: 1 }}>תקיה חדשה</Form.Label>
+                                <h1 style={{ fontSize: 30, color: '#424242', marginBottom: 1 }}>New Folder</h1>
                             </center>
                         </div>
 

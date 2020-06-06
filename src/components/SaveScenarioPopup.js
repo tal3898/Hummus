@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Form, Col, Row } from 'react-bootstrap';
+import { Form, Col, Row } from 'react-bootstrap';
 
 import HummusContext from './HummusContext'
 
@@ -142,15 +142,15 @@ class SaveScenarioPopup extends React.Component {
                     closeOnDocumentClick
                 >
                     <div>
-                        <Row style={{ marginLeft: 0, marginTop: 7, marginBottom: 20 }}>
-                            <Col lg="5">
-                                <i id="saveScenarioBtn" className="far fa-save fa-3x" onClick={() => this.save()}></i>
-                            </Col>
-                            <Col>
-                                <Form.Label style={{ fontSize: 30, marginBottom: 1 }}>בחר תקייה</Form.Label>
-                            </Col>
-                        </Row>
 
+
+                        <div style ={{marginBottom:40, marginTop:10}}>
+                            <center>
+                                <i id="saveScenarioBtn" style={{ position: 'absolute', top: 5, left: 15 }} className="far fa-save fa-3x" onClick={() => this.save()}></i>
+
+                                <h1 style={{ fontSize: 30, marginBottom: 1 }}>Choose a folder</h1>
+                            </center>
+                        </div>
                         <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
                             <JsonViewer
                                 json={this.state.folderHierarchy}
