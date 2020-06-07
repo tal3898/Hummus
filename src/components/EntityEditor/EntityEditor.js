@@ -10,7 +10,7 @@ import Popup from "reactjs-popup";
 import Select from 'react-select';
 import { convertJsonTemplateToActualJson } from '../Utility'
 import HummusContext from '../HummusContext'
-
+import Creators from '../../globals/Creators.json'
 import { List } from 'react-virtualized';
 
 
@@ -537,14 +537,20 @@ class EntityEditor extends React.Component {
 
 
         var enumValuesItem = []
-        if (keyType == "enum") {
-            var optionalValues = JSON.parse(key.split('|')[3]);
+        if (keyType == "enum" || keyType == "creator") {
+            var optionalValues;
+
+            if (keyType == "creator") {
+                optionalValues = Creators;
+            } else {
+                optionalValues = JSON.parse(key.split('|')[3]);
+            }
+            
             for (var index in optionalValues) {
                 enumValuesItem.push(
                     <option value={parseInt(optionalValues[index])} key={optionalValues[index]}>{optionalValues[index]}</option>
                 );
             }
-
         }
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
@@ -566,7 +572,7 @@ class EntityEditor extends React.Component {
                 <div className="field-component" style={{ marginTop: 3 }}>
 
                     {/* If current field is enum, create select input */}
-                    {keyType == 'enum' &&
+                    {(keyType == 'enum' || keyType == 'creator') &&
                         <Form.Control
                             as="select"
                             ref={(ref) => this.fieldsInput[key] = ref}
@@ -604,7 +610,7 @@ class EntityEditor extends React.Component {
                     }
 
                     {/* Else, If current field is int/string, create regular input */}
-                    {keyType != 'enum' && keyType != 'array' && keyType != 'boolean' &&
+                    {keyType != 'enum' &&  keyType != 'creator' && keyType != 'array' && keyType != 'boolean' &&
                         <Form.Control
                             ref={(ref) => this.fieldsInput[key] = ref}
                             name={key}

@@ -27,6 +27,7 @@
 				"number||[1]": 30
 			},
 			"Type|enum|[0]|[\"20 - paris\", \"30 - italy\"]": "20",
+			"Creatoring|creator|[1]": 2200,
 			"Info||[0]": "{text}"
 		},
 		"PrevLesson|[0]|קישור לשיעור הקודם": {

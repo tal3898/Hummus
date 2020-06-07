@@ -16,7 +16,7 @@ const getFieldFinalValue = (key, fieldValue, activateFunctionFields) => {
 
     if (fieldValue == '{iso}' && activateFunctionFields) {
         finalValue = new Date().toISOString();;
-    } else if (fieldType == "number" || fieldType == "enum") {
+    } else if (fieldType == "number" || fieldType == "enum" ||  fieldType == "creator") {
         finalValue = parseInt(fieldValue); // If enum, and looks like this : "50 - ABC", it will parse only the 50 to int
     } else if (fieldType == "float") {
         finalValue = parseFloat(fieldValue);
