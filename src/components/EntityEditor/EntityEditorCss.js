@@ -85,6 +85,7 @@ const Styles = styled.div`
 
 .search-info-popup:hover {
     color: ${process.env.REACT_APP_searchInfoPopup};
+    cursor:pointer;
 }
 `;
 

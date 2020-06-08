@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Form, Col, Row } from 'react-bootstrap';
+import { InputGroup, Form, Col, Row } from 'react-bootstrap';
 import JsonPopup from './JsonPopup';
 import SaveScenarioPopup from './SaveScenarioPopup';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,7 +11,7 @@ import Popup from "reactjs-popup";
 import { convertJsonTemplateToActualJson } from './Utility'
 
 import EntityMap from '../globals/EntityMap.json'
-import {FullEntitiesMap} from '../globals/FullEntitiesMap.js'
+import { FullEntitiesMap } from '../globals/FullEntitiesMap.js'
 import RealityMap from '../globals/RealityMap.json'
 import SystemMap from '../globals/SystemMap.json'
 import english_2 from '../jsonFormats/english_2.json'
@@ -42,6 +42,20 @@ const Styles = styled.div`
     color: #607d8b;
     font-size:30px;
     cursor: pointer;
+}
+
+.step-info {
+    
+    cursor: pointer;
+}
+
+.step-info:hover {
+    color: ${process.env.REACT_APP_scenarioActionHover};
+}
+
+.step-info-text {
+    overflow-wrap: break-word;
+    
 }
 
 .action-btn:hover {
@@ -226,7 +240,7 @@ class Scenario extends React.Component {
         console.log('is ancestor from' + this.isAncestorDisabled(link.fromStep, fromPath));
         console.log('is ancestor to' + this.isAncestorDisabled(currStepNumber, toPath));
 
-        
+
         if (!this.isAncestorDisabled(link.fromStep, fromPath) && !this.isAncestorDisabled(currStepNumber, toPath) &&
             this.isPathExists(linkedStepJson, fromPath) && this.isPathExists(currStep.Entities, toPath)) {
             var linkedValue = fromPath.split('/').splice(1).reduce((o, n) => o[n], linkedStepJson);
@@ -277,10 +291,10 @@ class Scenario extends React.Component {
         fetch('/NgRequest', requestOptions)
             .then(response => response.json())
             .then(data => {
-                toast.update(toastId,  {render:"Sent step " + stepIndex + " successfully", type: toast.TYPE.SUCCESS, autoClose: 2000 });
+                toast.update(toastId, { render: "Sent step " + stepIndex + " successfully", type: toast.TYPE.SUCCESS, autoClose: 2000 });
                 console.log("NG response: " + JSON.stringify(data));
             }).catch(error => {
-                toast.update(toastId,  {render:"Error sending step " + stepIndex, type: toast.TYPE.ERROR, autoClose: 2000 });
+                toast.update(toastId, { render: "Error sending step " + stepIndex, type: toast.TYPE.ERROR, autoClose: 2000 });
                 console.error("NG error: ", error)
             });
 
@@ -313,7 +327,7 @@ class Scenario extends React.Component {
                 entity: entityType,
                 data: bodyJ //currStepRequest
             })
-            
+
         }
 
         const requestOptions = {
@@ -476,8 +490,8 @@ class Scenario extends React.Component {
                                                         <i className="far fa-save"></i>
                                                     </a>}
                                             >
-                                                <center>
-                                                    שמור תרחיש
+                                                <center style={{ overflowWrap: 'break-word' }}>
+                                                    שמור dsdfsdf sdf sdf sdf sdfsd sdfsd sdddsfg dsfg sdfg sdfgsdfg sdfg dsfg sdfg
                                                 </center>
                                             </Popup>
 
@@ -566,15 +580,43 @@ class Scenario extends React.Component {
                                             <Form.Label >שם צעד</Form.Label>
                                         </Col>
                                         <Col lg='2'>
-                                            <Form.Control
-                                                onChange={(event) => {
-                                                    context.data.currScenario.steps[this.context.data.currOpenStep].name = event.target.value;
-                                                    context.updateData(context)
-                                                }}
-                                                value={context.data.currScenario.steps[this.context.data.currOpenStep].name}
-                                                ref={(ref) => this.scenarioNameNode = ref}
-                                                type="text" />
+
+
+
+                                            <InputGroup dir="ltr" >
+                                                <InputGroup.Prepend >
+                                                    <InputGroup.Text id="inputGroupPrepend">
+
+                                                        <Popup
+                                                            className="action-btn"
+                                                            position="bottom center"
+                                                            on="hover"
+                                                            trigger={
+                                                                <i className="fas step-info fa-info-circle mt-1"></i>}
+                                                        >
+                                                            <center style={{ overflowWrap: 'break-word', whiteSpace: 'normal' }} dir="rtl">
+                                                                כל צעד הוא בקשת כתיבה. בכל בקשת כתיבה אפשר לכתוב סוג ישות אחד, אבל מספר ישויות.
+                                                </center>
+
+                                                        </Popup>
+
+                                                    </InputGroup.Text>
+                                                </InputGroup.Prepend>
+                                                <Form.Control
+                                                    dir="rtl"
+                                                    onChange={(event) => {
+                                                        context.data.currScenario.steps[this.context.data.currOpenStep].name = event.target.value;
+                                                        context.updateData(context)
+                                                    }}
+                                                    value={context.data.currScenario.steps[this.context.data.currOpenStep].name}
+                                                    ref={(ref) => this.scenarioNameNode = ref}
+                                                    type="text"
+                                                />
+                                            </InputGroup>
+
                                         </Col>
+
+
                                         <Col lg="2">
                                             <Popup
 
