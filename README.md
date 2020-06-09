@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Adding chan
+## Adding Sub Entity To Hummus
 Sometime the version of the data, is changed. sub entities are add, Fields are changed...
 And as a result, you will need to update the Hummus.
 
