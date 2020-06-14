@@ -182,7 +182,7 @@ class LinkingFieldsPopup extends React.Component {
 
                                 <div style={{ marginTop: 25 }}>
                                     <div style={{ float: 'right', marginRight: 30 }} dir="rtl">בחר שדה מקור</div>
-                                    <br />
+                                    <br /><br />
                                     <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
                                         <JsonViewer
                                             json={this.state.fromJson}
@@ -211,7 +211,7 @@ class LinkingFieldsPopup extends React.Component {
 
                                 <div style={{ marginTop: 25 }}>
                                     <div style={{ float: 'right', marginRight: 30 }} dir="rtl">בחר שדה יעד</div>
-                                    <br />
+                                    <br /><br />
                                     {/** TODO put the div with the style, and the css of the class , inside the JsonViewer */}
                                     <div style={{ marginRight: 20, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
 
