@@ -115,7 +115,7 @@ class SaveScenarioPopup extends React.Component {
                         });
                     }).catch(error => {
                         console.error("db error: ", error);
-                        toast.success("error occured while saving", toastProperties);
+                        toast.error("error occured while saving", toastProperties);
                     });
 
                 console.log('data to save into ' + JSON.stringify(this.state.scenarioData));
