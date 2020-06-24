@@ -1,5 +1,15 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Things to change before upload a new version
+
+1) Copy the directories globals, and jsonFormats
+
+2) Copy the function createStepTemplate
+
+3) Copy the Dockerfile, and the .gitlab-ci
+
+4) Copy the .env file
+
 ## Adding Sub Entity To Hummus
 Sometime the version of the data, is changed. sub entities are add, Fields are changed...
 And as a result, you will need to update the Hummus.
