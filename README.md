@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Things to change before upload a new version
+## Things to change before upload a new version in CTS
 
 1) Copy the directories globals, and jsonFormats
 
