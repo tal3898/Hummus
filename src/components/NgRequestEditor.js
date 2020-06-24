@@ -74,7 +74,8 @@ class NgRequestEditor extends React.Component {
     }
 
     expendAll() {
-        this.setState({ expandAll: !this.state.expandAll })
+        this.entidyEditorChild.current.expandCollapseAll(this.state.expandAll);
+        this.state.expandAll = !this.state.expandAll;
     }
 
 
@@ -225,7 +226,7 @@ class NgRequestEditor extends React.Component {
                                         </Form.Control>
                                     </Col>
                                     <Col lg='1'>
-                                        <Form.Label >שיעור</Form.Label>
+                                        <Form.Label >מציאות</Form.Label>
                                     </Col>
                                     <Col lg='2'>
                                         <Form.Control
@@ -247,40 +248,14 @@ class NgRequestEditor extends React.Component {
 
                             </div>
 
-                            <Row dir='rtl' style={{ marginBottom: 10 }}>
-
-                                <Col lg='10' className='entity-editor-window'>
-                                    <Button id="expandAllBtn" style={{ boxShadow: '2px 2px 10px grey', zIndex: 10, top: 20, right: 20, position: 'absolute' }}
-                                        variant={process.env.REACT_APP_entityEditorTopButtons}
-                                        onClick={() => this.expendAll()}>
-
-                                        {
-                                            this.state.expandAll &&
-                                            <i className="fas fa-compress-alt"></i>
-                                        }
-                                        {!this.state.expandAll &&
-                                            <i className="fas fa-expand-alt"></i>
-                                        }
-                                    </Button>
-
-                                    <Button style={{ boxShadow: '2px 2px 10px grey', zIndex: 10, top: 20, right: 70, position: 'absolute' }}
-                                        variant={process.env.REACT_APP_entityEditorTopButtons}
-                                        onClick={() => this.openLinkPopup()}>
-
-                                        {<i className="fas fa-sitemap"></i>}
-                                    </Button>
-
-                                    <EntityEditor
-                                        parentPath=''
-                                        expandAll={this.state.expandAll}
-                                        ref={this.entidyEditorChild}
-                                        level={0}
-                                        fullJson={this.getChosenEntityFullJson()}
-                                        jsondata={context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit}
-                                        onInnerFieldChanged={(event) => this.updateRequest(event)} ></EntityEditor>
-
-                                </Col>
-                            </Row>
+                           
+                        <EntityEditor
+                            parentPath=''
+                            ref={this.entidyEditorChild}
+                            level={0}
+                            fullJson={this.getChosenEntityFullJson()}
+                            jsondata={context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit}
+                            onInnerFieldChanged={(event) => this.updateRequest(event)} ></EntityEditor>
 
 
 

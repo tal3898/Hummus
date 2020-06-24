@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-import { Form, Row, InputGroup } from 'react-bootstrap';
+import { Form, Row,Col,Button, InputGroup } from 'react-bootstrap';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import Styles from './EntityEditorCss'
 import 'bootstrap/dist/css/bootstrap.css';
@@ -32,13 +32,14 @@ class EntityEditor extends React.Component {
             "enum": "text"
         }
         this.init(props);
+
     }
 
     init(props) {
         this.state = {
             parentPath: props.parentPath,
-            expandAll: props.expandAll,
             json: JSON.parse(props.jsondata),
+            expandAll: false,
             disabledFields: [],
             fullJson: JSON.parse(props.fullJson),
             name: props.name,
@@ -56,7 +57,7 @@ class EntityEditor extends React.Component {
 
         this.onInnerFieldChangedCallback = props.onInnerFieldChanged;
 
-        this.initCollapsableFields(props.expandAll);
+        this.initCollapsableFields(false);
 
         this.initChildrenEntityEditors();
 
@@ -147,6 +148,18 @@ class EntityEditor extends React.Component {
         this.state.collapsedFieldsMap = {};
         this.addJsonToCollapseMap(this.state.json, '', isExpandAll);
         delete this.state.collapsedFieldsMap[''];
+    }
+
+    /**
+     * The function expands all the fields, or collapse all the fields
+     * 
+     * @param {boolean} isExpandAll - if true, expands all the fields. else, collapse all the fields
+     */
+    expandCollapseAll(isExpandAll) {
+        this.state.expandAll = !this.state.expandAll;
+        this.addJsonToCollapseMap(this.state.json, '', isExpandAll);
+        delete this.state.collapsedFieldsMap[''];
+        this.setState(this.state);
     }
 
     /**
@@ -545,7 +558,7 @@ class EntityEditor extends React.Component {
             } else {
                 optionalValues = JSON.parse(key.split('|')[3]);
             }
-            
+
             for (var index in optionalValues) {
                 enumValuesItem.push(
                     <option value={parseInt(optionalValues[index])} key={optionalValues[index]}>{optionalValues[index]}</option>
@@ -610,7 +623,7 @@ class EntityEditor extends React.Component {
                     }
 
                     {/* Else, If current field is int/string, create regular input */}
-                    {keyType != 'enum' &&  keyType != 'creator' && keyType != 'array' && keyType != 'boolean' &&
+                    {keyType != 'enum' && keyType != 'creator' && keyType != 'array' && keyType != 'boolean' &&
                         <Form.Control
                             ref={(ref) => this.fieldsInput[key] = ref}
                             name={key}
@@ -862,6 +875,33 @@ class EntityEditor extends React.Component {
         return (
             <Styles dir='ltr'>
 
+
+                <Row dir='rtl' style={{ marginBottom: 10 }}>
+
+                    <Col lg='10' className='entity-editor-window'>
+                        <Button id="expandAllBtn" style={{ boxShadow: '2px 2px 10px grey', zIndex: 10, top: 20, right: 20, position: 'absolute' }}
+                            variant={process.env.REACT_APP_entityEditorTopButtons}
+                            onClick={() => this.expandCollapseAll(this.state.expandAll)}>
+
+                            {
+                                this.state.expandAll &&
+                                <i className="fas fa-compress-alt"></i>
+                            }
+                            {!this.state.expandAll &&
+                                <i className="fas fa-expand-alt"></i>
+                            }
+                        </Button>
+
+                        <Button style={{ boxShadow: '2px 2px 10px grey', zIndex: 10, top: 20, right: 70, position: 'absolute' }}
+                            variant={process.env.REACT_APP_entityEditorTopButtons}
+                            onClick={() => this.openLinkPopup()}>
+
+                            {<i className="fas fa-sitemap"></i>}
+                        </Button>
+
+
+
+
                 {/** Creating the search input, with info popup, that describes what the user can search */}
                 <InputGroup size="sm" style={{ width: 250, right: 130, top: 23, zIndex: 10, position: 'absolute', boxShadow: '2px 2px 10px grey' }}>
                     <InputGroup.Prepend >
@@ -875,8 +915,8 @@ class EntityEditor extends React.Component {
                                     <i className="fas search-info-popup fa-info-circle  mt-1"></i>}
                             >
                                 <div dir="rtl">
-                                    <div style={{marginBottom: 2}}>ניתן לחפש:</div>
-                                                
+                                    <div style={{ marginBottom: 2 }}>ניתן לחפש:</div>
+
                                                 1) שם שדה
                                                 <br />
                                                 2) תיאור שדה
@@ -907,6 +947,13 @@ class EntityEditor extends React.Component {
                     overscanRowCount={15}
                     style={{ outline: 'none' }}
                 />
+
+                
+
+                    </Col>
+                </Row>
+
+
             </Styles>
         );
     }
