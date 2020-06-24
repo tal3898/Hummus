@@ -255,6 +255,41 @@ class Scenario extends React.Component {
     }
     //#endregion
 
+    sendRequestToLocalhost(stepIndex) {
+        var currStep = this.context.data.currScenario.steps[stepIndex];
+        var currStepRequest = this.getStepNgRequest(stepIndex);
+
+        console.log('sending json to ng ' + JSON.stringify(currStepRequest));
+
+        var bodyJ = {
+            nameA: "paul rudd",
+            moviesA: ["I Love You Man", "Role Models"]
+        };
+
+        var requestMethod = currStep.action;
+        var entityType = currStep.entity;
+        const requestOptions = {
+            method: 'GET'
+        };
+
+        const toastProperties = {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_RIGHT,
+            pauseOnFocusLoss: false
+        };
+
+        var toastId = toast.warn("Sending", toastProperties);
+
+        fetch('http://localhost:8000', requestOptions)
+            .then(data => {
+                toast.update(toastId, { render: "Sent step " + stepIndex + " successfully", type: toast.TYPE.SUCCESS, autoClose: 2000 });
+                console.log("NG response: " + JSON.stringify(data));
+            }).catch(error => {
+                toast.update(toastId, { render: "Error sending step " + stepIndex, type: toast.TYPE.ERROR, autoClose: 2000 });
+                console.error("NG error: ", error)
+            });
+    }
+
     sendSingleStepToNg(stepIndex) {
         var currStep = this.context.data.currScenario.steps[stepIndex];
         var currStepRequest = this.getStepNgRequest(stepIndex);
@@ -491,7 +526,7 @@ class Scenario extends React.Component {
                                                     </a>}
                                             >
                                                 <center style={{ overflowWrap: 'break-word' }}>
-                                                    שמור dsdfsdf sdf sdf sdf sdfsd sdfsd sdddsfg dsfg sdfg sdfgsdfg sdfg dsfg sdfg
+                                                    שמור
                                                 </center>
                                             </Popup>
 
@@ -516,7 +551,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a className="action-btn" id="sendStepBtn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.context.data.currOpenStep)}>
+                                                    <a className="action-btn" id="sendStepBtn" variant="outline-info" onClick={() => this.sendRequestToLocalhost(this.context.data.currOpenStep)}>
                                                         <i className="far fa-paper-plane fa-flip-horizontal"></i>
                                                     </a>}
                                             >

@@ -240,6 +240,18 @@ class NgRequestEditor extends React.Component {
                                                 )}
                                         </Form.Control>
                                     </Col>
+                                    <Col lg='1'>
+                                        <Form.Label >סביבה</Form.Label>
+                                    </Col>
+                                    <Col lg='2'>
+                                        <Form.Control
+                                            onChange={(event) => this.onMetadataChange(event, 'NgUrl')}
+                                            value={context.data.currScenario.steps[this.state.openStepIndex].NgUrl}
+                                            as="select" dir="ltr" >
+                                            <option>localhost:8000</option>
+                                            <option>100.12.21.160:8000</option>
+                                        </Form.Control>
+                                    </Col>
                                 </Row>
                                 {/**
                      <span style={{ marginTop: 0, fontSize: 10, float: 'right', marginBottom: 1, padding: 0 }}>*שים לב, שינוי ישות או תקן יאפס את כל המידע</span>
