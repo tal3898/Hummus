@@ -1,0 +1,6 @@
+
+{
+    "http://localhost:8080": "http://localhost:8080",
+    "10.0.0.1": "/NgRequest",
+    "20.0.0.1": "/NgRequest"
+}

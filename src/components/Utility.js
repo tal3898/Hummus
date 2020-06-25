@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
 /**
    * The method gets a json that the keys format are with |..|..|, and values or dynamic, like {text}, or {iso}, or enum.
@@ -16,7 +17,7 @@ const getFieldFinalValue = (key, fieldValue, activateFunctionFields) => {
 
     if (fieldValue == '{iso}' && activateFunctionFields) {
         finalValue = new Date().toISOString();;
-    } else if (fieldType == "number" || fieldType == "enum" ||  fieldType == "creator") {
+    } else if (fieldType == "number" || fieldType == "enum" || fieldType == "creator") {
         finalValue = parseInt(fieldValue); // If enum, and looks like this : "50 - ABC", it will parse only the 50 to int
     } else if (fieldType == "float") {
         finalValue = parseFloat(fieldValue);
@@ -26,9 +27,9 @@ const getFieldFinalValue = (key, fieldValue, activateFunctionFields) => {
             var randomLetter = "abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random() * 1000) % 26];
             randomString += randomLetter
         }
-        finalValue = fieldValue.replace('{text}',randomString);
-        
-    } 
+        finalValue = fieldValue.replace('{text}', randomString);
+
+    }
 
     return finalValue;
 }
@@ -71,7 +72,7 @@ export const convertJsonTemplateToActualJson = (json, disabledFields = [], activ
                     resultJson[keyName].push(singleJsonResult);
                 }
             }
-        // else if object, and is not disabled
+            // else if object, and is not disabled
         } else if (typeof json[key] == 'object' && !disabledFields.includes(keyFullPath)) {
             var subObjectCovertResult = convertJsonTemplateToActualJson(json[key],
                 disabledFields,
@@ -85,7 +86,7 @@ export const convertJsonTemplateToActualJson = (json, disabledFields = [], activ
     return resultJson;
 };
 
-export const blackList = ['/','.']; // Cant contain any of those
+export const blackList = ['/', '.']; // Cant contain any of those
 
 export const isInputValid = (value) => {
     if (value == '') {
@@ -96,8 +97,14 @@ export const isInputValid = (value) => {
         if (value.includes(blackList[index])) {
             return false;
         }
-    }    
+    }
 
 
     return true;
+};
+
+export const toastProperties = {
+    autoClose: 2000,
+    position: toast.POSITION.BOTTOM_RIGHT,
+    pauseOnFocusLoss: false
 };

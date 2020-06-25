@@ -8,10 +8,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import HummusContext, { HummusConsumer } from './HummusContext'
 import NgRequestEditor from './NgRequestEditor';
 import Popup from "reactjs-popup";
-import { convertJsonTemplateToActualJson } from './Utility'
+import { convertJsonTemplateToActualJson, toastProperties } from './Utility'
 
 import EntityMap from '../globals/EntityMap.json'
 import { FullEntitiesMap } from '../globals/FullEntitiesMap.js'
+import NgUrlsMap from '../globals/NgUrlsMap.json'
 import RealityMap from '../globals/RealityMap.json'
 import SystemMap from '../globals/SystemMap.json'
 import english_2 from '../jsonFormats/english_2.json'
@@ -269,9 +270,10 @@ class Scenario extends React.Component {
         var requestMethod = currStep.action;
         var entityType = currStep.entity;
         const requestOptions = {
-            method: 'GET'
+            method: requestMethod,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(bodyJ)
         };
-
         const toastProperties = {
             autoClose: 2000,
             position: toast.POSITION.BOTTOM_RIGHT,
@@ -280,7 +282,7 @@ class Scenario extends React.Component {
 
         var toastId = toast.warn("Sending", toastProperties);
 
-        fetch('http://localhost:8000', requestOptions)
+        fetch('http://localhost:8080/' + entityType, requestOptions)
             .then(data => {
                 toast.update(toastId, { render: "Sent step " + stepIndex + " successfully", type: toast.TYPE.SUCCESS, autoClose: 2000 });
                 console.log("NG response: " + JSON.stringify(data));
@@ -288,6 +290,45 @@ class Scenario extends React.Component {
                 toast.update(toastId, { render: "Error sending step " + stepIndex, type: toast.TYPE.ERROR, autoClose: 2000 });
                 console.error("NG error: ", error)
             });
+    }
+
+    getNgRequestOptions(ngUrl, body, entityType, requestMethod) {
+        var requestOptions = {};
+
+        if (ngUrl.includes("localhost")) {
+            requestOptions = {
+                method: requestMethod,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            };
+        } else {
+            requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    entities: [{
+                        method: requestMethod,
+                        entity: entityType,
+                        ngUrl: ngUrl,
+                        data: body
+                    }]
+                })
+            };
+        }
+
+        return requestOptions;
+    }
+
+    getNgRequestFinalUrl(ngUrl, entityType) {
+        var finalUrl = '';
+
+        if (ngUrl.includes("localhost")) {
+            finalUrl = NgUrlsMap[ngUrl] + '/' + entityType;
+        } else {
+            finalUrl = '/NgRequest';
+        }
+
+        return finalUrl;
     }
 
     sendSingleStepToNg(stepIndex) {
@@ -303,27 +344,13 @@ class Scenario extends React.Component {
 
         var requestMethod = currStep.action;
         var entityType = currStep.entity;
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                entities: [{
-                    method: requestMethod,
-                    entity: entityType,
-                    data: bodyJ
-                }]
-            })
-        };
 
-        const toastProperties = {
-            autoClose: 2000,
-            position: toast.POSITION.BOTTOM_RIGHT,
-            pauseOnFocusLoss: false
-        };
+        var requestOptions = this.getNgRequestOptions(currStep.NgUrl, bodyJ, entityType, requestMethod);
+        var requestFinalUrl = this.getNgRequestFinalUrl(currStep.NgUrl, entityType);
 
         var toastId = toast.warn("Sending", toastProperties);
 
-        fetch('/NgRequest', requestOptions)
+        fetch(requestFinalUrl, requestOptions)
             .then(response => response.json())
             .then(data => {
                 toast.update(toastId, { render: "Sent step " + stepIndex + " successfully", type: toast.TYPE.SUCCESS, autoClose: 2000 });
@@ -428,7 +455,7 @@ class Scenario extends React.Component {
             "reality": "0",
             "action": "POST",
             "version": "2",
-
+            "NgUrl": Object.keys(NgUrlsMap)[0],
             "jsonToEdit": FullEntitiesMap["English"]["2"].data,
             "links": [],
             "disabledFields": []
@@ -551,7 +578,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a className="action-btn" id="sendStepBtn" variant="outline-info" onClick={() => this.sendRequestToLocalhost(this.context.data.currOpenStep)}>
+                                                    <a className="action-btn" id="sendStepBtn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.context.data.currOpenStep)}>
                                                         <i className="far fa-paper-plane fa-flip-horizontal"></i>
                                                     </a>}
                                             >

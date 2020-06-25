@@ -7,6 +7,7 @@ import LinkingFieldsPopup from './LinkingFieldsPopup'
 import EntityMap from '../globals/EntityMap.json'
 import RealityMap from '../globals/RealityMap.json'
 import SystemMap from '../globals/SystemMap.json'
+import NgUrlsMap from '../globals/NgUrlsMap.json'
 
 import { FullEntitiesMap } from '../globals/FullEntitiesMap'
 
@@ -248,8 +249,10 @@ class NgRequestEditor extends React.Component {
                                             onChange={(event) => this.onMetadataChange(event, 'NgUrl')}
                                             value={context.data.currScenario.steps[this.state.openStepIndex].NgUrl}
                                             as="select" dir="ltr" >
-                                            <option>localhost:8000</option>
-                                            <option>100.12.21.160:8000</option>
+                                            {Object.keys(NgUrlsMap)
+                                                .map(url =>
+                                                <option>{url}</option>
+                                                )}
                                         </Form.Control>
                                     </Col>
                                 </Row>
@@ -260,14 +263,14 @@ class NgRequestEditor extends React.Component {
 
                             </div>
 
-                           
-                        <EntityEditor
-                            parentPath=''
-                            ref={this.entidyEditorChild}
-                            level={0}
-                            fullJson={this.getChosenEntityFullJson()}
-                            jsondata={context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit}
-                            onInnerFieldChanged={(event) => this.updateRequest(event)} ></EntityEditor>
+
+                            <EntityEditor
+                                parentPath=''
+                                ref={this.entidyEditorChild}
+                                level={0}
+                                fullJson={this.getChosenEntityFullJson()}
+                                jsondata={context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit}
+                                onInnerFieldChanged={(event) => this.updateRequest(event)} ></EntityEditor>
 
 
 
