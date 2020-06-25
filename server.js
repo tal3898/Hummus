@@ -12,8 +12,6 @@ var MongoClient = mongo.MongoClient;
 const dbUrl = process.env.DB_URL;
 const dbName = process.env.DB_NAME;
 
-var NgUrl = process.env.NG_URL;
-
 const app = express();
 
 app.use(bodyParser.json({limit: '5mb'}));       // to support JSON-encoded bodies
@@ -146,11 +144,11 @@ app.delete('/scenarioFile', async (req, res) => {
 app.post('/NgRequest', async (req, res) => {
 	var requestsList = req.body.entities;
 	process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
-	console.log('sneding to ' + NgUrl)
 	for (var index in requestsList) {
 		var requestData = requestsList[index];
 		var body = '';
 
+		console.log('sneding to ' + requestData.ngUrl);
 		if (requestData.method == 'POST') {
 			body = await request.post(requestData.ngUrl + '/' + requestData.entity, {
 				headers: {
@@ -173,6 +171,7 @@ app.post('/NgRequest', async (req, res) => {
 				body: JSON.stringify(requestData.data)
 			});
 		}
+		console.log('ng response: ' + body);
 
 	//	await sleep(1000);
 
