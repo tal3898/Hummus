@@ -256,42 +256,7 @@ class Scenario extends React.Component {
     }
     //#endregion
 
-    sendRequestToLocalhost(stepIndex) {
-        var currStep = this.context.data.currScenario.steps[stepIndex];
-        var currStepRequest = this.getStepNgRequest(stepIndex);
-
-        console.log('sending json to ng ' + JSON.stringify(currStepRequest));
-
-        var bodyJ = {
-            nameA: "paul rudd",
-            moviesA: ["I Love You Man", "Role Models"]
-        };
-
-        var requestMethod = currStep.action;
-        var entityType = currStep.entity;
-        const requestOptions = {
-            method: requestMethod,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(bodyJ)
-        };
-        const toastProperties = {
-            autoClose: 2000,
-            position: toast.POSITION.BOTTOM_RIGHT,
-            pauseOnFocusLoss: false
-        };
-
-        var toastId = toast.warn("Sending", toastProperties);
-
-        fetch('http://localhost:8080/' + entityType, requestOptions)
-            .then(data => {
-                toast.update(toastId, { render: "Sent step " + stepIndex + " successfully", type: toast.TYPE.SUCCESS, autoClose: 2000 });
-                console.log("NG response: " + JSON.stringify(data));
-            }).catch(error => {
-                toast.update(toastId, { render: "Error sending step " + stepIndex, type: toast.TYPE.ERROR, autoClose: 2000 });
-                console.error("NG error: ", error)
-            });
-    }
-
+    //#region ng request functions
     getNgRequestOptions(ngUrl, body, entityType, requestMethod) {
         var requestOptions = {};
 
@@ -348,15 +313,15 @@ class Scenario extends React.Component {
         var requestOptions = this.getNgRequestOptions(currStep.NgUrl, bodyJ, entityType, requestMethod);
         var requestFinalUrl = this.getNgRequestFinalUrl(currStep.NgUrl, entityType);
 
-        var toastId = toast.warn("Sending", toastProperties);
+        toast.warn("Sending", toastProperties);
 
         fetch(requestFinalUrl, requestOptions)
             .then(response => response.json())
             .then(data => {
-                toast.update(toastId, { render: "Sent step " + stepIndex + " successfully", type: toast.TYPE.SUCCESS, autoClose: 2000 });
+                toast.success("Sent step " + stepIndex + " successfully", toastProperties);
                 console.log("NG response: " + JSON.stringify(data));
             }).catch(error => {
-                toast.update(toastId, { render: "Error sending step " + stepIndex, type: toast.TYPE.ERROR, autoClose: 2000 });
+                toast.error("Could not send step " + stepIndex, toastProperties);
                 console.error("NG error: ", error)
             });
 
@@ -418,6 +383,7 @@ class Scenario extends React.Component {
                 console.error("NG error: ", error)
             });
     }
+    //#endregion
 
     close() {
         console.log('closing popup')

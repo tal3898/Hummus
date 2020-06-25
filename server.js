@@ -152,21 +152,21 @@ app.post('/NgRequest', async (req, res) => {
 		var body = '';
 
 		if (requestData.method == 'POST') {
-			body = await request.post(NgUrl + '/' + requestData.entity, {
+			body = await request.post(requestData.ngUrl + '/' + requestData.entity, {
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(requestData.data)
 			});
 		} else if (requestData.method == 'PUT') {
-			body = await request.put(NgUrl + '/' + requestData.entity, {
+			body = await request.put(requestData.ngUrl + '/' + requestData.entity, {
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(requestData.data)
 			});
 		} else if (requestData.method == 'DELETE') {
-			body = await request.delete(NgUrl + '/' + requestData.entity, {
+			body = await request.delete(requestData.ngUrl + '/' + requestData.entity, {
 				headers: {
 					'Content-Type': 'application/json'
 				},
