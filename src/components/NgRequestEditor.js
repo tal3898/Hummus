@@ -248,12 +248,15 @@ class NgRequestEditor extends React.Component {
                                         <Form.Control
                                             onChange={(event) => this.onMetadataChange(event, 'NgUrl')}
                                             value={context.data.currScenario.steps[this.state.openStepIndex].NgUrl}
-                                            as="select" dir="ltr" >
+                                            as="select" 
+                                            style={{marginBottom:0}}
+                                            dir="ltr" >
                                             {Object.keys(NgUrlsMap)
                                                 .map(url =>
                                                 <option>{url}</option>
                                                 )}
                                         </Form.Control>
+                                        <div style={{fontSize: 10, marginTop:0, color:'blue', cursor: 'pointer'}}>set as default</div>
                                     </Col>
                                 </Row>
                                 {/**
