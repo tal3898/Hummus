@@ -7,6 +7,7 @@ import ScenariosWindow from './components/ScenariosWindow';
 import Scenario from './components/Scenario';
 import { Col, Row } from 'react-bootstrap';
 import { HummusProvider } from './components/HummusContext';
+import NgUrlsMap from './globals/NgUrlsMap.json'
 import './App.css';
 
 class App extends React.Component {
@@ -17,10 +18,11 @@ class App extends React.Component {
     this.state = {
       data: {
         msg: 'aaa',
+        ngUrl: '',
         scenariosHierarchy: {},
         currScenario: {
-          name:'',
-          steps:[{
+          name: '',
+          steps: [{
             "name": "כתיבה",
             "jsonMap": {},
             "jsonToEdit": "{}",
@@ -40,8 +42,16 @@ class App extends React.Component {
       },
       loadFolderHiierarchy: this.loadFolderHiierarchy
     }
+
+    if (localStorage.getItem('NgUrl')) {
+      this.state.data.ngUrl = localStorage.getItem('NgUrl');
+    } else {
+      // If not exist, set the localhost as default 
+      this.state.data.ngUrl = Object.keys(NgUrlsMap)[1];
+    }
+
   }
-  
+
 
   loadFolderHiierarchy(callback) {
 
@@ -63,9 +73,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <div style={{backgroundColor:'#fafafa'}} className='main-body'>
+      <div style={{ backgroundColor: '#fafafa' }} className='main-body'>
         <HummusProvider value={this.state}>
-          
+
           <React.Fragment>
             <Router>
               <NavigationBar />
@@ -73,7 +83,7 @@ class App extends React.Component {
             <Row>
               <Col lg="10">
                 <Scenario></Scenario>
-              </Col>  
+              </Col>
             </Row>
           </React.Fragment>
         </HummusProvider>

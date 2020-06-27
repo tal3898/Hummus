@@ -46,7 +46,6 @@ class NgRequestEditor extends React.Component {
             isLinkPopupOpen: false
         }
         this.entidyEditorChild = React.createRef();
-
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
@@ -88,6 +87,12 @@ class NgRequestEditor extends React.Component {
 
     onMetadataChange(event, key) {
         this.context.data.currScenario.steps[this.state.openStepIndex][key] = event.target.value;
+        this.context.updateData(this.context);
+    }
+
+    changeNgUrl(event) {
+        this.context.data.ngUrl = event.target.value; 
+        localStorage.setItem('NgUrl', event.target.value);
         this.context.updateData(this.context);
     }
 
@@ -246,8 +251,8 @@ class NgRequestEditor extends React.Component {
                                     </Col>
                                     <Col lg='2'>
                                         <Form.Control
-                                            onChange={(event) => this.onMetadataChange(event, 'NgUrl')}
-                                            value={context.data.currScenario.steps[this.state.openStepIndex].NgUrl}
+                                            onChange={(event) => this.changeNgUrl(event)}
+                                            value={this.context.data.ngUrl}
                                             as="select" 
                                             style={{marginBottom:0}}
                                             dir="ltr" >

@@ -93,8 +93,6 @@ const Styles = styled.div`
 
 `;
 
-const NgUrl = "https://reqres.in/api/users";
-
 class Scenario extends React.Component {
 
     static contextType = HummusContext;
@@ -310,8 +308,8 @@ class Scenario extends React.Component {
         var requestMethod = currStep.action;
         var entityType = currStep.entity;
 
-        var requestOptions = this.getNgRequestOptions(currStep.NgUrl, bodyJ, entityType, requestMethod);
-        var requestFinalUrl = this.getNgRequestFinalUrl(currStep.NgUrl, entityType);
+        var requestOptions = this.getNgRequestOptions(this.context.data.ngUrl, bodyJ, entityType, requestMethod);
+        var requestFinalUrl = this.getNgRequestFinalUrl(this.context.data.ngUrl, entityType);
 
         toast.warn("Sending", toastProperties);
 
@@ -421,7 +419,6 @@ class Scenario extends React.Component {
             "reality": "0",
             "action": "POST",
             "version": "2",
-            "NgUrl": Object.keys(NgUrlsMap)[0],
             "jsonToEdit": FullEntitiesMap["English"]["2"].data,
             "links": [],
             "disabledFields": []
