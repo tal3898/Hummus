@@ -2,7 +2,7 @@
 {
     "http://localhost:8080": {
         "endpoint": "http://localhost:8080",
-        "color": "#212121"
+        "color": "#424242"
     },
     "https://jdi-dev.abc.de.fg.c": {
         "endpoint": "/NgRequest",
