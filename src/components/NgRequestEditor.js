@@ -254,11 +254,11 @@ class NgRequestEditor extends React.Component {
                                             onChange={(event) => this.changeNgUrl(event)}
                                             value={this.context.data.ngUrl}
                                             as="select" 
-                                            style={{marginBottom:0}}
+                                            style={{marginBottom:0, color: NgUrlsMap[this.context.data.ngUrl].color}}
                                             dir="ltr" >
                                             {Object.keys(NgUrlsMap)
                                                 .map(url =>
-                                                <option>{url}</option>
+                                                <option style={{color: NgUrlsMap[url].color}}>{url}</option>
                                                 )}
                                         </Form.Control>
                                         <div style={{fontSize: 10, marginTop:0, color:'blue', cursor: 'pointer'}}>set as default</div>

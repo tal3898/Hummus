@@ -283,12 +283,10 @@ class Scenario extends React.Component {
     }
 
     getNgRequestFinalUrl(ngUrl, entityType) {
-        var finalUrl = '';
+        var finalUrl = NgUrlsMap[ngUrl].endpoint;
 
         if (ngUrl.includes("localhost")) {
-            finalUrl = NgUrlsMap[ngUrl] + '/' + entityType;
-        } else {
-            finalUrl = '/NgRequest';
+            finalUrl += '/' + entityType;
         }
 
         return finalUrl;

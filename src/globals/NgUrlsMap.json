@@ -1,6 +1,15 @@
 
 {
-    "http://localhost:8080": "http://localhost:8080",
-    "https://jdi-dev.abc.de.fg.c": "/NgRequest",
-    "https://jdi-green.abc.de.fg.c": "/NgRequest"
+    "http://localhost:8080": {
+        "endpoint": "http://localhost:8080",
+        "color": "#212121"
+    },
+    "https://jdi-dev.abc.de.fg.c": {
+        "endpoint": "/NgRequest",
+        "color": "#2962ff"
+    },
+    "https://jdi-green.abc.de.fg.c": {
+        "endpoint": "/NgRequest",
+        "color": "#00c853"
+    }
 }
