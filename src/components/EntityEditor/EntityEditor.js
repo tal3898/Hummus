@@ -758,7 +758,7 @@ class EntityEditor extends React.Component {
                         <i onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
                     </div>
 
-                    {this.createInfoPopup(key, 3)}
+                    {this.createInfoPopup(keyPath, 2)}
 
                     <div className="field-component">
                         <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(keyPath)}></i>
