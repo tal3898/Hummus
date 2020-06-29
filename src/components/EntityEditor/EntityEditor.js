@@ -591,6 +591,7 @@ class EntityEditor extends React.Component {
                             ref={(ref) => this.fieldsInput[key] = ref}
                             name={key}
                             size="sm"
+                            dir="rtl"
                             value={defaultValue}
                             onChange={(event) => this.changeField(keyPath, event.target.value)}
                             type={this.inputTypesMap[keyType]}
