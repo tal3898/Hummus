@@ -18,7 +18,7 @@ class App extends React.Component {
     this.state = {
       data: {
         msg: 'aaa',
-        ngUrl: '',
+        ngEnv: '',
         scenariosHierarchy: {},
         currScenario: {
           name: '',
@@ -44,10 +44,10 @@ class App extends React.Component {
     }
 
     if (localStorage.getItem('NgUrl')) {
-      this.state.data.ngUrl = localStorage.getItem('NgUrl');
+      this.state.data.ngEnv = localStorage.getItem('NgUrl');
     } else {
       // If not exist, set the localhost as default 
-      this.state.data.ngUrl = Object.keys(NgUrlsMap)[1];
+      this.state.data.ngEnv = Object.keys(NgUrlsMap)[1];
     }
 
   }

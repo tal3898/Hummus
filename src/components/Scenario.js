@@ -255,10 +255,10 @@ class Scenario extends React.Component {
     //#endregion
 
     //#region ng request functions
-    getNgRequestOptions(ngUrl, body, entityType, requestMethod) {
+    getNgRequestOptions(ngEnv, body, entityType, requestMethod) {
         var requestOptions = {};
 
-        if (ngUrl.includes("localhost")) {
+        if (ngEnv == "localhost") {
             requestOptions = {
                 method: requestMethod,
                 headers: { 'Content-Type': 'application/json' },
@@ -272,7 +272,7 @@ class Scenario extends React.Component {
                     entities: [{
                         method: requestMethod,
                         entity: entityType,
-                        ngUrl: ngUrl,
+                        ngUrl: NgUrlsMap[ngEnv].actualUrl,
                         data: body
                     }]
                 })
@@ -282,10 +282,10 @@ class Scenario extends React.Component {
         return requestOptions;
     }
 
-    getNgRequestFinalUrl(ngUrl, entityType) {
-        var finalUrl = NgUrlsMap[ngUrl].endpoint;
+    getNgRequestFinalUrl(ngEnv, entityType) {
+        var finalUrl = NgUrlsMap[ngEnv].endpoint;
 
-        if (ngUrl.includes("localhost")) {
+        if (ngEnv == "localhost") {
             finalUrl += '/' + entityType;
         }
 
@@ -298,20 +298,16 @@ class Scenario extends React.Component {
 
         console.log('sending json to ng ' + JSON.stringify(currStepRequest));
 
-        var bodyJ = {
-            nameA: "paul rudd",
-            moviesA: ["I Love You Man", "Role Models"]
-        };
 
         var requestMethod = currStep.action;
         var entityType = currStep.entity;
 
-        var requestOptions = this.getNgRequestOptions(this.context.data.ngUrl, bodyJ, entityType, requestMethod);
-        var requestFinalUrl = this.getNgRequestFinalUrl(this.context.data.ngUrl, entityType);
+        var requestOptions = this.getNgRequestOptions(this.context.data.ngEnv, currStepRequest, entityType, requestMethod);
+        var requestFinalUrl = this.getNgRequestFinalUrl(this.context.data.ngEnv, entityType);
 
         toast.warn("Sending", toastProperties);
 
-        fetch(requestFinalUrl, requestOptions)
+        fetch("http://localhost:8080")
             .then(response => response.json())
             .then(data => {
                 toast.success("Sent step " + stepIndex + " successfully", toastProperties);
@@ -323,10 +319,28 @@ class Scenario extends React.Component {
 
     }
 
-    sendAllStepsToNg() {
-        var generatedSteps = [];
-        var entitiesToRequest = [];
-        for (var stepIndex in this.context.data.currScenario.steps) {
+    /**
+     * The function sends all the steps. if to localhost, to localhost, else , to ng.
+     */
+    sendAllSteps() {
+        if (this.context.data.ngEnv == "localhost") {
+            this.sendAllStepsToLocalhost();
+        } else {
+            this.sendAllStepsToNg();
+        }
+    }
+
+    /**
+     * The function sends single step as part of the whole steps, to localhost. With delay.
+     * The function sends the request with stepIndex* 3000 as delay, so each step will be sent
+     * with several seconds in between.
+     * 
+     * @param {integer} stepIndex 
+     * @param {array} generatedSteps - an array of the previous steps, generated json
+     */
+    sendOneStepToLocalhost(stepIndex, generatedSteps) {
+        setTimeout(function () {
+            console.log('hello ' + stepIndex);
             var currStep = this.context.data.currScenario.steps[stepIndex];
             var currStepRequest = this.getStepNgRequest(stepIndex);
             generatedSteps.push(currStepRequest);
@@ -338,17 +352,67 @@ class Scenario extends React.Component {
 
             console.log('sending json to ng ' + JSON.stringify(currStepRequest));
 
-            var bodyJ = {
-                nameA: "paul rudd",
-                moviesA: ["I Love You Man", "Role Models"]
+            var requestMethod = currStep.action;
+            var entityType = currStep.entity;
+
+            const requestOptions = {
+                method: requestMethod,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(currStepRequest)
             };
+
+            fetch(NgUrlsMap["localhost"].actualUrl + '/' + entityType, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    toast.success("Sent successfully", toastProperties);
+                    console.log("NG response: " + JSON.stringify(data));
+                }).catch(error => {
+                    toast.error("Error sending write request", toastProperties);
+                    console.error("NG error: ", error)
+                });
+        }.bind(this), 1000 * stepIndex)
+    }
+
+
+    /**
+     * The function sends all steps directly to localhost. The web sends directly to localhost the steps, with 
+     * delay between them, so the mesarim will be written before the next ones.
+     */
+    sendAllStepsToLocalhost() {
+        var generatedSteps = [];
+        for (var stepIndex in this.context.data.currScenario.steps) {
+            this.sendOneStepToLocalhost(stepIndex, generatedSteps);
+        }
+    }
+
+    /**
+     * The function sends all steps to ng. The web sends to the server, and the server sends to ng (dev/sadab)
+     */
+    sendAllStepsToNg() {
+        var generatedSteps = [];
+        var entitiesToRequest = [];
+        for (var stepIndex in this.context.data.currScenario.steps) {
+            setTimeout(function () { console.log('here') }, 1000 * stepIndex);
+
+            var currStep = this.context.data.currScenario.steps[stepIndex];
+            var currStepRequest = this.getStepNgRequest(stepIndex);
+            generatedSteps.push(currStepRequest);
+
+            // Apply all links created
+            for (var linkIndex in currStep.links) {
+                this.applyLink(currStep.links[linkIndex], generatedSteps, currStepRequest, stepIndex);
+            }
+
+            console.log('sending json to ng ' + JSON.stringify(currStepRequest));
+
 
             var requestMethod = currStep.action;
             var entityType = currStep.entity;
             entitiesToRequest.push({
                 method: requestMethod,
                 entity: entityType,
-                data: bodyJ //currStepRequest
+                ngUrl: NgUrlsMap[this.context.data.ngEnv].actualUrl,
+                data: currStepRequest
             })
 
         }
@@ -554,7 +618,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a className="action-btn" variant="outline-info" onClick={() => this.sendAllStepsToNg()}>
+                                                    <a className="action-btn" variant="outline-info" onClick={() => this.sendAllSteps()}>
                                                         <i className="fas fa-broom fa-flip-horizontal"></i>
                                                     </a>}
                                             >

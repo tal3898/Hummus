@@ -91,7 +91,7 @@ class NgRequestEditor extends React.Component {
     }
 
     changeNgUrl(event) {
-        this.context.data.ngUrl = event.target.value; 
+        this.context.data.ngEnv = event.target.value; 
         localStorage.setItem('NgUrl', event.target.value);
         this.context.updateData(this.context);
     }
@@ -252,13 +252,12 @@ class NgRequestEditor extends React.Component {
                                     <Col lg='2'>
                                         <Form.Control
                                             onChange={(event) => this.changeNgUrl(event)}
-                                            value={this.context.data.ngUrl}
                                             as="select" 
-                                            style={{marginBottom:0,color:'white', background: NgUrlsMap[this.context.data.ngUrl].color}}
+                                            style={{marginBottom:0,color:'white', background: NgUrlsMap[this.context.data.ngEnv].color}}
                                             dir="ltr" >
                                             {Object.keys(NgUrlsMap)
-                                                .map(url =>
-                                                <option style={{color: 'white'}}>{url}</option>
+                                                .map(env =>
+                                                <option value={env} style={{color: 'white'}}>{NgUrlsMap[env].displayValue}</option>
                                                 )}
                                         </Form.Control>
                                         <div style={{fontSize: 10, marginTop:0, color:'blue', cursor: 'pointer'}}>set as default</div>
