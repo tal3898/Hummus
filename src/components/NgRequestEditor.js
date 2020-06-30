@@ -261,7 +261,6 @@ class NgRequestEditor extends React.Component {
                                                 <option value={env} style={{color: 'white'}}>{NgUrlsMap[env].displayValue}</option>
                                                 )}
                                         </Form.Control>
-                                        <div style={{fontSize: 10, marginTop:0, color:'blue', cursor: 'pointer'}}>set as default</div>
                                     </Col>
                                 </Row>
                                 {/**

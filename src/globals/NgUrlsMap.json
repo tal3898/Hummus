@@ -10,12 +10,12 @@
         "displayValue": "https://jdi-dev.abc.de.fg.c",
         "actualUrl": "https://jdi-dev.abc.de.fg.c",
         "endpoint": "/NgRequest",
-        "color": "#2962ff"
+        "color": "#007bff"
     },
     "sadab": {
         "displayValue": "https://jdi-green.abc.de.fg.c",
         "actualUrl": "https://jdi-green.abc.de.fg.c",
         "endpoint": "/NgRequest",
-        "color": "#00e676"
+        "color": "#00c853"
     }
 }
