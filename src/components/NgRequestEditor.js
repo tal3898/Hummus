@@ -253,6 +253,7 @@ class NgRequestEditor extends React.Component {
                                         <Form.Control
                                             onChange={(event) => this.changeNgUrl(event)}
                                             as="select" 
+                                            value={this.context.data.ngEnv}
                                             style={{marginBottom:0,color:'white', background: NgUrlsMap[this.context.data.ngEnv].color}}
                                             dir="ltr" >
                                             {Object.keys(NgUrlsMap)
