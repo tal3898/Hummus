@@ -307,7 +307,7 @@ class Scenario extends React.Component {
 
         toast.warn("Sending", toastProperties);
 
-        fetch("http://localhost:8080")
+        fetch(requestFinalUrl, requestOptions)
             .then(response => response.json())
             .then(data => {
                 toast.success("Sent step " + stepIndex + " successfully", toastProperties);
