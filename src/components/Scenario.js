@@ -105,6 +105,7 @@ class Scenario extends React.Component {
             bombaJson: {},
             isJsonPopupOpen: false,
             isSavePopupOpen: false,
+            isMemePopupOPen: false,
             scenarioName: 'bbb',
             scenarioData: {
                 name: '',
@@ -298,6 +299,13 @@ class Scenario extends React.Component {
 
         console.log('sending json to ng ' + JSON.stringify(currStepRequest));
 
+        // easter egg?
+        var idfId = currStepRequest.Entities[0].Ids.name;
+        if (idfId.includes('moter')) {
+            this.state.isMemePopupOPen = true;
+            this.setState(this.state);
+        }
+        // easter egg?
 
         var requestMethod = currStep.action;
         var entityType = currStep.entity;
@@ -449,6 +457,7 @@ class Scenario extends React.Component {
         console.log('closing popup')
         this.state.isJsonPopupOpen = false;
         this.state.isSavePopupOpen = false;
+        this.state.isMemePopupOPen = false;
         this.setState(this.state);
     }
 
@@ -534,6 +543,17 @@ class Scenario extends React.Component {
                     {(context) =>
 
                         <div className='main-comp'>
+
+                            <Popup
+                                open={this.state.isMemePopupOPen}
+                                onClose={() => this.close()}
+                                modal
+                                closeOnDocumentClick
+                            >
+
+                                <img style={{ width: '100%' }} src="giphy.gif" alt="animated" />
+                            </Popup>
+
 
                             <ToastContainer />
                             <JsonPopup
