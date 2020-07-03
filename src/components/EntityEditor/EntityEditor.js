@@ -521,6 +521,7 @@ class EntityEditor extends React.Component {
         };
         if (disabledFields.includes(keyCleanPath)) {
             keyStyle.textDecoration = 'line-through';
+            keyStyle.opacity = '0.3';
         }
         if (this.state.filterData.userFilter != "" && key.toLowerCase().includes(this.state.filterData.userFilter.toLowerCase())) {
             keyStyle.background = '#fff59d';
@@ -651,7 +652,7 @@ class EntityEditor extends React.Component {
 
 
                 <div className="field-component">
-                    <i onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
+                    <i style={disabledFields.includes(keyCleanPath) ? {color: '#b71c1c'} : {}} onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
                 </div>
 
                 {this.createInfoPopup(keyPath, 3)}
@@ -701,7 +702,7 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        <i onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
+                        <i style={disabledFields.includes(keyCleanPath) ? {color: '#b71c1c'} : {}} onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
                     </div>
 
 
@@ -755,7 +756,7 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        <i onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
+                        <i style={disabledFields.includes(keyCleanPath) ? {color: '#b71c1c'} : {}} onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
                     </div>
 
                     {this.createInfoPopup(keyPath, 2)}

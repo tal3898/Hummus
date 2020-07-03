@@ -74,6 +74,10 @@ const Styles = styled.div`
     color: #2196f3;
 }
 
+.plus-button {
+    color: #81c784;
+}
+
 .plus-button:hover {
     color: #66bb6a;
 }
