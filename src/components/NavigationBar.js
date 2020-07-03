@@ -69,7 +69,7 @@ export const NavigationBar = () => {
           closeOnDocumentClick
         >
 
-          <img style={{width:'100%'}} src="giphy.gif" alt="animated" />
+          <div>מותר</div>
         </Popup>
 
         <ShortcutsPopup isOpen={isShortcutPopupOpen} onClose={() => setIsShortcutPopupOpen(false)} />

@@ -301,7 +301,7 @@ class Scenario extends React.Component {
 
         // easter egg?
         var idfId = currStepRequest.Entities[0].Ids.name;
-        if (idfId.includes('moter')) {
+        if (idfId.includes('מותר')) {
             this.state.isMemePopupOPen = true;
             this.setState(this.state);
         }
@@ -550,8 +550,9 @@ class Scenario extends React.Component {
                                 modal
                                 closeOnDocumentClick
                             >
-
-                                <img style={{ width: '100%' }} src="giphy.gif" alt="animated" />
+                                <center>
+                                    <img style={{ width: '50%', height: '100%' }} src="./memes/moter1.png" alt="animated" />\
+                                </center>
                             </Popup>
 
 
