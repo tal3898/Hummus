@@ -14,7 +14,7 @@ const dbName = process.env.DB_NAME;
 
 const app = express();
 
-app.use(bodyParser.json({limit: '5mb'}));       // to support JSON-encoded bodies
+app.use(bodyParser.json({ limit: '5mb' }));       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	limit: '5mb',
 	extended: true
@@ -23,12 +23,10 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 const port = 5000;
 
 app.get('/folder', async (req, res) => {
-
 	var db = await MongoClient.connect(dbUrl);
 	var dbo = db.db(dbName);
 	var result = await dbo.collection("scenario").findOne({}, { _id: 0 });
 
-	console.log('restult is ' + JSON.stringify(result))
 	res.json(result);
 
 	db.close();
@@ -64,7 +62,7 @@ app.delete('/folder', async (req, res) => {
 	// Remove all files under this folder
 	var startWithFolderNameRegex = '^' + req.body.path + '/';
 	await dbo.collection("scenarioFiles").remove({ path: { '$regex': startWithFolderNameRegex } });
-	
+
 	res.json({ response: 'saved in db' });
 
 	db.close();
@@ -73,6 +71,10 @@ app.delete('/folder', async (req, res) => {
 
 
 app.post('/scenario', async (req, res) => {
+	console.log({
+		message: 'someone saved new scenario',
+		hostname: req.hostname
+	});
 
 	var scenarioDocument = req.body;
 
@@ -95,7 +97,6 @@ app.post('/scenario', async (req, res) => {
 	updateQuery[pathWithDots] = 'file';
 
 	await dbo.collection("scenario").update({}, { '$set': updateQuery });
-
 
 	res.json({ response: 'saved in db' });
 
@@ -142,6 +143,12 @@ app.delete('/scenarioFile', async (req, res) => {
 });
 
 app.post('/NgRequest', async (req, res) => {
+	console.log({
+		message: 'someone sent entities to NG',
+		stepsNumber: requestsList.length,
+		hostname: req.hostname
+	});
+
 	var requestsList = req.body.entities;
 	process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 	for (var index in requestsList) {
@@ -173,37 +180,42 @@ app.post('/NgRequest', async (req, res) => {
 		}
 		console.log('ng response: ' + body);
 
-	//	await sleep(1000);
+		await sleep(1000);
 
 
 	}
 
-	res.json({ 'message': 'Sent to NG'})
+	res.json({ 'message': 'Sent to NG' })
 })
 
 function sleep(ms) {
-	return new Promis ((resolve) => {
+	return new Promise((resolve) => {
 		setTimeout(resolve, ms);
 	})
 }
 
 // Allowed files extensions list.
 const allowedExt = [
-    '.js', '.ico', '.css', '.png', '.jpg',
-    '.woff2', '.woff', '.ttf', '.svg',
+	'.js', '.ico', '.css', '.png', '.jpg',
+	'.woff2', '.woff', '.ttf', '.svg',
 ];
 
 function isFileAllow(reqUrl) {
-    return (allowedExt.filter(ext => reqUrl.indexOf(ext) > 0).length > 0);
+	return (allowedExt.filter(ext => reqUrl.indexOf(ext) > 0).length > 0);
 }
 
 // Redirect angular requests back to client side.
 app.get('/*', (req, res) => {
-    let buildFolder = 'build/';
-    let file = isFileAllow(req.url) ? req.url : 'index.html';
-    let filePath = path.resolve(buildFolder + file);
+	console.log({
+		message: 'someone has connected',
+		hostname: req.hostname
+	});
+	
+	let buildFolder = 'build/';
+	let file = isFileAllow(req.url) ? req.url : 'index.html';
+	let filePath = path.resolve(buildFolder + file);
 
-    res.sendFile(filePath);
+	res.sendFile(filePath);
 });
 
 app.listen(port, () => console.log('server started on port ' + port));
