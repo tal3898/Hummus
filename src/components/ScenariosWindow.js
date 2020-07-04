@@ -448,7 +448,7 @@ class ScenariosWindow extends React.Component {
 
 
             <div style={{ paddingLeft: 10, marginLeft: 15, backgroundColor: process.env.REACT_APP_scenariosWindowHeader, borderRadius: 10, width: '90%' }}>
-              <i id="goBackBtn" onClick={() => this.goBack()} style={{ float: 'left', marginTop: 6, fontSize: 20, marginRight: 12 }} className="back-button fas fa-undo-alt"></i>
+              <i id="goBackBtn" onClick={() => this.goBack()} style={{ float: 'left', marginTop: 6, fontSize: 20, marginRight: 12 }} className="back-button fas fa-arrow-up"></i>
               <div className="path-font" style={{ fontSize: 20 }}>
                 {(this.state.currPath.length > 0 && this.state.currPath) ||
                   '/'}
