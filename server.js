@@ -143,14 +143,17 @@ app.delete('/scenarioFile', async (req, res) => {
 });
 
 app.post('/NgRequest', async (req, res) => {
-	console.log({
-		message: 'someone sent entities to NG',
-		stepsNumber: requestsList.length,
-		hostname: req.hostname
-	});
 
 	var requestsList = req.body.entities;
 	process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+
+	console.log({
+		message: 'someone sent entities to NG',
+		stepsNumber: requestsList.length,
+		hostname: req.hostname,
+		ngUrl: requestsList[0].ngUrl
+	});
+
 	for (var index in requestsList) {
 		var requestData = requestsList[index];
 		var body = '';
@@ -210,7 +213,7 @@ app.get('/*', (req, res) => {
 		message: 'someone has connected',
 		hostname: req.hostname
 	});
-	
+
 	let buildFolder = 'build/';
 	let file = isFileAllow(req.url) ? req.url : 'index.html';
 	let filePath = path.resolve(buildFolder + file);
