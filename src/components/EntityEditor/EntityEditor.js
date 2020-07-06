@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-import { Form, Row,Col,Button, InputGroup } from 'react-bootstrap';
+import { Form, Row, Col, Button, InputGroup } from 'react-bootstrap';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import Styles from './EntityEditorCss'
 import 'bootstrap/dist/css/bootstrap.css';
@@ -10,6 +10,7 @@ import Popup from "reactjs-popup";
 import Select from 'react-select';
 import { convertJsonTemplateToActualJson } from '../Utility'
 import HummusContext from '../HummusContext'
+import LinkingFieldsPopup from '../LinkingFieldsPopup'
 import Creators from '../../globals/Creators.json'
 import { List } from 'react-virtualized';
 
@@ -43,8 +44,10 @@ class EntityEditor extends React.Component {
             disabledFields: [],
             fullJson: JSON.parse(props.fullJson),
             name: props.name,
+            isLinkPopupOpen: false,
             level: props.level,
             indent: 43,
+            linkJson: {},
             objectFieldsOpen: {}, // for each field in the current json scope, set true/false, if the field is collapsed or not.
             filterData: {
                 userFilter: '',
@@ -652,7 +655,7 @@ class EntityEditor extends React.Component {
 
 
                 <div className="field-component">
-                    <i style={disabledFields.includes(keyCleanPath) ? {color: '#b71c1c'} : {}} onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
+                    <i style={disabledFields.includes(keyCleanPath) ? { color: '#b71c1c' } : {}} onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
                 </div>
 
                 {this.createInfoPopup(keyPath, 3)}
@@ -702,7 +705,7 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        <i style={disabledFields.includes(keyCleanPath) ? {color: '#b71c1c'} : {}} onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
+                        <i style={disabledFields.includes(keyCleanPath) ? { color: '#b71c1c' } : {}} onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
                     </div>
 
 
@@ -756,7 +759,7 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        <i style={disabledFields.includes(keyCleanPath) ? {color: '#b71c1c'} : {}} onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
+                        <i style={disabledFields.includes(keyCleanPath) ? { color: '#b71c1c' } : {}} onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
                     </div>
 
                     {this.createInfoPopup(keyPath, 2)}
@@ -866,6 +869,17 @@ class EntityEditor extends React.Component {
         }
     }
 
+    closePopup() {
+        this.state.isLinkPopupOpen = false;
+        this.setState(this.state);
+    }
+
+    openLinkPopup() {
+        this.state.linkJson = this.getTotalJson();
+        this.state.isLinkPopupOpen = true;
+        this.setState(this.state);
+    }
+
     render() {
 
         this.flattenJsonToListOfKeysPath();
@@ -877,6 +891,12 @@ class EntityEditor extends React.Component {
         return (
             <Styles dir='ltr'>
 
+                <LinkingFieldsPopup
+                    step={this.context.data.currOpenStep}
+                    json={this.state.linkJson}
+                    onClose={() => this.closePopup()}
+                    isOpen={this.state.isLinkPopupOpen}
+                />
 
                 <Row dir='rtl' style={{ marginBottom: 10 }}>
 
@@ -904,20 +924,20 @@ class EntityEditor extends React.Component {
 
 
 
-                {/** Creating the search input, with info popup, that describes what the user can search */}
-                <InputGroup size="sm" dir="ltr" style={{ width: 250, right: 130, top: 23, zIndex: 10, position: 'absolute', boxShadow: '2px 2px 10px grey' }}>
-                    <InputGroup.Prepend >
-                        <InputGroup.Text id="inputGroupPrepend">
+                        {/** Creating the search input, with info popup, that describes what the user can search */}
+                        <InputGroup size="sm" dir="ltr" style={{ width: 250, right: 130, top: 23, zIndex: 10, position: 'absolute', boxShadow: '2px 2px 10px grey' }}>
+                            <InputGroup.Prepend >
+                                <InputGroup.Text id="inputGroupPrepend">
 
-                            <Popup
-                                className="action-btn"
-                                position="bottom center"
-                                on="hover"
-                                trigger={
-                                    <i className="fas search-info-popup fa-info-circle  mt-1"></i>}
-                            >
-                                <div dir="rtl">
-                                    <div style={{ marginBottom: 2 }}>ניתן לחפש:</div>
+                                    <Popup
+                                        className="action-btn"
+                                        position="bottom center"
+                                        on="hover"
+                                        trigger={
+                                            <i className="fas search-info-popup fa-info-circle  mt-1"></i>}
+                                    >
+                                        <div dir="rtl">
+                                            <div style={{ marginBottom: 2 }}>ניתן לחפש:</div>
 
                                                 1) שם שדה
                                                 <br />
@@ -925,32 +945,32 @@ class EntityEditor extends React.Component {
                                                 <br />
                                                 3) [0] / [1] / [1..0] / [1..1]
                                 </div>
-                            </Popup>
+                                    </Popup>
 
-                        </InputGroup.Text>
-                    </InputGroup.Prepend>
-                    <Form.Control
-                        size="sm"
-                        id="searchFieldInput"
-                        value={this.state.filterData.userFilter}
-                        placeholder="search"
-                        onChange={(event) => this.searchField(event)}
-                        onKeyDown={(event) => this.searchKeyDown(event)}
-                    />
-                </InputGroup>
+                                </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <Form.Control
+                                size="sm"
+                                id="searchFieldInput"
+                                value={this.state.filterData.userFilter}
+                                placeholder="search"
+                                onChange={(event) => this.searchField(event)}
+                                onKeyDown={(event) => this.searchKeyDown(event)}
+                            />
+                        </InputGroup>
 
-                <List
-                    rowCount={this.visibleFields.length}
-                    width={window.innerWidth * 0.67}
-                    height={window.innerHeight - 50}
-                    rowHeight={40}
-                    scrollToIndex={this.state.filterData.scrollTo}
-                    rowRenderer={this.listRowRender.bind(this)}
-                    overscanRowCount={15}
-                    style={{ outline: 'none' }}
-                />
+                        <List
+                            rowCount={this.visibleFields.length}
+                            width={window.innerWidth * 0.67}
+                            height={window.innerHeight - 50}
+                            rowHeight={40}
+                            scrollToIndex={this.state.filterData.scrollTo}
+                            rowRenderer={this.listRowRender.bind(this)}
+                            overscanRowCount={15}
+                            style={{ outline: 'none' }}
+                        />
 
-                
+
 
                     </Col>
                 </Row>
