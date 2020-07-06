@@ -77,7 +77,7 @@ class ShortcutsPopup extends React.Component {
                 >
                     <div style={{ fontSize: 40, marginBottom: 25 }}>
                         <center>
-                            shortcuts
+                            <h1>shortcuts</h1>
                         </center>
                     </div>
 

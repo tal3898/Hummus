@@ -5,6 +5,7 @@ import Logo from './logo.png'
 import Logo2 from './logo2.png'
 import ScenariosWindow from './ScenariosWindow';
 import ShortcutsPopup from './ShortcutsPopup'
+import InfoPopup from './InfoPopup'
 import Popup from "reactjs-popup";
 
 const Styles = styled.div`
@@ -44,6 +45,7 @@ const Styles = styled.div`
 export const NavigationBar = () => {
   const [isScenarioWindowOpen, setIsOpen] = React.useState(false);
   const [isShortcutPopupOpen, setIsShortcutPopupOpen] = React.useState(false);
+  const [isInfoPopupOpen, setIsInfoPopupOpen] = React.useState(false);
   const [isEasterOpenPopupOpen, setIsEasterOpenPopupOpen] = React.useState(false);
 
   return (
@@ -56,6 +58,7 @@ export const NavigationBar = () => {
           <a href="/" style={{ textDecoration: 'none' }}><span className="headline">HummusNG</span></a>
         </Col>
 
+        <i onClick={() => setIsInfoPopupOpen(true)} className="nav-button fas fa-baby fa-3x"></i>
 
         <i onClick={() => setIsShortcutPopupOpen(true)} className="nav-button fas fa-dragon fa-3x"></i>
 
@@ -73,6 +76,8 @@ export const NavigationBar = () => {
         </Popup>
 
         <ShortcutsPopup isOpen={isShortcutPopupOpen} onClose={() => setIsShortcutPopupOpen(false)} />
+
+        <InfoPopup isOpen={isInfoPopupOpen} onClose={() => setIsInfoPopupOpen(false)} />
 
         <ScenariosWindow
           isOpen={isScenarioWindowOpen}
