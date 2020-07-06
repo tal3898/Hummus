@@ -438,7 +438,7 @@ class ScenariosWindow extends React.Component {
 
         <div className="window-content" style={{ background: '#4b4b4b', height: '100%' }}>
 
-          <div style={{ paddingBottom: 10, background: process.env.REACT_APP_scenariosWindowHeader, paddingTop: 10 }}>
+          <div style={{ paddingBottom: 10, background: process.env.REACT_APP_scenariosWindowHeader, paddingTop: 10, position: 'fixed', width: '100%', height: 100, zIndex:10 }}>
             <div >
 
               {/**<img className="logo" src={Logo} />**/}
@@ -458,7 +458,10 @@ class ScenariosWindow extends React.Component {
 
           <HummusConsumer>
             {(value) =>
-              this.getWindowContent(value)
+            <div style={{marginTop:100}}>
+              {this.getWindowContent(value)}
+            </div>
+              
             }
           </HummusConsumer>
 
