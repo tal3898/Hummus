@@ -23,13 +23,14 @@ const Styles = styled.div`
 
 .container { 
   height: 100%;
+  background-color: green;
   position: relative;
 }
 
 .center {
-  margin: 0;
   position: absolute;
   top: 45%;
+  margin-top: 150px;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
