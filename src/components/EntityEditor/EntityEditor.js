@@ -155,12 +155,10 @@ class EntityEditor extends React.Component {
 
     /**
      * The function expands all the fields, or collapse all the fields
-     * 
-     * @param {boolean} isExpandAll - if true, expands all the fields. else, collapse all the fields
      */
-    expandCollapseAll(isExpandAll) {
+    expandCollapseAll() {
         this.state.expandAll = !this.state.expandAll;
-        this.addJsonToCollapseMap(this.state.json, '', isExpandAll);
+        this.addJsonToCollapseMap(this.state.json, '', this.state.expandAll);
         delete this.state.collapsedFieldsMap[''];
         this.setState(this.state);
     }
@@ -903,7 +901,7 @@ class EntityEditor extends React.Component {
                     <Col lg='10' className='entity-editor-window'>
                         <Button id="expandAllBtn" style={{ boxShadow: '2px 2px 10px grey', zIndex: 10, top: 20, right: 20, position: 'absolute' }}
                             variant={process.env.REACT_APP_entityEditorTopButtons}
-                            onClick={() => this.expandCollapseAll(this.state.expandAll)}>
+                            onClick={() => this.expandCollapseAll()}>
 
                             {
                                 this.state.expandAll &&
