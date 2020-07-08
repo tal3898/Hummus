@@ -62,11 +62,14 @@ class InfoPopup extends React.Component {
                             </ul>
                         </div>
                         <div>
-                            <h2>לאן הגעתי לעזאזל?</h2>
-                            <p>צעירים וצריכים החתלה? מצוין 👶</p>
-                            <p>ברוכים הבאים לחומוס. פה לא תאכלו חומוס אם זה מה שציפיתם אבל תוכלו לכתוב ישויות ל NG. פחות שווה אבל גם סבבה.</p>
-                            <p>בצורה הכי פשוטה אפשר לבנות בקשות כתיבה ולשלוח לNG. אם אתם רוצים לשלוח מטרה רגילה פשוטה, יש ללחוץ על השלח, וזהו :)  (קצת נעלבתי אבל בסדר). אם אתם רוצים לעשות דברים יותר מורכבים תמשיכו לקרוא. </p>
-
+                            <h2>מה אני אסביר פה?</h2>
+                            <ul>
+                                <li>כל הפיצרים של החומוס</li>
+                                <li>איך עושים כתיבה היררכית</li>
+                                <li>שמירת תרחישים</li>
+                                <li>איך כותבים לlocalhost</li>
+                            </ul>
+                            
                             <h2>הסבר על כל הפיצרים של חומוס</h2>
                             <br/>
                             <img src="field-description.png" />
