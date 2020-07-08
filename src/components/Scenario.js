@@ -724,8 +724,8 @@ class Scenario extends React.Component {
 
                                         </Col>
 
-
-                                        <Col lg="2">
+                                                        
+                                        <Col lg="1">
                                             <Popup
 
                                                 position="bottom center"
