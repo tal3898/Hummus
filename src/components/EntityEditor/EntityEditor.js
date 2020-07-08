@@ -952,6 +952,7 @@ class EntityEditor extends React.Component {
                                 id="searchFieldInput"
                                 value={this.state.filterData.userFilter}
                                 placeholder="search"
+                                className={this.state.filterData.filterResult.length == 0 && "failed-searching"}
                                 onChange={(event) => this.searchField(event)}
                                 onKeyDown={(event) => this.searchKeyDown(event)}
                             />

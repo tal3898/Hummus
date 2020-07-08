@@ -10,6 +10,12 @@ const Styles = styled.div`
     width:110%;
 }
 
+.failed-searching:focus {
+    outline: none !important;
+    border:1px solid red;
+    box-shadow: 0 0 10px #719ECE;
+}
+
 .info-popup-text {
     overflow-wrap: break-word;
     z-index: 100;
