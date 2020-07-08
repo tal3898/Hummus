@@ -10,10 +10,15 @@ const Styles = styled.div`
     width:110%;
 }
 
+.searching:focus {
+    outline: none !important;
+    box-shadow: 0 0 10px #719ECE;
+}
+
 .failed-searching:focus {
     outline: none !important;
-    border:1px solid red;
-    box-shadow: 0 0 10px #719ECE;
+    border-color: #e57373;
+    box-shadow: 0 0 10px #e57373;
 }
 
 .info-popup-text {
