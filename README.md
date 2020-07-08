@@ -10,7 +10,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 4) Copy the .env file
 
-5) Update the functions sendSingleStepToNg and sendSingleStepToNg, that will send the actual json
+5) Update the functions `sendSingleStepToNg` and `sendSingleStepToNg`, that will send the actual json
 
 ## Adding Sub Entity To Hummus
 Sometime the version of the data, is changed. sub entities are add, Fields are changed...
