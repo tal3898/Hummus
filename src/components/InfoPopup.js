@@ -61,6 +61,7 @@ class InfoPopup extends React.Component {
                                 <li>תחפשו בעצמכם 😈😈😈</li>
                             </ul>
                         </div>
+                        <hr/>
                         <div>
                             <h2>מה אני אסביר פה?</h2>
                             <ul>
@@ -69,7 +70,7 @@ class InfoPopup extends React.Component {
                                 <li>שמירת תרחישים</li>
                                 <li>איך כותבים לlocalhost</li>
                             </ul>
-                            
+                            <hr/>
                             <h2>הסבר על כל הפיצרים של חומוס</h2>
                             <br/>
                             <img src="field-description.png" />
@@ -86,7 +87,7 @@ class InfoPopup extends React.Component {
                                 <li className="feature-list-item">פותח tooltip קטן, שמראה תיאור מלא (לא תמיד) של השדה, ונתיב מלא של השדה.</li>
                                 <li className="feature-list-item">מוחק את השדה מהגיסון</li>
                             </ol>
- 
+ <hr/>
                             <h5>אמא אפשר לעשות כתיבה היררכית???</h5>
 
                             <p>בטח שאפשר בני. איזי פיזי. כל בקשת כתיבה נחשבת ל'צעד'. ובכל בקשת כתיבה כמובן (אם אתם מכירים את כתיבה), אפשר לשלוח רק סוג ישות אחת. לכן, כדי לכתוב היררכית, יש להוסיף צעדים כמספר הבקשות שלכם. כמובן אתם יכולים לתת שם לצעדים שיהיה לכם ברור מה זה כל צעד.</p>
@@ -108,11 +109,11 @@ class InfoPopup extends React.Component {
                             <p>והחומוס שולח את כל הצעדים, ומעתיק אוטומטית את הערכים מהצעדים הראשונים, לצעדים שאחריהם, ככה שאתם לא צריכים להעתיק את המזהה של הישות כל פעם לישויות מתחת בהיררכיה.</p>
 
                             <p>אמרתי כבר שזה איזי פיזי?</p>
-
+                            <hr/>
                             <h5>בניתם כתיבה מטורפת, כזאת שצריך לעשות לה share באינסטוש??</h5>
 
                             <p>אפשר לשמור את מה שעשיתם. נותנים שם לתרחיש, תיאור אם אתם רוצים, ושומרים בתקייה שלכם. אם אין לכם תקייה פנו לטל שיצור לכם בדיבי. אתם יכולים גם להשתמש בתרחישים שמורים של אנשים אחרים בצוות שלכם, ככה שתוכלו לשתף תרחישים נפוצים אצלכם.</p>
-                            
+                            <hr/>
                             <h5>שלום, אני מצוות כתיבה ואני רוצה לכתוב מטרה למחשב שלי</h5>
 
                             <p>איזי פיזי.</p>
