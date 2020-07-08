@@ -594,7 +594,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a id="openSavePopupBtn" className="action-btn" variant="outline-info" onClick={() => this.openSavePopup()}>
+                                                    <a style={{paddingTop:60}} id="openSavePopupBtn" className="action-btn" variant="outline-info" onClick={() => this.openSavePopup()}>
                                                         <i className="far fa-save"></i>
                                                     </a>}
                                             >
@@ -609,12 +609,12 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a id="showJsonBtn" className="action-btn" variant="outline-info" onClick={() => this.openJsonPopup()}>
-                                                        <i className="fas fa-code"></i>
+                                                    <a style={{marginRight:3}} id="showJsonBtn" className="action-btn" variant="outline-info" onClick={() => this.openJsonPopup()}>
+                                                        <span><b> {"{..}"} </b></span>
                                                     </a>}
                                             >
                                                 <center>
-                                                    הצג ג'יסון
+                                                    הצג JSON
                                                 </center>
                                             </Popup>
 
@@ -624,7 +624,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a className="action-btn" id="sendStepBtn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.context.data.currOpenStep)}>
+                                                    <a style={{marginRight:3}} className="action-btn" id="sendStepBtn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.context.data.currOpenStep)}>
                                                         <i className="far fa-paper-plane fa-flip-horizontal"></i>
                                                     </a>}
                                             >
