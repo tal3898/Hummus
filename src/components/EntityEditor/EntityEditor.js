@@ -15,6 +15,8 @@ import Creators from '../../globals/Creators.json'
 import { List } from 'react-virtualized';
 
 
+import english_2_description from '../../jsonFormats/english_2_description.json';
+
 
 class EntityEditor extends React.Component {
 
@@ -441,6 +443,9 @@ class EntityEditor extends React.Component {
         // Because the path starts with /Target/0, and we dont want it, we will remove it
         var fullPath = '/' + keyPath.split('/').slice(3).map(subKey => subKey.split('|')[0]).join('/');
 
+        var pathForDescription = fullPath.split('/').slice(1).join('.');
+        var fieldDescription = english_2_description[pathForDescription];
+
         return (
             <div className="field-component info-popup-div">
                 <Popup
@@ -451,8 +456,8 @@ class EntityEditor extends React.Component {
                 >
                     <div className="info-popup-text">
                         <center className="info-txt">
-                            {this.hasInfo(key, infoIndex) &&
-                                key.split('|')[infoIndex]}
+                            {fieldDescription &&
+                                fieldDescription}
                         </center>
                         {this.hasInfo(key, infoIndex) &&
                             <hr style={{ margin: 2 }} />}

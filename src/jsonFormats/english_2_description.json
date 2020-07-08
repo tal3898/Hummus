@@ -1,0 +1,18 @@
+{
+	"Ids.isComponent": "האם רכיב",
+	"Ids.name": "שם ישות",
+	"Ids.code": "קוד רכיב",
+	"Data.Location.Aasdfsadf.Basdfasdf.Casdfsad.Dasdfsda.Easdfasdf.Fasdfsdf.Gasdfasdfasd.Hasdfasdf": "סתם שדה ארוך",
+	"Data.Location.Street": "רחוס",
+	"Data.Location.number": "מספר בניין ברחוב",
+	"Data.Type": "20",
+	"Data.Creatoring": "2200",
+	"Data.Info": "{text}",
+	"PrevLesson.Ids.code": "0",
+	"PrevLesson.Ids.name": "דגכ",
+	"PrevLesson.BreakDuration": "ככככ",
+	"Planning.Goal": "learn piano",
+	"Planning.Time": "{iso}",
+	"Homworks.Pages": "{text}",
+	"Homworks.Bool": "{text}"
+}
