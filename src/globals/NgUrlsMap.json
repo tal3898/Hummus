@@ -1,19 +1,19 @@
 
 {
     "localhost": {
-        "displayValue": "http://localhost:8080",
+        "displayValue": "LOCALHOST",
         "actualUrl": "http://localhost:8080",
         "endpoint": "http://localhost:8080",
         "color": "#424242"
     },
     "dev": {
-        "displayValue": "https://jdi-dev.abc.de.fg.c",
+        "displayValue": "DEV",
         "actualUrl": "https://jdi-dev.abc.de.fg.c",
         "endpoint": "/NgRequest",
         "color": "#007bff"
     },
     "sadab": {
-        "displayValue": "https://jdi-green.abc.de.fg.c",
+        "displayValue": "GREEN",
         "actualUrl": "https://jdi-green.abc.de.fg.c",
         "endpoint": "/NgRequest",
         "color": "#00c853"
