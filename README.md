@@ -12,6 +12,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 5) Update the functions `sendSingleStepToNg` and `sendSingleStepToNg`, that will send the actual json
 
+6) Update the App.js first step initialize.
+
+7) Update the Easter Egg path.
+
 ## Adding Sub Entity To Hummus
 Sometime the version of the data, is changed. sub entities are add, Fields are changed...
 And as a result, you will need to update the Hummus.
