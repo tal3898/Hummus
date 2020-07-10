@@ -377,11 +377,11 @@ class JsonViewer extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
-        this.state.actualJson = newProps.json;
-
-        this.state.jsonToDisplay.children = this.buildData(this.state.actualJson);
-
-        this.setState(this.state);
+        if (this.props.json != newProps.json) {
+            this.state.actualJson = newProps.json;
+            this.state.jsonToDisplay.children = this.buildData(this.state.actualJson);
+            this.setState(this.state);
+        }
     }
 
     findFullPath(data, childFolder) {
