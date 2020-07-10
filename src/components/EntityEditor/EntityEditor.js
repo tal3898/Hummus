@@ -99,6 +99,7 @@ class EntityEditor extends React.Component {
 
     componentDidMount() {
         var a = "@";
+        console.log('aa_')
     }
 
     initArrayFieldsObjectTemplate() {
@@ -119,8 +120,10 @@ class EntityEditor extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
-        this.init(newProps)
-        this.setState(this.state);
+        if (this.props.jsondata != newProps.jsondata) {
+            this.init(newProps)
+            this.setState(this.state);
+        }
     }
 
     initChildrenEntityEditors() {
