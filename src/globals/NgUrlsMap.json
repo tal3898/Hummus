@@ -17,5 +17,11 @@
         "actualUrl": "https://jdi-green.abc.de.fg.c",
         "endpoint": "/NgRequest",
         "color": "#00c853"
+    },
+    "sadabCloud": {
+        "displayValue": "GREEN-CLOUD",
+        "actualUrl": "https://jdi-green.abc.de.fg.c",
+        "endpoint": "/NgRequest",
+        "color": "#40c4ff"
     }
 }
