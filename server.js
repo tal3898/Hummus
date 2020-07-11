@@ -23,7 +23,11 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use(morgan(function (tokens, req, res) {
 	return JSON.stringify({
 		'method': tokens.method(req, res),
-		'rul': tokens.url(req, res),
+		'url': tokens.url(req, res),
+		'timestamp':tokens.date(req, res, 'iso'),
+		'ip': req.ip,
+		'host': req.host,
+		'hostname': req.hostname,
 		'status': tokens.status(req, res),
 		'responseLength': tokens.res(req, res, 'content-length'),
 		'responseTime': tokens['response-time'](req, res) +  ' ms'
