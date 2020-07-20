@@ -4,6 +4,7 @@ var bodyParser = require('body-parser')
 var request = require('request');
 const path = require('path');
 const dotenv = require('dotenv');
+const morgan = require('morgan');
 dotenv.config();
 
 console.log("PORT: " + process.env.PORT);
@@ -19,6 +20,22 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	limit: '5mb',
 	extended: true
 }));
+app.use(morgan(function (tokens, req, res) {
+	return JSON.stringify({
+		'method': tokens.method(req, res),
+		'url': tokens.url(req, res),
+		'timestamp':tokens.date(req, res, 'iso'),
+		'ip': req.ip,
+		'host': req.host,
+		'hostname': req.hostname,
+		'status': tokens.status(req, res),
+		'responseLength': tokens.res(req, res, 'content-length'),
+		'responseTime': tokens['response-time'](req, res) +  ' ms'
+	});
+		
+	
+}));
+
 
 const port = 5000;
 
@@ -71,11 +88,6 @@ app.delete('/folder', async (req, res) => {
 
 
 app.post('/scenario', async (req, res) => {
-	console.log({
-		message: 'someone saved new scenario',
-		hostname: req.hostname
-	});
-
 	var scenarioDocument = req.body;
 
 	var db = await MongoClient.connect(dbUrl);
@@ -147,13 +159,6 @@ app.post('/NgRequest', async (req, res) => {
 	var requestsList = req.body.entities;
 	process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
-	console.log({
-		message: 'someone sent entities to NG',
-		stepsNumber: requestsList.length,
-		hostname: req.hostname,
-		ngUrl: requestsList[0].ngUrl
-	});
-
 	for (var index in requestsList) {
 		var requestData = requestsList[index];
 		var body = '';
@@ -209,10 +214,6 @@ function isFileAllow(reqUrl) {
 
 // Redirect angular requests back to client side.
 app.get('/*', (req, res) => {
-	console.log({
-		message: 'someone has connected',
-		hostname: req.hostname
-	});
 
 	let buildFolder = 'build/';
 	let file = isFileAllow(req.url) ? req.url : 'index.html';
