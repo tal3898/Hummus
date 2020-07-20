@@ -13,7 +13,7 @@ import HummusContext from '../HummusContext'
 import LinkingFieldsPopup from '../LinkingFieldsPopup'
 import Creators from '../../globals/Creators.json'
 import { List } from 'react-virtualized';
-
+import FlipSwitch from '../FlipSwitch/FlipSwitch'
 
 
 class EntityEditor extends React.Component {
@@ -653,11 +653,12 @@ class EntityEditor extends React.Component {
                     }
                 </div>
 
-
-
-                <div className="field-component">
-                    <i style={disabledFields.includes(keyCleanPath) ? { color: '#b71c1c' } : {}} onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
-                </div>
+                <div className="field-component field-action">
+                        <FlipSwitch
+                            onClick={(event) => this.disableField(event, keyCleanPath)}
+                            checked={!disabledFields.includes(keyCleanPath)}
+                        />
+                    </div>
 
                 {this.createInfoPopup(keyPath, 3)}
 
@@ -705,16 +706,19 @@ class EntityEditor extends React.Component {
                         <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
                     </div>
 
-                    <div className="field-component">
-                        <i style={disabledFields.includes(keyCleanPath) ? { color: '#b71c1c' } : {}} onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
+                    <div className="field-component field-action">
+                        <FlipSwitch
+                            onClick={(event) => this.disableField(event, keyCleanPath)}
+                            checked={!disabledFields.includes(keyCleanPath)}
+                        />
                     </div>
-
 
                     {this.createInfoPopup(keyPath, 2)}
 
                     <div className="field-component">
                         <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(keyPath)}></i>
                     </div>
+
 
 
                 </Row>
@@ -759,8 +763,11 @@ class EntityEditor extends React.Component {
                         <i className=" fas fa-plus field-action mt-1 plus-button" onClick={(event) => this.addField(keyPath, event)}></i>
                     </div>
 
-                    <div className="field-component">
-                        <i style={disabledFields.includes(keyCleanPath) ? { color: '#b71c1c' } : {}} onClick={(event) => this.disableField(event, keyCleanPath)} className="fas fa-times field-action mt-1"></i>
+                    <div className="field-component field-action">
+                        <FlipSwitch
+                            onClick={(event) => this.disableField(event, keyCleanPath)}
+                            checked={!disabledFields.includes(keyCleanPath)}
+                        />
                     </div>
 
                     {this.createInfoPopup(keyPath, 2)}
@@ -962,6 +969,8 @@ class EntityEditor extends React.Component {
                                 onKeyDown={(event) => this.searchKeyDown(event)}
                             />
                         </InputGroup>
+
+
 
                         <List
                             rowCount={this.visibleFields.length}
