@@ -58,6 +58,8 @@ class EntityEditor extends React.Component {
 
         this.fieldsInput = {};
 
+        this.description = props.description;
+
         this.onInnerFieldChangedCallback = props.onInnerFieldChanged;
 
         this.initCollapsableFields(false);
@@ -454,10 +456,9 @@ class EntityEditor extends React.Component {
                 >
                     <div className="info-popup-text">
                         <center className="info-txt">
-                            {this.hasInfo(key, infoIndex) &&
-                                key.split('|')[infoIndex]}
+                            {this.getKeyDescription(keyPath, infoIndex)}
                         </center>
-                        {this.hasInfo(key, infoIndex) &&
+                        {
                             <hr style={{ margin: 2 }} />}
 
                         <center className="info-field-path-txt">
@@ -535,12 +536,40 @@ class EntityEditor extends React.Component {
         return keyStyle;
     }
 
+
+    
+
+    getKeyRequiredString(keyPath) {
+        var keyCleanPath = this.getKeyFullPath(keyPath);
+        var pathInDescription = '/' + keyCleanPath.split('/').slice(3).join('/');
+
+        console.log('clean d path re' + pathInDescription);
+
+        var isRequired = this.description[pathInDescription]?.isRequired;
+        
+        return isRequired;
+    }
+
+    getKeyDescription(keyPath, infoIndex) {
+        var keyCleanPath = this.getKeyFullPath(keyPath);
+        var pathInDescription = '/' + keyCleanPath.split('/').slice(3).join('/');
+
+        var hebrewName = this.description[pathInDescription]?.hebrewName;
+
+        if (hebrewName) {
+            return hebrewName;
+        } else {
+            return keyCleanPath.split('|')[infoIndex]
+        }
+    }
+
     getSingleFieldJSX(keyPath) {
         var key = keyPath.split('/')[keyPath.split('/').length - 1];
         var keyCleanPath = this.getKeyFullPath(keyPath);
         var keyName = key.split('|')[0];
+        
         var keyType = key.split('|')[1];
-        var keyRequiredValue = key.split('|')[2];
+        var keyRequiredValue = this.getKeyRequiredString(keyPath);;
         var level = keyPath.split('/').length - 2;
 
         if (this.isKeyLinkTo(keyCleanPath)) {

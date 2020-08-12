@@ -1,0 +1,6 @@
+{
+    "/Ids/isComponent": {
+        "hebrewName": "האם רכיב או ךא",
+        "isRequired": "[0..1]"
+    }
+}

@@ -129,6 +129,13 @@ class NgRequestEditor extends React.Component {
 
     }
 
+    getChosenEntityDescription() {
+        var chosenVersion = this.context.data.currScenario.steps[this.state.openStepIndex].version;
+        var chosenEntity = this.context.data.currScenario.steps[this.state.openStepIndex].entity;
+
+        return FullEntitiesMap[chosenEntity][chosenVersion].description;
+    }
+
     getChosenEntityFullJson() {
         var chosenVersion = this.context.data.currScenario.steps[this.state.openStepIndex].version;
         var chosenEntity = this.context.data.currScenario.steps[this.state.openStepIndex].entity;
@@ -270,6 +277,7 @@ class NgRequestEditor extends React.Component {
                                 parentPath=''
                                 ref={this.entidyEditorChild}
                                 level={0}
+                                description={this.getChosenEntityDescription()}
                                 fullJson={this.getChosenEntityFullJson()}
                                 jsondata={context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit}
                                 onInnerFieldChanged={(event) => this.updateRequest(event)} ></EntityEditor>
