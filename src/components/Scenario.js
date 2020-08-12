@@ -162,7 +162,7 @@ class Scenario extends React.Component {
 
         var fullRequestJson = {
             "SendingTime": new Date().toISOString(),
-            "RealityId": this.context.data.currScenario.steps[stepNumber].reality,
+            "RealityId": this.context.data.reality,
             "VersionId": this.context.data.currScenario.steps[stepNumber].version,
             "SendingSystem": this.context.data.currScenario.steps[stepNumber].system,
             "Entities": entityJson[entityType]
