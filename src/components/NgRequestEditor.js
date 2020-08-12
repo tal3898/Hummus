@@ -62,11 +62,10 @@ class NgRequestEditor extends React.Component {
         var entityType = this.context.data.currScenario.steps[stepNumber].entity;
 
         var fullRequestJson = {
-            "Entity": entityType,
             "SendingTime": new Date().toISOString(),
-            "Reality": this.context.data.currScenario.steps[stepNumber].reality,
-            "Version": this.context.data.currScenario.steps[stepNumber].version,
-            "System": this.context.data.currScenario.steps[stepNumber].system,
+            "RealityId": this.context.data.reality,
+            "VersionId": this.context.data.currScenario.steps[stepNumber].version,
+            "SendingSystem": this.context.data.currScenario.steps[stepNumber].system,
             "Entities": entityJson[entityType]
         }
 
@@ -93,6 +92,11 @@ class NgRequestEditor extends React.Component {
     changeNgUrl(event) {
         this.context.data.ngEnv = event.target.value; 
         localStorage.setItem('NgUrl', event.target.value);
+        this.context.updateData(this.context);
+    }
+
+    changeReality(event) {
+        this.context.data.reality = event.target.value; 
         this.context.updateData(this.context);
     }
 
@@ -231,8 +235,8 @@ class NgRequestEditor extends React.Component {
                                     </Col>
                                     <Col lg='2'>
                                         <Form.Control
-                                            onChange={(event) => this.onMetadataChange(event, 'reality')}
-                                            value={context.data.currScenario.steps[this.state.openStepIndex].reality}
+                                            onChange={(event) => this.changeReality(event)}
+                                            value={context.data.reality}
                                             ref={(ref) => this.realityNode = ref}
                                             as="select" >
                                             {Object.entries(RealityMap)

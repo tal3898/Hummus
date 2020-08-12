@@ -19,6 +19,7 @@ class App extends React.Component {
       data: {
         msg: 'aaa',
         ngEnv: '',
+        reality: "0",
         scenariosHierarchy: {},
         currScenario: {
           name: '',
@@ -28,7 +29,7 @@ class App extends React.Component {
             "jsonToEdit": "{}",
             "entity": "English",
             "system": "Tal",
-            "reality": "0",
+            
             "action": "DELETE",
             "version": "X",
             "links": [],
