@@ -8,7 +8,7 @@
     },
     "dev": {
         "displayValue": "DEV",
-        "actualUrl": "https://jdi-dev.abc.de.fg.c",
+        "actualUrl": "http://localhost:8080",
         "endpoint": "/NgRequest",
         "color": "#007bff"
     },

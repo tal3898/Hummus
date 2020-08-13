@@ -24,16 +24,16 @@ app.use(morgan(function (tokens, req, res) {
 	return JSON.stringify({
 		'method': tokens.method(req, res),
 		'url': tokens.url(req, res),
-		'timestamp':tokens.date(req, res, 'iso'),
+		'timestamp': tokens.date(req, res, 'iso'),
 		'ip': req.ip,
 		'host': req.host,
 		'hostname': req.hostname,
 		'status': tokens.status(req, res),
 		'responseLength': tokens.res(req, res, 'content-length'),
-		'responseTime': tokens['response-time'](req, res) +  ' ms'
+		'responseTime': tokens['response-time'](req, res) + ' ms'
 	});
-		
-	
+
+
 }));
 
 
@@ -194,7 +194,12 @@ app.post('/NgRequest', async (req, res) => {
 	}
 
 	res.json({ 'message': 'Sent to NG' })
+
 })
+
+process.on('uncaughtException', function (err) {
+	console.log(err);
+});
 
 function sleep(ms) {
 	return new Promise((resolve) => {

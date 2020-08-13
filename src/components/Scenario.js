@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { InputGroup, Form, Col, Row } from 'react-bootstrap';
 import JsonPopup from './JsonPopup';
+import ErrorPopup from './ErrorPopup';
 import SaveScenarioPopup from './SaveScenarioPopup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -75,6 +76,11 @@ const Styles = styled.div`
     border-radius: 5px;
 }
 
+.error-link {
+    color: blue;
+    border-bottom: 1px solid;
+}
+
 .plus-scenario-button {
 
     &:hover { 
@@ -104,6 +110,7 @@ class Scenario extends React.Component {
             json: {},
             bombaJson: {},
             isJsonPopupOpen: false,
+            isErrorPopupOpen: false,
             isSavePopupOpen: false,
             isMemePopupOPen: false,
             scenarioName: 'bbb',
@@ -293,6 +300,11 @@ class Scenario extends React.Component {
         return finalUrl;
     }
 
+    openErrorPopup(error) {
+        this.state.isErrorPopupOpen = true;
+        this.setState(this.state);
+    }
+
     sendSingleStepToNg(stepIndex) {
         var currStep = this.context.data.currScenario.steps[stepIndex];
         var currStepRequest = this.getStepNgRequest(stepIndex);
@@ -313,7 +325,7 @@ class Scenario extends React.Component {
         var requestOptions = this.getNgRequestOptions(this.context.data.ngEnv, currStepRequest, entityType, requestMethod);
         var requestFinalUrl = this.getNgRequestFinalUrl(this.context.data.ngEnv, entityType);
 
-        toast.warn("Sending", toastProperties);
+        toast.warn('Sending...', toastProperties);
 
         fetch(requestFinalUrl, requestOptions)
             .then(response => response.json())
@@ -321,7 +333,12 @@ class Scenario extends React.Component {
                 toast.success("Sent step " + stepIndex + " successfully", toastProperties);
                 console.log("NG response: " + JSON.stringify(data));
             }).catch(error => {
-                toast.error("Could not send step " + stepIndex, toastProperties);
+                toast.error(
+                    () =>
+                        <div>
+                            Could not send step {stepIndex} <a className="error-link" onClick={() => this.openErrorPopup()}>click here to see why</a>
+                        </div>
+                    , toastProperties);
                 console.error("NG error: ", error)
             });
 
@@ -457,6 +474,7 @@ class Scenario extends React.Component {
         console.log('closing popup')
         this.state.isJsonPopupOpen = false;
         this.state.isSavePopupOpen = false;
+        this.state.isErrorPopupOpen = false;
         this.state.isMemePopupOPen = false;
         this.setState(this.state);
     }
@@ -557,11 +575,17 @@ class Scenario extends React.Component {
 
 
                             <ToastContainer />
+
                             <JsonPopup
                                 json={JSON.stringify(this.state.json)}
                                 bombaJson={JSON.stringify(this.state.bombaJson)}
                                 onClose={() => this.close()}
                                 isOpen={this.state.isJsonPopupOpen} />
+
+                            <ErrorPopup
+                                error={JSON.stringify(this.state.json)}
+                                onClose={() => this.close()}
+                                isOpen={this.state.isErrorPopupOpen} />
 
                             {/** remove the propery scenarioData, so the component wil take from */}
                             <SaveScenarioPopup
@@ -594,7 +618,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a style={{paddingTop:60}} id="openSavePopupBtn" className="action-btn" variant="outline-info" onClick={() => this.openSavePopup()}>
+                                                    <a style={{ paddingTop: 60 }} id="openSavePopupBtn" className="action-btn" variant="outline-info" onClick={() => this.openSavePopup()}>
                                                         <i className="far fa-save"></i>
                                                     </a>}
                                             >
@@ -609,7 +633,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a style={{marginRight:3}} id="showJsonBtn" className="action-btn" variant="outline-info" onClick={() => this.openJsonPopup()}>
+                                                    <a style={{ marginRight: 3 }} id="showJsonBtn" className="action-btn" variant="outline-info" onClick={() => this.openJsonPopup()}>
                                                         <span><b> {"{..}"} </b></span>
                                                     </a>}
                                             >
@@ -624,7 +648,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a style={{marginRight:3}} className="action-btn" id="sendStepBtn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.context.data.currOpenStep)}>
+                                                    <a style={{ marginRight: 3 }} className="action-btn" id="sendStepBtn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.context.data.currOpenStep)}>
                                                         <i className="far fa-paper-plane fa-flip-horizontal"></i>
                                                     </a>}
                                             >
@@ -724,7 +748,7 @@ class Scenario extends React.Component {
 
                                         </Col>
 
-                                                        
+
                                         <Col lg="1">
                                             <Popup
 
