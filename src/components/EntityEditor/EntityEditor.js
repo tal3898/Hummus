@@ -51,7 +51,7 @@ class EntityEditor extends React.Component {
             objectFieldsOpen: {}, // for each field in the current json scope, set true/false, if the field is collapsed or not.
             filterData: {
                 userFilter: '',
-                scrollTo: 0,
+                scrollTo: undefined,
                 filterResult: []
             }
         }
@@ -838,26 +838,32 @@ class EntityEditor extends React.Component {
     }
 
     searchField(event) {
-        console.log(event.target.value);
+        console.log(event.target.value) ;
         this.state.filterData.userFilter = event.target.value;
-        this.state.filterData.filterResult = [];
 
-        for (var index in this.jsonFieldsPathList) {
-            var keyPath = this.jsonFieldsPathList[index];
-            var keyDescription = keyPath.split('/')[keyPath.split('/').length - 1];
-            if (keyDescription.toLowerCase().includes(this.state.filterData.userFilter.toLowerCase())) {
-                this.state.filterData.filterResult.push(index);
-                this.openForFieldAllAncestor(this.jsonFieldsPathList[index]);
+        if (this.state.filterData.userFilter != '') {
+            this.state.filterData.filterResult = [];
+
+            for (var index in this.jsonFieldsPathList) {
+                var keyPath = this.jsonFieldsPathList[index];
+                var keyDescription = keyPath.split('/')[keyPath.split('/').length - 1];
+                if (keyDescription.toLowerCase().includes(this.state.filterData.userFilter.toLowerCase())) {
+                    this.state.filterData.filterResult.push(index);
+                    this.openForFieldAllAncestor(this.jsonFieldsPathList[index]);
+                }
             }
-        }
-
-        if (this.state.filterData.filterResult.length > 0) {
-            this.state.filterData.scrollTo = this.state.filterData.filterResult[0];
+    
+            if (this.state.filterData.filterResult.length > 0) {
+                this.state.filterData.scrollTo = this.state.filterData.filterResult[0];
+            } else {
+                this.state.filterData.scrollTo = undefined;
+            }
         } else {
-            this.state.filterData.scrollTo = 0;
+            this.state.filterData.scrollTo = undefined;
         }
 
         this.setState(this.state);
+
     }
 
     openForFieldAllAncestor(keyPath) {
