@@ -2,6 +2,9 @@ const express = require('express');
 const mongo = require('mongodb');
 var bodyParser = require('body-parser')
 var request = require('request');
+
+const got = require('got');
+
 const path = require('path');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
@@ -24,16 +27,16 @@ app.use(morgan(function (tokens, req, res) {
 	return JSON.stringify({
 		'method': tokens.method(req, res),
 		'url': tokens.url(req, res),
-		'timestamp':tokens.date(req, res, 'iso'),
+		'timestamp': tokens.date(req, res, 'iso'),
 		'ip': req.ip,
 		'host': req.host,
 		'hostname': req.hostname,
 		'status': tokens.status(req, res),
 		'responseLength': tokens.res(req, res, 'content-length'),
-		'responseTime': tokens['response-time'](req, res) +  ' ms'
+		'responseTime': tokens['response-time'](req, res) + ' ms'
 	});
-		
-	
+
+
 }));
 
 
@@ -159,42 +162,72 @@ app.post('/NgRequest', async (req, res) => {
 	var requestsList = req.body.entities;
 	process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
+	var response = [];
+	var allSuccess = true;
+
 	for (var index in requestsList) {
-		var requestData = requestsList[index];
-		var body = '';
+		try {
+			var requestData = requestsList[index];
+			var body = '';
 
-		console.log('sneding to ' + requestData.ngUrl);
-		if (requestData.method == 'POST') {
-			body = await request.post(requestData.ngUrl + '/' + requestData.entity, {
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(requestData.data)
+			console.log('sneding to ' + requestData.ngUrl);
+			if (requestData.method == 'POST') {
+				body = await got(requestData.ngUrl + '/' + requestData.entity, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(requestData.data)
+				});
+
+			} else if (requestData.method == 'PUT') {
+				body = await request.put(requestData.ngUrl + '/' + requestData.entity, {
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(requestData.data)
+				});
+			} else if (requestData.method == 'DELETE') {
+				body = await request.delete(requestData.ngUrl + '/' + requestData.entity, {
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(requestData.data)
+				});
+			}
+			console.log('ng response: ' + body);
+
+
+			response.push({
+				message: body.body
 			});
-		} else if (requestData.method == 'PUT') {
-			body = await request.put(requestData.ngUrl + '/' + requestData.entity, {
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(requestData.data)
-			});
-		} else if (requestData.method == 'DELETE') {
-			body = await request.delete(requestData.ngUrl + '/' + requestData.entity, {
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(requestData.data)
-			});
+
+			await sleep(1000);
+
+		} catch (e) {
+			allSuccess = false;
+			var errorObject = {
+				message: e.message
+			}
+
+			if (e.response != undefined) {
+				errorObject.responseBody = JSON.parse(e.response.body);
+			}
+
+			response.push(errorObject);
 		}
-		console.log('ng response: ' + body);
-
-		await sleep(1000);
-
 
 	}
 
-	res.json({ 'message': 'Sent to NG' })
+	res.json({
+		isSuccess: allSuccess,
+		response: response
+	})
 })
+
+process.on('uncaughtException', function (err) {
+	console.log(err);
+});
 
 function sleep(ms) {
 	return new Promise((resolve) => {
