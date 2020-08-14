@@ -4,8 +4,8 @@ import Popup from "reactjs-popup";
 
 const Styles = styled.div`
 
-.feature-list-item {
-    margin-bottom:11px;
+.step-error {
+    font-size: 20px;
 }
 
 `;
@@ -13,7 +13,8 @@ class ErrorPopup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isOpen: props.isOpen
+            isOpen: props.isOpen,
+            error: props.error
         };
 
         this.onCloseCallback = props.onClose;
@@ -21,9 +22,24 @@ class ErrorPopup extends React.Component {
 
     UNSAFE_componentWillReceiveProps(newProps) {
         this.state.isOpen = newProps.isOpen;
+        this.state.error = newProps.error;
         this.setState(this.state);
     }
 
+    getErrorDiv() {
+        if (this.state.error.length == 1) {
+            return <div className="step-error"><pre> {JSON.stringify(this.state.error[0], undefined, 4)} </pre></div>
+        } 
+
+        var allErrors = [];
+        for(var index in this.state.error) {
+            allErrors.push(
+                <span> {index} - {JSON.stringify(this.state.error[index], undefined, 4)} </span>
+            )
+        }
+
+        return allErrors;
+    }
 
     closePopup() {
         this.state.isOpen = false;
@@ -47,6 +63,8 @@ class ErrorPopup extends React.Component {
                         <center>
                             <h1>Error</h1>
                         </center>
+
+                        {this.getErrorDiv()}
                     </div>
 
                 </Popup>

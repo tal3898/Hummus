@@ -114,6 +114,7 @@ class Scenario extends React.Component {
             isSavePopupOpen: false,
             isMemePopupOPen: false,
             scenarioName: 'bbb',
+            errorDescriptionForPopup: [],
             scenarioData: {
                 name: '',
                 steps: [{
@@ -302,6 +303,7 @@ class Scenario extends React.Component {
 
     openErrorPopup(error) {
         this.state.isErrorPopupOpen = true;
+        this.state.errorDescriptionForPopup = error;
         this.setState(this.state);
     }
 
@@ -330,15 +332,20 @@ class Scenario extends React.Component {
         fetch(requestFinalUrl, requestOptions)
             .then(response => response.json())
             .then(data => {
-                toast.success("Sent step " + stepIndex + " successfully", toastProperties);
+                if (data.isSuccess) {
+                    toast.success("Sent step " + stepIndex + " successfully", toastProperties);    
+                } else {
+                    toast.error(
+                        () =>
+                            <div>
+                                Could not send step {stepIndex} <a className="error-link" onClick={() => this.openErrorPopup(data.response)}>click here to see why</a>
+                            </div>
+                        , toastProperties);
+                }
+                
                 console.log("NG response: " + JSON.stringify(data));
             }).catch(error => {
-                toast.error(
-                    () =>
-                        <div>
-                            Could not send step {stepIndex} <a className="error-link" onClick={() => this.openErrorPopup()}>click here to see why</a>
-                        </div>
-                    , toastProperties);
+                
                 console.error("NG error: ", error)
             });
 
@@ -583,7 +590,7 @@ class Scenario extends React.Component {
                                 isOpen={this.state.isJsonPopupOpen} />
 
                             <ErrorPopup
-                                error={JSON.stringify(this.state.json)}
+                                error={this.state.errorDescriptionForPopup}
                                 onClose={() => this.close()}
                                 isOpen={this.state.isErrorPopupOpen} />
 
