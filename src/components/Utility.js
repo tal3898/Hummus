@@ -104,7 +104,7 @@ export const isInputValid = (value) => {
 };
 
 export const toastProperties = {
-    autoClose: 2000,
+    autoClose: 5000,
     position: toast.POSITION.BOTTOM_RIGHT,
     pauseOnFocusLoss: false
 };
