@@ -26,16 +26,22 @@ class ErrorPopup extends React.Component {
         this.setState(this.state);
     }
 
+    getSingleErrorDiv(errorJson) {
+        return <div className="step-error"><pre> {JSON.stringify(errorJson, undefined, 4)} </pre></div>
+    }
+
+    getSingleErrorDivWithStep(errorJson, stepIndex) {
+        return <div className="step-error"><pre> {stepIndex} - {JSON.stringify(errorJson, undefined, 4)} </pre><hr /></div>
+    }
+
     getErrorDiv() {
         if (this.state.error.length == 1) {
-            return <div className="step-error"><pre> {JSON.stringify(this.state.error[0], undefined, 4)} </pre></div>
-        } 
+            return this.getSingleErrorDiv(this.state.error[0]);
+        }
 
-        var allErrors = [];
-        for(var index in this.state.error) {
-            allErrors.push(
-                <span> {index} - {JSON.stringify(this.state.error[index], undefined, 4)} </span>
-            )
+        var allErrors = [<hr />];
+        for (var index in this.state.error) {
+            allErrors.push(this.getSingleErrorDivWithStep(this.state.error[index], index))
         }
 
         return allErrors;
@@ -59,10 +65,11 @@ class ErrorPopup extends React.Component {
                     modal
                     closeOnDocumentClick
                 >
-                    <div style={{ fontSize: 40, marginBottom: 25 }}>
-                        <center>
-                            <h1>Error</h1>
-                        </center>
+                    <center>
+                        <h1>Error</h1>
+                    </center>
+                    <div style={{ fontSize: 40, marginBottom: 25, height: 500, overflowY: 'scroll' }}>
+
 
                         {this.getErrorDiv()}
                     </div>

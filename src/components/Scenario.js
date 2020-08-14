@@ -307,20 +307,20 @@ class Scenario extends React.Component {
         this.setState(this.state);
     }
 
-    createWarningToast(error, stepIndex) {
+    createWarningToast(error) {
         toast.warn(
             () =>
                 <div>
-                    Could not send step {stepIndex} <a className="error-link" onClick={() => this.openErrorPopup(error)}>click here to see why</a>
+                    Error while sending request. <a className="error-link" onClick={() => this.openErrorPopup(error)}>Click here to see why</a>
                 </div>
             , toastProperties);
     }
 
-    createErrorToast(error, stepIndex) {
+    createErrorToast(error) {
         toast.error(
             () =>
                 <div>
-                    Could not send step {stepIndex} <a className="error-link" onClick={() => this.openErrorPopup(error)}>click here to see why</a>
+                    Could not send request. <a className="error-link" onClick={() => this.openErrorPopup(error)}>Click here to see why</a>
                 </div>
             , toastProperties);
     }
@@ -353,14 +353,14 @@ class Scenario extends React.Component {
                 if (data.isSuccess) {
                     toast.success("Sent step " + stepIndex + " successfully", toastProperties);    
                 } else {
-                    this.createWarningToast(data.response, stepIndex);
+                    this.createWarningToast(data.response);
                 }
             }).catch(error => {
                 var errorObj = [{
                     message: 'Error while sending request to hummus server'
                 }];
 
-                this.createErrorToast(errorObj, stepIndex);
+                this.createErrorToast(errorObj);
             });
 
     }
@@ -477,16 +477,22 @@ class Scenario extends React.Component {
             pauseOnFocusLoss: false
         };
 
-        toast.warn("Sending", toastProperties);
+        toast.info("Sending", toastProperties);
 
         fetch('/NgRequest', requestOptions)
             .then(response => response.json())
             .then(data => {
-                toast.success("Sent successfully", toastProperties);
-                console.log("NG response: " + JSON.stringify(data));
+                if (data.isSuccess) {
+                    toast.success("Sent step " + stepIndex + " successfully", toastProperties);    
+                } else {
+                    this.createWarningToast(data.response);
+                }
             }).catch(error => {
-                toast.error("Error sending write request", toastProperties);
-                console.error("NG error: ", error)
+                var errorObj = [{
+                    message: 'Error while sending request to hummus server'
+                }];
+
+                this.createErrorToast(errorObj);
             });
     }
     //#endregion
