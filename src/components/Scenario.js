@@ -307,6 +307,24 @@ class Scenario extends React.Component {
         this.setState(this.state);
     }
 
+    createWarningToast(error, stepIndex) {
+        toast.warn(
+            () =>
+                <div>
+                    Could not send step {stepIndex} <a className="error-link" onClick={() => this.openErrorPopup(error)}>click here to see why</a>
+                </div>
+            , toastProperties);
+    }
+
+    createErrorToast(error, stepIndex) {
+        toast.error(
+            () =>
+                <div>
+                    Could not send step {stepIndex} <a className="error-link" onClick={() => this.openErrorPopup(error)}>click here to see why</a>
+                </div>
+            , toastProperties);
+    }
+
     sendSingleStepToNg(stepIndex) {
         var currStep = this.context.data.currScenario.steps[stepIndex];
         var currStepRequest = this.getStepNgRequest(stepIndex);
@@ -327,7 +345,7 @@ class Scenario extends React.Component {
         var requestOptions = this.getNgRequestOptions(this.context.data.ngEnv, currStepRequest, entityType, requestMethod);
         var requestFinalUrl = this.getNgRequestFinalUrl(this.context.data.ngEnv, entityType);
 
-        toast.warn('Sending...', toastProperties);
+        toast.info('Sending...', toastProperties);
 
         fetch(requestFinalUrl, requestOptions)
             .then(response => response.json())
@@ -335,18 +353,14 @@ class Scenario extends React.Component {
                 if (data.isSuccess) {
                     toast.success("Sent step " + stepIndex + " successfully", toastProperties);    
                 } else {
-                    toast.error(
-                        () =>
-                            <div>
-                                Could not send step {stepIndex} <a className="error-link" onClick={() => this.openErrorPopup(data.response)}>click here to see why</a>
-                            </div>
-                        , toastProperties);
+                    this.createWarningToast(data.response, stepIndex);
                 }
-                
-                console.log("NG response: " + JSON.stringify(data));
             }).catch(error => {
-                
-                console.error("NG error: ", error)
+                var errorObj = [{
+                    message: 'Error while sending request to hummus server'
+                }];
+
+                this.createErrorToast(errorObj, stepIndex);
             });
 
     }
