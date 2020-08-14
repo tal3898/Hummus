@@ -46,6 +46,12 @@ const Styles = styled.div`
     cursor: pointer;
 }
 
+.step-action-btn {
+    color: #607d8b;
+    font-size:30px;
+    cursor: pointer;
+}
+
 .step-info {
     
     cursor: pointer;
@@ -311,7 +317,7 @@ class Scenario extends React.Component {
         toast.warn(
             () =>
                 <div>
-                    <span style={{color:'black'}}>Error while sending request. </span> <a className="error-link" onClick={() => this.openErrorPopup(error)}>Click here to see why</a>
+                    <span style={{ color: 'black' }}>Error while sending request. </span> <a className="error-link" onClick={() => this.openErrorPopup(error)}>Click here to see why</a>
                 </div>
             , toastProperties);
     }
@@ -351,7 +357,7 @@ class Scenario extends React.Component {
             .then(response => response.json())
             .then(data => {
                 if (data.isSuccess) {
-                    toast.success("Sent step " + stepIndex + " successfully", toastProperties);    
+                    toast.success("Sent step " + stepIndex + " successfully", toastProperties);
                 } else {
                     this.createWarningToast(data.response);
                 }
@@ -417,7 +423,7 @@ class Scenario extends React.Component {
                     var errorObj = [{
                         message: 'Error while sending request to localhost server. Maybe the server is not started properly.'
                     }];
-    
+
                     this.createErrorToast(errorObj);
                 });
         }.bind(this), 1000 * stepIndex)
@@ -487,7 +493,7 @@ class Scenario extends React.Component {
             .then(response => response.json())
             .then(data => {
                 if (data.isSuccess) {
-                    toast.success("Sent step " + stepIndex + " successfully", toastProperties);    
+                    toast.success("Sent step " + stepIndex + " successfully", toastProperties);
                 } else {
                     this.createWarningToast(data.response);
                 }
@@ -723,7 +729,7 @@ class Scenario extends React.Component {
                                         </Col>
                                     </Row>
 
-                                    <Row className='field'>
+                                    <Row className='field' style={{ marginBottom: 0 }}>
                                         <Col lg='1'>
                                             <Form.Label >צעד</Form.Label>
                                         </Col>
@@ -786,7 +792,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a className="action-btn" variant="outline-info" onClick={() => this.addStep()}>
+                                                    <a className="step-action-btn" variant="outline-info" onClick={() => this.addStep()}>
                                                         <i id="addStepBtn" className="fas fa-plus"></i>
                                                     </a>}
                                             >
@@ -800,7 +806,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a id="removeStepBtn" className="action-btn" style={{ marginRight: 20 }} variant="outline-info" onClick={() => this.removeStep()}>
+                                                    <a id="removeStepBtn" className="step-action-btn" style={{ marginRight: 20 }} variant="outline-info" onClick={() => this.removeStep()}>
                                                         <i className="fas fa-minus"></i>
                                                     </a>}
                                             >
@@ -810,11 +816,35 @@ class Scenario extends React.Component {
                                             </Popup>
                                         </Col>
 
+                                        {/** not used checkbox, to annoy the client */}
+                                        <Col lg="3">
+                                            <div dir="rtl" style={{float:'right', paddingTop:10}}>
+                                                <input
+                                                
+                                                    dir="rtl"
+                                                    style={{ marginLeft: 10 }}
+                                                    type="checkbox"
+                                                    id="vehicle1"
+                                                    name="vehicle1"
+                                                    defaultChecked={true}
+                                                    value="Bike"
+                                                />
+                                                <span rtl>האם התקן פעיל </span>
+                                            </div>
+                                        </Col>
                                     </Row>
+
+                                    <Row className='field' dir="rtl" rtl>
+
+                                    </Row>
+
+
 
                                     <hr className="seperator" />
 
                                 </div>
+
+
 
                                 <NgRequestEditor
                                     openStepIndex={this.context.data.currOpenStep}
