@@ -66,6 +66,7 @@ class InfoPopup extends React.Component {
                                 <li>כל הפיצרים של החומוס</li>
                                 <li>איך עושים כתיבה היררכית</li>
                                 <li>שמירת תרחישים</li>
+                                <li>מה זה "האם התקן פעיל" ?</li>
                                 <li>איך כותבים לlocalhost</li>
                             </ul>
                             <hr/>
