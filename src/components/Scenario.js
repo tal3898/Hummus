@@ -311,7 +311,7 @@ class Scenario extends React.Component {
         toast.warn(
             () =>
                 <div>
-                    Error while sending request. <a className="error-link" onClick={() => this.openErrorPopup(error)}>Click here to see why</a>
+                    <span style={{color:'black'}}>Error while sending request. </span> <a className="error-link" onClick={() => this.openErrorPopup(error)}>Click here to see why</a>
                 </div>
             , toastProperties);
     }
@@ -407,14 +407,18 @@ class Scenario extends React.Component {
                 body: JSON.stringify(currStepRequest)
             };
 
+            toast.info("Sending...", toastProperties);
+
             fetch(NgUrlsMap["localhost"].actualUrl + '/' + entityType, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     toast.success("Sent successfully", toastProperties);
-                    console.log("NG response: " + JSON.stringify(data));
                 }).catch(error => {
-                    toast.error("Error sending write request", toastProperties);
-                    console.error("NG error: ", error)
+                    var errorObj = [{
+                        message: 'Error while sending request to localhost server. Maybe the server is not started properly.'
+                    }];
+    
+                    this.createErrorToast(errorObj);
                 });
         }.bind(this), 1000 * stepIndex)
     }
@@ -477,7 +481,7 @@ class Scenario extends React.Component {
             pauseOnFocusLoss: false
         };
 
-        toast.info("Sending", toastProperties);
+        toast.info("Sending...", toastProperties);
 
         fetch('/NgRequest', requestOptions)
             .then(response => response.json())

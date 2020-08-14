@@ -27,7 +27,7 @@ class ErrorPopup extends React.Component {
     }
 
     getSingleErrorDiv(errorJson) {
-        return <div className="step-error"><pre> {JSON.stringify(errorJson, undefined, 4)} </pre></div>
+        return <p className="step-error"><pre> {JSON.stringify(errorJson, undefined, 4)} </pre></p>
     }
 
     getSingleErrorDivWithStep(errorJson, stepIndex) {
@@ -68,7 +68,8 @@ class ErrorPopup extends React.Component {
                     <center>
                         <h1>Error</h1>
                     </center>
-                    <div style={{ fontSize: 40, marginBottom: 25, height: 500, overflowY: 'scroll' }}>
+                    <div style={{ fontSize: 40, marginBottom: 5, maxHeight: 500, overflowY: 'scroll' }}>
+
 
 
                         {this.getErrorDiv()}
