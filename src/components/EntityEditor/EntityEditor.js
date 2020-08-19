@@ -50,6 +50,7 @@ class EntityEditor extends React.Component {
             linkJson: {},
             objectFieldsOpen: {}, // for each field in the current json scope, set true/false, if the field is collapsed or not.
             filterData: {
+                isSearching: false,
                 userFilter: '',
                 scrollTo: undefined,
                 filterResult: []
@@ -654,11 +655,11 @@ class EntityEditor extends React.Component {
                 </div>
 
                 <div className="field-component field-action">
-                        <FlipSwitch
-                            onClick={(event) => this.disableField(event, keyCleanPath)}
-                            checked={!disabledFields.includes(keyCleanPath)}
-                        />
-                    </div>
+                    <FlipSwitch
+                        onClick={(event) => this.disableField(event, keyCleanPath)}
+                        checked={!disabledFields.includes(keyCleanPath)}
+                    />
+                </div>
 
                 {this.createInfoPopup(keyPath, 3)}
 
@@ -838,7 +839,7 @@ class EntityEditor extends React.Component {
     }
 
     searchField(event) {
-        console.log(event.target.value) ;
+        console.log(event.target.value);
         this.state.filterData.userFilter = event.target.value;
 
         if (this.state.filterData.userFilter != '') {
@@ -852,7 +853,7 @@ class EntityEditor extends React.Component {
                     this.openForFieldAllAncestor(this.jsonFieldsPathList[index]);
                 }
             }
-    
+
             if (this.state.filterData.filterResult.length > 0) {
                 this.state.filterData.scrollTo = this.state.filterData.filterResult[0];
             } else {
@@ -915,7 +916,7 @@ class EntityEditor extends React.Component {
                 <Row dir='rtl' style={{ marginBottom: 10 }}>
 
                     <Col lg='10' className='entity-editor-window'>
-                        <Button id="expandAllBtn" style={{ boxShadow: '2px 2px 10px grey', zIndex: 10, top: 20, right: 20, position: 'absolute' }}
+                        <Button id="expandAllBtn" style={{ boxShadow: '2px 2px 10px grey', zIndex: 10, top: 24, right: 20, position: 'absolute' }}
                             variant={process.env.REACT_APP_entityEditorTopButtons}
                             onClick={() => this.expandCollapseAll()}>
 
@@ -928,7 +929,7 @@ class EntityEditor extends React.Component {
                             }
                         </Button>
 
-                        <Button style={{ boxShadow: '2px 2px 10px grey', zIndex: 10, top: 20, right: 70, position: 'absolute' }}
+                        <Button style={{ boxShadow: '2px 2px 10px grey', zIndex: 10, top: 24, right: 70, position: 'absolute' }}
                             variant={process.env.REACT_APP_entityEditorTopButtons}
                             onClick={() => this.openLinkPopup()}>
 
@@ -939,42 +940,23 @@ class EntityEditor extends React.Component {
 
 
                         {/** Creating the search input, with info popup, that describes what the user can search */}
-                        <InputGroup size="sm" dir="ltr" style={{ width: 250, right: 130, top: 23, zIndex: 10, position: 'absolute', boxShadow: '2px 2px 10px grey' }}>
-                            <InputGroup.Prepend >
-                                <InputGroup.Text id="inputGroupPrepend">
+                        <div style={{ right: 130, top: 23, zIndex: 10, position: 'absolute' }}>
+                            {!this.state.filterData.isSearching &&
+                                <i className="fas fa-search search-fields-button" onClick={() => { console.log('search'); this.state.filterData.isSearching = true; this.setState(this.state); }}></i>
+                            }
 
-                                    <Popup
-                                        className="action-btn"
-                                        position="bottom center"
-                                        on="hover"
-                                        trigger={
-                                            <i className="fas search-info-popup fa-info-circle  mt-1"></i>}
-                                    >
-                                        <div dir="rtl">
-                                            <div style={{ marginBottom: 2 }}>ניתן לחפש:</div>
+                            {this.state.filterData.isSearching &&
+                                <div className="search-fields-input" dir="ltr" style={{ boxShadow: '2px 2px 10px grey' }}>
 
-                                                1) שם שדה
-                                                <br />
-                                                2) תיאור שדה
-                                                <br />
-                                                3) [0] / [1] / [1..0] / [1..1]
+                                    <div class="inner-addon left-addon">
+                                    <i style={{left:0, top:5,marginLeft:10, fontSize:20, position: 'absolute'}} className="fas search-info-popup fa-info-circle  mt-1"></i>
+                                        <input style={{paddingLeft:35}} type="text" class="form-control" placeholder="search" />
+                                    </div>
                                 </div>
-                                    </Popup>
+                            }
 
-                                </InputGroup.Text>
-                            </InputGroup.Prepend>
-                            <Form.Control
-                                size="sm"
-                                id="searchFieldInput"
-                                value={this.state.filterData.userFilter}
-                                placeholder="search"
-                                className={(this.state.filterData.filterResult.length == 0 &&
-                                    this.state.filterData.userFilter != "" &&
-                                    "failed-searching") || "searching"}
-                                onChange={(event) => this.searchField(event)}
-                                onKeyDown={(event) => this.searchKeyDown(event)}
-                            />
-                        </InputGroup>
+                        </div>
+
 
 
 

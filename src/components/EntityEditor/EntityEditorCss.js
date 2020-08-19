@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const green='green';
+const green = 'green';
 
 const Styles = styled.div`
 
@@ -14,6 +14,30 @@ const Styles = styled.div`
 .searching:focus {
     outline: none !important;
     box-shadow: 0 0 10px #719ECE;
+}
+
+.search-fields-button {
+    font-size: 30px;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.search-fields-button:hover {
+}
+
+.search-fields-input {
+    width: 250px;
+    animation-name: example;
+    animation-duration: 0.5s;
+}
+
+@keyframes example {
+    from {
+        width: 60px;
+    }
+    to {
+        width: 250px;
+    }
 }
 
 .failed-searching:focus {
