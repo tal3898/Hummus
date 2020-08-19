@@ -72,7 +72,7 @@ export default function App(props) {
 
   const [checkedEntities, setCheckedEntities] = useState(inputJsonCopy);
 
-  const numberOfEntitiesToSelect = 2;
+  const numberOfEntitiesToSelect = 1;
 
   const toggling = () => setIsOpen(!isOpen);
 

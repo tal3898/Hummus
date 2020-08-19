@@ -60,6 +60,8 @@ class LinkingFieldsPopup extends React.Component {
         this.onCloseCallback = props.onClose;
         this.jsonViewerFromRef = React.createRef();
         this.jsonViewerToRef = React.createRef();
+
+
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
@@ -71,7 +73,10 @@ class LinkingFieldsPopup extends React.Component {
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
         this.state.fromJson = convertJsonTemplateToActualJson(JSON.parse(defaultStep.jsonToEdit), disabledFields);
-        this.setState(this.state);
+
+
+        this.currStepEnglishCount = JSON.parse(this.context.data.currScenario.steps[this.context.data.currOpenStep].jsonToEdit).English.length;
+
 
         this.setState(this.state);
     }
@@ -147,7 +152,7 @@ class LinkingFieldsPopup extends React.Component {
                     closeOnDocumentClick
                 >
 
-                    <div>
+                    <div style={{ height: 500 }}>
 
                         <Tabs
                             id="controlled-tab-example"
@@ -237,33 +242,43 @@ class LinkingFieldsPopup extends React.Component {
                             <Tab eventKey="profile" dir="rtl" title="Profile">
 
 
-                                <p >* מספר הישויות שניתן לקשר תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר יותר ישויות, נוסיפו קישורים לגיסון.</p>
-                                <EntitySelectInput
-                                    width='12em'
-                                />
+                                <p >* מספר הישויות שניתן לקשר תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר יותר ישויות, תוסיפו קישורים לגיסון.</p>
+                                {new Array(this.currStepEnglishCount).fill(0).map(index =>
+                                    <div rtl>
+                                        <center>
+                                            <h2>אנגלית</h2>
+                                        </center>
+                                        <div>
+                                            <div dir="rtl" style={{ paddingTop: 10, display: 'inline-block' }}>
+                                                <input
+                                                    style={{ marginLeft: 10 }}
+                                                    dir="rtl"
+                                                    type="checkbox"
+                                                    id="intelConn" />
+                                                <label for="intelConn">קישור  1</label>
+                                            </div>
+                                            <EntitySelectInput style={{ float: 'left' }} />
+                                        </div>
+                                        <div>
+                                            <div dir="rtl" style={{ paddingTop: 10, display: 'inline-block' }}>
+                                                <input
+                                                    style={{ marginLeft: 10 }}
+                                                    dir="rtl"
+                                                    type="checkbox"
+                                                    id="agamConn" />
+                                                <label for="agamConn">קישור 2</label>
+                                            </div>
+                                            <EntitySelectInput style={{ float: 'left' }} />
+                                        </div>
 
-                                <Form dir="rtl" rtl>
-                                    <div key={`default-radio`} className="mb-3">
-                                        <Form.Check
-                                            type='radio'
-                                            name="formHorizontalRadios"
-                                            id='default-radio'
-                                            label='link number 1'
-                                        />
-                                        <Form.Check
-                                            type='radio'
-                                            name="formHorizontalRadios"
-                                            id='default-radio2'
-                                            label='link number 2'
-                                        />
-                                        <Form.Check
-                                            type='radio'
-                                            name="formHorizontalRadios"
-                                            id='default-radio3'
-                                            label='link number 3'
-                                        />
+
+                                        <br />
                                     </div>
-                                </Form>
+
+                                )}
+
+
+
                             </Tab>
                             <Tab eventKey="visualization" title="visualization">
                                 ASDF

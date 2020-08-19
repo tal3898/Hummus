@@ -823,6 +823,7 @@ class Scenario extends React.Component {
                                                     style={{ marginLeft: 10 }}
                                                     dir="rtl"
                                                     type="checkbox"
+                                                    defaultChecked={true}
                                                     id="exampleCheck1" />
                                                 <label for="exampleCheck1">האם טלטלה פעיל</label>
                                             </div>
