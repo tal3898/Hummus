@@ -11,11 +11,6 @@ const Styles = styled.div`
     width:110%;
 }
 
-.searching:focus {
-    outline: none !important;
-    box-shadow: 0 0 10px #719ECE;
-}
-
 .search-fields-button {
     font-size: 30px;
     margin-top: 2px;
@@ -38,6 +33,11 @@ const Styles = styled.div`
     to {
         width: 250px;
     }
+}
+
+.searching:focus {
+    outline: none !important;
+    box-shadow: 0 0 10px #719ECE;
 }
 
 .failed-searching:focus {

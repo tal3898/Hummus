@@ -949,8 +949,40 @@ class EntityEditor extends React.Component {
                                 <div className="search-fields-input" dir="ltr" style={{ boxShadow: '2px 2px 10px grey' }}>
 
                                     <div class="inner-addon left-addon">
-                                    <i style={{left:0, top:5,marginLeft:10, fontSize:20, position: 'absolute'}} className="fas search-info-popup fa-info-circle  mt-1"></i>
-                                        <input style={{paddingLeft:35}} type="text" class="form-control" placeholder="search" />
+                                        <Popup
+                                            className="action-btn"
+                                            position="bottom center"
+                                            on="hover"
+                                            trigger={
+                                                <i style={{ left: 0, top: 5, marginLeft: 10, fontSize: 20, position: 'absolute' }} className="fas search-info-popup fa-info-circle  mt-1"></i>}
+                                        >
+                                            <div dir="rtl">
+                                                <center>
+                                                    <div style={{ marginBottom: 2 }}>ניתן לחפש:</div>
+
+                                                1) שם שדה
+                                                <br />
+                                                2) תיאור שדה
+                                                <br />
+                                                3) [0] / [1] / [1..0] / [1..1]
+                                                </center>
+                                            </div>
+                                        </Popup>
+
+
+                                        <input style={{ paddingLeft: 35 }}
+                                            type="text"
+                                            className=""
+                                            placeholder="search"
+
+                                            id="searchFieldInput"
+                                            value={this.state.filterData.userFilter}
+                                            placeholder="search"
+                                            className={(this.state.filterData.filterResult.length == 0 &&
+                                                this.state.filterData.userFilter != "" &&
+                                                "failed-searching form-control") || "searching form-control"}
+                                            onChange={(event) => this.searchField(event)}
+                                            onKeyDown={(event) => this.searchKeyDown(event)} />
                                     </div>
                                 </div>
                             }
