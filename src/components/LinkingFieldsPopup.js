@@ -9,6 +9,7 @@ import JsonViewer from './JsonViewer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { convertJsonTemplateToActualJson } from './Utility'
+import EntitySelectInput from './EntitySelectInput/EntitySelectInput'
 
 const Styles = styled.div`
 
@@ -233,7 +234,14 @@ class LinkingFieldsPopup extends React.Component {
                                     </Col>
                                 </Row>
                             </Tab>
-                            <Tab eventKey="profile" title="Profile">
+                            <Tab eventKey="profile" dir="rtl" title="Profile">
+
+
+                                <p >* מספר הישויות שניתן לקשר תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר יותר ישויות, נוסיפו קישורים לגיסון.</p>
+                                <EntitySelectInput
+                                    width='12em'
+                                />
+
                                 <Form dir="rtl" rtl>
                                     <div key={`default-radio`} className="mb-3">
                                         <Form.Check

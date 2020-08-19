@@ -8,12 +8,16 @@ const Main = styled("div")`
 `;
 
 const DropDownContainer = styled("div")`
-  width: 13.5em;
-  margin: 0 auto;
 `;
 
 const DropDownHeader = styled("div")`
-  margin-bottom: 0.8em;
+  margin-bottom: 0.2em;
+
+  border-radius: 0px 0px 0px 0px;
+-moz-border-radius: 0px 0px 0px 0px;
+-webkit-border-radius: 0px 0px 0px 0px;
+border: 1px solid #d1d1d1;
+
   padding: 0.4em 2em 0.4em 1em;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
   font-weight: 500;
@@ -51,24 +55,29 @@ const ListItemTitle = styled("li")`
   margin-bottom: 0.5em;
 `;
 
-export default function App() {
+export default function App(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [numberOfSelectedEntities, setNumberOfSelectedEntities] = useState(0);
-  const [checkedEntities, setCheckedEntities] = useState({
-    "step 1": [false, false],
-    "step 2": [false]
-  });
 
   const inputJson = {
-    "step 1": ["obj", "obj"],
+    "step 1": ["obj"],
     "step 2": ["obj"]
   };
+
+  const inputJsonCopy = {};
+
+  for (var key in inputJson) {
+    inputJsonCopy[key] = new Array(inputJson[key].length).fill(false);
+  }
+
+  const [checkedEntities, setCheckedEntities] = useState(inputJsonCopy);
 
   const numberOfEntitiesToSelect = 2;
 
   const toggling = () => setIsOpen(!isOpen);
 
   const checklistClicked = (event, step, index) => {
+    console.log("tal");
     checkedEntities[step][index] = event.target.checked;
     setCheckedEntities(checkedEntities);
 
@@ -77,45 +86,46 @@ export default function App() {
     } else {
       setNumberOfSelectedEntities(numberOfSelectedEntities - 1);
     }
+
+    console.log(JSON.stringify(checkedEntities));
+    var customEvent = {
+      value: checkedEntities
+    };
+    console.log(JSON.stringify(customEvent));
   };
 
   return (
-    <Main>
-      <h1>Custom Select/dropdown aa</h1>
-
-      <DropDownContainer>
-        <DropDownHeader onClick={toggling}>select objectives</DropDownHeader>
-        {isOpen && (
-          <DropDownListContainer>
-            <DropDownList>
-              {Object.keys(inputJson).map((key) => (
-                <div>
-                  <ListItemTitle>{key}</ListItemTitle>
-                  {inputJson[key].map((value, index) => (
-                    <ListItem>
-                      <input
-                        style={{ display: "inline-block" }}
-                        type="checkbox"
-                        id="vehicle1"
-                        name="vehicle1"
-                        value="Bike"
-                        checked={checkedEntities[key][index]}
-                        disabled={
-                          numberOfSelectedEntities ===
-                            numberOfEntitiesToSelect &&
-                          !checkedEntities[key][index]
-                        }
-                        onChange={(e) => checklistClicked(e, key, index)}
-                      />
-                      <span>{value}</span>
-                    </ListItem>
-                  ))}
-                </div>
-              ))}
-            </DropDownList>
-          </DropDownListContainer>
-        )}
-      </DropDownContainer>
-    </Main>
+    <DropDownContainer style={{width: props.width || '13.7em'}}>
+      <DropDownHeader onClick={toggling}>select objectives</DropDownHeader>
+      {isOpen && (
+        <DropDownListContainer>
+          <DropDownList>
+            {Object.keys(inputJson).map((key) => (
+              <div>
+                <ListItemTitle>{key}</ListItemTitle>
+                {inputJson[key].map((value, index) => (
+                  <ListItem>
+                    <input
+                      style={{ display: "inline-block" }}
+                      type="checkbox"
+                      id="vehicle1"
+                      name="vehicle1"
+                      value="Bike"
+                      checked={checkedEntities[key][index]}
+                      disabled={
+                        numberOfSelectedEntities === numberOfEntitiesToSelect &&
+                        !checkedEntities[key][index]
+                      }
+                      onChange={(e) => checklistClicked(e, key, index)}
+                    />
+                    <span>{value}</span>
+                  </ListItem>
+                ))}
+              </div>
+            ))}
+          </DropDownList>
+        </DropDownListContainer>
+      )}
+    </DropDownContainer>
   );
 }
