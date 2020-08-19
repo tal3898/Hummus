@@ -818,21 +818,19 @@ class Scenario extends React.Component {
 
                                         {/** not used checkbox, to annoy the client */}
                                         <Col lg="3">
-                                            <div dir="rtl" style={{float:'right', paddingTop:10}}>
+                                            <div dir="rtl" style={{ float: 'right', paddingTop: 10 }}>
                                                 <input
-                                                
-                                                    dir="rtl"
                                                     style={{ marginLeft: 10 }}
+                                                    dir="rtl"
                                                     type="checkbox"
-                                                    id="vehicle1"
-                                                    name="vehicle1"
-                                                    defaultChecked={true}
-                                                    value="Bike"
-                                                />
-                                                <span rtl>האם טלטלה פעיל </span>
+                                                    id="exampleCheck1" />
+                                                <label for="exampleCheck1">האם טלטלה פעיל</label>
                                             </div>
                                         </Col>
                                     </Row>
+                                    <div dir="rtl" class="form-check">
+
+                                    </div>
 
                                     <Row className='field' dir="rtl" rtl>
 
