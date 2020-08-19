@@ -942,7 +942,10 @@ class EntityEditor extends React.Component {
                         {/** Creating the search input, with info popup, that describes what the user can search */}
                         <div style={{ right: 130, top: 23, zIndex: 10, position: 'absolute' }}>
                             {!this.state.filterData.isSearching &&
-                                <i className="fas fa-search search-fields-button" onClick={() => { console.log('search'); this.state.filterData.isSearching = true; this.setState(this.state); }}></i>
+                                <i 
+                                    id="search-fields-button"
+                                    className="fas fa-search search-fields-button" 
+                                    onClick={() => { console.log('search'); this.state.filterData.isSearching = true; this.setState(this.state); }}></i>
                             }
 
                             {this.state.filterData.isSearching &&

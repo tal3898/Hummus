@@ -12,12 +12,14 @@ const Styles = styled.div`
 }
 
 .search-fields-button {
-    font-size: 30px;
-    margin-top: 2px;
+    font-size: 25px;
+    margin-top: 5px;
     cursor: pointer;
+    color: #616161;
 }
 
 .search-fields-button:hover {
+    color: #212121;
 }
 
 .search-fields-input {
@@ -121,6 +123,10 @@ const Styles = styled.div`
 .field-info-popup:hover {
     color: #2196f3;
     cursor: arrow;
+}
+
+.search-info-popup {
+    color: #424242;
 }
 
 .search-info-popup:hover {

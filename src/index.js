@@ -27,6 +27,7 @@ document.onkeyup = function (e) {
             document.getElementById("sendStepBtn").click();
         } else if (e.ctrlKey && e.shiftKey && e.which == 70) {
             // ctrl + shift + f
+            document.getElementById("search-fields-button").click();
             document.getElementById("searchFieldInput").focus();
         } else if (e.ctrlKey && e.altKey && e.which == 79) {
             // ctrl + alt + o
