@@ -829,7 +829,7 @@ class Scenario extends React.Component {
                                                     defaultChecked={true}
                                                     value="Bike"
                                                 />
-                                                <span rtl>האם התקן פעיל </span>
+                                                <span rtl>האם טלטלה פעיל </span>
                                             </div>
                                         </Col>
                                     </Row>
