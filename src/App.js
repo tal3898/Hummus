@@ -27,7 +27,7 @@ class App extends React.Component {
             "name": "כתיבה",
             "jsonMap": {},
             "jsonToEdit": "{}",
-            "entity": "English",
+            "entity": "Target",
             "system": "Tal",
             
             "action": "DELETE",

@@ -1,0 +1,43 @@
+{
+	"Plan": [
+		{
+			"FirstThing": {
+				"isBig||[0]": true,
+				"name||[0]|שם ישות": "ddd",
+				"number||[1]|קוד ישות": 0,
+				"hello": "here",
+				"this": "is",
+				"tal": 234
+			},
+			"LA|[0]": {
+				"Type|enum|[0]|[\"20 - paris\", \"30 - italy\"]": "20",
+				"Creatoring|creator|[1]": 2200,
+				"Info||[0]": "{text}",
+				"USA": "trump"
+			},
+			"Beatles": {
+				"TeddyBear|[1]": {
+					"code||[1]|קוד ישות": 0,
+					"name||[0]|שם ישות": "",
+					"BreakDuration||[1]|זמן הפסקה בין השיעורים": "15"
+				}				
+			},
+			"Planning|[0..1]": [
+				{
+					"Goal||[1]": "learn piano",
+					"Time|time|[1]": "{iso}"
+				},
+				{
+					"Goal||[1]": "learn piano",
+					"Time|time|[1]": "{iso}"
+				}
+			],
+			"Homworks|[0..1]": [
+				{
+					"Pages||[1]": "{text}",
+					"Bool||[1]": "{text}"
+				}
+			]
+		}
+	]
+}

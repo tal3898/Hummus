@@ -16,13 +16,7 @@ import { FullEntitiesMap } from '../globals/FullEntitiesMap.js'
 import NgUrlsMap from '../globals/NgUrlsMap.json'
 import RealityMap from '../globals/RealityMap.json'
 import SystemMap from '../globals/SystemMap.json'
-import english_2 from '../jsonFormats/english_2.json'
-import math_2 from '../jsonFormats/math_2.json'
-import chemistry_2 from '../jsonFormats/chemistry_2.json'
 
-import english_x from '../jsonFormats/english_x.json'
-import math_x from '../jsonFormats/math_x.json'
-import chemistry_x from '../jsonFormats/chemistry_x.json'
 
 
 const Styles = styled.div`
@@ -540,17 +534,17 @@ class Scenario extends React.Component {
         var step = {
             "name": "צעד",
             "jsonMap": FullEntitiesMap,
-            "entity": "English",
+            "entity": "Target",
             "system": "Tal",
             "reality": "0",
             "action": "POST",
             "version": "2",
-            "jsonToEdit": FullEntitiesMap["English"]["2"].data,
+            "jsonToEdit": FullEntitiesMap["Target"]["2"].data,
             "links": [],
             "disabledFields": []
         }
 
-        step.disabledFields = JSON.parse(JSON.stringify(step.jsonMap["English"]["2"].disabledFields));
+        step.disabledFields = JSON.parse(JSON.stringify(step.jsonMap["Target"]["2"].disabledFields));
         return step;
     }
 
