@@ -246,7 +246,7 @@ class LinkingFieldsPopup extends React.Component {
                                 {new Array(this.currStepEnglishCount).fill(0).map(index =>
                                     <div rtl>
                                         <center>
-                                            <h2>אנגלית</h2>
+                                            <h2>מטרה</h2>
                                         </center>
                                         <div>
                                             <div dir="rtl" style={{ paddingTop: 10, display: 'inline-block' }}>
