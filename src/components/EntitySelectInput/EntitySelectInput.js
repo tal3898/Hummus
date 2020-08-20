@@ -59,11 +59,7 @@ export default function App(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [numberOfSelectedEntities, setNumberOfSelectedEntities] = useState(0);
 
-  const inputJson = {
-    "step 1": ["obj"],
-    "step 2": ["obj"]
-  };
-
+  const inputJson = props.input;
   const inputJsonCopy = {};
 
   for (var key in inputJson) {
@@ -91,6 +87,7 @@ export default function App(props) {
     var customEvent = {
       value: checkedEntities
     };
+    props.onChange(customEvent);
     console.log(JSON.stringify(customEvent));
   };
 

@@ -24,11 +24,13 @@
 			},
 			"Planning|[0..1]": [
 				{
-					"Goal||[1]": "learn piano",
+					"name": "learn piano",
+					"number": 0,
 					"Time|time|[1]": "{iso}"
 				},
 				{
-					"Goal||[1]": "learn piano",
+					"name||[1]": "learn piano",
+					"number": 0,
 					"Time|time|[1]": "{iso}"
 				}
 			],

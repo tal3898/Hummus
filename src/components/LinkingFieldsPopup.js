@@ -152,7 +152,7 @@ class LinkingFieldsPopup extends React.Component {
 
                         <Tabs
                             id="controlled-tab-example"
-                            style={{position: 'absolute', width: '100%', marginLeft:0, background: 'white'}}
+                            style={{position: 'absolute', width: '99%', marginLeft:0, background: 'white'}}
                             activeKey={this.state.tab}
                             onSelect={(k) => { this.state.tab = k; this.setState(this.state) }}
 
