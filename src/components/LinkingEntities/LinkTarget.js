@@ -54,7 +54,7 @@ export default function LinkTarget(props) {
 
 
 
-    const currStepEnglishCount = 3;
+    const currStepEnglishCount = 7;
     return (
 
         <div>
