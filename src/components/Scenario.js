@@ -332,11 +332,15 @@ class Scenario extends React.Component {
         console.log('sending json to ng ' + JSON.stringify(currStepRequest));
 
         // easter egg?
-        var idfId = currStepRequest.Entities[0].Ids.name;
-        if (idfId.includes('מותר')) {
-            this.state.isMemePopupOPen = true;
-            this.setState(this.state);
-        }
+        try {
+            var idfId = currStepRequest.Entities[0].Ids.name;
+            if (idfId.includes('מותר')) {
+                this.state.isMemePopupOPen = true;
+                this.setState(this.state);
+            }
+        } catch(e) {
+            console.error('could not open east', e);
+        }        
         // easter egg?
 
         var requestMethod = currStep.action;

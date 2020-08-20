@@ -9,7 +9,7 @@ import JsonViewer from './JsonViewer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { convertJsonTemplateToActualJson } from './Utility'
-import EntitySelectInput from './EntitySelectInput/EntitySelectInput'
+import LinkTarget from './LinkingEntities/LinkTarget'
 
 const Styles = styled.div`
 
@@ -73,10 +73,6 @@ class LinkingFieldsPopup extends React.Component {
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
         this.state.fromJson = convertJsonTemplateToActualJson(JSON.parse(defaultStep.jsonToEdit), disabledFields);
-
-
-        //this.currStepEnglishCount = JSON.parse(this.context.data.currScenario.steps[this.context.data.currOpenStep].jsonToEdit).English.length;
-
 
         this.setState(this.state);
     }
@@ -152,10 +148,11 @@ class LinkingFieldsPopup extends React.Component {
                     closeOnDocumentClick
                 >
 
-                    <div style={{ height: 500 }}>
+                    <div style={{ height: 500, overflowY: 'scroll' }}>
 
                         <Tabs
                             id="controlled-tab-example"
+                            style={{position: 'absolute', width: '100%', marginLeft:0, background: 'white'}}
                             activeKey={this.state.tab}
                             onSelect={(k) => { this.state.tab = k; this.setState(this.state) }}
 
@@ -241,42 +238,9 @@ class LinkingFieldsPopup extends React.Component {
                             </Tab>
                             <Tab eventKey="profile" dir="rtl" title="Profile">
 
+                                <LinkTarget/>
 
-                                <p >* מספר הישויות שניתן לקשר תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר יותר ישויות, תוסיפו קישורים לגיסון.</p>
-                                {new Array(this.currStepEnglishCount).fill(0).map(index =>
-                                    <div rtl>
-                                        <center>
-                                            <h2>מטרה</h2>
-                                        </center>
-                                        <div>
-                                            <div dir="rtl" style={{ paddingTop: 10, display: 'inline-block' }}>
-                                                <input
-                                                    style={{ marginLeft: 10 }}
-                                                    dir="rtl"
-                                                    type="checkbox"
-                                                    id="intelConn" />
-                                                <label for="intelConn">קישור  1</label>
-                                            </div>
-                                            <EntitySelectInput style={{ float: 'left' }} />
-                                        </div>
-                                        <div>
-                                            <div dir="rtl" style={{ paddingTop: 10, display: 'inline-block' }}>
-                                                <input
-                                                    style={{ marginLeft: 10 }}
-                                                    dir="rtl"
-                                                    type="checkbox"
-                                                    id="agamConn" />
-                                                <label for="agamConn">קישור 2</label>
-                                            </div>
-                                            <EntitySelectInput style={{ float: 'left' }} />
-                                        </div>
-
-
-                                        <br />
-                                    </div>
-
-                                )}
-
+                                
 
 
                             </Tab>
