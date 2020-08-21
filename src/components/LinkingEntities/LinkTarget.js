@@ -46,7 +46,6 @@ export default function LinkTarget(props) {
         var checkedResult = event.value;
         var allIntelLinksToAdd = [];
         const intelLinkPath = '/Target/{0}/Planning';
-
         for (var key in checkedResult) {
             for (var objectiveIndex in checkedResult[key]) {
                 if (checkedResult[key][objectiveIndex]) {
@@ -86,6 +85,7 @@ export default function LinkTarget(props) {
                             style={{ float: 'left' }} 
                             input={objectivesJson}
                             onChange={(event) => onLinksChecked(event, targetIndex)}
+                            entitiesSelectLimit={getValue(targetJson, '/Target/' + targetIndex + '/Planning').length}
                         />
                     </div>
    
