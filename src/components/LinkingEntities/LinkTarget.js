@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import EntitySelectInput from '../EntitySelectInput/EntitySelectInput'
 import HummusContext, { HummusConsumer } from '../HummusContext'
 import { getValue } from '../Utility';
+import { Col, Row } from 'react-bootstrap';
 
 
 export default function LinkTarget(props) {
@@ -66,7 +67,7 @@ export default function LinkTarget(props) {
         const currStepNumber = context.data.currOpenStep;
         var links = context.data.currScenario.steps[currStepNumber].links;
         var newLinksList = links.concat(linksToAdd);
-        
+
         context.data.currScenario.steps[currStepNumber].links = newLinksList;
     };
 
@@ -75,28 +76,31 @@ export default function LinkTarget(props) {
     const currStepEnglishCount = targetJson.Target.length;
     return (
 
-        <div style={{ paddingTop: 60 }}>
+        <div style={{ paddingTop: 60 }} rtl>
             <span dir="rtl">* מספר הישויות שניתן לקשר תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר יותר ישויות, תוסיפו קישורים לגיסון.</span>
             {[...Array(currStepEnglishCount).keys()].map(targetIndex =>
                 <div rtl>
-                    <center>
+                    <center style={{marginBottom: 20}}>
                         <h2>מטרה</h2>
                     </center>
                     <div>
-                        <div dir="rtl" style={{ paddingTop: 10, display: 'inline-block' }}>
-                            <input
-                                style={{ marginLeft: 10 }}
-                                dir="rtl"
-                                type="checkbox"
-                                id="intelConn" />
-                            <label for="intelConn">קישור גג 1</label>
-                        </div>
-                        <EntitySelectInput
-                            style={{ float: 'left' }}
-                            input={objectivesJson}
-                            onChange={(event) => onLinksChecked(event, targetIndex)}
-                            entitiesSelectLimit={getValue(targetJson, '/Target/' + targetIndex + '/Planning').length}
-                        />
+
+                        <Row>
+                            <Col>
+                                <label >קישור מודיעיני ליעד: </label>
+                            </Col>
+                            <Col>
+                                <EntitySelectInput
+                                    style={{ float: 'left' }}
+                                    input={objectivesJson}
+                                    onChange={(event) => onLinksChecked(event, targetIndex)}
+                                    entitiesSelectLimit={getValue(targetJson, '/Target/' + targetIndex + '/Planning').length}
+                                />
+                            </Col>
+                        </Row>
+
+
+
                     </div>
 
                 </div>
