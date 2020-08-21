@@ -49,7 +49,7 @@ export default function LinkTarget(props) {
         for (var key in checkedResult) {
             for (var objectiveIndex in checkedResult[key]) {
                 if (checkedResult[key][objectiveIndex]) {
-                    
+
                     var intelLinksToAdd = createIntelLinks(parseInt(key), objectiveIndex, targetIndex, 0);
                     allIntelLinksToAdd = allIntelLinksToAdd.concat(intelLinksToAdd);
 
@@ -60,12 +60,20 @@ export default function LinkTarget(props) {
         setLinkstoAdd(allIntelLinksToAdd);
     };
 
+    const addLink = () => {
+        const currStepNumber = context.data.currOpenStep;
+        var links = context.data.currScenario.steps[currStepNumber].links;
+        var newLinksList = links.concat(linksToAdd);
+        
+        context.data.currScenario.steps[currStepNumber].links = newLinksList;
+    };
+
     console.log('array ' + JSON)
 
     const currStepEnglishCount = targetJson.Target.length;
     return (
 
-        <div style={{paddingTop: 60}}>
+        <div style={{ paddingTop: 60 }}>
             <span dir="rtl">* מספר הישויות שניתן לקשר תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר יותר ישויות, תוסיפו קישורים לגיסון.</span>
             {[...Array(currStepEnglishCount).keys()].map(targetIndex =>
                 <div rtl>
@@ -79,19 +87,21 @@ export default function LinkTarget(props) {
                                 dir="rtl"
                                 type="checkbox"
                                 id="intelConn" />
-                            <label for="intelConn">קישור  1</label>
+                            <label for="intelConn">קישור גג 1</label>
                         </div>
-                        <EntitySelectInput 
-                            style={{ float: 'left' }} 
+                        <EntitySelectInput
+                            style={{ float: 'left' }}
                             input={objectivesJson}
                             onChange={(event) => onLinksChecked(event, targetIndex)}
                             entitiesSelectLimit={getValue(targetJson, '/Target/' + targetIndex + '/Planning').length}
                         />
                     </div>
-   
+
                 </div>
 
             )}
+
+            <i onClick={() => addLink()} className="fas fa-check link-check fa-2x"></i>
 
         </div>
     );

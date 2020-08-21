@@ -19,24 +19,20 @@ const Styles = styled.div`
     overflow-y: scroll;
 }
 
-.fa-check {
-    color: #81c784; 
-    top:10px;
-    left: 20px;
-    position: absolute;
+.link-check {
+    position: absolute; 
+    bottom: 10px; 
+    left: 10px;
+    color: #81c784;
     cursor: pointer;
-    padding:10px;
-    border-radius:5px;
-    border-style:solid;
-    border-width:0.02em;
-    border-color: white;
+    z-index:10;
 }
 
-.fa-check:active {
+.link-check:active {
     color: #388e3c;
 }
 
-.fa-check:hover {
+.link-check:hover {
     color: #4caf50;
 }
 
@@ -159,7 +155,7 @@ class LinkingFieldsPopup extends React.Component {
                         >
                             <Tab eventKey="home" title="Home">
                                 <div style={{ marginBottom: 30 }}>
-                                    <i onClick={() => this.addLink()} className="fas fa-check fa-2x"></i>
+                                    <i onClick={() => this.addLink()} className="fas fa-check link-check fa-2x"></i>
                                     <center>
                                         <Form.Label style={{ fontSize: 30, marginBottom: 1 }}>קישור שדות</Form.Label>
                                     </center>
