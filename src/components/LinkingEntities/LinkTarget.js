@@ -45,12 +45,14 @@ export default function LinkTarget(props) {
     const onLinksChecked = (event, targetIndex) => {
         var checkedResult = event.value;
         var allIntelLinksToAdd = [];
-        const intelLinkPath = '/Target/{0}/Planning';
+        var linkIndex = 0;
+
         for (var key in checkedResult) {
             for (var objectiveIndex in checkedResult[key]) {
                 if (checkedResult[key][objectiveIndex]) {
 
-                    var intelLinksToAdd = createIntelLinks(parseInt(key), objectiveIndex, targetIndex, 0);
+                    var intelLinksToAdd = createIntelLinks(parseInt(key), objectiveIndex, targetIndex, linkIndex);
+                    linkIndex++;
                     allIntelLinksToAdd = allIntelLinksToAdd.concat(intelLinksToAdd);
 
                 }
