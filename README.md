@@ -1,5 +1,18 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Adding Sub Entity To Hummus
+Sometime the version of the data, is changed. sub entities are add, Fields are changed...
+And as a result, you will need to update the Hummus.
+
+To do so there are simple steps.
+If you only want to add fields, just enter the folder `src/jsonFormats/` , and open the relevant file (entity_version).
+**add the json of the sub entity to the right place.**
+Thats it  :)
+
+the sub entity is in the hummus, and can be sent.
+
+If you want to add data on the sub entity fields, like fields with timestamp, info message, is field required... do the following:
+
 ## Things to change before upload a new version in CTS
 
 1) Copy the directories globals, and jsonFormats
@@ -15,20 +28,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 6) Update the App.js first step initialize.
 
 7) Update the Easter Egg path.
-
-## Adding Sub Entity To Hummus
-Sometime the version of the data, is changed. sub entities are add, Fields are changed...
-And as a result, you will need to update the Hummus.
-
-To do so there are simple steps.
-If you only want to add fields, just enter the folder `src/jsonFormats/` , and open the relevant file (entity_version).
-**add the json of the sub entity to the right place.**
-Thats it  :)
-
-the sub entity is in the hummus, and can be sent.
-
-If you want to add data on the sub entity fields, like fields with timestamp, info message, is field required... do the following:
-
 
 ## Available Scripts
 
