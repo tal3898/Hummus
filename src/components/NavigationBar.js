@@ -56,6 +56,7 @@ export const NavigationBar = () => {
         </Col>
         <Col >
           <a href="/" style={{ textDecoration: 'none' }}><span className="headline">HummusNG</span></a>
+          <span> - Taltool</span>
         </Col>
 
         <i style={{marginRight:35}} onClick={() => setIsInfoPopupOpen(true)} className="nav-button fas fa-baby fa-3x"></i>
