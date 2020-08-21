@@ -26,12 +26,18 @@ border: 1px solid #d1d1d1;
   background: #ffffff;
 `;
 
-const DropDownListContainer = styled("div")``;
+const DropDownListContainer = styled("div")`
+  max-height: 0em;
+`;
 
 const DropDownList = styled("ul")`
   padding: 0;
   margin: 0;
   padding-left: 1em;
+
+  max-height:9em;
+  overflow-y: scroll;
+
   background: #ffffff;
   border: 2px solid #e5e5e5;
   box-sizing: border-box;
