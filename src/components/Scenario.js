@@ -255,7 +255,7 @@ class Scenario extends React.Component {
 
 
 
-            if (linkedValue) {
+            if (linkedValue != undefined) {
                 this.setToValue(currStep.Entities, toPath, linkedValue);
             }
         }
