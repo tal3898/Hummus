@@ -22,14 +22,14 @@
 					"BreakDuration||[1]|זמן הפסקה בין השיעורים": "15"
 				}				
 			},
-			"Planning|[0..1]": [
+			"Planning": [
 				{
 					"name": "learn piano",
 					"number": 0,
 					"Time|time|[1]": "{iso}"
 				},
 				{
-					"name||[1]": "learn piano",
+					"name": "learn piano",
 					"number": 0,
 					"Time|time|[1]": "{iso}"
 				}

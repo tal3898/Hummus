@@ -103,6 +103,16 @@ export const isInputValid = (value) => {
     return true;
 };
 
+export const getValue = (obj, path) => {
+    var i;
+    path = path.split('/');
+    path.splice(0, 1);
+    for (i = 0; i < path.length - 1; i++)
+        obj = obj[path[i]];
+
+    return obj[path[i]];
+};
+
 export const toastProperties = {
     autoClose: 5000,
     position: toast.POSITION.BOTTOM_RIGHT,

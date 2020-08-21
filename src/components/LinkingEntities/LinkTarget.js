@@ -1,14 +1,15 @@
 import React, { useState, useContext } from "react";
 import EntitySelectInput from '../EntitySelectInput/EntitySelectInput'
 import HummusContext, { HummusConsumer } from '../HummusContext'
+import { getValue } from '../Utility';
 
 
 export default function LinkTarget(props) {
-    //this.currStepEnglishCount = JSON.parse(this.context.data.currScenario.steps[this.context.data.currOpenStep].jsonToEdit).English.length;
     const [linksToAdd, setLinkstoAdd] = useState([]);
     const context = useContext(HummusContext)
-    
+    const targetJson = JSON.parse(context.data.currScenario.steps[context.data.currOpenStep].jsonToEdit);
 
+    // Get the objectives from all steps, for the EntitySelectInput
     var objectivesJson = {};
     for (var stepIndex in context.data.currScenario.steps) {
         var currStep = context.data.currScenario.steps[stepIndex];
@@ -41,25 +42,33 @@ export default function LinkTarget(props) {
         return links;
     }
 
-    const onLinksChecked = (event) => {
+    const onLinksChecked = (event, targetIndex) => {
         var checkedResult = event.value;
+        var allIntelLinksToAdd = [];
+        const intelLinkPath = '/Target/{0}/Planning';
+
         for (var key in checkedResult) {
-            for (var index in checkedResult[key]) {
-                if (checkedResult[key][index]) {
-                    //var intelLinkToAdd = createIntelLinks(key)
+            for (var objectiveIndex in checkedResult[key]) {
+                if (checkedResult[key][objectiveIndex]) {
+                    
+                    var intelLinksToAdd = createIntelLinks(parseInt(key), objectiveIndex, targetIndex, 0);
+                    allIntelLinksToAdd = allIntelLinksToAdd.concat(intelLinksToAdd);
+
                 }
             }
         }
+
+        setLinkstoAdd(allIntelLinksToAdd);
     };
 
+    console.log('array ' + JSON)
 
-
-    const currStepEnglishCount = 7;
+    const currStepEnglishCount = targetJson.Target.length;
     return (
 
-        <div>
-            <p >* מספר הישויות שניתן לקשר תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר יותר ישויות, תוסיפו קישורים לגיסון.</p>
-            {new Array(currStepEnglishCount).fill(0).map(index =>
+        <div style={{paddingTop: 60}}>
+            <span dir="rtl">* מספר הישויות שניתן לקשר תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר יותר ישויות, תוסיפו קישורים לגיסון.</span>
+            {[...Array(currStepEnglishCount).keys()].map(targetIndex =>
                 <div rtl>
                     <center>
                         <h2>מטרה</h2>
@@ -73,8 +82,10 @@ export default function LinkTarget(props) {
                                 id="intelConn" />
                             <label for="intelConn">קישור  1</label>
                         </div>
-                        <EntitySelectInput style={{ float: 'left' }} 
+                        <EntitySelectInput 
+                            style={{ float: 'left' }} 
                             input={objectivesJson}
+                            onChange={(event) => onLinksChecked(event, targetIndex)}
                         />
                     </div>
    
