@@ -24,17 +24,13 @@ const Styles = styled.div`
 `;
 
 const DropDownContainer = styled("div")`
-cursor: default;
-
-&hover { color: red}
-
-&:focus { color: #123456; }
 `;
 
 
 
 const DropDownHeader = styled("div")`
   margin-bottom: 0.2em;
+  cursor: default;
 
   border-radius: 5px;
   -moz-border-radius: 5px;
@@ -50,6 +46,8 @@ const DropDownHeader = styled("div")`
   font-size: 1.2rem;
   color: #3faffa;
   background: #ffffff;
+  position: relative;
+  z-index: 1;
 `;
 
 const DropDownListContainer = styled("div")`
@@ -58,6 +56,8 @@ const DropDownListContainer = styled("div")`
 `;
 
 const DropDownList = styled("ul")`
+  position: relative;
+  z-index: 2;
   padding: 0;
   margin: 0;
   padding-left: 1em;
@@ -91,7 +91,7 @@ const ListItem = styled("div")`
 const ListItemTitle = styled("li")`
   list-style: none;
   text-align: right;
-  
+  cursor: default;
   margin-right: 0.5em;
 `;
 
@@ -139,7 +139,7 @@ export default function App(props) {
         <i className="fas fa-angle-down" style={{ float: 'left', marginTop: 5, marginLeft: 5 }} ></i>
         </DropDownHeader>
         {isOpen && (
-          <DropDownListContainer onBlur={() => { setIsOpen(false) }}>
+          <DropDownListContainer >
             <DropDownList className="dropdown-list">
               {Object.keys(inputJson).map((key) => (
                 <div>
@@ -149,8 +149,7 @@ export default function App(props) {
                       <input
                         style={{marginTop:8, marginLeft:5}}
                         type="checkbox"
-                        id="vehicle1"
-                        name="vehicle1"
+                        id={"entity"+index}
                         value="Bike"
                         checked={checkedEntities[key][index]}
                         disabled={
@@ -159,7 +158,7 @@ export default function App(props) {
                         }
                         onChange={(e) => checklistClicked(e, key, index)}
                       />
-                      <label for="vehicle1" style={{ width: '95%', marginBottom:0 }}>{value}</label>
+                      <label for={"entity"+index} style={{ width: '95%', marginBottom:0 }}>{value}</label>
                     </ListItem>
                   ))}
                 </div>
