@@ -7,8 +7,22 @@ import { Col, Row } from 'react-bootstrap';
 
 export default function LinkTarget(props) {
     const [linksToAdd, setLinkstoAdd] = useState([]);
+
     const context = useContext(HummusContext)
+
     const targetJson = JSON.parse(context.data.currScenario.steps[context.data.currOpenStep].jsonToEdit);
+    const currStepTargetsCount = targetJson.Target.length;
+    const intelLinkPath = '/Target/{0}/Planning';
+    const intelLinkTemplate = [{
+        fromPath: '/Object/{0}/FirstThing/name',
+        toPath: '/Target/{0}/Planning/{1}/name',
+        fromStep: -1,
+    }, {
+        fromPath: '/Object/{0}/FirstThing/number',
+        toPath: '/Target/{0}/Planning/{1}/number',
+        fromStep: -1,
+    }];
+
 
     // Get the objectives from all steps before curr step, for the EntitySelectInput
     var objectivesJson = {};
@@ -19,16 +33,6 @@ export default function LinkTarget(props) {
             objectivesJson[stepIndex + '-' + currStep.name] = new Array(numberOfObjectives).fill("יעד")
         }
     }
-
-    const intelLinkTemplate = [{
-        fromPath: '/Object/{0}/FirstThing/name',
-        toPath: '/Target/{0}/Planning/{1}/name',
-        fromStep: -1,
-    }, {
-        fromPath: '/Object/{0}/FirstThing/number',
-        toPath: '/Target/{0}/Planning/{1}/number',
-        fromStep: -1,
-    }];
 
     const createIntelLinks = (stepOrigin, objectiveIndex, targetIndex, intelIndex) => {
         var links = [];
@@ -71,21 +75,18 @@ export default function LinkTarget(props) {
         context.data.currScenario.steps[currStepNumber].links = newLinksList;
     };
 
-    console.log('array ' + JSON)
-
-    const currStepEnglishCount = targetJson.Target.length;
     return (
 
         <div style={{ paddingTop: 60 }} rtl>
             <span>* מספר הישויות שניתן לקשר תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר יותר ישויות, תוסיפו קישורים לגיסון.</span>
-            {[...Array(currStepEnglishCount).keys()].map(targetIndex =>
+            {[...Array(currStepTargetsCount).keys()].map(targetIndex =>
                 <div rtl>
                     <center style={{marginBottom: 20}}>
                         <h2>מטרה</h2>
                     </center>
                     <div>
 
-                        <Row>
+                    <Row>
                             <Col>
                                 <label >קישור מודיעיני ליעד: </label>
                             </Col>
@@ -94,7 +95,7 @@ export default function LinkTarget(props) {
                                     style={{ float: 'left' }}
                                     input={objectivesJson}
                                     onChange={(event) => onLinksChecked(event, targetIndex)}
-                                    entitiesSelectLimit={getValue(targetJson, '/Target/' + targetIndex + '/Planning').length}
+                                    entitiesSelectLimit={getValue(targetJson, intelLinkPath.format(targetIndex)).length}
                                 />
                             </Col>
                         </Row>
