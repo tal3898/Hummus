@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import OutsideAlerter from "./OutsideAlerter";
 
 const Styles = styled.div`
 .container-drop-down:focus {
@@ -133,40 +134,42 @@ export default function App(props) {
 
   return (
     <Styles>
-      <div style={{ width: props.width || '13.7em' }} tabIndex="0"  >
-        <DropDownHeader onClick={toggling} className="container-drop-down" >
-          בחר יעדים 
+      <OutsideAlerter onClickOutside={() => setIsOpen(false)}>
+        <div style={{ width: props.width || '13.7em' }} tabIndex="0"  >
+          <DropDownHeader onClick={toggling} className="container-drop-down" >
+            בחר יעדים
         <i className="fas fa-angle-down" style={{ float: 'left', marginTop: 5, marginLeft: 5 }} ></i>
-        </DropDownHeader>
-        {isOpen && (
-          <DropDownListContainer >
-            <DropDownList className="dropdown-list">
-              {Object.keys(inputJson).map((key) => (
-                <div>
-                  <ListItemTitle>{key}</ListItemTitle>
-                  {inputJson[key].map((value, index) => (
-                    <ListItem>
-                      <input
-                        style={{marginTop:8, marginLeft:5}}
-                        type="checkbox"
-                        id={"entity"+index}
-                        value="Bike"
-                        checked={checkedEntities[key][index]}
-                        disabled={
-                          numberOfSelectedEntities === numberOfEntitiesToSelect &&
-                          !checkedEntities[key][index]
-                        }
-                        onChange={(e) => checklistClicked(e, key, index)}
-                      />
-                      <label for={"entity"+index} style={{ width: '95%', marginBottom:0 }}>{value}</label>
-                    </ListItem>
-                  ))}
-                </div>
-              ))}
-            </DropDownList>
-          </DropDownListContainer>
-        )}
-      </div>
+          </DropDownHeader>
+          {isOpen && (
+            <DropDownListContainer >
+              <DropDownList className="dropdown-list">
+                {Object.keys(inputJson).map((key) => (
+                  <div>
+                    <ListItemTitle>{key}</ListItemTitle>
+                    {inputJson[key].map((value, index) => (
+                      <ListItem>
+                        <input
+                          style={{ marginTop: 8, marginLeft: 5 }}
+                          type="checkbox"
+                          id={"entity" + index}
+                          value="Bike"
+                          checked={checkedEntities[key][index]}
+                          disabled={
+                            numberOfSelectedEntities === numberOfEntitiesToSelect &&
+                            !checkedEntities[key][index]
+                          }
+                          onChange={(e) => checklistClicked(e, key, index)}
+                        />
+                        <label for={"entity" + index} style={{ width: '95%', marginBottom: 0 }}>{value}</label>
+                      </ListItem>
+                    ))}
+                  </div>
+                ))}
+              </DropDownList>
+            </DropDownListContainer>
+          )}
+        </div>
+      </OutsideAlerter>
     </Styles>
   );
 }
