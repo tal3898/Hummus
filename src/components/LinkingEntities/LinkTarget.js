@@ -10,9 +10,9 @@ export default function LinkTarget(props) {
     const context = useContext(HummusContext)
     const targetJson = JSON.parse(context.data.currScenario.steps[context.data.currOpenStep].jsonToEdit);
 
-    // Get the objectives from all steps, for the EntitySelectInput
+    // Get the objectives from all steps before curr step, for the EntitySelectInput
     var objectivesJson = {};
-    for (var stepIndex in context.data.currScenario.steps) {
+    for (var stepIndex=0; stepIndex < context.data.currOpenStep; stepIndex++  ) {
         var currStep = context.data.currScenario.steps[stepIndex];
         if (currStep.entity === 'Objective') {
             var numberOfObjectives = JSON.parse(currStep.jsonToEdit).Objective.length;
@@ -77,7 +77,7 @@ export default function LinkTarget(props) {
     return (
 
         <div style={{ paddingTop: 60 }} rtl>
-            <span dir="rtl">* מספר הישויות שניתן לקשר תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר יותר ישויות, תוסיפו קישורים לגיסון.</span>
+            <span>* מספר הישויות שניתן לקשר תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר יותר ישויות, תוסיפו קישורים לגיסון.</span>
             {[...Array(currStepEnglishCount).keys()].map(targetIndex =>
                 <div rtl>
                     <center style={{marginBottom: 20}}>
