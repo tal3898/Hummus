@@ -1,33 +1,60 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const Main = styled("div")`
-  font-family: sans-serif;
-  background: #f0f0f0;
-  height: 100vh;
+const Styles = styled.div`
+.container-drop-down:focus {
+  outline: none !important;
+  border: 1px solid #123456;
+}
+
+.dropdown-list {
+  animation-name: dropdown-animation;
+  animation-duration: 0.5s;
+}
+
+@keyframes dropdown-animation {
+  from {
+      height:0em;
+  }
+  to {
+      max-height:9em;
+  }
+}
+
 `;
 
 const DropDownContainer = styled("div")`
+cursor: default;
+
+&hover { color: red}
+
+&:focus { color: #123456; }
 `;
+
+
 
 const DropDownHeader = styled("div")`
   margin-bottom: 0.2em;
 
-  border-radius: 0px 0px 0px 0px;
--moz-border-radius: 0px 0px 0px 0px;
--webkit-border-radius: 0px 0px 0px 0px;
-border: 1px solid #d1d1d1;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid #ced4da;
 
-  padding: 0.4em 2em 0.4em 1em;
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
-  font-weight: 500;
-  font-size: 1.3rem;
+  apadding: 0.4em 2em 0.4em 1em;
+  
+  text-align: right;
+  padding-right: 0.4em;
+
+  font-weight: 350;
+  font-size: 1.2rem;
   color: #3faffa;
   background: #ffffff;
 `;
 
 const DropDownListContainer = styled("div")`
   max-height: 0em;
+  
 `;
 
 const DropDownList = styled("ul")`
@@ -38,27 +65,34 @@ const DropDownList = styled("ul")`
   max-height:9em;
   overflow-y: scroll;
 
+  -webkit-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.38);
+  -moz-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.38);
+  box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.38);
+
   background: #ffffff;
   border: 2px solid #e5e5e5;
   box-sizing: border-box;
   color: #3faffa;
   font-size: 1.2rem;
   font-weight: 500;
-  &:first-child {
-    padding-top: 0.8em;
-  }
+
 `;
 
 const ListItem = styled("div")`
   list-style: none;
-  margin-bottom: 0.4em;
-  margin-left: 0.5em;
+  text-align: right;
+  display: flex;
+  font-family:Verdana;
+
+  margin-bottom: 0.2em;
+  margin-right: 1.3em;
 `;
 
 const ListItemTitle = styled("li")`
   list-style: none;
-  font-weight: 800;
-  margin-bottom: 0.5em;
+  text-align: right;
+  
+  margin-right: 0.5em;
 `;
 
 export default function App(props) {
@@ -98,37 +132,42 @@ export default function App(props) {
   };
 
   return (
-    <DropDownContainer style={{width: props.width || '13.7em'}}>
-      <DropDownHeader onClick={toggling}>select objectives</DropDownHeader>
-      {isOpen && (
-        <DropDownListContainer>
-          <DropDownList>
-            {Object.keys(inputJson).map((key) => (
-              <div>
-                <ListItemTitle>{key}</ListItemTitle>
-                {inputJson[key].map((value, index) => (
-                  <ListItem>
-                    <input
-                      style={{ display: "inline-block" }}
-                      type="checkbox"
-                      id="vehicle1"
-                      name="vehicle1"
-                      value="Bike"
-                      checked={checkedEntities[key][index]}
-                      disabled={
-                        numberOfSelectedEntities === numberOfEntitiesToSelect &&
-                        !checkedEntities[key][index]
-                      }
-                      onChange={(e) => checklistClicked(e, key, index)}
-                    />
-                    <span>{value}</span>
-                  </ListItem>
-                ))}
-              </div>
-            ))}
-          </DropDownList>
-        </DropDownListContainer>
-      )}
-    </DropDownContainer>
+    <Styles>
+      <div style={{ width: props.width || '13.7em' }} tabIndex="0"  >
+        <DropDownHeader onClick={toggling} className="container-drop-down" >
+          בחר יעדים 
+        <i className="fas fa-angle-down" style={{ float: 'left', marginTop: 5, marginLeft: 5 }} ></i>
+        </DropDownHeader>
+        {isOpen && (
+          <DropDownListContainer onBlur={() => { setIsOpen(false) }}>
+            <DropDownList className="dropdown-list">
+              {Object.keys(inputJson).map((key) => (
+                <div>
+                  <ListItemTitle>{key}</ListItemTitle>
+                  {inputJson[key].map((value, index) => (
+                    <ListItem>
+                      <input
+                        style={{marginTop:8, marginLeft:5}}
+                        type="checkbox"
+                        id="vehicle1"
+                        name="vehicle1"
+                        value="Bike"
+                        checked={checkedEntities[key][index]}
+                        disabled={
+                          numberOfSelectedEntities === numberOfEntitiesToSelect &&
+                          !checkedEntities[key][index]
+                        }
+                        onChange={(e) => checklistClicked(e, key, index)}
+                      />
+                      <label for="vehicle1" style={{ width: '95%', marginBottom:0 }}>{value}</label>
+                    </ListItem>
+                  ))}
+                </div>
+              ))}
+            </DropDownList>
+          </DropDownListContainer>
+        )}
+      </div>
+    </Styles>
   );
 }

@@ -50,7 +50,7 @@ export default function LinkTarget(props) {
         var currStep = context.data.currScenario.steps[stepIndex];
         if (currStep.entity === 'Objective') {
             var numberOfObjectives = JSON.parse(currStep.jsonToEdit).Objective.length;
-            objectivesJson[stepIndex + '-' + currStep.name] = new Array(numberOfObjectives).fill("יעד")
+            objectivesJson[stepIndex + ' - ' + currStep.name] = new Array(numberOfObjectives).fill("יעד")
         }
     }
 
@@ -122,9 +122,6 @@ export default function LinkTarget(props) {
                                 />
                             </Col>
                         </Row>
-                        <br/>
-                        <br/>
-                        <br/>
                         <br/>
                         <br/>
                         <br/>
