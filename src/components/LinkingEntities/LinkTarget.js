@@ -96,6 +96,7 @@ export default function LinkTarget(props) {
             .concat(agamLinksToAdd);
 
         context.data.currScenario.steps[currStepNumber].links = newLinksList;
+        props.closePopupCallback();
     };
 
     return (

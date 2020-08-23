@@ -9,7 +9,9 @@ import JsonViewer from './JsonViewer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { convertJsonTemplateToActualJson } from './Utility'
+
 import LinkTarget from './LinkingEntities/LinkTarget'
+import LinkObjective from './LinkingEntities/LinkObjective'
 
 const Styles = styled.div`
 
@@ -57,6 +59,18 @@ class LinkingFieldsPopup extends React.Component {
         this.jsonViewerFromRef = React.createRef();
         this.jsonViewerToRef = React.createRef();
 
+        this.entitiesLinkPage = {
+            Target:
+                <LinkTarget
+                    closePopupCallback={() => { this.close() }}
+                />,
+            Objective:
+                <LinkObjective
+                    closePopupCallback={() => { this.close() }}
+                />
+
+        }
+
 
     }
 
@@ -66,6 +80,8 @@ class LinkingFieldsPopup extends React.Component {
         this.state.stepNumber = newProps.step;
 
         var defaultStep = this.context.data.currScenario.steps[0];
+        this.currStepEntity = this.context.data.currScenario.steps[this.context.data.currOpenStep].entity;
+
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
         this.state.fromJson = convertJsonTemplateToActualJson(JSON.parse(defaultStep.jsonToEdit), disabledFields);
@@ -148,7 +164,7 @@ class LinkingFieldsPopup extends React.Component {
 
                         <Tabs
                             id="controlled-tab-example"
-                            style={{position: 'absolute', width: '99%', marginLeft:0, zIndex:100, background: 'white'}}
+                            style={{ position: 'absolute', width: '99%', marginLeft: 0, zIndex: 100, background: 'white' }}
                             activeKey={this.state.tab}
                             onSelect={(k) => { this.state.tab = k; this.setState(this.state) }}
 
@@ -234,9 +250,10 @@ class LinkingFieldsPopup extends React.Component {
                             </Tab>
                             <Tab eventKey="profile" dir="rtl" title="Profile">
 
-                                <LinkTarget/>
+                                {this.entitiesLinkPage[this.currStepEntity]}
 
-                                
+
+
 
 
                             </Tab>
