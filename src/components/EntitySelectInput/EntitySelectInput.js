@@ -4,8 +4,31 @@ import OutsideAlerter from "./OutsideAlerter";
 
 const Styles = styled.div`
 .container-drop-down:focus {
-  outline: none !important;
-  border: 1px solid #123456;
+  box-shadow: 0 0 3px #ddd;
+  
+  outline-style: solid;
+  outline-color: #bbdafb;
+  outline-width: 3px;
+  animation-name: dropdown-focus-animation;
+  animation-duration: 0.1s;
+}
+
+@keyframes dropdown-focus-animation {
+  from {
+    outline-style: solid;
+    outline-color: #ffffff;
+    outline-width: 0px;
+  }
+  to {
+    outline-style: solid;
+    outline-color: #bbdafb;
+    outline-width: 3px;
+  }
+}
+
+.container-drop-down{
+  font-color: red;
+  
 }
 
 .dropdown-list {
@@ -32,6 +55,9 @@ const DropDownContainer = styled("div")`
 const DropDownHeader = styled("div")`
   margin-bottom: 0.2em;
   cursor: default;
+
+  
+
 
   border-radius: 5px;
   -moz-border-radius: 5px;
@@ -61,7 +87,6 @@ const DropDownList = styled("ul")`
   z-index: 2;
   padding: 0;
   margin: 0;
-  padding-left: 1em;
 
   max-height:9em;
   overflow-y: scroll;
@@ -135,14 +160,19 @@ export default function App(props) {
   return (
     <Styles>
       <OutsideAlerter onClickOutside={() => setIsOpen(false)}>
-        <div style={{ width: props.width || '13.7em' }} tabIndex="0"  >
-          <DropDownHeader onClick={toggling} className="container-drop-down" >
+        <div style={{ width: props.width || '13.7em' }}>
+          <DropDownHeader onClick={toggling} className="container-drop-down" tabIndex="0">
             בחר יעדים
         <i className="fas fa-angle-down" style={{ float: 'left', marginTop: 5, marginLeft: 5 }} ></i>
           </DropDownHeader>
           {isOpen && (
             <DropDownListContainer >
               <DropDownList className="dropdown-list">
+                {Object.keys(inputJson).length == 0 &&
+                  <center>
+                    No Options
+                  </center>
+                }
                 {Object.keys(inputJson).map((key) => (
                   <div>
                     <ListItemTitle>{key}</ListItemTitle>
