@@ -10,8 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { convertJsonTemplateToActualJson } from './Utility'
 
-import LinkTarget from './LinkingEntities/LinkTarget'
-import LinkObjective from './LinkingEntities/LinkObjective'
+import LinkEntity from './LinkingEntities/LinkEntity'
 
 const Styles = styled.div`
 
@@ -59,17 +58,7 @@ class LinkingFieldsPopup extends React.Component {
         this.jsonViewerFromRef = React.createRef();
         this.jsonViewerToRef = React.createRef();
 
-        this.entitiesLinkPage = {
-            Target:
-                <LinkTarget
-                    closePopupCallback={() => { this.close() }}
-                />,
-            Objective:
-                <LinkObjective
-                    closePopupCallback={() => { this.close() }}
-                />
 
-        }
 
 
     }
@@ -80,8 +69,6 @@ class LinkingFieldsPopup extends React.Component {
         this.state.stepNumber = newProps.step;
 
         var defaultStep = this.context.data.currScenario.steps[0];
-        this.currStepEntity = this.context.data.currScenario.steps[this.context.data.currOpenStep].entity;
-
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
         this.state.fromJson = convertJsonTemplateToActualJson(JSON.parse(defaultStep.jsonToEdit), disabledFields);
@@ -249,13 +236,9 @@ class LinkingFieldsPopup extends React.Component {
                                 </Row>
                             </Tab>
                             <Tab eventKey="profile" dir="rtl" title="Profile">
-
-                                {this.entitiesLinkPage[this.currStepEntity]}
-
-
-
-
-
+                                <LinkEntity
+                                    closePopupCallback={() => this.close()}
+                                />
                             </Tab>
                             <Tab eventKey="visualization" title="visualization">
                                 ASDF
