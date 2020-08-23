@@ -101,17 +101,19 @@ export default function LinkTarget(props) {
     return (
 
         <div style={{ paddingTop: 60 }} rtl>
-            <span>* מספר הישויות שניתן לקשר תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר יותר ישויות, תוסיפו קישורים לגיסון.</span>
+
+            <div style={{ marginRight: 15, textAlign: 'right' }}>* מספר הישויות שניתן לקשר תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר יותר ישויות, תוסיפו קישורים לגיסון. </div>
+            <br />
             {[...Array(currStepTargetsCount).keys()].map(targetIndex =>
-                <div rtl>
-                    <center style={{ marginBottom: 20 }}>
-                        <h2>מטרה</h2>
+                <div style={{ marginBottom: 50 }}>
+                    <center style={{ marginBottom: 30 }}>
+                        <h2>מטרה ({targetIndex})</h2>
                     </center>
                     <div>
 
-                        <Row>
-                            <Col>
-                                <label >קישור מודיעיני ליעד: </label>
+                        <Row style={{ marginRight: 15 }}>
+                            <Col style={{ padding: 0 }} lg='2'>
+                                <div style={{ textAlign: 'right' }}>קישור מודיעיני ליעד: </div>
                             </Col>
                             <Col>
                                 <EntitySelectInput
@@ -122,12 +124,10 @@ export default function LinkTarget(props) {
                                 />
                             </Col>
                         </Row>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <Row>
-                            <Col>
-                                <label >קישור אגמי ליעד: </label>
+                        <br />
+                        <Row style={{ marginRight: 15 }}>
+                            <Col style={{ padding: 0 }} lg='2'>
+                                <div style={{ textAlign: 'right' }}>קישור אגמי ליעד: </div>
                             </Col>
                             <Col>
                                 <EntitySelectInput
