@@ -9,11 +9,24 @@ import { Col, Row } from 'react-bootstrap';
 import { HummusProvider } from './components/HummusContext';
 import NgUrlsMap from './globals/NgUrlsMap.json'
 import './App.css';
+import ChatBot from 'react-simple-chatbot';
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.theme = {
+      background: '#f5f8fb',
+      fontFamily: 'Helvetica Neue',
+      headerBgColor: '#EF6C00',
+      headerFontColor: '#fff',
+      headerFontSize: '15px',
+      botBubbleColor: '#EF6C00',
+      botFontColor: '#fff',
+      userBubbleColor: '#fff',
+      userFontColor: '#4a4a4a',
+    };
 
     this.state = {
       data: {
@@ -29,7 +42,7 @@ class App extends React.Component {
             "jsonToEdit": "{}",
             "entity": "Target",
             "system": "Tal",
-            
+
             "action": "DELETE",
             "version": "X",
             "links": [],
@@ -72,6 +85,8 @@ class App extends React.Component {
 
   }
 
+  
+
   render() {
     return (
       <div style={{ backgroundColor: '#fafafa' }} className='main-body'>
@@ -88,6 +103,23 @@ class App extends React.Component {
             </Row>
           </React.Fragment>
         </HummusProvider>
+
+        <ChatBot
+        theme={this.theme}
+        floating={true}
+          steps={[
+            {
+              id: '1',
+              message: 'Hello World!',
+              trigger: '2'
+            },
+            {
+              id: '2',
+              user: true,
+              trigger: '1'
+            },
+          ]}
+        />
       </div>
     );
   }
