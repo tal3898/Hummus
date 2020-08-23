@@ -119,6 +119,7 @@ export default function LinkTarget(props) {
                                 <EntitySelectInput
                                     style={{ float: 'left' }}
                                     input={objectivesJson}
+                                    header='בחר יעדים'
                                     onChange={(event) => onLinksChecked(event, targetIndex, 'intel')}
                                     entitiesSelectLimit={getValue(targetJson, intelLinkPath.format(targetIndex)).length}
                                 />
@@ -133,6 +134,7 @@ export default function LinkTarget(props) {
                                 <EntitySelectInput
                                     style={{ float: 'left' }}
                                     input={objectivesJson}
+                                    header='בחר יעדים'
                                     onChange={(event) => onLinksChecked(event, targetIndex, 'agam')}
                                     entitiesSelectLimit={getValue(targetJson, agamLinkPath.format(targetIndex)).length}
                                 />

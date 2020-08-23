@@ -162,7 +162,7 @@ export default function App(props) {
       <OutsideAlerter onClickOutside={() => setIsOpen(false)}>
         <div style={{ width: props.width || '13.7em' }}>
           <DropDownHeader onClick={toggling} className="container-drop-down" tabIndex="0">
-            בחר יעדים
+            {props.header}
         <i className="fas fa-angle-down" style={{ float: 'left', marginTop: 5, marginLeft: 5 }} ></i>
           </DropDownHeader>
           {isOpen && (
