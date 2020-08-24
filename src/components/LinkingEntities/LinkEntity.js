@@ -3,6 +3,7 @@ import HummusContext from '../HummusContext'
 import LinkTarget from './LinkTarget'
 import LinkObjective from './LinkObjective'
 import LinkMission from './LinkMission'
+import LinkPlan from './LinkPlan'
 
 export default function LinkEntity(props) {
 
@@ -16,11 +17,14 @@ export default function LinkEntity(props) {
         Objective:
             <LinkObjective
                 closePopupCallback={() => { props.closePopupCallback() }}
-            />, 
+            />,
         Mission:
             <LinkMission
                 closePopupCallback={() => { props.closePopupCallback() }}
-            />
+            />,
+        Plan: <LinkPlan
+            closePopupCallback={() => { props.closePopupCallback() }}
+        />
 
     }
 

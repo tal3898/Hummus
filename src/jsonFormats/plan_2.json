@@ -32,10 +32,12 @@
 					"Time|time|[1]": "{iso}"
 				}
 			],
-			"Homworks|[0..1]": [
+			"Homworks": [
 				{
-					"Pages||[1]": "{text}",
-					"Bool||[1]": "{text}"
+					"nameO": "{text}",
+					"NumberO": 3,
+					"nameM": "{text}",
+					"NumberM": 3
 				}
 			]
 		}

@@ -12,7 +12,6 @@ export default function LinkObjective(props) {
 
     const objectiveJson = JSON.parse(context.data.currScenario.steps[context.data.currOpenStep].jsonToEdit);
     const currStepObjectivesCount = objectiveJson.Objective.length;
-    const linkToPlanPath = '/Objective/{0}/Beatles/TeddyBear';
 
     const linksTemplate = [{
         fromPath: '/Plan/{0}/FirstThing/name',

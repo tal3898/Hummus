@@ -12,7 +12,6 @@ export default function LinkMission(props) {
 
     const missionJson = JSON.parse(context.data.currScenario.steps[context.data.currOpenStep].jsonToEdit);
     const currStepMissionsCount = missionJson.Mission.length;
-    const linkToPlanPath = '/Mission/{0}/Beatles/TeddyBear';
 
     const linksTemplate = [{
         fromPath: '/Plan/{0}/FirstThing/name',
