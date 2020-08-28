@@ -77,10 +77,10 @@ export default function LinkObjective(props) {
 
     return (
 
-        <div style={{ paddingTop: 60 }} rtl>
+        <div>
             {[...Array(currStepObjectivesCount).keys()].map(objectiveIndex =>
                 <div style={{ marginBottom: 50 }}>
-                    <center style={{ marginBottom: 30 }}>
+                    <center className="entity-headline">
                         <h2>יעד ({objectiveIndex})</h2>
                     </center>
                     <div>

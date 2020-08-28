@@ -4,6 +4,25 @@ import LinkTarget from './LinkTarget'
 import LinkObjective from './LinkObjective'
 import LinkMission from './LinkMission'
 import LinkPlan from './LinkPlan'
+import styled from 'styled-components';
+
+
+const Styles = styled.div`
+.main {
+    padding-top: 60px;    
+}
+
+.entity-headline {
+    margin-bottom: 30px;
+}
+
+.description {
+    margin-right: 15px;
+    margin-bottom: 15px;
+    text-align: right;
+}
+`;
+
 
 export default function LinkEntity(props) {
 
@@ -32,8 +51,10 @@ export default function LinkEntity(props) {
 
     return (
 
-        <div>
-            {entitiesLinkPage[currStepEntity]}
-        </div>
+        <Styles>
+            <div className="main">
+                {entitiesLinkPage[currStepEntity]}
+            </div>
+        </Styles>
     );
 }

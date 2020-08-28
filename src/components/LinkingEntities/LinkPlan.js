@@ -110,18 +110,21 @@ export default function LinkPlan(props) {
 
     return (
 
-        <div style={{ paddingTop: 60 }} rtl>
+        <div>
+            
+            <div className="description">* מספר הקישרוים שניתן לבצע, תואם למספר הקישורים שנמצאים בגיסון. אם אתם רוצים לבצע יותר קישורים, יש להוסיף את קישורים לגיסון של התוכנית. היקשור ליעד ומשימה מתקיים בהתאמה למספר הקישור.</div>
+
             {[...Array(currStepPlansCount).keys()].map(planIndex =>
                 <div style={{ marginBottom: 50 }}>
-                    <center style={{ marginBottom: 30 }}>
+                    <center className="entity-headline">
                         <h2>תוכנית ({planIndex})</h2>
                     </center>
                     <div>
 
                         {getValue(planJson, linkPlanPath.format(planIndex)).map((linkJson, linkIndex) =>
                             <Row style={{ marginRight: 15, marginBottom: 10 }}>
-                                <Col style={{ padding: 0 }} lg='2'>
-                                    <div style={{ textAlign: 'right' }}>קישור יעד למשימה: </div>
+                                <Col style={{ padding: 0 }} lg='3'>
+                                    <div style={{ textAlign: 'right' }}>({linkIndex}) קישור יעד למשימה: </div>
                                 </Col>
                                 <Col lg="4">
                                     <EntitySelectInput

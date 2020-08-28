@@ -101,13 +101,12 @@ export default function LinkTarget(props) {
 
     return (
 
-        <div style={{ paddingTop: 60 }} rtl>
+        <div>
 
-            <div style={{ marginRight: 15, textAlign: 'right' }}>* מספר הישויות שניתן לקשר תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר יותר ישויות, תוסיפו קישורים לגיסון. </div>
-            <br />
+            <div className="description">* מספר הישויות שניתן לקשר אליהם תואם למספר הקישורים שקיימים בגיסון. אם אתם רוצים לקשר את המטרה ליותר ישויות, תוסיפו קישורים לגיסון. </div>
             {[...Array(currStepTargetsCount).keys()].map(targetIndex =>
                 <div style={{ marginBottom: 50 }}>
-                    <center style={{ marginBottom: 30 }}>
+                    <center className="entity-headline">
                         <h2>מטרה ({targetIndex})</h2>
                     </center>
                     <div>

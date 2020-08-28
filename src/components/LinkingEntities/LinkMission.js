@@ -77,10 +77,10 @@ export default function LinkMission(props) {
 
     return (
 
-        <div style={{ paddingTop: 60 }} rtl>
+        <div>
             {[...Array(currStepMissionsCount).keys()].map(missionIndex =>
                 <div style={{ marginBottom: 50 }}>
-                    <center style={{ marginBottom: 30 }}>
+                    <center className="entity-headline">
                         <h2>משימה ({missionIndex})</h2>
                     </center>
                     <div>

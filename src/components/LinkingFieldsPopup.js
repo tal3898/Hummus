@@ -156,6 +156,11 @@ class LinkingFieldsPopup extends React.Component {
                             onSelect={(k) => { this.state.tab = k; this.setState(this.state) }}
 
                         >
+                            <Tab eventKey="profile" dir="rtl" title="Profile">
+                                <LinkEntity
+                                    closePopupCallback={() => this.close()}
+                                />
+                            </Tab>
                             <Tab eventKey="home" title="Home">
                                 <div style={{ marginBottom: 30 }}>
                                     <i onClick={() => this.addLink()} className="fas fa-check link-check fa-2x"></i>
@@ -234,11 +239,6 @@ class LinkingFieldsPopup extends React.Component {
                                         </div>
                                     </Col>
                                 </Row>
-                            </Tab>
-                            <Tab eventKey="profile" dir="rtl" title="Profile">
-                                <LinkEntity
-                                    closePopupCallback={() => this.close()}
-                                />
                             </Tab>
                             <Tab eventKey="visualization" title="visualization">
                                 ASDF
