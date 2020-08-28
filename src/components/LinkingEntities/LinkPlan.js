@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import EntitySelectInput from '../EntitySelectInput/EntitySelectInput'
 import HummusContext from '../HummusContext'
-import { getValue } from '../Utility';
+import { getValue, toastProperties } from '../Utility';
 import { Col, Row } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 
 export default function LinkPlan(props) {
@@ -98,14 +99,33 @@ export default function LinkPlan(props) {
         }
     }
 
-    const addLink = () => {
-        const currStepNumber = context.data.currOpenStep;
-        var links = context.data.currScenario.steps[currStepNumber].links;
-        var newLinksList = links.concat(missionLinksToAdd)
-            .concat(objectiveLinksToAdd);
+    const validateLinks = () => {
+        if (objectiveLinksToAdd.length === 0 && missionLinksToAdd.length === 0) {
+            return {
+                valid: false,
+                message: 'אחותי, צריך לבחור ישויות. אי אפשר סתם ללחוץ על הוי'
+            }
+        } else {
+            return {
+                valid: true
+            }
+        }
+    }
 
-        context.data.currScenario.steps[currStepNumber].links = newLinksList;
-        props.closePopupCallback();
+    const addLink = () => {
+        var validateResult = validateLinks();
+        if (!validateResult.valid) {
+            toast.error(validateResult.message, toastProperties);
+        } else {
+            toast.success('Link was created successfully', toastProperties);
+            const currStepNumber = context.data.currOpenStep;
+            var links = context.data.currScenario.steps[currStepNumber].links;
+            var newLinksList = links.concat(missionLinksToAdd)
+                .concat(objectiveLinksToAdd);
+    
+            context.data.currScenario.steps[currStepNumber].links = newLinksList;
+            props.closePopupCallback();
+        }
     };
 
     return (

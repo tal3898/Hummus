@@ -5,6 +5,7 @@ import LinkObjective from './LinkObjective'
 import LinkMission from './LinkMission'
 import LinkPlan from './LinkPlan'
 import styled from 'styled-components';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Styles = styled.div`
@@ -41,9 +42,10 @@ export default function LinkEntity(props) {
             <LinkMission
                 closePopupCallback={() => { props.closePopupCallback() }}
             />,
-        Plan: <LinkPlan
-            closePopupCallback={() => { props.closePopupCallback() }}
-        />
+        Plan:
+            <LinkPlan
+                closePopupCallback={() => { props.closePopupCallback() }}
+            />
 
     }
 
@@ -52,6 +54,7 @@ export default function LinkEntity(props) {
     return (
 
         <Styles>
+            <ToastContainer />
             <div className="main">
                 {entitiesLinkPage[currStepEntity]}
             </div>
