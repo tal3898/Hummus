@@ -35,9 +35,9 @@
 			"Homworks": [
 				{
 					"nameO": "{text}",
-					"NumberO": 3,
+					"numberO": 3,
 					"nameM": "{text}",
-					"NumberM": 3
+					"numberM": 3
 				}
 			]
 		}

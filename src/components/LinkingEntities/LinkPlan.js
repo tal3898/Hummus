@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
 import EntitySelectInput from '../EntitySelectInput/EntitySelectInput'
 import HummusContext, { HummusConsumer } from '../HummusContext'
-import { getValue } from '../Utility';
+import { getValue, setPathValue, isObjectEmpty } from '../Utility';
 import { Col, Row } from 'react-bootstrap';
 
 
 export default function LinkPlan(props) {
-    const [linksToAdd, setLinksToAdd] = useState([]);
+    const [missionLinksToAdd, setMissionLinksToAdd] = useState([]);
+    const [objectiveLinksToAdd, setObjectiveLinksToAdd] = useState([]);
 
     const context = useContext(HummusContext)
 
@@ -14,30 +15,39 @@ export default function LinkPlan(props) {
     const currStepPlansCount = planJson.Plan.length;
     const linkPlanPath = '/Plan/{0}/Homworks';
 
-// {
-//     planIndex: -1,
-//     planLinkIndex: -1,
-//     missionIndex: -1,
-//     objectiveIndex: -1  
-// }
+    // {
+    //     planIndex: -1,
+    //     planLinkIndex: -1,
+    //     missionIndex: -1,
+    //     missionStep: -1,
+    //     objectiveIndex: -1,
+    //     objectiveStep  
+    // }
 
-    const linksTemplate = [{
-        fromPath: '/Mission/{0}/FirstThing/name',
-        toPath: '/Plan/{0}/Homworks/{0}/nameM',
-        fromStep: -1,
-    }, {
-        fromPath: '/Mission/{0}/FirstThing/number',
-        toPath: '/Plan/{0}/Homworks/{0}/numberM',
-        fromStep: -1,
-    }, {
-        fromPath: '/Objective/{0}/FirstThing/name',
-        toPath: '/Plan/{0}/Homworks/{0}/nameM',
-        fromStep: -1,
-    }, {
-        fromPath: '/Objective/{0}/FirstThing/number',
-        toPath: '/Plan/{0}/Homworks/{0}/numberM',
-        fromStep: -1,
-    },];
+    const linksTypes = {
+        mission: {
+            linksTemplate: [{
+                fromPath: '/Mission/{0}/FirstThing/name',
+                toPath: '/Plan/{0}/Homworks/{0}/nameM',
+                fromStep: -1,
+            }, {
+                fromPath: '/Mission/{0}/FirstThing/number',
+                toPath: '/Plan/{0}/Homworks/{0}/numberM',
+                fromStep: -1,
+            }]
+        },
+        objective: {
+            linksTemplate: [{
+                fromPath: '/Objective/{0}/FirstThing/name',
+                toPath: '/Plan/{0}/Homworks/{0}/nameO',
+                fromStep: -1,
+            }, {
+                fromPath: '/Objective/{0}/FirstThing/number',
+                toPath: '/Plan/{0}/Homworks/{0}/numberO',
+                fromStep: -1,
+            }]
+        }
+    };
 
 
     // Get the objectives from all steps before curr step, for the EntitySelectInput
@@ -45,8 +55,8 @@ export default function LinkPlan(props) {
     for (var stepIndex = 0; stepIndex < context.data.currOpenStep; stepIndex++) {
         var currStep = context.data.currScenario.steps[stepIndex];
         if (currStep.entity === 'Objective') {
-            var numberOfPlans = JSON.parse(currStep.jsonToEdit).Plan.length;
-            objectivesJson[stepIndex + ' - ' + currStep.name] = new Array(numberOfPlans).fill("יעד")
+            var numberOfMissions = JSON.parse(currStep.jsonToEdit).Objective.length;
+            objectivesJson[stepIndex + ' - ' + currStep.name] = new Array(numberOfMissions).fill("יעד")
         }
     }
 
@@ -55,49 +65,67 @@ export default function LinkPlan(props) {
     for (var stepIndex = 0; stepIndex < context.data.currOpenStep; stepIndex++) {
         var currStep = context.data.currScenario.steps[stepIndex];
         if (currStep.entity === 'Mission') {
-            var numberOfPlans = JSON.parse(currStep.jsonToEdit).Plan.length;
-            missionsJson[stepIndex + ' - ' + currStep.name] = new Array(numberOfPlans).fill("משימה")
+            var numberOfMissions = JSON.parse(currStep.jsonToEdit).Mission.length;
+            missionsJson[stepIndex + ' - ' + currStep.name] = new Array(numberOfMissions).fill("משימה")
         }
     }
 
-    const createLinks = (stepOrigin, planIndex, missionIndex, linksTemplate) => {
+    const createLinks = (planIndex, linkIndex, entityStep, entityIndex, linksTemplate) => {
         var links = [];
-        for (var index in linksTemplate) {
-            var linkToCreate = JSON.parse(JSON.stringify(linksTemplate[index]));
-            linkToCreate.fromPath = linkToCreate.fromPath.format(planIndex);
-            linkToCreate.toPath = linkToCreate.toPath.format(missionIndex);
-            linkToCreate.fromStep = stepOrigin;
+        for (var linkTemplateIndex in linksTemplate) {
+            var linkToCreate = JSON.parse(JSON.stringify(linksTemplate[linkTemplateIndex]));
+
+            linkToCreate.fromPath = linkToCreate.fromPath.format(entityIndex);
+            linkToCreate.toPath = linkToCreate.toPath.format(planIndex, linkIndex);
+            linkToCreate.fromStep = entityStep;
             links.push(linkToCreate);
         }
 
         return links;
     }
 
-    const onLinksChecked = (event, missionIndex) => {
-        var checkedResult = event.value;
-        var allLinksToAdd = [];
+    const onObjectiveChecked = (event, linkIndex, planIndex) => {
+        const { step, childIndex, checked } = event.selected;
+        const stepNumber = parseInt(step);
+        
+        if (checked) {
+            var linksToAdd = createLinks(planIndex, linkIndex, stepNumber, childIndex, linksTypes.objective.linksTemplate);
+            setObjectiveLinksToAdd(linksToAdd);
+        } else {
+            setObjectiveLinksToAdd([]);
+        }
+    };
 
-        for (var key in checkedResult) {
-            for (var planIndex in checkedResult[key]) {
-                if (checkedResult[key][planIndex]) {
-                    var currLinksToAdd = createLinks(parseInt(key),
-                        planIndex,
-                        missionIndex,
-                        linksTemplate);
-                    allLinksToAdd = allLinksToAdd.concat(currLinksToAdd);
-                }
+    const onMissionChecked = (event, linkIndex, planIndex) => {
+        const { step, childIndex, checked } = event.selected;
+        const stepNumber = parseInt(step);
+        
+        if (checked) {
+            var linksToAdd = createLinks(planIndex, linkIndex, stepNumber, childIndex, linksTypes.mission.linksTemplate);
+            setMissionLinksToAdd(linksToAdd);
+        } else {
+            setMissionLinksToAdd([]);
+        }
+    }
+
+    const isAllValuesUndefined = (object) => {
+        var isAllUndefined = true;
+        for (var key in object) {
+            if (object[key] != undefined) {
+                isAllUndefined = false;
             }
         }
 
-        setLinksToAdd(allLinksToAdd);
+        return isAllUndefined && Object.keys(object).length != 0;
     };
 
     const addLink = () => {
         const currStepNumber = context.data.currOpenStep;
         var links = context.data.currScenario.steps[currStepNumber].links;
-        links = links.concat(linksToAdd);
+        var newLinksList = links.concat(missionLinksToAdd)
+            .concat(objectiveLinksToAdd);
 
-        context.data.currScenario.steps[currStepNumber].links = links;
+        context.data.currScenario.steps[currStepNumber].links = newLinksList;
         props.closePopupCallback();
     };
 
@@ -111,7 +139,7 @@ export default function LinkPlan(props) {
                     </center>
                     <div>
 
-                        {getValue(planJson, linkPlanPath.format(planIndex)).map( (linkJson, linkIndex) => 
+                        {getValue(planJson, linkPlanPath.format(planIndex)).map((linkJson, linkIndex) =>
                             <Row style={{ marginRight: 15, marginBottom: 10 }}>
                                 <Col style={{ padding: 0 }} lg='2'>
                                     <div style={{ textAlign: 'right' }}>קישור יעד למשימה: </div>
@@ -121,7 +149,7 @@ export default function LinkPlan(props) {
                                         style={{ float: 'left' }}
                                         input={objectivesJson}
                                         header='בחר יעד'
-                                        onChange={(event) => onLinksChecked(event, linkIndex, planIndex)}
+                                        onChange={(event) => onObjectiveChecked(event, linkIndex, planIndex)}
                                         entitiesSelectLimit={1}
                                     />
                                 </Col>
@@ -130,7 +158,7 @@ export default function LinkPlan(props) {
                                         style={{ float: 'left' }}
                                         input={missionsJson}
                                         header='בחר משימה'
-                                        onChange={(event) => onLinksChecked(event, planIndex)}
+                                        onChange={(event) => onMissionChecked(event, linkIndex, planIndex)}
                                         entitiesSelectLimit={1}
                                     />
                                 </Col>

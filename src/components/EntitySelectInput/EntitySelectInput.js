@@ -151,7 +151,12 @@ export default function App(props) {
 
     console.log(JSON.stringify(checkedEntities));
     var customEvent = {
-      value: checkedEntities
+      value: checkedEntities,
+      selected: {
+        step: step,
+        childIndex: index,
+        checked: event.target.checked
+      }
     };
     props.onChange(customEvent);
     console.log(JSON.stringify(customEvent));

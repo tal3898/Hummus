@@ -113,6 +113,29 @@ export const getValue = (obj, path) => {
     return obj[path[i]];
 };
 
+/**
+ * The function gets an object, path, and value, and sets the value in the path.
+ * AND, if the path is not exists, defines the whole path in the object.
+ */
+export const setPathValue = (obj, path, value) => {
+    var i;
+    path = path.split('/');
+    path.splice(0, 1);
+    for (i = 0; i < path.length - 1; i++) {
+        if (obj[path[i]] == undefined) {
+            obj[path[i]] = {};
+        }
+        obj = obj[path[i]];
+    }
+        
+
+    obj[path[i]] = value;
+}
+
+export const isObjectEmpty = (object) => {
+    return Object.keys(object) === 0;
+}
+
 export const toastProperties = {
     autoClose: 5000,
     position: toast.POSITION.BOTTOM_RIGHT,

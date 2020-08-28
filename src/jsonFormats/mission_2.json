@@ -3,8 +3,8 @@
 		{
 			"FirstThing": {
 				"isBig||[0]": true,
-				"name||[0]|שם ישות": "ddd",
-				"number||[1]|קוד ישות": 0,
+				"name": "ddd",
+				"number": 0,
 				"hello": "here",
 				"this": "is",
 				"tal": 234
