@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ThemeProvider } from 'styled-components';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -104,25 +105,42 @@ class App extends React.Component {
           </React.Fragment>
         </HummusProvider>
 
-        <ChatBot
-          theme={this.theme}
-          floating={true}
-          floatingIcon={<i class="fas fa-headset" style={{fontSize:30, color: 'white'}}></i>}
-          userAvatar={'./heavy.jpg'}
+        <ThemeProvider theme={{
+          background: '#f5f8fb',
+          fontFamily: 'Verdana',
+          headerBgColor: '#0056e6',
+          headerFontColor: '#fff',
+          headerFontSize: '20px',
+          botBubbleColor: '#0056e6',
+          botFontColor: '#fff',
+          userBubbleColor: '#fff',
+          userFontColor: '#4a4a4a',
+        }}>
+          <ChatBot
+            theme={this.theme}
+            floating={true}
+            floatingIcon={<i class="fas fa-headset" style={{ fontSize: 30, color: 'white' }}></i>}
+            userAvatar={'./heavy.jpg'}
 
-          steps={[
-            {
-              id: '1',
-              message: 'היי, בורכים הבאים לחומוס. אם נתקלתם בבעיה וצריכים תמיכה, אפשר לשלוח לטלטול במייל, או לכתוב פה את הבעיה שלכם.',
-              trigger: '2'
-            },
-            {
-              id: '2',
-              user: true,
-              trigger: '1'
-            }
-          ]}
-        />
+            steps={[
+              {
+                id: '1',
+                message: 'היי, בורכים הבאים לחומוס. אם נתקלתם בבעיה, מצאתם באג או סתם צריכים תמיכה רגשית, אפשר לכתוב פה את הבעיה שלכם או לשלוח לטלטול במייל (טל?? באוטלוק)',
+                trigger: '2'
+              },
+              {
+                id: '2',
+                user: true,
+                trigger: '3'
+              },
+              {
+                id: '3',
+                message: 'איזה חמור, צחקתי איתך זה לא עובד. תנסה אותי במייל',
+                trigger: '2'
+              }
+            ]}
+          />
+        </ThemeProvider>
       </div>
     );
   }
