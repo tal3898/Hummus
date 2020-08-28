@@ -55,9 +55,11 @@ class InfoPopup extends React.Component {
                             <ul>
                                 <li>כפתור מה חדש (לול 🙃)</li>
                                 <li>תיקוני באגים</li>
+                                <li>דרך נוחה יותר לכתוב היררכית</li>
                                 <li>הפכתי את השדה מציאות, לסטטי עבור כל הצעדים</li>
                                 <li>אפשרות לראות הודעת שגיאה של בקשה</li>
                                 <li>שיפורי UI</li>
+                                <li>הוספת chatbot</li>
                                 <li>עוד הסברים על החומוס</li>
                             </ul>
                         </div>
