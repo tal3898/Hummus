@@ -85,7 +85,7 @@ class App extends React.Component {
 
   }
 
-  
+
 
   render() {
     return (
@@ -105,19 +105,22 @@ class App extends React.Component {
         </HummusProvider>
 
         <ChatBot
-        theme={this.theme}
-        floating={true}
+          theme={this.theme}
+          floating={true}
+          floatingIcon={<i class="fas fa-headset" style={{fontSize:30, color: 'white'}}></i>}
+          userAvatar={'./heavy.jpg'}
+
           steps={[
             {
               id: '1',
-              message: 'Hello World!',
+              message: 'היי, בורכים הבאים לחומוס. אם נתקלתם בבעיה וצריכים תמיכה, אפשר לשלוח לטלטול במייל, או לכתוב פה את הבעיה שלכם.',
               trigger: '2'
             },
             {
               id: '2',
               user: true,
               trigger: '1'
-            },
+            }
           ]}
         />
       </div>
