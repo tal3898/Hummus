@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import EntitySelectInput from '../EntitySelectInput/EntitySelectInput'
-import HummusContext, { HummusConsumer } from '../HummusContext'
-import { getValue, setPathValue, isObjectEmpty } from '../Utility';
+import HummusContext from '../HummusContext'
+import { getValue } from '../Utility';
 import { Col, Row } from 'react-bootstrap';
 
 
@@ -14,15 +14,6 @@ export default function LinkPlan(props) {
     const planJson = JSON.parse(context.data.currScenario.steps[context.data.currOpenStep].jsonToEdit);
     const currStepPlansCount = planJson.Plan.length;
     const linkPlanPath = '/Plan/{0}/Homworks';
-
-    // {
-    //     planIndex: -1,
-    //     planLinkIndex: -1,
-    //     missionIndex: -1,
-    //     missionStep: -1,
-    //     objectiveIndex: -1,
-    //     objectiveStep  
-    // }
 
     const linksTypes = {
         mission: {
@@ -48,7 +39,6 @@ export default function LinkPlan(props) {
             }]
         }
     };
-
 
     // Get the objectives from all steps before curr step, for the EntitySelectInput
     var objectivesJson = {};
@@ -107,17 +97,6 @@ export default function LinkPlan(props) {
             setMissionLinksToAdd([]);
         }
     }
-
-    const isAllValuesUndefined = (object) => {
-        var isAllUndefined = true;
-        for (var key in object) {
-            if (object[key] != undefined) {
-                isAllUndefined = false;
-            }
-        }
-
-        return isAllUndefined && Object.keys(object).length != 0;
-    };
 
     const addLink = () => {
         const currStepNumber = context.data.currOpenStep;
