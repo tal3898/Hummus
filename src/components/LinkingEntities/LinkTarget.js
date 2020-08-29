@@ -170,6 +170,7 @@ export default function LinkTarget(props) {
             )}
 
             <i onClick={() => addLink()} className="fas fa-check link-check fa-2x"></i>
+            <p style={{position:'absolute', bottom: -15, left: 0, fontSize: 15}}>נוי מלכת הקישורים</p>
 
         </div>
     );

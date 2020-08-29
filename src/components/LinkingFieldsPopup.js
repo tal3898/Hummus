@@ -22,8 +22,8 @@ const Styles = styled.div`
 
 .link-check {
     position: absolute; 
-    bottom: 10px; 
-    left: 10px;
+    bottom: 20px; 
+    left: 20px;
     color: #81c784;
     cursor: pointer;
     z-index:10;
