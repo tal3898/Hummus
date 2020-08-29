@@ -1,7 +1,7 @@
 {
 	"Target": [
 		{
-			"FirstThing": {
+			"IDs|[1..1]": {
 				"isBig||[0]": true,
 				"name||[0]|שם ישות": "ddd",
 				"number||[1]|קוד ישות": 0,
