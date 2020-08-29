@@ -51,7 +51,7 @@ class LinkingFieldsPopup extends React.Component {
             isOpen: false,
             json: props.json,
             fromJson: {},
-            tab: 'profile'
+            tab: 'ישויות'
         }
         this.selectedScenarioNumber = 0;
         this.onCloseCallback = props.onClose;
@@ -147,7 +147,7 @@ class LinkingFieldsPopup extends React.Component {
                     closeOnDocumentClick
                 >
 
-                    <div style={{ height: 500, overflowY: 'scroll' }}>
+                    <div style={{ height: 700, overflowY: 'scroll' }}>
 
                         <Tabs
                             id="controlled-tab-example"
@@ -156,92 +156,96 @@ class LinkingFieldsPopup extends React.Component {
                             onSelect={(k) => { this.state.tab = k; this.setState(this.state) }}
 
                         >
-                            <Tab eventKey="profile" dir="rtl" title="Profile">
+                            <Tab eventKey="ישויות" dir="rtl" title="ישויות">
                                 <LinkEntity
                                     closePopupCallback={() => this.close()}
                                 />
                             </Tab>
-                            <Tab eventKey="home" title="Home">
-                                <div style={{ marginBottom: 30 }}>
-                                    <i onClick={() => this.addLink()} className="fas fa-check link-check fa-2x"></i>
-                                    <center>
-                                        <Form.Label style={{ fontSize: 30, marginBottom: 1 }}>קישור שדות</Form.Label>
-                                    </center>
-                                </div>
-
-                                <div style={{ marginRight: 25 }}>
-                                    <div style={{ float: 'right' }}>
-                                        כאן תוכלו לקשר שדות בין צעדים בתוך התרחיש <br />
+                            <Tab eventKey="שדות" title="שדות">
+                                <div style={{ marginTop: 60, width: '100%', overflowX: 'hidden' }}>
+                                    <div style={{ marginBottom: 30 }}>
+                                        <i onClick={() => this.addLink()} className="fas fa-check link-check fa-2x"></i>
+                                        <center>
+                                            <Form.Label style={{ fontSize: 30, marginBottom: 1 }}>קישור שדות</Form.Label>
+                                        </center>
                                     </div>
-                                    <br />
-                                    <div style={{ float: 'right' }}>
-                                        תבחרו את הצעד והשדה ממנו אתה רוצה להעתיק את הערך, ותבחרו את השדה אליו אתם רוצים להעתיק <br />
+
+                                    <div style={{ marginRight: 25 }}>
+                                        <div style={{ float: 'right' }}>
+                                            כאן תוכלו לקשר שדות בין צעדים בתוך התרחיש <br />
+                                        </div>
+                                        <br />
+                                        <div style={{ float: 'right' }}>
+                                            תבחרו את הצעד והשדה ממנו אתה רוצה להעתיק את הערך, ותבחרו את השדה אליו אתם רוצים להעתיק <br />
+                                        </div>
+                                        <br />
+                                        <br />
                                     </div>
-                                    <br />
-                                    <br />
+
+                                    <Row>
+                                        <Col lg="6" style={{ marginRight: 0, paddingRight: 0 }}>
+
+                                            <div style={{ marginRight: 30, marginBottom: 10 }}>
+                                                <Form.Label style={{ float: 'right', marginBottom: 1, marginLeft: 20, fontSize: 20 }}>בחר צעד מקור</Form.Label>
+                                                <Form.Control
+                                                    style={{ width: 150, float: 'right', marginTop: 2 }}
+                                                    size="sm"
+                                                    onChange={(event) => this.loadSourceJson(event)}
+                                                    as="select">
+                                                    {this.getStepsOptions()}
+                                                </Form.Control>
+                                                <br />
+                                            </div>
+
+                                            <div style={{ marginTop: 25 }}>
+                                                <div style={{ float: 'right', marginRight: 30 }} dir="rtl">בחר שדה מקור</div>
+                                                <br /><br />
+                                                <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
+                                                    <JsonViewer
+                                                        json={this.state.fromJson}
+                                                        ref={this.jsonViewerFromRef}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </Col>
+
+
+                                        <Col lg="6" style={{ marginLeft: 0, paddingLeft: 0, paddingRight: 0 }}>
+                                            <div style={{ marginRight: 30, marginBottom: 10 }}>
+                                                <Form.Label style={{ float: 'right', marginBottom: 1, marginLeft: 20, fontSize: 20 }}>צעד יעד</Form.Label>
+                                                <Form.Control
+                                                    style={{ width: 150, float: 'right', marginTop: 2 }}
+                                                    size="sm"
+                                                    disabled
+                                                    onChange={(event) => this.loadSourceJson(event)}
+                                                    as="select">
+                                                    <option>{this.state.stepNumber + ' - ' +
+                                                        this.context.data.currScenario.steps[this.state.stepNumber].name}</option>
+                                                </Form.Control>
+                                                <br />
+                                            </div>
+
+
+                                            <div style={{ marginTop: 25 }}>
+                                                <div style={{ float: 'right', marginRight: 30 }} dir="rtl">בחר שדה יעד</div>
+                                                <br /><br />
+                                                {/** TODO put the div with the style, and the css of the class , inside the JsonViewer */}
+                                                <div style={{ marginRight: 0, marginLeft: 0, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
+
+                                                    <JsonViewer
+                                                        json={this.state.json}
+                                                        ref={this.jsonViewerToRef}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </Col>
+                                    </Row>
                                 </div>
-
-                                <Row>
-                                    <Col lg="6" style={{ marginRight: 0, paddingRight: 0 }}>
-
-                                        <div style={{ marginRight: 30, marginBottom: 10 }}>
-                                            <Form.Label style={{ float: 'right', marginBottom: 1, marginLeft: 20, fontSize: 20 }}>בחר צעד מקור</Form.Label>
-                                            <Form.Control
-                                                style={{ width: 150, float: 'right', marginTop: 2 }}
-                                                size="sm"
-                                                onChange={(event) => this.loadSourceJson(event)}
-                                                as="select">
-                                                {this.getStepsOptions()}
-                                            </Form.Control>
-                                            <br />
-                                        </div>
-
-                                        <div style={{ marginTop: 25 }}>
-                                            <div style={{ float: 'right', marginRight: 30 }} dir="rtl">בחר שדה מקור</div>
-                                            <br /><br />
-                                            <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
-                                                <JsonViewer
-                                                    json={this.state.fromJson}
-                                                    ref={this.jsonViewerFromRef}
-                                                />
-                                            </div>
-                                        </div>
-                                    </Col>
-
-
-                                    <Col lg="6" style={{ marginLeft: 0, paddingLeft: 0, paddingRight: 0 }}>
-                                        <div style={{ marginRight: 30, marginBottom: 10 }}>
-                                            <Form.Label style={{ float: 'right', marginBottom: 1, marginLeft: 20, fontSize: 20 }}>צעד יעד</Form.Label>
-                                            <Form.Control
-                                                style={{ width: 150, float: 'right', marginTop: 2 }}
-                                                size="sm"
-                                                disabled
-                                                onChange={(event) => this.loadSourceJson(event)}
-                                                as="select">
-                                                <option>{this.state.stepNumber + ' - ' +
-                                                    this.context.data.currScenario.steps[this.state.stepNumber].name}</option>
-                                            </Form.Control>
-                                            <br />
-                                        </div>
-
-
-                                        <div style={{ marginTop: 25 }}>
-                                            <div style={{ float: 'right', marginRight: 30 }} dir="rtl">בחר שדה יעד</div>
-                                            <br /><br />
-                                            {/** TODO put the div with the style, and the css of the class , inside the JsonViewer */}
-                                            <div style={{ marginRight: 20, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
-
-                                                <JsonViewer
-                                                    json={this.state.json}
-                                                    ref={this.jsonViewerToRef}
-                                                />
-                                            </div>
-                                        </div>
-                                    </Col>
-                                </Row>
                             </Tab>
-                            <Tab eventKey="visualization" title="visualization">
-                                ASDF
+                            <Tab eventKey="ויזואליזציה" title="ויזואליזציה">
+                                <div style={{marginTop: 60, marginLeft: 20, fontSize: 20 }}>
+                                    Comming soon...
+                                </div>
                             </Tab>
                         </Tabs>
 
