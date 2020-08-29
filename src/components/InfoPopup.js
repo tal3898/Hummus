@@ -131,7 +131,7 @@ class InfoPopup extends React.Component {
 
                             <p>איזי פיזי.</p>
 
-                            <p>כל מה שצריך לעושת זה ללחוץ win + r ולהריץ את הסקריפט hummus, ולהיכנס לחומוס. (הכנסתי את הסקרפיט לkish)</p>
+                            <p>כל מה שצריך לעושת זה ללחוץ win + r ולהריץ את הסקריפט humm, ולהיכנס לחומוס. (הכנסתי את הסקרפיט לkish)</p>
 
                             <img src="hummus-winr-description.png" />
                             <br />
