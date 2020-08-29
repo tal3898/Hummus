@@ -537,13 +537,13 @@ class Scenario extends React.Component {
 
         var step = {
             "name": "צעד",
-            "jsonMap": FullEntitiesMap,
+            "jsonMap": JSON.parse(JSON.stringify(FullEntitiesMap)),
             "entity": "Target",
             "system": "Tal",
             "reality": "0",
             "action": "POST",
             "version": "2",
-            "jsonToEdit": FullEntitiesMap["Target"]["2"].data,
+            "jsonToEdit": JSON.parse(JSON.stringify(FullEntitiesMap["Target"]["2"].data)),
             "links": [],
             "disabledFields": []
         }
