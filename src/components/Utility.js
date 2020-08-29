@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 /**
-   * The method gets a json that the keys format are with |..|..|, and values or dynamic, like {text}, or {iso}, or enum.
+   * The method gets a json that the keys format are with |..|..|, and values or dynamic, like {random}, or {iso}, or enum.
    * so the method gets the json, and convert it to a normal json, when keys are only the name of the keys,
    * and values or normal values.
    * @param {*} json 
    * @param activateFunctionFields - boolean, indicates whether to replace function values with values. if true, 
-   * it replace {text} with random string, else, it will leave it {text} (this optinal is for bomba)
+   * it replace {random} with random string, else, it will leave it {random} (this optinal is for bomba)
    */
 
 
@@ -21,13 +21,13 @@ const getFieldFinalValue = (key, fieldValue, activateFunctionFields) => {
         finalValue = parseInt(fieldValue); // If enum, and looks like this : "50 - ABC", it will parse only the 50 to int
     } else if (fieldType == "float") {
         finalValue = parseFloat(fieldValue);
-    } else if (typeof fieldValue == typeof "-" && fieldValue.includes('{text}') && activateFunctionFields) {
+    } else if (typeof fieldValue == typeof "-" && (fieldValue.includes('{random}') || fieldValue.includes('{text}')) && activateFunctionFields) {
         var randomString = "";
         for (let step = 0; step < 5; step++) {
             var randomLetter = "abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random() * 1000) % 26];
             randomString += randomLetter
         }
-        finalValue = fieldValue.replace('{text}', randomString);
+        finalValue = fieldValue.replace('{random}', randomString).replace('{text}', randomString);
 
     }
 

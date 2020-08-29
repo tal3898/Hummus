@@ -237,7 +237,7 @@ class EntityEditor extends React.Component {
     }
 
     insertGenerateWordToField(keyPath) {
-        this.changeField(keyPath, '{text}');
+        this.changeField(keyPath, '{random}');
     }
 
     //#region data changed functions

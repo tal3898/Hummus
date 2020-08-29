@@ -3,7 +3,7 @@
 		{
 			"FirstThing": {
 				"isBig||[0]": true,
-				"name": "{text}",
+				"name": "{random}",
 				"number": 0,
 				"hello": "here",
 				"this": "is",
@@ -12,7 +12,7 @@
 			"LA|[0]": {
 				"Type|enum|[0]|[\"20 - paris\", \"30 - italy\"]": "20",
 				"Creatoring|creator|[1]": 2200,
-				"Info||[0]": "{text}",
+				"Info||[0]": "{random}",
 				"USA": "trump"
 			},
 			"Beatles": {
@@ -34,8 +34,8 @@
 			],
 			"Homworks|[0..1]": [
 				{
-					"Pages||[1]": "{text}",
-					"Bool||[1]": "{text}"
+					"Pages||[1]": "{random}",
+					"Bool||[1]": "{random}"
 				}
 			]
 		}

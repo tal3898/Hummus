@@ -12,7 +12,7 @@
 			"LA|[0]": {
 				"Type|enum|[0]|[\"20 - paris\", \"30 - italy\"]": "20",
 				"Creatoring|creator|[1]": 2200,
-				"Info||[0]": "{text}",
+				"Info||[0]": "{random}",
 				"USA": "trump"
 			},
 			"Beatles": {
@@ -36,9 +36,9 @@
 			],
 			"Homworks": [
 				{
-					"Pages": "{text}",
+					"Pages": "{random}",
 					"better": -1,
-					"Bool||[1]": "{text}"
+					"Bool||[1]": "{random}"
 				}
 			]
 		}
