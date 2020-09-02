@@ -840,6 +840,8 @@ class EntityEditor extends React.Component {
 
     searchField(event) {
         console.log(event.target.value);
+        window.scrollTo(0,document.body.scrollHeight);
+
         this.state.filterData.userFilter = event.target.value;
 
         if (this.state.filterData.userFilter != '') {
