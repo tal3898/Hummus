@@ -22,7 +22,7 @@
 					"BreakDuration||[1]|זמן הפסקה בין השיעורים": "15"
 				}				
 			},
-			"Planning|[0..1]": [
+			"Planning": [
 				{
 					"Goal||[1]": "learn piano",
 					"Time|time|[1]": "{iso}"
@@ -32,7 +32,7 @@
 					"Time|time|[1]": "{iso}"
 				}
 			],
-			"Homworks|[0..1]": [
+			"Homworks": [
 				{
 					"Pages||[1]": "{random}",
 					"Bool||[1]": "{random}"

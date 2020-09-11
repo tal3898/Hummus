@@ -1,5 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Do in next upgrade
+1) remove all dots '.' in json of all entities. because of resolved issue #34, and cant have dots in json.
+
+
 ## Adding Sub Entity To Hummus
 Sometime the version of the data, is changed. sub entities are add, Fields are changed...
 And as a result, you will need to update the Hummus.
