@@ -87,14 +87,14 @@ export default function LinksVisualization(props) {
             <hr />
             <Row>
                 <Col>
-                    <p>Parents Links:</p>
+                    <h4>Parents Links:</h4>
                     {Object.keys(parentsLinks).map(step => 
                         <div>
-                            <p>{step}</p>
+                            <h5 style={{paddingLeft: 20}}>{step}</h5>
                             {parentsLinks[step].map(link => 
-                                <div>
-                                    <p>from: {link.fromPath}</p>
-                                    <p>to: {link.toPath}</p>
+                                <div style={{paddingLeft: 40, marginBottom: 10}}>
+                                    <p style={{marginBottom: 0, fontSize: 12}}>from: {link.fromPath}</p>
+                                    <p style={{marginBottom: 0,fontSize: 12}}>to: {link.toPath}</p>
                                 </div>
                                 )}
                         </div>
