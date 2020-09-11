@@ -46,6 +46,14 @@ const Styles = styled.div`
     cursor: pointer;
 }
 
+.step-action-btn:hover {
+    color: ${process.env.REACT_APP_scenarioActionHover};
+}
+
+.step-action-btn:active {
+    color: ${process.env.REACT_APP_scenarioActionActive};
+}
+
 .step-info {
     
     cursor: pointer;
@@ -763,7 +771,7 @@ class Scenario extends React.Component {
                                                         >
                                                             <center style={{ overflowWrap: 'break-word', whiteSpace: 'normal' }} dir="rtl">
                                                                 כל צעד הוא בקשת כתיבה. בכל בקשת כתיבה אפשר לכתוב סוג ישות אחד, אבל מספר ישויות.
-                                                </center>
+                                                            </center>
 
                                                         </Popup>
 
@@ -790,7 +798,7 @@ class Scenario extends React.Component {
                                                 position="bottom center"
                                                 on="hover"
                                                 trigger={
-                                                    <a className="step-action-btn" variant="outline-info" onClick={() => this.addStep()}>
+                                                    <a className="step-action-btn step-action-btn" variant="outline-info" onClick={() => this.addStep()}>
                                                         <i id="addStepBtn" className="fas fa-plus"></i>
                                                     </a>}
                                             >
