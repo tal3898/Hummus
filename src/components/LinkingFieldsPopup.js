@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { convertJsonTemplateToActualJson } from './Utility'
 
+import LinksVisualization from './LinksVisualization'
 import LinkEntity from './LinkingEntities/LinkEntity'
 
 const Styles = styled.div`
@@ -51,7 +52,7 @@ class LinkingFieldsPopup extends React.Component {
             isOpen: false,
             json: props.json,
             fromJson: {},
-            tab: 'ישויות'
+            tab: 'ויזואליזציה'
         }
 
         this.selectedScenarioNumber = 0;
@@ -157,7 +158,7 @@ class LinkingFieldsPopup extends React.Component {
                     closeOnDocumentClick
                 >
 
-                    <div style={{ height: 700, overflowY: 'scroll' }}>
+                    <div style={{ height: 600, overflowY: 'scroll' }}>
 
                         <Tabs
                             id="controlled-tab-example"
@@ -255,7 +256,7 @@ class LinkingFieldsPopup extends React.Component {
                             </Tab>
                             <Tab eventKey="ויזואליזציה" title="ויזואליזציה">
                                 <div style={{marginTop: 60, marginLeft: 20, fontSize: 20 }}>
-                                    Comming soon...
+                                    <LinksVisualization/>
                                 </div>
                             </Tab>
                         </Tabs>
