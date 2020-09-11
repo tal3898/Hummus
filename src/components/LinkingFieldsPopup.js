@@ -53,14 +53,21 @@ class LinkingFieldsPopup extends React.Component {
             fromJson: {},
             tab: 'ישויות'
         }
+
         this.selectedScenarioNumber = 0;
         this.onCloseCallback = props.onClose;
         this.jsonViewerFromRef = React.createRef();
         this.jsonViewerToRef = React.createRef();
+    }
 
+    getOriginStepNumber() {
+        var originStepNumber = this.context.data.currOpenStep - 1;
+        
+        if (originStepNumber < 0) {
+            originStepNumber = 0;
+        }
 
-
-
+        return originStepNumber;
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
@@ -68,7 +75,10 @@ class LinkingFieldsPopup extends React.Component {
         this.state.json = newProps.json;
         this.state.stepNumber = newProps.step;
 
-        var defaultStep = this.context.data.currScenario.steps[0];
+        
+        this.selectedScenarioNumber = this.getOriginStepNumber();
+
+        var defaultStep = this.context.data.currScenario.steps[this.selectedScenarioNumber];
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
         this.state.fromJson = convertJsonTemplateToActualJson(defaultStep.jsonToEdit, disabledFields);
@@ -127,7 +137,7 @@ class LinkingFieldsPopup extends React.Component {
         for (var index in this.context.data.currScenario.steps) {
             var currStep = this.context.data.currScenario.steps[index];
             options.push(
-                <option key={index + '-' + currStep.name}>{index} - {currStep.name}</option>
+                <option key={index + '-' + currStep.name} value={index + '-' + currStep.name}>{index} - {currStep.name}</option>
             )
         }
 
@@ -190,6 +200,7 @@ class LinkingFieldsPopup extends React.Component {
                                                 <Form.Control
                                                     style={{ width: 150, float: 'right', marginTop: 2 }}
                                                     size="sm"
+                                                    value={this.selectedScenarioNumber + '-' + this.context.data.currScenario.steps[this.selectedScenarioNumber].name}
                                                     onChange={(event) => this.loadSourceJson(event)}
                                                     as="select">
                                                     {this.getStepsOptions()}
