@@ -125,11 +125,13 @@ class NgRequestEditor extends React.Component {
         var chosenEntity = this.entityNode.value;
         var chosenVersion = this.versionNode.value;
 
-        this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit = JSON.stringify(event.newJson);
+        this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit = event.newJson;
 
 
         this.context.data.currScenario.steps[this.state.openStepIndex].jsonMap[chosenEntity][chosenVersion].data =
             this.context.data.currScenario.steps[this.state.openStepIndex].jsonToEdit;
+        
+        
 
     }
 

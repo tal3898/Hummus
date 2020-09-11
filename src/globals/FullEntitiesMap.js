@@ -14,43 +14,43 @@ import plan_x from '../jsonFormats/plan_x.json'
 export const FullEntitiesMap = {
     "Target": {
         "2": {
-            data: JSON.stringify(target_2),
+            data: target_2,
             disabledFields: ['/PrevLesson',
                 '/Planing',
                 '/Homworks']
         },
         "X": {
-            data: JSON.stringify(target_x),
+            data: target_x,
             disabledFields: []
         }
     },
     "Objective": {
         "2": {
-            data: JSON.stringify(objective_2),
+            data: objective_2,
             disabledFields: []
         },
         "X": {
-            data: JSON.stringify(objective_x),
+            data: objective_x,
             disabledFields: []
         }
     },
     "Mission": {
         "2": {
-            data: JSON.stringify(mission_2),
+            data: mission_2,
             disabledFields: []
         },
         "X": {
-            data: JSON.stringify(mission_x),
+            data: mission_x,
             disabledFields: []
         }
     },
     "Plan": {
         "2": {
-            data: JSON.stringify(plan_2),
+            data: plan_2,
             disabledFields: []
         },
         "X": {
-            data: JSON.stringify(plan_x),
+            data: plan_x,
             disabledFields: []
         }
     }

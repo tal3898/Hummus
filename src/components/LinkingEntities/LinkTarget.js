@@ -12,7 +12,7 @@ export default function LinkTarget(props) {
 
     const context = useContext(HummusContext)
 
-    const targetJson = JSON.parse(context.data.currScenario.steps[context.data.currOpenStep].jsonToEdit);
+    const targetJson = context.data.currScenario.steps[context.data.currOpenStep].jsonToEdit;
     const currStepTargetsCount = targetJson.Target.length;
     const intelLinkPath = '/Target/{0}/Planning';
     const agamLinkPath = '/Target/{0}/Homworks';
@@ -50,7 +50,7 @@ export default function LinkTarget(props) {
     for (var stepIndex = 0; stepIndex < context.data.currOpenStep; stepIndex++) {
         var currStep = context.data.currScenario.steps[stepIndex];
         if (currStep.entity === 'Objective') {
-            var numberOfObjectives = JSON.parse(currStep.jsonToEdit).Objective.length;
+            var numberOfObjectives = currStep.jsonToEdit.Objective.length;
             objectivesJson[stepIndex + ' - ' + currStep.name] = new Array(numberOfObjectives).fill("יעד")
         }
     }

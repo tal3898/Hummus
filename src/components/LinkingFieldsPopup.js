@@ -71,7 +71,7 @@ class LinkingFieldsPopup extends React.Component {
         var defaultStep = this.context.data.currScenario.steps[0];
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
-        this.state.fromJson = convertJsonTemplateToActualJson(JSON.parse(defaultStep.jsonToEdit), disabledFields);
+        this.state.fromJson = convertJsonTemplateToActualJson(defaultStep.jsonToEdit, disabledFields);
 
         this.setState(this.state);
     }

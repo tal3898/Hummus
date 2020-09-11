@@ -39,10 +39,10 @@ class EntityEditor extends React.Component {
     init(props) {
         this.state = {
             parentPath: props.parentPath,
-            json: JSON.parse(props.jsondata),
+            json: props.jsondata,
             expandAll: false,
             disabledFields: [],
-            fullJson: JSON.parse(props.fullJson),
+            fullJson: props.fullJson,
             name: props.name,
             isLinkPopupOpen: false,
             level: props.level,

@@ -10,7 +10,7 @@ export default function LinkObjective(props) {
 
     const context = useContext(HummusContext)
 
-    const objectiveJson = JSON.parse(context.data.currScenario.steps[context.data.currOpenStep].jsonToEdit);
+    const objectiveJson = context.data.currScenario.steps[context.data.currOpenStep].jsonToEdit;
     const currStepObjectivesCount = objectiveJson.Objective.length;
 
     const linksTemplate = [{
@@ -29,7 +29,7 @@ export default function LinkObjective(props) {
     for (var stepIndex = 0; stepIndex < context.data.currOpenStep; stepIndex++) {
         var currStep = context.data.currScenario.steps[stepIndex];
         if (currStep.entity === 'Plan') {
-            var numberOfPlans = JSON.parse(currStep.jsonToEdit).Plan.length;
+            var numberOfPlans = currStep.jsonToEdit.Plan.length;
             plansJson[stepIndex + ' - ' + currStep.name] = new Array(numberOfPlans).fill("תוכנית")
         }
     }

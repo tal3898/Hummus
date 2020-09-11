@@ -12,7 +12,7 @@ export default function LinkPlan(props) {
 
     const context = useContext(HummusContext)
 
-    const planJson = JSON.parse(context.data.currScenario.steps[context.data.currOpenStep].jsonToEdit);
+    const planJson = context.data.currScenario.steps[context.data.currOpenStep].jsonToEdit;
     const currStepPlansCount = planJson.Plan.length;
     const linkPlanPath = '/Plan/{0}/Homworks';
 
@@ -46,7 +46,7 @@ export default function LinkPlan(props) {
     for (var stepIndex = 0; stepIndex < context.data.currOpenStep; stepIndex++) {
         var currStep = context.data.currScenario.steps[stepIndex];
         if (currStep.entity === 'Objective') {
-            var numberOfMissions = JSON.parse(currStep.jsonToEdit).Objective.length;
+            var numberOfMissions = currStep.jsonToEdit.Objective.length;
             objectivesJson[stepIndex + ' - ' + currStep.name] = new Array(numberOfMissions).fill("יעד")
         }
     }
@@ -56,7 +56,7 @@ export default function LinkPlan(props) {
     for (var stepIndex = 0; stepIndex < context.data.currOpenStep; stepIndex++) {
         var currStep = context.data.currScenario.steps[stepIndex];
         if (currStep.entity === 'Mission') {
-            var numberOfMissions = JSON.parse(currStep.jsonToEdit).Mission.length;
+            var numberOfMissions = currStep.jsonToEdit.Mission.length;
             missionsJson[stepIndex + ' - ' + currStep.name] = new Array(numberOfMissions).fill("משימה")
         }
     }

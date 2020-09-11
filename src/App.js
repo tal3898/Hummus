@@ -40,7 +40,7 @@ class App extends React.Component {
           steps: [{
             "name": "כתיבה",
             "jsonMap": {},
-            "jsonToEdit": "{}",
+            "jsonToEdit": {},
             "entity": "Target",
             "system": "Tal",
 
