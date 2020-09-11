@@ -520,20 +520,19 @@ class EntityEditor extends React.Component {
 
     getKeyNameStyle(key, keyCleanPath, disabledFields) {
         var keyStyle = {
-            paddingLeft: 3,
-            paddingRight: 3,
-            marginTop: 4
         };
+
+        var keyClassesName = "";
+        
         if (disabledFields.includes(keyCleanPath)) {
-            keyStyle.textDecoration = 'line-through';
-            keyStyle.opacity = '0.3';
+            keyClassesName += "key-name-disabled ";
         }
         if (this.state.filterData.userFilter != "" && key.toLowerCase().includes(this.state.filterData.userFilter.toLowerCase())) {
             keyStyle.background = '#fff59d';
             keyStyle.borderRadius = 7;
         }
 
-        return keyStyle;
+        return keyClassesName;
     }
 
     getSingleFieldJSX(keyPath) {
@@ -574,13 +573,13 @@ class EntityEditor extends React.Component {
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
 
-        var keyStyle = this.getKeyNameStyle(key, keyCleanPath, disabledFields);
+        var keyClassNames = this.getKeyNameStyle(key, keyCleanPath, disabledFields);
 
         return (
 
             <Row key={key} className="json-field mb-1" style={{ marginLeft: '0.001em', paddingLeft: this.state.indent * level }}>
                 <div className="field-component">
-                    <Form.Label style={keyStyle}>{keyName}</Form.Label>
+                    <Form.Label className={"key-name " + keyClassNames}>{keyName}</Form.Label>
 
                 </div>
 
@@ -684,7 +683,7 @@ class EntityEditor extends React.Component {
 
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
 
-        var keyStyle = this.getKeyNameStyle(key, keyCleanPath, disabledFields);
+        var keyClassNames = this.getKeyNameStyle(key, keyCleanPath, disabledFields);
 
         return (
             <div key={key}>
@@ -698,7 +697,7 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        <Form.Label style={keyStyle}>{keyName}</Form.Label>
+                        <Form.Label className={"key-name " + keyClassNames}>{keyName}</Form.Label>
                     </div>
 
 
@@ -738,7 +737,7 @@ class EntityEditor extends React.Component {
 
         const items = []
 
-        var keyStyle = this.getKeyNameStyle(key, keyCleanPath, disabledFields);
+        var keyClassNames = this.getKeyNameStyle(key, keyCleanPath, disabledFields);
 
         // create the array field itself, with collapseEntityEditor button
         items.push(
@@ -753,7 +752,7 @@ class EntityEditor extends React.Component {
                     </div>
 
                     <div className="field-component">
-                        <Form.Label style={keyStyle}>{keyName}</Form.Label>
+                        <Form.Label className={"key-name " + keyClassNames} >{keyName}</Form.Label>
                     </div>
 
                     <div className="field-component">

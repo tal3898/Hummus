@@ -11,6 +11,45 @@ const Styles = styled.div`
     width:110%;
 }
 
+.key-name {
+    padding-left: 3px;
+    padding-right: 4px;
+    margin-top: 4px;
+    animation-name: enabled-field-fading;
+    animation-duration: 0.5s;
+}
+
+.key-name-disabled {
+    text-decoration: line-through;
+    opacity: 0.3;
+    animation-name: disabled-field-fading;
+    animation-duration: 0.5s;
+}
+
+@keyframes disabled-field-fading {
+    from {
+        opacity: 1;
+        text-decoration: none;
+    }
+    to {
+        text-decoration: line-through;
+        opacity: 0.3;
+    }
+}
+
+
+@keyframes enabled-field-fading {
+    from {
+        opacity: 0.5;
+    }
+    to {
+        opacity: 1;
+        text-decoration: none;
+    }
+}
+
+
+
 .search-fields-button {
     font-size: 25px;
     margin-top: 5px;
@@ -24,11 +63,11 @@ const Styles = styled.div`
 
 .search-fields-input {
     width: 250px;
-    animation-name: example;
+    animation-name: searchbar-expanding;
     animation-duration: 0.5s;
 }
 
-@keyframes example {
+@keyframes searchbar-expanding {
     from {
         width: 60px;
     }

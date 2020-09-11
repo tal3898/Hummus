@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Do in next upgrade
 1) remove all dots '.' in json of all entities. because of resolved issue #34, and cant have dots in json.
-
+2) becuse of issue #34, support loading scenarios with jsontoedit as string
 
 ## Adding Sub Entity To Hummus
 Sometime the version of the data, is changed. sub entities are add, Fields are changed...
