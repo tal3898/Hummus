@@ -9,6 +9,7 @@ export default function LinksVisualization(props) {
 
     const context = useContext(HummusContext);
 
+    // build the parentsLinks
     var parentsLinks = {};
     var a = context.data.currScenario.steps[selectedNode].links;
     for (var linkIndex in a) {
@@ -21,6 +22,25 @@ export default function LinksVisualization(props) {
         }
 
         parentsLinks[linkHeadline].push(a[linkIndex]);
+    }
+
+    // build the childrenLinks
+    var childrenLinks = {};
+    for (var childStep = selectedNode; childStep < context.data.currScenario.steps.length; childStep++) {
+        var stepData = context.data.currScenario.steps[childStep];
+
+        for (var linkIndex in stepData.links) {
+            if (stepData.links[linkIndex].fromStep == selectedNode) {
+                var childStepName = stepData.name;
+                var linkHeadline = childStep + ' - ' + childStepName;
+
+                if (childrenLinks[linkHeadline] == undefined) {
+                    childrenLinks[linkHeadline] = [];
+                }
+
+                childrenLinks[linkHeadline].push(stepData.links[linkIndex]);
+            } 
+        }
     }
 
     // build graph
@@ -101,7 +121,18 @@ export default function LinksVisualization(props) {
                         )}
                 </Col>
                 <Col>
-                    <p>Children Links:</p>
+                <h4>Children Links:</h4>
+                    {Object.keys(childrenLinks).map(step => 
+                        <div>
+                            <h5 style={{paddingLeft: 20}}>{step}</h5>
+                            {childrenLinks[step].map(link => 
+                                <div style={{paddingLeft: 40, marginBottom: 10}}>
+                                    <p style={{marginBottom: 0, fontSize: 12}}>from: {link.fromPath}</p>
+                                    <p style={{marginBottom: 0,fontSize: 12}}>to: {link.toPath}</p>
+                                </div>
+                                )}
+                        </div>
+                        )}
                 </Col>
             </Row>
 
