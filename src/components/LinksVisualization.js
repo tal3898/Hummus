@@ -1,11 +1,29 @@
 import React, { useState, useContext } from "react";
 import HummusContext, { HummusConsumer } from './HummusContext'
 import Graph from "react-graph-vis";
+import { Form, Col, Row } from 'react-bootstrap';
 
 export default function LinksVisualization(props) {
 
+    const [selectedNode, setSelectedNode] = useState(0);
+
     const context = useContext(HummusContext);
 
+    var parentsLinks = {};
+    var a = context.data.currScenario.steps[selectedNode].links;
+    for (var linkIndex in a) {
+        var parentStep = a[linkIndex].fromStep;
+        var parentStepName = context.data.currScenario.steps[parentStep].name;
+        var linkHeadline = parentStep + ' - ' + parentStepName;
+
+        if (parentsLinks[linkHeadline] == undefined)  {
+            parentsLinks[linkHeadline] = [];
+        }
+
+        parentsLinks[linkHeadline].push(a[linkIndex]);
+    }
+
+    // build graph
     var nodes = [];
     var edges = [];
     for (var stepIndex in context.data.currScenario.steps) {
@@ -27,7 +45,7 @@ export default function LinksVisualization(props) {
 
     edges = [... new Set(
         edges.map(edge => JSON.stringify(edge))
-        )]
+    )]
         .map(edge => JSON.parse(edge))
 
 
@@ -40,26 +58,53 @@ export default function LinksVisualization(props) {
         layout: {
             hierarchical: false
         },
+        click: (e) => alert('e'),
         edges: {
             color: "#000000"
         },
-        height: "500px"
+        nodes: {
+            color: "#bbdefb"
+        },
+        height: "400px"
     };
 
     const events = {
-        select: function (event) {
-            var { nodes, edges } = event;
+        selectNode: function (event) {
+            setSelectedNode(event.nodes[0]);
         }
     };
 
     return (
-        <Graph
-            graph={graph}
-            options={options}
-            events={events}
-            getNetwork={network => {
-                //  if you want access to vis.js network api you can set the state in a parent component using this property
-            }}
-        />
+        <div>
+            <Graph
+                graph={graph}
+                options={options}
+                events={events}
+                getNetwork={network => {
+                    //  if you want access to vis.js network api you can set the state in a parent component using this property
+                }}
+            />
+            <hr />
+            <Row>
+                <Col>
+                    <p>Parents Links:</p>
+                    {Object.keys(parentsLinks).map(step => 
+                        <div>
+                            <p>{step}</p>
+                            {parentsLinks[step].map(link => 
+                                <div>
+                                    <p>from: {link.fromPath}</p>
+                                    <p>to: {link.toPath}</p>
+                                </div>
+                                )}
+                        </div>
+                        )}
+                </Col>
+                <Col>
+                    <p>Children Links:</p>
+                </Col>
+            </Row>
+
+        </div>
     );
 }
