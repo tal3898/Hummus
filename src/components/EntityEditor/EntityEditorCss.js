@@ -44,7 +44,6 @@ const Styles = styled.div`
     }
     to {
         opacity: 1;
-        text-decoration: none;
     }
 }
 
