@@ -146,8 +146,16 @@ const Styles = styled.div`
     color: #388e3c;
 }
 
+.fa-dice:active {
+    color: #1b5e20;
+}
+
 .fa-clock:hover {
     color: #2196f3;
+}
+
+.fa-clock:active {
+    color: #1565c0;
 }
 
 .plus-button {
