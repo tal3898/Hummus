@@ -166,6 +166,11 @@ const Styles = styled.div`
     color: #66bb6a;
 }
 
+.plus-button:active {
+    color: #388e3c;
+}
+
+
 .field-info-popup:hover {
     color: #2196f3;
     cursor: arrow;
