@@ -19,6 +19,11 @@ const Styles = styled.div`
     animation-duration: 0.5s;
 }
 
+.key-name-searched {
+    background: #fff59d;
+    border-radius: 7px;
+}
+
 .key-name-disabled {
     text-decoration: line-through;
     opacity: 0.3;

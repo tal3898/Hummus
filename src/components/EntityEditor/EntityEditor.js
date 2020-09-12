@@ -528,8 +528,7 @@ class EntityEditor extends React.Component {
             keyClassesName += "key-name-disabled ";
         }
         if (this.state.filterData.userFilter != "" && key.toLowerCase().includes(this.state.filterData.userFilter.toLowerCase())) {
-            keyStyle.background = '#fff59d';
-            keyStyle.borderRadius = 7;
+            keyClassesName += "key-name-searched ";
         }
 
         return keyClassesName;
