@@ -7,95 +7,73 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Styles = styled.div`
 
+.key-name {
+    margin: 0px;
+    font-size: 17px;
+}
+
+.toggle-icon {
+    margin-top: 3px;
+    font-size: 20px;
+    width: 18px; 
+    float: left; 
+}
 
 `;
 
 
-class JsonViewer2 extends React.Component {
-
-    static contextType = HummusContext;
+class JsonViewer extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
             json: props.json,
             level: props.level,
-            indent: 30 * props.level
+            indent: 25 * props.level,
+            expandedKeys: {}
         }
+
+        for (var key in this.state.json) {
+            this.state.expandedKeys[key] = false;
+        }
+
     }
 
-    didSelectedField() {
-        var selectedPath = this.getSelectedPath();
-        return selectedPath != '/';
+    keyClicked(key) {
+        this.state.expandedKeys[key] = !this.state.expandedKeys[key];
+        this.setState(this.state);
     }
 
-    isSelectedFieldHasChildren() {
-        return this.state.cursor.hasOwnProperty('children');
-    }
-
-    getKeyRender(key, indent) {
-        return (
-            <div>
-                <Row className="mb-1" style={{ paddingLeft: indent }} onClick={() => this.collapseEntityEditor(key)}>
-
-                    <div className="field-component">
-                        {this.state.objectFieldsOpen[key] ?
-                            <i className="fas fa-angle-down" style={{ width: 18 }}></i> :
-                            <i className="fas fa-angle-right" style={{ width: 18 }}></i>
-                        }
-                    </div>
-
-                    <div className="field-component">
-                        {disabledFields.includes(keyFullPath) &&
-                            <Form.Label style={{ textDecoration: 'line-through' }}>{keyName}</Form.Label>
-                        }
-                        {!disabledFields.includes(keyFullPath) &&
-                            <Form.Label >{keyName}</Form.Label>
-                        }
-                    </div>
-
-
-
-                    <div className="field-component">
-                        <Form.Label style={{ fontSize: 10 }}> {keyRequiredValue} </Form.Label>
-                    </div>
-
-                    <div className="field-component">
-                        <i onClick={(event) => this.disableField(event, key)} className="fas fa-times field-action mt-1"></i>
-                    </div>
-
-
-                    {this.createInfoPopup(key, 2)}
-
-                    <div className="field-component">
-                        <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(key)}></i>
-                    </div>
-
-
-                </Row>
-
-                <Collapse isOpen={this.state.objectFieldsOpen[key]}>
-                    <EntityEditor
-                        parentPath={keyPath}
-                        expandAll={this.state.expandAll}
-                        onInnerFieldChanged={(event) => this.innerFieldChanged(event)}
-                        name={key}
-                        ref={this.children[key]}
-                        level={this.state.level + 1}
-                        fullJson={JSON.stringify(this.state.fullJson[key])}
-                        jsondata={JSON.stringify(this.state.json[key])}></EntityEditor>
-                </Collapse>
-            </div>
-        )
+    getKeyToggleIcon(key) {
+        if (typeof this.state.json[key] == typeof {}) {
+            if (this.state.expandedKeys[key]) {
+                return <i className="fas toggle-icon fa-angle-down" />
+            } else {
+                return <i className="fas toggle-icon fa-angle-right" />
+            }
+        }
     }
 
     render() {
         return (
             <Styles>
+                {Object.keys(this.state.json).map(key =>
+                    <div style={{ paddingLeft: this.state.indent }}>
+                        {this.getKeyToggleIcon(key)}
 
+                        <p onClick={() => this.keyClicked(key)} className="key-name" >{key}</p>
+
+                        {typeof this.state.json[key] == typeof {} && this.state.expandedKeys[key] &&
+                            <JsonViewer
+                                json={this.state.json[key]}
+                                level={this.state.level + 1}
+                            />
+                        }
+                    </div>
+                )}
             </Styles>
         )
     }
 }
 
-export default JsonViewer2;
+export default JsonViewer;

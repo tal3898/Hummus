@@ -17,6 +17,7 @@ import NgUrlsMap from '../globals/NgUrlsMap.json'
 import RealityMap from '../globals/RealityMap.json'
 import SystemMap from '../globals/SystemMap.json'
 
+import JsonViewer from './JsonViewer2'
 
 import ReactTooltip from "react-tooltip";
 
@@ -606,6 +607,11 @@ class Scenario extends React.Component {
                     {(context) =>
 
                         <div className='main-comp'>
+
+                        <JsonViewer 
+                            json={{'tal': {'ema': 1, 'lolit': 2, 'sofi': {'lal': 3}}, 'roi': {'f': 3}}}
+                            level={0}
+                        />
 
                             <Popup
                                 open={this.state.isMemePopupOPen}
