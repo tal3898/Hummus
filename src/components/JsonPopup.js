@@ -98,7 +98,7 @@ class JsonPopup extends React.Component {
                     modal
                     closeOnDocumentClick
                 >
-                    <ReactTooltip />
+                    <ReactTooltip place="bottom" type="light" />
 
                     <div className='json-popup'>
 

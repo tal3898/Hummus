@@ -18,6 +18,8 @@ import RealityMap from '../globals/RealityMap.json'
 import SystemMap from '../globals/SystemMap.json'
 
 
+import ReactTooltip from "react-tooltip";
+
 
 const Styles = styled.div`
 .main-comp {
@@ -346,9 +348,9 @@ class Scenario extends React.Component {
                 this.state.isMemePopupOPen = true;
                 this.setState(this.state);
             }
-        } catch(e) {
+        } catch (e) {
             console.error('could not open east', e);
-        }        
+        }
         // easter egg?
 
         var requestMethod = currStep.action;
@@ -616,6 +618,7 @@ class Scenario extends React.Component {
                                 </center>
                             </Popup>
 
+                            <ReactTooltip place="bottom" />
 
                             <ToastContainer />
 
@@ -656,64 +659,25 @@ class Scenario extends React.Component {
                                         <Col lg='6'>
 
                                             {/* creating the sending button, which sends the json to NG */}
-                                            <Popup
-                                                className="action-btn"
-                                                position="bottom center"
-                                                on="hover"
-                                                trigger={
-                                                    <a style={{ paddingTop: 60 }} id="openSavePopupBtn" className="action-btn" variant="outline-info" onClick={() => this.openSavePopup()}>
-                                                        <i className="far fa-save"></i>
-                                                    </a>}
-                                            >
-                                                <center style={{ overflowWrap: 'break-word' }}>
-                                                    שמור
-                                                </center>
-                                            </Popup>
+                                            <a data-tip="שמור" style={{ paddingTop: 60 }} id="openSavePopupBtn" className="action-btn" variant="outline-info" onClick={() => this.openSavePopup()}>
+                                                <i className="far fa-save"></i>
+                                            </a>
 
                                             {/* creating the button '</>', which shows the json */}
-                                            <Popup
-
-                                                position="bottom center"
-                                                on="hover"
-                                                trigger={
-                                                    <a style={{ marginRight: 3 }} id="showJsonBtn" className="action-btn" variant="outline-info" onClick={() => this.openJsonPopup()}>
-                                                        <span><b> {"{..}"} </b></span>
-                                                    </a>}
-                                            >
-                                                <center>
-                                                    הצג JSON
-                                                </center>
-                                            </Popup>
+                                            <a data-tip="הצג JSON" style={{ marginRight: 3 }} id="showJsonBtn" className="action-btn" variant="outline-info" onClick={() => this.openJsonPopup()}>
+                                                <span><b> {"{..}"} </b></span>
+                                            </a>
 
                                             {/* creating the sending button, which sends the json to NG */}
-                                            <Popup
-                                                className="action-btn"
-                                                position="bottom center"
-                                                on="hover"
-                                                trigger={
-                                                    <a style={{ marginRight: 3 }} className="action-btn" id="sendStepBtn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.context.data.currOpenStep)}>
-                                                        <i className="far fa-paper-plane fa-flip-horizontal"></i>
-                                                    </a>}
-                                            >
-                                                <center>
-                                                    שלח צעד נוכחי
-                                                </center>
-                                            </Popup>
+                                            <a data-tip="שלח צעד נוכחי" style={{ marginRight: 3 }} className="action-btn" id="sendStepBtn" variant="outline-info" onClick={() => this.sendSingleStepToNg(this.context.data.currOpenStep)}>
+                                                <i className="far fa-paper-plane fa-flip-horizontal"></i>
+                                            </a>
 
                                             {/* creating the sending button, which sends the json to NG */}
-                                            <Popup
-                                                className="action-btn"
-                                                position="bottom center"
-                                                on="hover"
-                                                trigger={
-                                                    <a className="action-btn" variant="outline-info" onClick={() => this.sendAllSteps()}>
-                                                        <i className="fas fa-broom fa-flip-horizontal"></i>
-                                                    </a>}
-                                            >
-                                                <center>
-                                                    שלח הכל
-                                                </center>
-                                            </Popup>
+                                            <a data-tip="שלח הכל" className="action-btn" variant="outline-info" onClick={() => this.sendAllSteps()}>
+                                                <i className="fas fa-broom fa-flip-horizontal"></i>
+                                            </a>
+
                                         </Col>
                                     </Row>
 
@@ -767,7 +731,8 @@ class Scenario extends React.Component {
                                                             position="bottom center"
                                                             on="hover"
                                                             trigger={
-                                                                <i className="fas step-info fa-info-circle mt-1"></i>}
+                                                                <i className="fas step-info fa-info-circle mt-1"></i>
+                                                            }
                                                         >
                                                             <center style={{ overflowWrap: 'break-word', whiteSpace: 'normal' }} dir="rtl">
                                                                 כל צעד הוא בקשת כתיבה. בכל בקשת כתיבה אפשר לכתוב סוג ישות אחד, אבל מספר ישויות.
@@ -793,33 +758,13 @@ class Scenario extends React.Component {
 
 
                                         <Col lg="1">
-                                            <Popup
+                                            <a data-tip="הוסף צעד" className="step-action-btn step-action-btn" variant="outline-info" onClick={() => this.addStep()}>
+                                                <i id="addStepBtn" className="fas fa-plus"></i>
+                                            </a>
 
-                                                position="bottom center"
-                                                on="hover"
-                                                trigger={
-                                                    <a className="step-action-btn step-action-btn" variant="outline-info" onClick={() => this.addStep()}>
-                                                        <i id="addStepBtn" className="fas fa-plus"></i>
-                                                    </a>}
-                                            >
-                                                <center>
-                                                    הוסף צעד
-                                                </center>
-                                            </Popup>
-
-                                            <Popup
-
-                                                position="bottom center"
-                                                on="hover"
-                                                trigger={
-                                                    <a id="removeStepBtn" className="step-action-btn" style={{ marginRight: 20 }} variant="outline-info" onClick={() => this.removeStep()}>
-                                                        <i className="fas fa-minus"></i>
-                                                    </a>}
-                                            >
-                                                <center>
-                                                    מחק צעד
-                                                </center>
-                                            </Popup>
+                                            <a data-tip="מחק צעד" id="removeStepBtn" className="step-action-btn" style={{ marginRight: 20 }} variant="outline-info" onClick={() => this.removeStep()}>
+                                                <i className="fas fa-minus"></i>
+                                            </a>
                                         </Col>
 
                                         {/** not used checkbox, to annoy the client */}
