@@ -4,6 +4,8 @@ import { Col, Row } from 'react-bootstrap';
 import Popup from "reactjs-popup";
 import ReactJson from 'react-json-view'
 
+import ReactTooltip from "react-tooltip";
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -96,11 +98,12 @@ class JsonPopup extends React.Component {
                     modal
                     closeOnDocumentClick
                 >
+                    <ReactTooltip />
 
                     <div className='json-popup'>
 
-                        <i id="copyJsonBtn" style={{ position: 'absolute', right: 45, top: 15, zIndex: 10, fontSize:20 }} onClick={() => this.copyToClipboard(this.state.json)} className="fas fa-copy"></i>
-                        <i id="copyJsonBtn" style={{ position: 'absolute', right: 20, top: 15, zIndex: 10, fontSize:20 }} onClick={() => this.copyToClipboard(this.state.bombaJson)} className="far fa-copy"></i>
+                        <i data-tip="העתק לבומבה" id="copyJsonBtn" style={{ position: 'absolute', right: 45, top: 15, zIndex: 10, fontSize: 20 }} onClick={() => this.copyToClipboard(this.state.bombaJson)} className="far fa-copy"></i>
+                        <i data-tip="העתק" id="copyJsonBtn" style={{ position: 'absolute', right: 20, top: 15, zIndex: 10, fontSize: 20 }} onClick={() => this.copyToClipboard(this.state.json)} className="fas fa-copy"></i>
 
 
                         <div style={{ marginTop: 10, backgroundColor: '#27281e', height: 500 }} className="json-display">
