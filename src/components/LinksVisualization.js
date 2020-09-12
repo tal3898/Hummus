@@ -116,7 +116,7 @@ export default function LinksVisualization(props) {
     const childrenLinks = buildChildrenLinksDescription();
 
     return (
-        <div >
+        <div style={{width: '98%'}}>
             <Graph
                 graph={graph}
                 options={options}
