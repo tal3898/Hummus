@@ -126,7 +126,7 @@ export default function LinksVisualization(props) {
                 }}
             />
             <hr />
-            <Row>
+            <Row style={{paddingLeft: 30}}>
                 <Col>
                     <h4>Parents Links:</h4>
                 </Col>
@@ -134,7 +134,7 @@ export default function LinksVisualization(props) {
                     <h4>Children Links:</h4>
                 </Col>
             </Row>
-            <Row style={{ overflowY: 'scroll', height: 100, width: '100%' }}>
+            <Row style={{ paddingLeft: 30, overflowY: 'scroll', height: 100, width: '100%' }}>
                 <Col>
                     {Object.keys(parentsLinks).map(step =>
                         <div>

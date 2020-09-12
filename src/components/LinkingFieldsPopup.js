@@ -52,7 +52,7 @@ class LinkingFieldsPopup extends React.Component {
             isOpen: false,
             json: props.json,
             fromJson: {},
-            tab: 'ויזואליזציה'
+            tab: 'ישויות'
         }
 
         this.selectedScenarioNumber = 0;
