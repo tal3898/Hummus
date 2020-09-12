@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Col, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import Popup from "reactjs-popup";
 import ReactJson from 'react-json-view'
 
@@ -29,10 +29,6 @@ const Styles = styled.div`
     cursor: pointer;
 
     padding:10px;
-    border-radius:5px;
-    border-style:solid;
-    border-width:0.012em;
-    border-color: white;
 }
 
 
@@ -102,24 +98,16 @@ class JsonPopup extends React.Component {
                 >
 
                     <div className='json-popup'>
-                        <Row style={{ marginBottom: 20, marginLeft: 3, marginTop: 10 }}>
-                            <Col lg="1">
-                                <i id="copyJsonBtn" onClick={() => this.copyToClipboard(this.state.json)} className="fas fa-copy fa-3x"></i>
-                                <p style={{ marginLeft: 6 }}>העתק</p>
 
-                            </Col>
-                            <Col lg="2" style={{mmarginLeft:2}}>
-                                <i id="copyJsonBtn" style={{marginLeft:0}} onClick={() => this.copyToClipboard(this.state.bombaJson)} className="far fa-copy fa-3x"></i>
-                                <p style={{ marginLeft: 6 }}>בומבה</p>
-
-                            </Col>
-                        </Row>
+                        <i id="copyJsonBtn" style={{ position: 'absolute', right: 45, top: 15, zIndex: 10, fontSize:20 }} onClick={() => this.copyToClipboard(this.state.json)} className="fas fa-copy"></i>
+                        <i id="copyJsonBtn" style={{ position: 'absolute', right: 20, top: 15, zIndex: 10, fontSize:20 }} onClick={() => this.copyToClipboard(this.state.bombaJson)} className="far fa-copy"></i>
 
 
                         <div style={{ marginTop: 10, backgroundColor: '#27281e', height: 500 }} className="json-display">
                             <ReactJson
                                 src={this.state.json}
                                 theme="monokai"
+                                name={false}
                                 enableClipboard={false}
                                 collapseStringsAfterLength={50}
                                 displayDataTypes={false} />
