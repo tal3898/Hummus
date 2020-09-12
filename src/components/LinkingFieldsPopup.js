@@ -158,7 +158,7 @@ class LinkingFieldsPopup extends React.Component {
                     closeOnDocumentClick
                 >
 
-                    <div style={{ height: 600, overflowY: 'scroll' }}>
+                    <div style={{ height: '600px', overflowY: 'scroll' }}>
 
                         <Tabs
                             id="controlled-tab-example"
@@ -255,7 +255,7 @@ class LinkingFieldsPopup extends React.Component {
                                 </div>
                             </Tab>
                             <Tab eventKey="ויזואליזציה" title="ויזואליזציה">
-                                <div style={{marginTop: 60, marginLeft: 20, fontSize: 20 }}>
+                                <div style={{marginTop: 60, marginLeft: 0, fontSize: 20 }}>
                                     <LinksVisualization/>
                                 </div>
                             </Tab>

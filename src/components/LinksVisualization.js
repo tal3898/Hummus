@@ -17,7 +17,7 @@ export default function LinksVisualization(props) {
         var parentStepName = context.data.currScenario.steps[parentStep].name;
         var linkHeadline = parentStep + ' - ' + parentStepName;
 
-        if (parentsLinks[linkHeadline] == undefined)  {
+        if (parentsLinks[linkHeadline] == undefined) {
             parentsLinks[linkHeadline] = [];
         }
 
@@ -39,7 +39,7 @@ export default function LinksVisualization(props) {
                 }
 
                 childrenLinks[linkHeadline].push(stepData.links[linkIndex]);
-            } 
+            }
         }
     }
 
@@ -85,7 +85,7 @@ export default function LinksVisualization(props) {
         nodes: {
             color: "#bbdefb"
         },
-        height: "400px"
+        height: "350px"
     };
 
     const events = {
@@ -95,7 +95,7 @@ export default function LinksVisualization(props) {
     };
 
     return (
-        <div>
+        <div >
             <Graph
                 graph={graph}
                 options={options}
@@ -108,31 +108,37 @@ export default function LinksVisualization(props) {
             <Row>
                 <Col>
                     <h4>Parents Links:</h4>
-                    {Object.keys(parentsLinks).map(step => 
-                        <div>
-                            <h5 style={{paddingLeft: 20}}>{step}</h5>
-                            {parentsLinks[step].map(link => 
-                                <div style={{paddingLeft: 40, marginBottom: 10}}>
-                                    <p style={{marginBottom: 0, fontSize: 12}}>from: {link.fromPath}</p>
-                                    <p style={{marginBottom: 0,fontSize: 12}}>to: {link.toPath}</p>
-                                </div>
-                                )}
-                        </div>
-                        )}
                 </Col>
                 <Col>
-                <h4>Children Links:</h4>
-                    {Object.keys(childrenLinks).map(step => 
+                    <h4>Children Links:</h4>
+                </Col>
+            </Row>
+            <Row style={{ overflowY: 'scroll', height: 100, width: '100%' }}>
+                <Col>
+                    {Object.keys(parentsLinks).map(step =>
                         <div>
-                            <h5 style={{paddingLeft: 20}}>{step}</h5>
-                            {childrenLinks[step].map(link => 
-                                <div style={{paddingLeft: 40, marginBottom: 10}}>
-                                    <p style={{marginBottom: 0, fontSize: 12}}>from: {link.fromPath}</p>
-                                    <p style={{marginBottom: 0,fontSize: 12}}>to: {link.toPath}</p>
+                            <h5 style={{ paddingLeft: 20 }}>{step}</h5>
+                            {parentsLinks[step].map(link =>
+                                <div style={{ paddingLeft: 40, marginBottom: 10 }}>
+                                    <p style={{ marginBottom: 0, fontSize: 12 }}>from: {link.fromPath}</p>
+                                    <p style={{ marginBottom: 0, fontSize: 12 }}>to: {link.toPath}</p>
                                 </div>
-                                )}
+                            )}
                         </div>
-                        )}
+                    )}
+                </Col>
+                <Col>
+                    {Object.keys(childrenLinks).map(step =>
+                        <div>
+                            <h5 style={{ paddingLeft: 20 }}>{step}</h5>
+                            {childrenLinks[step].map(link =>
+                                <div style={{ paddingLeft: 40, marginBottom: 10 }}>
+                                    <p style={{ marginBottom: 0, fontSize: 12 }}>from: {link.fromPath}</p>
+                                    <p style={{ marginBottom: 0, fontSize: 12 }}>to: {link.toPath}</p>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </Col>
             </Row>
 
