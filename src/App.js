@@ -135,7 +135,7 @@ class App extends React.Component {
               },
               {
                 id: '3',
-                message: 'איזה חמור, צחקתי איתך זה לא עובד. חפש אותי בראשון',
+                message: "אני לא מרגיש ת'פה שלי",
                 trigger: '2'
               }
             ]}
