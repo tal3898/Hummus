@@ -11,6 +11,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Styles = styled.div`
 
+.json-display {
+    margin: 0px !important;
+}
+
 .json-popup {
     max-height: 500px;
     overflow-y: scroll;
