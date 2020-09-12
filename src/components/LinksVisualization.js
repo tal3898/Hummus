@@ -9,76 +9,93 @@ export default function LinksVisualization(props) {
 
     const context = useContext(HummusContext);
 
-    // build the parentsLinks
-    var parentsLinks = {};
-    var a = context.data.currScenario.steps[selectedNode].links;
-    for (var linkIndex in a) {
-        var parentStep = a[linkIndex].fromStep;
-        var parentStepName = context.data.currScenario.steps[parentStep].name;
-        var linkHeadline = parentStep + ' - ' + parentStepName;
+    const buildParentsLinksDescriptoin = () => {
+        var parentsLinks = {};
+        var selectedNodeLinks = context.data.currScenario.steps[selectedNode].links;
+        
+        for (var linkIndex in selectedNodeLinks) {
+            var parentStep = selectedNodeLinks[linkIndex].fromStep;
+            var parentStepName = context.data.currScenario.steps[parentStep].name;
+            var linkHeadline = parentStep + ' - ' + parentStepName;
 
-        if (parentsLinks[linkHeadline] == undefined) {
-            parentsLinks[linkHeadline] = [];
+            if (parentsLinks[linkHeadline] == undefined) {
+                parentsLinks[linkHeadline] = [];
+            }
+
+            parentsLinks[linkHeadline].push(selectedNodeLinks[linkIndex]);
         }
 
-        parentsLinks[linkHeadline].push(a[linkIndex]);
-    }
+        return parentsLinks;
+    };
 
-    // build the childrenLinks
-    var childrenLinks = {};
-    for (var childStep = selectedNode; childStep < context.data.currScenario.steps.length; childStep++) {
-        var stepData = context.data.currScenario.steps[childStep];
+    const buildChildrenLinksDescription = () => {
+        var childrenLinks = {};
 
-        for (var linkIndex in stepData.links) {
-            if (stepData.links[linkIndex].fromStep == selectedNode) {
-                var childStepName = stepData.name;
-                var linkHeadline = childStep + ' - ' + childStepName;
+        for (var childStep = selectedNode; childStep < context.data.currScenario.steps.length; childStep++) {
+            var stepData = context.data.currScenario.steps[childStep];
 
-                if (childrenLinks[linkHeadline] == undefined) {
-                    childrenLinks[linkHeadline] = [];
+            for (var linkIndex in stepData.links) {
+                if (stepData.links[linkIndex].fromStep == selectedNode) {
+                    var childStepName = stepData.name;
+                    var linkHeadline = childStep + ' - ' + childStepName;
+
+                    if (childrenLinks[linkHeadline] == undefined) {
+                        childrenLinks[linkHeadline] = [];
+                    }
+
+                    childrenLinks[linkHeadline].push(stepData.links[linkIndex]);
                 }
-
-                childrenLinks[linkHeadline].push(stepData.links[linkIndex]);
             }
         }
-    }
 
-    // build graph
-    var nodes = [];
-    var edges = [];
-    for (var stepIndex in context.data.currScenario.steps) {
-        var stepData = context.data.currScenario.steps[stepIndex];
-        nodes.push({
-            id: stepIndex,
-            label: stepIndex + ' - ' + stepData.name,
-            title: stepIndex + ' - ' + stepData.name
-
-        });
-
-        for (var linkIndex in stepData.links) {
-            edges.push({
-                from: stepData.links[linkIndex].fromStep,
-                to: stepIndex
-            })
-        }
-    }
-
-    edges = [... new Set(
-        edges.map(edge => JSON.stringify(edge))
-    )]
-        .map(edge => JSON.parse(edge))
-
-
-    const graph = {
-        nodes: nodes,
-        edges: edges
+        return childrenLinks;
     };
+
+    const removeDuplicatesElements = (arrayOfJson) => {
+        const arrayWithoutDuplicates = [... new Set(
+            arrayOfJson.map(element => JSON.stringify(element))
+        )]
+            .map(element => JSON.parse(element));
+
+        return arrayWithoutDuplicates;
+    }
+
+    const buildGraphFromSteps = () => {
+        var nodes = [];
+        var edges = [];
+
+        for (var stepIndex in context.data.currScenario.steps) {
+            var stepData = context.data.currScenario.steps[stepIndex];
+            nodes.push({
+                id: stepIndex,
+                label: stepIndex + ' - ' + stepData.name,
+                title: stepIndex + ' - ' + stepData.name
+
+            });
+
+            for (var linkIndex in stepData.links) {
+                edges.push({
+                    from: stepData.links[linkIndex].fromStep,
+                    to: stepIndex
+                })
+            }
+        }
+
+        edges = removeDuplicatesElements(edges);
+
+        const finalGraph = {
+            nodes: nodes,
+            edges: edges
+        };
+
+        return finalGraph;
+    }
+
 
     const options = {
         layout: {
             hierarchical: false
         },
-        click: (e) => alert('e'),
         edges: {
             color: "#000000"
         },
@@ -89,10 +106,14 @@ export default function LinksVisualization(props) {
     };
 
     const events = {
-        selectNode: function (event) {
+        selectNode: (event) => {
             setSelectedNode(event.nodes[0]);
         }
     };
+
+    const graph = buildGraphFromSteps();
+    const parentsLinks = buildParentsLinksDescriptoin();
+    const childrenLinks = buildChildrenLinksDescription();
 
     return (
         <div >
