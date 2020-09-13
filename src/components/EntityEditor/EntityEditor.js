@@ -15,6 +15,7 @@ import Creators from '../../globals/Creators.json'
 import { List } from 'react-virtualized';
 import FlipSwitch from '../FlipSwitch/FlipSwitch'
 
+import SearchBar from '../SearchBar';
 
 class EntityEditor extends React.Component {
 
@@ -941,54 +942,7 @@ class EntityEditor extends React.Component {
 
                         {/** Creating the search input, with info popup, that describes what the user can search */}
                         <div style={{ right: 130, top: 23, zIndex: 10, position: 'absolute' }}>
-                            {!this.state.filterData.isSearching &&
-                                <i 
-                                    id="search-fields-button"
-                                    className="fas fa-search search-fields-button" 
-                                    onClick={() => { console.log('search'); this.state.filterData.isSearching = true; this.setState(this.state); }}></i>
-                            }
-
-                            {this.state.filterData.isSearching &&
-                                <div className="search-fields-input" dir="ltr" style={{ boxShadow: '2px 2px 10px grey' }}>
-
-                                    <div class="inner-addon left-addon">
-                                        <Popup
-                                            className="action-btn"
-                                            position="bottom center"
-                                            on="hover"
-                                            trigger={
-                                                <i style={{ left: 0, top: 5, marginLeft: 10, fontSize: 20, position: 'absolute' }} className="fas search-info-popup fa-info-circle  mt-1"></i>}
-                                        >
-                                            <div dir="rtl">
-                                                <center>
-                                                    <div style={{ marginBottom: 2 }}>ניתן לחפש:</div>
-
-                                                1) שם שדה
-                                                <br />
-                                                2) תיאור שדה
-                                                <br />
-                                                3) [0] / [1] / [1..0] / [1..1]
-                                                </center>
-                                            </div>
-                                        </Popup>
-
-
-                                        <input style={{ paddingLeft: 35 }}
-                                            type="text"
-                                            className=""
-                                            placeholder="search"
-
-                                            id="searchFieldInput"
-                                            value={this.state.filterData.userFilter}
-                                            placeholder="search"
-                                            className={(this.state.filterData.filterResult.length == 0 &&
-                                                this.state.filterData.userFilter != "" &&
-                                                "failed-searching form-control") || "searching form-control"}
-                                            onChange={(event) => this.searchField(event)}
-                                            onKeyDown={(event) => this.searchKeyDown(event)} />
-                                    </div>
-                                </div>
-                            }
+                            <SearchBar/>
 
                         </div>
 

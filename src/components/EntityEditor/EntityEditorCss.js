@@ -53,44 +53,6 @@ const Styles = styled.div`
 }
 
 
-
-.search-fields-button {
-    font-size: 25px;
-    margin-top: 5px;
-    cursor: pointer;
-    color: #616161;
-}
-
-.search-fields-button:hover {
-    color: #212121;
-}
-
-.search-fields-input {
-    width: 250px;
-    animation-name: searchbar-expanding;
-    animation-duration: 0.5s;
-}
-
-@keyframes searchbar-expanding {
-    from {
-        width: 60px;
-    }
-    to {
-        width: 250px;
-    }
-}
-
-.searching:focus {
-    outline: none !important;
-    box-shadow: 0 0 10px #719ECE;
-}
-
-.failed-searching:focus {
-    outline: none !important;
-    border-color: #e57373;
-    box-shadow: 0 0 10px #e57373;
-}
-
 .info-popup-text {
     overflow-wrap: break-word;
     z-index: 100;
