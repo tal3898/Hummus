@@ -51,7 +51,6 @@ class EntityEditor extends React.Component {
             linkJson: {},
             objectFieldsOpen: {}, // for each field in the current json scope, set true/false, if the field is collapsed or not.
             filterData: {
-                isSearching: false,
                 userFilter: '',
                 scrollTo: undefined,
                 filterResult: []
@@ -524,7 +523,7 @@ class EntityEditor extends React.Component {
         };
 
         var keyClassesName = "";
-        
+
         if (disabledFields.includes(keyCleanPath)) {
             keyClassesName += "key-name-disabled ";
         }
@@ -838,8 +837,7 @@ class EntityEditor extends React.Component {
     }
 
     searchField(event) {
-        console.log(event.target.value);
-        window.scrollTo(0,document.body.scrollHeight);
+        window.scrollTo(0, document.body.scrollHeight);
 
         this.state.filterData.userFilter = event.target.value;
 
@@ -942,7 +940,12 @@ class EntityEditor extends React.Component {
 
                         {/** Creating the search input, with info popup, that describes what the user can search */}
                         <div style={{ right: 130, top: 23, zIndex: 10, position: 'absolute' }}>
-                            <SearchBar/>
+                            <SearchBar
+                                isTextNotFound={() => this.state.filterData.filterResult.length == 0 && 
+                                    this.state.filterData.userFilter != ""}
+                                onInputChanged={(event) => this.searchField(event)}
+                                onInputKeyDown={(event) => this.searchKeyDown(event)}
+                            />
 
                         </div>
 

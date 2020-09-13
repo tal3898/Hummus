@@ -151,6 +151,7 @@ class SearchBar extends React.Component {
         } else if (this.state.searchingStatus === SearchStatus.NOT_SEARCHING) {
             return "not-search-fields-input"
         }
+        
 
         return '';
     }
@@ -162,6 +163,23 @@ class SearchBar extends React.Component {
             return "search-fields-button-expanding"
         } else {
             return 'search-fields-button';   
+        }
+    }
+
+    inputChanged(event) {
+        this.state.userFilter = event.target.value;
+        this.setState(this.state); 
+
+        if (this.props.onInputChanged != undefined) {
+            this.props.onInputChanged(event);
+        }
+    }
+
+    keyDown(event) {
+        console.log(this.props.isTextNotFound());
+
+        if (this.props.onInputKeyDown != undefined) {
+            this.props.onInputKeyDown(event);
         }
     }
 
@@ -210,9 +228,9 @@ class SearchBar extends React.Component {
                                 id="searchFieldInput"
                                 value={this.state.userFilter}
                                 placeholder="search"
-                                className={" form-control "  }
-                                 onChange={(event) => this.props.onChange(event)}
-                                 onKeyDown={(event) => this.props.onKeyDown(event)} 
+                                className={" form-control " + (this.props.isTextNotFound() && "failed-searching") }
+                                onChange={(event) => this.inputChanged(event)}
+                                onKeyDown={(event) => this.keyDown(event)}
                                 />
                         </div>
                     </div>
