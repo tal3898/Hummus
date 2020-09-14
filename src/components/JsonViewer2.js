@@ -7,8 +7,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Styles = styled.div`
 
+.main {
+    
+}
+
 .key-row {
     color: #616161;
+    border-radius: 4px;
     cursor: pointer;
 }
 
@@ -32,6 +37,7 @@ const Styles = styled.div`
 
 
 const INDENT = 25;
+const SELECTED_KEY_BACKGROUND = '#e0e0e0';
 
 class JsonViewer extends React.Component {
 
@@ -58,6 +64,7 @@ class JsonViewer extends React.Component {
             stack.push('/' + key);
         }
 
+        stack.reverse();
         while (stack.length != 0) {
             var currElement = stack.pop();
             var keyPath = currElement;
@@ -68,7 +75,8 @@ class JsonViewer extends React.Component {
 
                 if (typeof keyValue == typeof {}) {
                     var children = Object.keys(keyValue)
-                        .map(child => keyPath + '/' + child);
+                        .map(child => keyPath + '/' + child)
+                        .reverse();
 
                     stack = stack.concat(children);
                 }
@@ -98,7 +106,8 @@ class JsonViewer extends React.Component {
                 if (typeof keyValue == typeof {}) {
                     collapsedKeys[keyPath] = false;
                     var children = Object.keys(keyValue)
-                        .map(child => keyPath + '/' + child);
+                        .map(child => keyPath + '/' + child)
+                        .reverse();
 
                     stack = stack.concat(children);
                 }
@@ -115,7 +124,7 @@ class JsonViewer extends React.Component {
 
     isKeyVisible(keyPath) {
         return (typeof getValue(this.state.json, keyPath) == typeof {} || this.props.isShowLeaves)
-            && 
+            &&
             this.isAllParentsExpanded(keyPath)
     }
 
@@ -123,9 +132,18 @@ class JsonViewer extends React.Component {
     keyClicked(keyPath) {
         this.state.collapsedKeys[keyPath] = !this.state.collapsedKeys[keyPath];
         this.state.selectedPath = keyPath;
+
+        if (this.props.onKeySelected !== undefined) {
+            var customEvent = {
+                clickedPath: keyPath
+            };
+
+            this.props.onKeySelected(customEvent);
+        }
+
         this.setState(this.state);
     }
-    
+
     isAtLeastOneChildVisible(keyPath) {
         var children = getValue(this.state.json, keyPath);
 
@@ -148,11 +166,16 @@ class JsonViewer extends React.Component {
 
     getFieldDiv(keyPath) {
         var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
+        var keyStyle = {
+            background: this.state.selectedPath === keyPath ? SELECTED_KEY_BACKGROUND : '',
+            paddingLeft: this.getIndentation(keyPath)
+        };
+
         return (
-            <div onClick={() => this.keyClicked(keyPath)} className="key-row" style={{ paddingLeft: this.getIndentation(keyPath) }}>
+            <div onClick={() => this.keyClicked(keyPath)} className="key-row" style={keyStyle}>
                 {this.getKeyToggleIcon(keyPath)}
 
-                <p style={{ background: this.state.selectedPath === keyPath ? '#e0e0e0' : '' }} className="key-name" >{keyName}</p>
+                <p style={{}} className="key-name" >{keyName}</p>
             </div>
         )
     }
@@ -160,10 +183,12 @@ class JsonViewer extends React.Component {
     render() {
         return (
             <Styles>
-                {this.keyPathList
-                    .filter(keyPath => this.isKeyVisible(keyPath))
-                    .map(keyPath => this.getFieldDiv(keyPath))
-                }
+                <div className="main">
+                    {this.keyPathList
+                        .filter(keyPath => this.isKeyVisible(keyPath))
+                        .map(keyPath => this.getFieldDiv(keyPath))
+                    }
+                </div>
 
             </Styles>
         )

@@ -57,8 +57,9 @@ class SaveScenarioPopup extends React.Component {
             scenarioData: props.scenarioData,
             folderHierarchy: {}
         }
+
         this.onCloseCallback = props.onClose;
-        this.jsonViewerNode = React.createRef();
+        this.selectedPath = '';
     }
 
 
@@ -85,8 +86,8 @@ class SaveScenarioPopup extends React.Component {
         if (!isInputValid(this.state.scenarioData.name)) {
             toast.error("Scenario name cannot be empty, or contain one of these characters: " + blackList.join(' '), toastProperties);
         } else {
-            var folderPath = this.jsonViewerNode.current.getSelectedPath();
-            if (folderPath == false) {
+            var folderPath = this.selectedPath;
+            if (folderPath == '') {
                 toast.error("Please select a folder.", toastProperties);
             } else {
                 var fileFullPath = folderPath + '/' + this.state.scenarioData.name;
@@ -154,7 +155,8 @@ class SaveScenarioPopup extends React.Component {
                         <div style={{ marginRight: 10, height: 400 }} className="directory-tree">
                             <JsonViewer
                                 isShowLeaves={false}
-                                json={{ 'tal': { 'ema': 1, 'lolit': 2, 'sofi': { 'lal': 3 } }, 'roi': { 'f': 3 } }}
+                                onKeySelected={(event) => this.selectedPath = event.clickedPath}
+                                json={this.state.folderHierarchy}
                                 level={0}
                             />
                         </div>
