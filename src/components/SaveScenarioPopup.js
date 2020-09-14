@@ -5,7 +5,7 @@ import { Form, Col, Row } from 'react-bootstrap';
 import HummusContext from './HummusContext'
 
 import Popup from "reactjs-popup";
-import JsonViewer from './JsonViewer';
+import JsonViewer from './JsonViewer2';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isInputValid, blackList } from './Utility';
@@ -144,17 +144,18 @@ class SaveScenarioPopup extends React.Component {
                     <div>
 
 
-                        <div style ={{marginBottom:40, marginTop:10}}>
+                        <div style={{ marginBottom: 40, marginTop: 10 }}>
                             <center>
                                 <i id="saveScenarioBtn" style={{ position: 'absolute', top: 5, left: 15 }} className="far fa-save fa-3x" onClick={() => this.save()}></i>
 
                                 <h1 style={{ fontSize: 30, marginBottom: 1 }}>Choose a folder</h1>
                             </center>
                         </div>
-                        <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
+                        <div style={{ marginRight: 10, height: 400 }} className="directory-tree">
                             <JsonViewer
-                                json={this.state.folderHierarchy}
-                                ref={this.jsonViewerNode}
+                                isShowLeaves={false}
+                                json={{ 'tal': { 'ema': 1, 'lolit': 2, 'sofi': { 'lal': 3 } }, 'roi': { 'f': 3 } }}
+                                level={0}
                             />
                         </div>
                     </div>

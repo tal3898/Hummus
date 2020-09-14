@@ -608,7 +608,8 @@ class Scenario extends React.Component {
 
                         <div className='main-comp'>
 
-                        <JsonViewer 
+                        <JsonViewer
+                            isShowLeaves={true}
                             json={{'tal': {'ema': 1, 'lolit': 2, 'sofi': {'lal': 3}}, 'roi': {'f': 3}}}
                             level={0}
                         />
