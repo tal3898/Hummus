@@ -4,7 +4,6 @@ import {Form, Col, Row } from 'react-bootstrap';
 import HummusContext from './HummusContext'
 
 import Popup from "reactjs-popup";
-import JsonViewer from './JsonViewer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isInputValid, blackList } from './Utility';
@@ -57,7 +56,6 @@ class SaveFolderPopup extends React.Component {
         }
         this.newFolderName = '';
         this.onCloseCallback = props.onClose;
-        this.jsonViewerNode = React.createRef();
     }
 
 

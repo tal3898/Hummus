@@ -5,7 +5,7 @@ import { Form, Col, Row } from 'react-bootstrap';
 import HummusContext from './HummusContext'
 
 import Popup from "reactjs-popup";
-import JsonViewer from './JsonViewer2';
+import JsonViewer from './JsonViewer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isInputValid, blackList } from './Utility';

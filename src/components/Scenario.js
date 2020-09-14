@@ -17,7 +17,7 @@ import NgUrlsMap from '../globals/NgUrlsMap.json'
 import RealityMap from '../globals/RealityMap.json'
 import SystemMap from '../globals/SystemMap.json'
 
-import JsonViewer from './JsonViewer2'
+import JsonViewer from './JsonViewer'
 
 import ReactTooltip from "react-tooltip";
 

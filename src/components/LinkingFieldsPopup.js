@@ -5,7 +5,7 @@ import HummusContext from './HummusContext'
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import Popup from "reactjs-popup";
-import JsonViewer from './JsonViewer2';
+import JsonViewer from './JsonViewer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { convertJsonTemplateToActualJson } from './Utility'
