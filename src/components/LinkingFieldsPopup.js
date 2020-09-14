@@ -57,8 +57,9 @@ class LinkingFieldsPopup extends React.Component {
 
         this.selectedScenarioNumber = 0;
         this.onCloseCallback = props.onClose;
-        this.jsonViewerFromRef = React.createRef();
-        this.jsonViewerToRef = React.createRef();
+
+        this.selectedOriginPath = {};
+        this.selectedDestPath = {};
     }
 
     getOriginStepNumber() {
@@ -111,13 +112,13 @@ class LinkingFieldsPopup extends React.Component {
 
         if (this.selectedScenarioNumber > this.state.stepNumber) {
             toast.error("You can only link fields to previuos steps", toastProperties);
-        } else if (!this.jsonViewerFromRef.current.didSelectedField() || !this.jsonViewerToRef.current.didSelectedField()) {
+        } else if (this.selectedOriginPath.clickedPath === undefined || this.selectedDestPath.clickedPath === undefined) {
             toast.error("You must select fields", toastProperties);
-        } else if (this.jsonViewerFromRef.current.isSelectedFieldHasChildren() || this.jsonViewerToRef.current.isSelectedFieldHasChildren()) {
+        } else if (this.selectedOriginPath.hasChildren || this.selectedDestPath.hasChildren) {
             toast.error("You can only link fields which have value", toastProperties);
         } else {
-            var fromPath = this.jsonViewerFromRef.current.getSelectedPath();
-            var toPath = this.jsonViewerToRef.current.getSelectedPath();
+            var fromPath = this.selectedOriginPath.clickedPath;
+            var toPath = this.selectedDestPath.clickedPath;
 
             var newLink = {
                 fromPath: fromPath,
@@ -214,9 +215,9 @@ class LinkingFieldsPopup extends React.Component {
                                                 <br /><br />
                                                 <div style={{ marginRight: 10, marginLeft: 10, height: 400 }} className="directory-tree">
                                                     <JsonViewer
+                                                        onKeySelected={(event) => this.selectedOriginPath = event}
                                                         type="json"
                                                         json={this.state.fromJson}
-                                                        ref={this.jsonViewerFromRef}
                                                     />
                                                 </div>
                                             </div>
@@ -246,9 +247,9 @@ class LinkingFieldsPopup extends React.Component {
                                                 <div style={{ marginRight: 0, marginLeft: 0, height: 400 }} className="directory-tree">
 
                                                     <JsonViewer
+                                                        onKeySelected={(event) => this.selectedDestPath = event}
                                                         type="json"
                                                         json={this.state.json}
-                                                        ref={this.jsonViewerToRef}
                                                     />
                                                 </div>
                                             </div>

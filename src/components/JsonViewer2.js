@@ -54,7 +54,8 @@ class JsonViewer extends React.Component {
 
     static defaultProps = {
         type: "folder",
-        isShowLeaves: true
+        isShowLeaves: true,
+        onKeySelected: () => { }
     }
 
     constructor(props) {
@@ -151,13 +152,13 @@ class JsonViewer extends React.Component {
         this.state.collapsedKeys[keyPath] = !this.state.collapsedKeys[keyPath];
         this.state.selectedPath = keyPath;
 
-        if (this.props.onKeySelected !== undefined) {
-            var customEvent = {
-                clickedPath: keyPath
-            };
+        var customEvent = {
+            clickedPath: keyPath,
+            hasChildren: typeof getValue(this.state.json, keyPath) == typeof {}
+        };
 
-            this.props.onKeySelected(customEvent);
-        }
+        this.props.onKeySelected(customEvent);
+
 
         this.setState(this.state);
     }
