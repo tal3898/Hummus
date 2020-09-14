@@ -39,7 +39,23 @@ const Styles = styled.div`
 const INDENT = 25;
 const SELECTED_KEY_BACKGROUND = '#e0e0e0';
 
+const TOGGLE_ICONS = {
+    folder: {
+        closed: "fas fa-folder",
+        open: "fas fa-folder-open"
+    },
+    json: {
+        closed: "fas fa-angle-right",
+        open: "fas fa-angle-down"
+    }
+}
+
 class JsonViewer extends React.Component {
+
+    static defaultProps = {
+        type: "folder",
+        isShowLeaves: true
+    }
 
     constructor(props) {
         super(props)
@@ -51,7 +67,9 @@ class JsonViewer extends React.Component {
             collapsedKeys: this.getKeyCollapsedMap(props.json)
         }
 
+        console.log('defult: ' + props.theme);
 
+        this.type = props.type;
         this.keyPathList = this.getKeyPathList(props.json);
 
     }
@@ -152,16 +170,16 @@ class JsonViewer extends React.Component {
 
     getKeyToggleIcon(keyPath) {
         if (typeof getValue(this.state.json, keyPath) == typeof {}) {
-            if (this.state.collapsedKeys[keyPath] && this.isAtLeastOneChildVisible(keyPath)) {
-                return <i className="toggle-icon fas fa-folder-open" />
+            if (this.state.collapsedKeys[keyPath]) {
+                return <i className={"toggle-icon " + TOGGLE_ICONS[this.type].open} />
             } else {
-                return <i className="toggle-icon fas fa-folder" />
+                return <i className={"toggle-icon " + TOGGLE_ICONS[this.type].closed} />
             }
         }
     }
 
     getIndentation(keyPath) {
-        return INDENT * (keyPath.split('/').length - 1);
+        return INDENT * (keyPath.split('/').length - 2);
     }
 
     getFieldDiv(keyPath) {

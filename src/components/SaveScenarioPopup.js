@@ -154,6 +154,7 @@ class SaveScenarioPopup extends React.Component {
                         </div>
                         <div style={{ marginRight: 10, height: 400 }} className="directory-tree">
                             <JsonViewer
+                                type="folder"
                                 isShowLeaves={false}
                                 onKeySelected={(event) => this.selectedPath = event.clickedPath}
                                 json={this.state.folderHierarchy}

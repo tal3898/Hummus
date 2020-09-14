@@ -5,7 +5,7 @@ import HummusContext from './HummusContext'
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import Popup from "reactjs-popup";
-import JsonViewer from './JsonViewer';
+import JsonViewer from './JsonViewer2';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { convertJsonTemplateToActualJson } from './Utility'
@@ -63,7 +63,7 @@ class LinkingFieldsPopup extends React.Component {
 
     getOriginStepNumber() {
         var originStepNumber = this.context.data.currOpenStep - 1;
-        
+
         if (originStepNumber < 0) {
             originStepNumber = 0;
         }
@@ -76,7 +76,7 @@ class LinkingFieldsPopup extends React.Component {
         this.state.json = newProps.json;
         this.state.stepNumber = newProps.step;
 
-        
+
         this.selectedScenarioNumber = this.getOriginStepNumber();
 
         var defaultStep = this.context.data.currScenario.steps[this.selectedScenarioNumber];
@@ -212,8 +212,9 @@ class LinkingFieldsPopup extends React.Component {
                                             <div style={{ marginTop: 25 }}>
                                                 <div style={{ float: 'right', marginRight: 30 }} dir="rtl">בחר שדה מקור</div>
                                                 <br /><br />
-                                                <div style={{ marginRight: 10, marginLeft: 10, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
+                                                <div style={{ marginRight: 10, marginLeft: 10, height: 400 }} className="directory-tree">
                                                     <JsonViewer
+                                                        type="json"
                                                         json={this.state.fromJson}
                                                         ref={this.jsonViewerFromRef}
                                                     />
@@ -242,9 +243,10 @@ class LinkingFieldsPopup extends React.Component {
                                                 <div style={{ float: 'right', marginRight: 30 }} dir="rtl">בחר שדה יעד</div>
                                                 <br /><br />
                                                 {/** TODO put the div with the style, and the css of the class , inside the JsonViewer */}
-                                                <div style={{ marginRight: 0, marginLeft: 0, height: 400, backgroundColor: '#21252b' }} className="directory-tree">
+                                                <div style={{ marginRight: 0, marginLeft: 0, height: 400 }} className="directory-tree">
 
                                                     <JsonViewer
+                                                        type="json"
                                                         json={this.state.json}
                                                         ref={this.jsonViewerToRef}
                                                     />
@@ -255,8 +257,8 @@ class LinkingFieldsPopup extends React.Component {
                                 </div>
                             </Tab>
                             <Tab eventKey="ויזואליזציה" title="ויזואליזציה">
-                                <div style={{marginTop: 60, marginLeft: 0, fontSize: 20 }}>
-                                    <LinksVisualization/>
+                                <div style={{ marginTop: 60, marginLeft: 0, fontSize: 20 }}>
+                                    <LinksVisualization />
                                 </div>
                             </Tab>
                         </Tabs>
