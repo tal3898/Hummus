@@ -91,6 +91,8 @@ class LinkingFieldsPopup extends React.Component {
     close() {
         this.onCloseCallback();
         this.state.isOpen = false;
+        this.selectedOriginPath = {};
+        this.selectedDestPath = {};
         this.setState(this.state);
     }
 

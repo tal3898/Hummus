@@ -87,7 +87,7 @@ export default function JsonViewer(props) {
 
         return jsonFieldsPathList;
     }
-
+    
     const isAllParentsExpanded = (keyPath) => {
         var keyParts = keyPath.split('/').slice(1);
         var allParentsExpanded = true;

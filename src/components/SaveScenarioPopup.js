@@ -71,6 +71,7 @@ class SaveScenarioPopup extends React.Component {
 
     close() {
         this.onCloseCallback();
+        this.selectedPath = '';
         this.state.isOpen = false;
         this.setState(this.state);
     }
