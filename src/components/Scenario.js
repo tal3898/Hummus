@@ -781,15 +781,7 @@ class Scenario extends React.Component {
                                             </div>
                                         </Col>
                                     </Row>
-                                    <div dir="rtl" class="form-check">
-
-                                    </div>
-
-                                    <Row className='field' dir="rtl" rtl>
-
-                                    </Row>
-
-
+                                    
 
                                     <hr className="seperator" />
 
