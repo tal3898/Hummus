@@ -137,7 +137,7 @@ export default function JsonViewer(props) {
     }
 
     const getIndentation = (keyPath) => {
-        return INDENT * (keyPath.split('/').length - 2);
+        return INDENT * (keyPath.split('/').length - 2) + 7;
     }
 
     const getFieldDiv = (keyPath) => {
