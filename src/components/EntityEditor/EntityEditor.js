@@ -98,11 +98,6 @@ class EntityEditor extends React.Component {
         }
     }
 
-    componentDidMount() {
-        var a = "@";
-        console.log('aa_')
-    }
-
     initArrayFieldsObjectTemplate() {
         // This json contains json templates for each array field in 
         // the current json, so when adding another json to the array, it will

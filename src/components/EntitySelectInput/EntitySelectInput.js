@@ -139,7 +139,6 @@ export default function App(props) {
   const toggling = () => setIsOpen(!isOpen);
 
   const checklistClicked = (event, step, index) => {
-    console.log("tal");
     checkedEntities[step][index] = event.target.checked;
     setCheckedEntities(checkedEntities);
 
@@ -149,7 +148,6 @@ export default function App(props) {
       setNumberOfSelectedEntities(numberOfSelectedEntities - 1);
     }
 
-    console.log(JSON.stringify(checkedEntities));
     var customEvent = {
       value: checkedEntities,
       selected: {
@@ -159,7 +157,6 @@ export default function App(props) {
       }
     };
     props.onChange(customEvent);
-    console.log(JSON.stringify(customEvent));
   };
 
   return (

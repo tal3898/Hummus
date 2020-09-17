@@ -100,7 +100,6 @@ class SaveFolderPopup extends React.Component {
                 fetch('/folder', requestOptions)
                     .then(response => response.json())
                     .then(data => {
-                        console.log("db response: " + JSON.stringify(data));
                         toast.update(toastId,  {render:"Folder saved successfully", type: toast.TYPE.SUCCESS, autoClose: 2000 });
                         this.context.loadFolderHiierarchy((data) => {
                             this.context.data.scenariosHierarchy = data;
@@ -110,9 +109,7 @@ class SaveFolderPopup extends React.Component {
                         console.error("db error: ", error);
                         toast.update(toastId,  {render:"Error occured while saving", type: toast.TYPE.ERROR, autoClose: 2000 });
                     });
-    
-                console.log('data to save into ' + JSON.stringify(this.state.scenarioData));
-    
+        
                 this.close();
                 
             }

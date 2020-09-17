@@ -253,18 +253,9 @@ class Scenario extends React.Component {
         var fromPath = this.removeFirstFieldFromPath(link.fromPath);
         var toPath = this.removeFirstFieldFromPath(link.toPath);
 
-        console.log('is ' + this.isPathExists(linkedStepJson, fromPath));
-        console.log('is ' + this.isPathExists(currStep.Entities, toPath));
-
-        console.log('is ancestor from' + this.isAncestorDisabled(link.fromStep, fromPath));
-        console.log('is ancestor to' + this.isAncestorDisabled(currStepNumber, toPath));
-
-
         if (!this.isAncestorDisabled(link.fromStep, fromPath) && !this.isAncestorDisabled(currStepNumber, toPath) &&
             this.isPathExists(linkedStepJson, fromPath) && this.isPathExists(currStep.Entities, toPath)) {
             var linkedValue = fromPath.split('/').splice(1).reduce((o, n) => o[n], linkedStepJson);
-
-
 
             if (linkedValue != undefined) {
                 this.setToValue(currStep.Entities, toPath, linkedValue);
@@ -401,7 +392,6 @@ class Scenario extends React.Component {
      */
     sendOneStepToLocalhost(stepIndex, generatedSteps) {
         setTimeout(function () {
-            console.log('hello ' + stepIndex);
             var currStep = this.context.data.currScenario.steps[stepIndex];
             var currStepRequest = this.getStepNgRequest(stepIndex);
             generatedSteps.push(currStepRequest);
@@ -457,7 +447,7 @@ class Scenario extends React.Component {
         var generatedSteps = [];
         var entitiesToRequest = [];
         for (var stepIndex in this.context.data.currScenario.steps) {
-            setTimeout(function () { console.log('here') }, 1000 * stepIndex);
+            setTimeout(function () { }, 1000 * stepIndex);
 
             var currStep = this.context.data.currScenario.steps[stepIndex];
             var currStepRequest = this.getStepNgRequest(stepIndex);
@@ -517,7 +507,6 @@ class Scenario extends React.Component {
     //#endregion
 
     close() {
-        console.log('closing popup')
         this.state.isJsonPopupOpen = false;
         this.state.isSavePopupOpen = false;
         this.state.isErrorPopupOpen = false;
