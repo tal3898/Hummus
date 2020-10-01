@@ -1,9 +1,7 @@
-import React, { useState, useContext } from "react";
-import styled from 'styled-components';
-import { Treebeard } from 'react-treebeard';
-import HummusContext from './HummusContext'
-import { getValue } from './Utility';
+import React, { useState } from "react";
 import 'react-toastify/dist/ReactToastify.css';
+import styled from 'styled-components';
+import { getValue } from './Utility';
 
 const Styles = styled.div`
 
@@ -46,7 +44,6 @@ const TOGGLE_ICONS = {
     }
 }
 
-
 // Set default props
 JsonViewer.defaultProps = {
     type: "folder",
@@ -87,7 +84,7 @@ export default function JsonViewer(props) {
 
         return jsonFieldsPathList;
     }
-    
+
     const isAllParentsExpanded = (keyPath) => {
         var keyParts = keyPath.split('/').slice(1);
         var allParentsExpanded = true;
@@ -126,7 +123,9 @@ export default function JsonViewer(props) {
         setSelectedPath(keyPath);
     }
 
-    const getKeyToggleIcon = (keyPath) => {
+    const ToggleIcon = (props) => {
+        const { keyPath } = props;
+
         if (typeof getValue(props.json, keyPath) == typeof {}) {
             if (collapsedKeys[keyPath]) {
                 return <i className={"toggle-icon " + TOGGLE_ICONS[props.type].open} />
@@ -140,7 +139,8 @@ export default function JsonViewer(props) {
         return INDENT * (keyPath.split('/').length - 2) + 7;
     }
 
-    const getFieldDiv = (keyPath) => {
+    const Field = (props) => {
+        const { keyPath } = props;
         var keyName = keyPath.split('/')[keyPath.split('/').length - 1];
         var keyStyle = {
             background: selectedPath === keyPath ? SELECTED_KEY_BACKGROUND : '',
@@ -149,8 +149,7 @@ export default function JsonViewer(props) {
 
         return (
             <div onClick={() => keyClicked(keyPath)} className="key-row" style={keyStyle}>
-                {getKeyToggleIcon(keyPath)}
-
+                <ToggleIcon keyPath={keyPath} {...props} /> 
                 <p style={{}} className="key-name" >{keyName}</p>
             </div>
         )
@@ -164,7 +163,9 @@ export default function JsonViewer(props) {
             <div className="main">
                 {keyPathList
                     .filter(keyPath => isKeyVisible(keyPath))
-                    .map(keyPath => getFieldDiv(keyPath))
+                    .map(keyPath => (
+                        <Field keyPath={keyPath} {...props} />
+                    ))
                 }
             </div>
 
