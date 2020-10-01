@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import { ThemeProvider } from 'styled-components';
-
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { NavigationBar } from './components/NavigationBar';
-import ScenariosWindow from './components/ScenariosWindow';
-import Scenario from './components/Scenario';
+import React from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { HummusProvider } from './components/HummusContext';
-import NgUrlsMap from './globals/NgUrlsMap.json'
-import './App.css';
+import { BrowserRouter as Router } from "react-router-dom";
 import ChatBot from 'react-simple-chatbot';
+import { ThemeProvider } from 'styled-components';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+import { HummusProvider } from './components/HummusContext';
+import { NavigationBar } from './components/NavigationBar';
+import Scenario from './components/Scenario';
+import NgUrlsMap from './globals/NgUrlsMap.json';
+
 
 class App extends React.Component {
 
