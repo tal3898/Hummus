@@ -41,7 +41,7 @@ class NgRequestEditor extends React.Component {
     static contextType = HummusContext;
 
     static propTypes = {
-        openStepIndex: PropTypes.string
+        openStepIndex: PropTypes.number
     }
 
     constructor(props) {

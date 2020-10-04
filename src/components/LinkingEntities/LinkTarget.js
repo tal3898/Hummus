@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import PropTypes from 'prop-types';
 import EntitySelectInput from '../EntitySelectInput/EntitySelectInput'
 import HummusContext, { HummusConsumer } from '../HummusContext'
 import { getValue, toastProperties } from '../Utility';
@@ -170,8 +171,12 @@ export default function LinkTarget(props) {
             )}
 
             <i onClick={() => addLink()} className="fas fa-check link-check fa-2x"></i>
-            <p style={{position:'absolute', bottom: -15, left: 0, fontSize: 15}}>נוי מלכת הקישורים</p>
+            <p style={{ position: 'absolute', bottom: -15, left: 0, fontSize: 15 }}>נוי מלכת הקישורים</p>
 
         </div>
     );
+}
+
+LinkTarget.propTypes = {
+    closePopupCallback: PropTypes.func
 }
