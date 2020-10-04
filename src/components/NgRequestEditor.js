@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import styled from 'styled-components';
 import { Button, Form, Col, Row } from 'react-bootstrap';
 import EntityEditor from './EntityEditor/EntityEditor';
@@ -33,9 +35,14 @@ const Styles = styled.div`
 
 `;
 
+
 class NgRequestEditor extends React.Component {
 
     static contextType = HummusContext;
+
+    static propTypes = {
+        openStepIndex: PropTypes.string
+    }
 
     constructor(props) {
         super(props)
