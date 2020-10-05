@@ -15,6 +15,12 @@ const Styles = styled.div`
     border-bottom-style: inset;
     border-bottom-width: 1px;
     border-bottom-color: #dddddd;
+
+    
+    -webkit-box-shadow: -1px -3px 28px -7px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px -3px 28px -7px rgba(0,0,0,0.75);
+    box-shadow: -1px -3px 28px -7px rgba(0,0,0,0.75);
+  
   }
 
   .headline {

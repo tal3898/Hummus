@@ -38,6 +38,7 @@ const Styles = styled.div`
 
 .action-btn {
     margin-right: 20px;
+    
     color: #607d8b;
     font-size:30px;
     cursor: pointer;
