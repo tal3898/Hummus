@@ -5,13 +5,13 @@ import { getValue } from './Utility';
 
 const Styles = styled.div`
 
-.key-row {
+.key-field-row {
     color: #616161;
     border-radius: 4px;
     cursor: pointer;
 }
 
-.key-name {
+.key-field-name {
     margin: 0px;
     font-size: 17px;
     display: inline-block;
@@ -132,6 +132,8 @@ export default function JsonViewer(props) {
             } else {
                 return <i className={"toggle-icon " + TOGGLE_ICONS[props.type].closed} />
             }
+        } else {
+            return '';
         }
     }
 
@@ -148,9 +150,9 @@ export default function JsonViewer(props) {
         };
 
         return (
-            <div onClick={() => keyClicked(keyPath)} className="key-row" style={keyStyle}>
+            <div onClick={() => keyClicked(keyPath)} className="key-field-row" style={keyStyle}>
                 <ToggleIcon keyPath={keyPath} {...props} /> 
-                <p style={{}} className="key-name" >{keyName}</p>
+                <p style={{}} className="key-field-name" >{keyName}</p>
             </div>
         )
     }
