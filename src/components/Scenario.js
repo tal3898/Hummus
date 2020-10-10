@@ -37,12 +37,14 @@ const Styles = styled.div`
 }
 
 .action-btn {
+    user-select: none;
     margin-right: 20px;
     
     color: #607d8b;
     font-size:30px;
     cursor: pointer;
 }
+
 
 .step-action-btn {
     color: #607d8b;
