@@ -4,6 +4,9 @@ import Popup from "reactjs-popup";
 
 const Styles = styled.div`
 
+.search-button {
+    z-index: 100;
+}
 
 .search-fields-button {
     font-size: 25px;
@@ -90,7 +93,7 @@ const Styles = styled.div`
 
 
 .not-search-fields-input {
-    width: 0px;
+    width: 60px;
     opacity: 0;
     animation-name: searchbar-collapsing;
     animation-duration: 0.5s;
@@ -190,7 +193,7 @@ class SearchBar extends React.Component {
                 {(this.state.searchingStatus !== SearchStatus.SEARCHING || true) &&
                     <i
                         id="search-fields-button"
-                        className={"fas fa-search " + this.getSearchButtonClassName()}
+                        className={"fas fa-search search-button " + this.getSearchButtonClassName()}
                         style={{position: 'absolute'}}
                         onClick={() => this.openSearchBar()}></i>
                 }
