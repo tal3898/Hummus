@@ -673,8 +673,6 @@ class EntityEditor extends React.Component {
         var keyCleanPath = this.getKeyFullPath(keyPath);
         var level = keyPath.split('/').length - 2;
 
-
-
         var disabledFields = this.context.data.currScenario.steps[this.context.data.currOpenStep].disabledFields;
 
         var keyClassNames = this.getKeyNameStyle(key, keyCleanPath, disabledFields);
