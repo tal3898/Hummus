@@ -9,8 +9,6 @@ import { ToastContainer, toast } from 'react-toastify';
    * @param activateFunctionFields - boolean, indicates whether to replace function values with values. if true, 
    * it replace {random} with random string, else, it will leave it {random} (this optinal is for bomba)
    */
-
-
 const getFieldFinalValue = (key, fieldValue, activateFunctionFields) => {
     var finalValue = fieldValue;
     var fieldType = key.split('|')[1];
@@ -34,6 +32,10 @@ const getFieldFinalValue = (key, fieldValue, activateFunctionFields) => {
     return finalValue;
 }
 
+export const getRandomInt = (max) => {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+  
 
 export const convertJsonTemplateToActualJson = (json, disabledFields = [], activateFunctionFields = true, parentPath = '') => {
     var resultJson = {};

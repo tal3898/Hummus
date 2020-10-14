@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import HummusContext, { HummusConsumer } from './HummusContext'
 import NgRequestEditor from './NgRequestEditor';
 import Popup from "reactjs-popup";
-import { convertJsonTemplateToActualJson, toastProperties } from './Utility'
+import { getRandomInt, convertJsonTemplateToActualJson, toastProperties } from './Utility'
 
 import EntityMap from '../globals/EntityMap.json'
 import { FullEntitiesMap } from '../globals/FullEntitiesMap.js'
@@ -141,6 +141,11 @@ class Scenario extends React.Component {
                 }]
             },
         }
+
+        this.memes = [
+            <img style={{ width: '50%', height: '100%' }} src="./memes/meme1.jpg" alt="animated" />,
+            <img style={{ width: '50%', height: '100%' }} src="./memes/meme10.png" alt="animated" />,
+        ];
 
         this.ngRequestEditorRef = React.createRef();
 
@@ -339,7 +344,7 @@ class Scenario extends React.Component {
 
         // easter egg?
         try {
-            var idfId = currStepRequest.Entities[0].Ids.name;
+            var idfId = currStepRequest.Entities[0].IDs.name;
             if (idfId.includes('מותר')) {
                 this.state.isMemePopupOPen = true;
                 this.setState(this.state);
@@ -608,7 +613,7 @@ class Scenario extends React.Component {
                                 closeOnDocumentClick
                             >
                                 <center>
-                                    <img style={{ width: '50%', height: '100%' }} src="./memes/moter1.png" alt="animated" />\
+                                    {this.memes[getRandomInt(this.memes.length) - 1]}
                                 </center>
                             </Popup>
 
