@@ -80,7 +80,7 @@ export const NavigationBar = () => {
           closeOnDocumentClick
         >
 
-          <div>מותר</div>
+          <div>meme</div>
         </Popup>
 
         <ShortcutsPopup isOpen={isShortcutPopupOpen} onClose={() => setIsShortcutPopupOpen(false)} />

@@ -144,6 +144,14 @@ class Scenario extends React.Component {
 
         this.memes = [
             <img style={{ width: '50%', height: '100%' }} src="./memes/meme1.jpg" alt="animated" />,
+            <img style={{ width: '50%', height: '100%' }} src="./memes/meme2.jpg" alt="animated" />,
+            <img style={{ width: '50%', height: '100%' }} src="./memes/meme3.jpg" alt="animated" />,
+            <img style={{ width: '50%', height: '100%' }} src="./memes/meme4.jpg" alt="animated" />,
+            <img style={{ width: '50%', height: '100%' }} src="./memes/meme5.jpg" alt="animated" />,
+            <img style={{ width: '50%', height: '100%' }} src="./memes/meme6.jpg" alt="animated" />,
+            <img style={{ width: '50%', height: '100%' }} src="./memes/meme7.jpg" alt="animated" />,
+            <img style={{ width: '50%', height: '100%' }} src="./memes/meme8.jpg" alt="animated" />,
+            <img style={{ width: '50%', height: '100%' }} src="./memes/meme9.png" alt="animated" />,
             <img style={{ width: '50%', height: '100%' }} src="./memes/meme10.png" alt="animated" />,
         ];
 
@@ -345,7 +353,7 @@ class Scenario extends React.Component {
         // easter egg?
         try {
             var idfId = currStepRequest.Entities[0].IDs.name;
-            if (idfId.includes('מותר')) {
+            if (idfId.includes('meme')) {
                 this.state.isMemePopupOPen = true;
                 this.setState(this.state);
             }
