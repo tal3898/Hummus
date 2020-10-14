@@ -39,6 +39,7 @@ const Styles = styled.div`
 .action-btn {
     user-select: none;
     margin-right: 20px;
+    text-decoration: none;
     
     color: #607d8b;
     font-size:30px;
