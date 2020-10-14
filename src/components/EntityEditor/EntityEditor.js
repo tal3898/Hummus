@@ -682,9 +682,9 @@ class EntityEditor extends React.Component {
 
                 {this.createInfoPopup(keyPath, 3)}
 
-                <div className="field-component">
+                {/* <div className="field-component">
                     <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(keyPath)}></i>
-                </div>
+                </div> */}
 
             </Row>
 
@@ -733,9 +733,9 @@ class EntityEditor extends React.Component {
 
                     {this.createInfoPopup(keyPath, 2)}
 
-                    <div className="field-component">
+                    {/* <div className="field-component">
                         <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(keyPath)}></i>
-                    </div>
+                    </div> */}
 
 
 
@@ -790,9 +790,9 @@ class EntityEditor extends React.Component {
 
                     {this.createInfoPopup(keyPath, 2)}
 
-                    <div className="field-component">
+                    {/* <div className="field-component">
                         <i className=" fas fa-trash field-action mt-1" onClick={() => this.removeField(keyPath)}></i>
-                    </div>
+                    </div> */}
                 </Row>
             </div>
         )
