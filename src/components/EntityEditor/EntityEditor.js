@@ -59,6 +59,8 @@ class EntityEditor extends React.Component {
 
         this.fieldsInput = {};
 
+        this.description = props.description;
+
         this.onInnerFieldChangedCallback = props.onInnerFieldChanged;
 
         this.initCollapsableFields(false);
@@ -440,6 +442,16 @@ class EntityEditor extends React.Component {
         // Because the path starts with /Target/0, and we dont want it, we will remove it
         var fullPath = '/' + keyPath.split('/').slice(3).map(subKey => subKey.split('|')[0]).join('/');
 
+        var fullPathForDesc = fullPath.replace('/0','').replace('/1','').replace('/2','').replace('/3','');
+        var entityDescription = this.description[fullPathForDesc];
+        var finalInfo = undefined;
+
+        if (this.hasInfo(key, infoIndex)) {
+            finalInfo = key.split('|')[infoIndex];
+        } else if (entityDescription != undefined) {
+            finalInfo = entityDescription.hebrewName;
+        }
+
         return (
             <div className="field-component info-popup-div">
                 <Popup
@@ -450,10 +462,9 @@ class EntityEditor extends React.Component {
                 >
                     <div className="info-popup-text">
                         <center className="info-txt">
-                            {this.hasInfo(key, infoIndex) &&
-                                key.split('|')[infoIndex]}
+                            {finalInfo}
                         </center>
-                        {this.hasInfo(key, infoIndex) &&
+                        {finalInfo &&
                             <hr style={{ margin: 2 }} />}
 
                         <center className="info-field-path-txt">
@@ -529,12 +540,27 @@ class EntityEditor extends React.Component {
         return keyClassesName;
     }
 
+    getKeyRequiredValue(keyPath) {
+        // Beacuse the path starts with /Target/0, and we dont want it, we remove it
+        var fullPath = '/' + keyPath.split('/').slice(3).map(subkey => subkey.split('|')[0]).join('/');
+
+        var fullPathForDesc = fullPath.replace('/0','').replace('/1','').replace('/2','').replace('/3','')
+        var a  = this.description[fullPathForDesc];
+
+        if (a) {
+            return a.isRequired;
+        } else {
+            var key = keyPath.split('/')[keyPath.split('/').length - 1];
+            return key.split('|')[2];
+        }
+    }
+
     getSingleFieldJSX(keyPath) {
         var key = keyPath.split('/')[keyPath.split('/').length - 1];
         var keyCleanPath = this.getKeyFullPath(keyPath);
         var keyName = key.split('|')[0];
         var keyType = key.split('|')[1];
-        var keyRequiredValue = key.split('|')[2];
+        var keyRequiredValue = this.getKeyRequiredValue(keyPath);
         var level = keyPath.split('/').length - 2;
 
         if (this.isKeyLinkTo(keyCleanPath)) {
@@ -669,7 +695,7 @@ class EntityEditor extends React.Component {
     getObjectFieldJSX(keyPath) {
         var key = keyPath.split('/')[keyPath.split('/').length - 1];
         var keyName = key.split('|')[0];
-        var keyRequiredValue = key.split('|')[1];
+        var keyRequiredValue = this.getKeyRequiredValue(keyPath);
         var keyCleanPath = this.getKeyFullPath(keyPath);
         var level = keyPath.split('/').length - 2;
 
@@ -721,7 +747,7 @@ class EntityEditor extends React.Component {
     getArrayFieldJSX(keyPath) {
         var key = keyPath.split('/')[keyPath.split('/').length - 1];
         var keyName = key.split('|')[0];
-        var keyRequiredValue = key.split('|')[1];
+        var keyRequiredValue = this.getKeyRequiredValue(keyPath);
         var keyCleanPath = this.getKeyFullPath(keyPath);
         var level = keyPath.split('/').length - 2;
 

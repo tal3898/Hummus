@@ -2,7 +2,7 @@
 	"Target": [
 		{
 			"IDs": {
-				"isBig": true,
+				"isBig||[1]": true,
 				"name": "{random}",
 				"number": 0,
 				"hello": "here",

@@ -1,0 +1,22 @@
+{
+    "/": {
+        "isRequired": "[1..*]",
+        "hebrewName": "ישות"
+    },
+    "/IDs": {
+        "isRequired": "[1..1]",
+        "hebrewName": "מזהה"
+    },
+    "/Planning": {
+        "isRequired": "[1..*]",
+        "hebrewName": "עתיד"
+    },
+    "/Planning/name": {
+        "isRequired": "[1..1]",
+        "hebrewName": "שם"
+    },
+    "/IDs/name": {
+        "isRequired": "[0..1]",
+        "hebrewName": "שם"
+    }
+}
