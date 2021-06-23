@@ -1,4 +1,3 @@
-![empty student card](https://user-images.githubusercontent.com/40955154/123157478-42160900-d473-11eb-9cb8-43ebe7934bc8.png)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
